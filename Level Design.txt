@@ -8,3 +8,9 @@ The class which produce abstract elements of the game.
 This could not be used in other projects(too may elements needed to be modified).
 Level -> Scene
 Actor -> Class which darws the image to the scene
+
+3.GameContents
+Includes elements which inherit Actors.
+
+4.GameApp
+Runs my element
