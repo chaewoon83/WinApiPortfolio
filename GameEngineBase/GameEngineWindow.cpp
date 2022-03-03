@@ -2,6 +2,11 @@
 
 GameEngineWindow* GameEngineWindow::Inst_ = new GameEngineWindow();
 
+LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    return DefWindowProc(hWnd, message, wParam, lParam);
+}
+
 GameEngineWindow::GameEngineWindow() 
 {
 }
@@ -10,7 +15,7 @@ GameEngineWindow::~GameEngineWindow()
 {
 }
 
-void GameEngineWindow::CreateGameWinodw(HINSTANCE _hInst)
+void GameEngineWindow::CreateGameWindow(HINSTANCE _hInst)
 {
     WNDCLASSEXW wcex;
 
@@ -32,7 +37,8 @@ void GameEngineWindow::CreateGameWinodw(HINSTANCE _hInst)
 
     hWnd_ = CreateWindowW(L"GameEngineWindowClass", L"packman", WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, _hInst, nullptr);
-
+    //WS_OVERLAPPEDWINDOW => 윈도우의 형식(메뉴의 유뮤등
+    //CW_USEDEFAULT 창의 크기정하기
     if (!hWnd_)
     {
         return;
@@ -42,5 +48,6 @@ void GameEngineWindow::CreateGameWinodw(HINSTANCE _hInst)
 void GameEngineWindow::ShowGameWindow()
 {
     ShowWindow(hWnd_, SW_SHOW);
+    //hWnd가 입력되는 이유 => 특정 윈도우를 골라내기 위하여
     UpdateWindow(hWnd_);
 }

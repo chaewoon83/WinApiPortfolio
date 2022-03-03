@@ -1,19 +1,14 @@
 #pragma once
 #include <Windows.h>
 
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	return DefWindowProc(hWnd, message, wParam, lParam);
-}
-
 // 설명 : 윈도우에 관련된 모든것을 담당하는 클래스
 class GameEngineWindow
 {
 private:
-	//singletone
+	//singleton
 	static GameEngineWindow* Inst_;
 public:
-	inline static GameEngineWindow& getInst()
+	inline static GameEngineWindow& GetInst()
 	{
 		return *Inst_;
 	}
@@ -27,7 +22,7 @@ public:
 		}
 	}
 public:
-	void CreateGameWinodw(HINSTANCE _hInst);
+	void CreateGameWindow(HINSTANCE _hInst);
 	void ShowGameWindow();
 
 private:

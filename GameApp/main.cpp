@@ -7,6 +7,6 @@ int __stdcall WinMain(_In_ HINSTANCE hInstance,
     _In_ char*   lpCmdLine,
     _In_ int       nCmdShow)
 {
-    GameEngineWindow::getInst().CreateGameWinodw();
-    GameEngineWindow::getInst().ShowGameWindow();
+    GameEngineWindow::GetInst().CreateGameWindow(hInstance);
+    GameEngineWindow::GetInst().ShowGameWindow();
 }

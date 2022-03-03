@@ -11,6 +11,7 @@ Actor -> Class which darws the image to the scene
 
 3.GameContents
 Includes elements which inherit Actors.
+Makes a real contents.
 
 4.GameApp
 Runs my element
