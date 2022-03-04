@@ -1,4 +1,4 @@
-1. GameEngineBase
+1. GameEngineBase (Exported to static library)
 The class which controls the most bottom elements(math, time, sound) of the game engine.
 This elements have a wide usage, so it should be constantly used and modified.
 Could be used in other projects.
@@ -13,5 +13,5 @@ Actor -> Class which darws the image to the scene
 Includes elements which inherit Actors.
 Makes a real contents.
 
-4.GameApp
+4.GameApp (Exported to EXE)
 Runs my element
