@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include <string> 
 
 // 설명 : 윈도우에 관련된 모든것을 담당하는 클래스
 class GameEngineWindow
@@ -13,20 +14,24 @@ public:
 		return *Inst_;
 	}
 
-	static GameEngineWindow& Destroy()
+	static void Destroy()
 	{
-		if (nullptr == Inst_)
+		if (nullptr != Inst_)
 		{
 			delete Inst_;
 			Inst_ = nullptr;
 		}
 	}
 public:
-	void CreateGameWindow(HINSTANCE _hInst);
+	void RegClass(HINSTANCE _hInst);
+	void CreateGameWindow(HINSTANCE _hInst, const std::string _Title);
 	void ShowGameWindow();
 
 private:
+	HINSTANCE hInst_;
 	HWND hWnd_;
+	std::string Title_;
+
 protected:
 
 private:

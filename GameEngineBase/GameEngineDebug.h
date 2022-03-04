@@ -1,7 +1,7 @@
 #pragma once
 #include <crtdbg.h>
 #include <string>
-#include <windows.h>
+#include <Windows.h>
 #include <assert.h>
 
 
@@ -10,7 +10,7 @@ class GameEngineDebug
 {
 public:
 	static void LeakCheckOn();
-	static void MsgBoxAssert(const std::string& _Text);
+	//static void MsgBoxAssert(const std::string& _Text);
 
 protected:
 
@@ -26,4 +26,9 @@ private:
 	GameEngineDebug& operator=(GameEngineDebug&& _Other) noexcept = delete;
 
 };
+
+#define MsgBoxAssert(Text) \
+MessageBeep(0); \
+MessageBoxA(nullptr, Text, "Error", MB_OK); \
+assert(false);
 

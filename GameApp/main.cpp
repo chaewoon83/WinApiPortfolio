@@ -8,6 +8,9 @@ int __stdcall WinMain(_In_ HINSTANCE hInstance,
     _In_ char*   lpCmdLine,
     _In_ int       nCmdShow)
 {
-    GameEngineWindow::GetInst().CreateGameWindow(hInstance);
+    GameEngineDebug::LeakCheckOn();
+    GameEngineWindow::GetInst().CreateGameWindow(hInstance, "GameWindow");
     GameEngineWindow::GetInst().ShowGameWindow();
+    GameEngineWindow::Destroy();
+
 }
