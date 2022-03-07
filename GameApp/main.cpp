@@ -11,6 +11,10 @@ int __stdcall WinMain(_In_ HINSTANCE hInstance,
     GameEngineDebug::LeakCheckOn();
     GameEngineWindow::GetInst().CreateGameWindow(hInstance, "GameWindow");
     GameEngineWindow::GetInst().ShowGameWindow();
+    while (true)
+    {
+
+    }
     GameEngineWindow::Destroy();
 
 }
