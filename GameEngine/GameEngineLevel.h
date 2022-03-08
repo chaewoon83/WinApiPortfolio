@@ -21,7 +21,7 @@ private:
 	template<typename ActorType>
 	ActorType* CreateActor(const std::string& _Name)
 	{
-		return nullptr
+		return nullptr;
 	}
 };
 
