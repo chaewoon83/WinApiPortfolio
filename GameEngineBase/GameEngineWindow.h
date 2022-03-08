@@ -26,7 +26,7 @@ public:
 	void RegClass(HINSTANCE _hInst);
 	void CreateGameWindow(HINSTANCE _hInst, const std::string _Title);
 	void ShowGameWindow();
-	void MessageLoop();
+	void MessageLoop(void(*_InitFunction)(), void(*_LoopFunction)());
 	void Off();
 
 	inline HDC GETHDC() const
@@ -35,10 +35,10 @@ public:
 	}
 
 private:
+	std::string Title_;
 	bool WindowOn_;
 	HINSTANCE hInst_;
 	HWND hWnd_;
-	std::string Title_;
 	HDC HDC_;
 
 protected:

@@ -7,30 +7,31 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
-    case (WM_CREATE):
-        return DefWindowProc(hWnd, message, wParam, lParam);
-        break;
-    case (WM_SETFOCUS):
-        //창이 제일 위에 있을때
-        return DefWindowProc(hWnd, message, wParam, lParam);
-        break;
     case(WM_DESTROY):
         //창이 꺼질때(프로그램이 아닌 창)
         GameEngineWindow::GetInst().Off();
         return DefWindowProc(hWnd, message, wParam, lParam);
     case WM_PAINT:
+    {
         //윈도우 화면에 뭔가가 그려질때
         //HDC 화면에 뭔갈 그릴 수 있는 권한
+        PAINTSTRUCT ps;
+        HDC hdc = BeginPaint(hWnd, &ps);
+        EndPaint(hWnd, &ps);
         return DefWindowProc(hWnd, message, wParam, lParam);
+        break;
+    }
+    default:
         break;
     }
     return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
 GameEngineWindow::GameEngineWindow()
-    :hInst_(nullptr),
-    hWnd_(nullptr),
-    WindowOn_(true)
+    :hInst_(nullptr)
+    , hWnd_(nullptr)
+    , WindowOn_(true)
+    , HDC_(nullptr)
 {
 }
 
@@ -103,8 +104,13 @@ void GameEngineWindow::ShowGameWindow()
     UpdateWindow(hWnd_);
 }
 
-void GameEngineWindow::MessageLoop()
+void GameEngineWindow::MessageLoop(void(*_InitFunction)(), void(*_LoopFunction)())
 {
+
+    if (nullptr != _InitFunction)
+    {
+        _InitFunction();
+    }
     MSG msg;
 
     while (WindowOn_)
@@ -113,6 +119,12 @@ void GameEngineWindow::MessageLoop()
         {
             DispatchMessageA(&msg);
         }
+        if (nullptr == _LoopFunction)
+        {
+            continue;
+        }
+
+        _LoopFunction();
         
     }
 }
