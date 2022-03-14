@@ -12,3 +12,8 @@ void EndLevel::Loading()
 {
 
 }
+
+void EndLevel::Update()
+{
+
+}
