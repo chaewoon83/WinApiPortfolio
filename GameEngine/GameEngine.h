@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include <GameEngine/GameEngineLevel.h>
+#include <GameEngineBase/GameEngineDebug.h>
 
 // 설명 : 게임 그자체의 시작점과 끝점 실행중을 담당하는 녀석이다.
 class GameEngine
@@ -23,6 +24,14 @@ public:
 	virtual void GameInit() = 0;
 	virtual void GameLoop() = 0;
 	virtual void GameEnd() = 0;
+	template<typename GameType>
+	static void start()
+	{
+		GameEngineDebug::LeakCheckOn();
+		GameType UserGame;
+		UserContents_ = &UserGame;
+		WindowCreate();
+	}
 
 protected:
 	template<typename LevelType>
@@ -34,6 +43,13 @@ protected:
 
 
 private:
-	std::map<std::string, GameEngineLevel*> AllLevels_;
+	static std::map<std::string, GameEngineLevel*> AllLevels_;
+	static GameEngine* UserContents_;
+
+	void WindowCreate();
+
+	static void EngineStart();
+	static void EngineLoop();
+	static void EngineEnd();
 };
 
