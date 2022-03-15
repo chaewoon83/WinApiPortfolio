@@ -6,7 +6,7 @@
       <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineActor.h">
-      <Filter>Actor</Filter>
+      <Filter>Object\Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -15,14 +15,14 @@
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineActor.cpp">
-      <Filter>Actor</Filter>
+      <Filter>Object\Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Object">
       <UniqueIdentifier>{abf0545e-9c08-4fe1-b972-ee7ed11d9a5b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Actor">
+    <Filter Include="Object\Actor">
       <UniqueIdentifier>{66468f35-4250-422d-bcbf-9f74108447a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

@@ -1,0 +1,29 @@
+#pragma once
+
+// 설명 : 수학에 관련된 모든것을 넣을것이다
+class GameEngineMath
+{
+private:
+	// constrcuter destructer
+	GameEngineMath();
+	~GameEngineMath();
+
+	// delete Function
+	GameEngineMath(const GameEngineMath& _Other) = delete;
+	GameEngineMath(GameEngineMath&& _Other) noexcept = delete;
+	GameEngineMath& operator=(const GameEngineMath& _Other) = delete;
+	GameEngineMath& operator=(GameEngineMath&& _Other) noexcept = delete;
+
+protected:
+
+private:
+
+};
+
+class float4
+{
+	float x;
+	float y;
+	float z;
+	float w;
+};

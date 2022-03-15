@@ -45,10 +45,17 @@ void GameEngine::EngineStart()
 }
 void GameEngine::EngineLoop()
 {
-    // 엔진수준에서 매 프레임마다 페크하고 싶은거
+    // 엔진수준에서 매 프레임마다 체크하고 싶은거
     UserContents_->GameLoop();
+    // 시점함수
+    //레벨이 바뀐 시점
     if (nullptr != NextLevel_)
     {
+        if (nullptr != CurrentLevel_)
+        {
+            CurrentLevel_->SceneChangeEnd();
+        }
+        NextLevel_->SceneChangeStart();
         CurrentLevel_ = NextLevel_;
         NextLevel_ = nullptr;
     }

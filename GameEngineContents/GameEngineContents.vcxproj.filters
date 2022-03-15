@@ -14,6 +14,9 @@
     <ClInclude Include="TitleLogo.h">
       <Filter>Title</Filter>
     </ClInclude>
+    <ClInclude Include="TitileBackGround.h">
+      <Filter>Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -27,6 +30,9 @@
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="TitleLogo.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TitileBackGround.cpp">
       <Filter>Title</Filter>
     </ClCompile>
   </ItemGroup>
