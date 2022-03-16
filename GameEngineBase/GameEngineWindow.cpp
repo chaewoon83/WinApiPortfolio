@@ -117,7 +117,8 @@ void GameEngineWindow::MessageLoop(void(*_InitFunction)(), void(*_LoopFunction)(
     {
         if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
-            DispatchMessageA(&msg);
+            TranslateMessage(&msg);
+            DispatchMessage(&msg);
         }
         if (nullptr == _LoopFunction)
         {
@@ -127,4 +128,16 @@ void GameEngineWindow::MessageLoop(void(*_InitFunction)(), void(*_LoopFunction)(
         _LoopFunction();
         
     }
+}
+
+void GameEngineWindow::SetWindowScaleAndPosition(float4 _Pos, float4 _Scale)
+{
+    //메뉴바를 고려한 윈도우 크기를 뱉어준다
+    RECT Rc = {0, 0, _Scale.ix(), _Scale.iy() };
+    // 네모의 크기, 스타일, 메뉴의 유무
+    // WS_OVERLAPPEDWINDOW 이것이 메뉴바의 스타일인데 이것을 고려하여 알려준다
+    AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW, FALSE);
+    Scale_ = _Scale;
+    //네모를 만들때 시작지점, 시작지점 + 크기로 만든다
+    SetWindowPos(hWnd_, nullptr, _Pos.ix(), _Pos.iy(), Rc.right - Rc.left, Rc.bottom - Rc.top, SWP_NOZORDER);
 }

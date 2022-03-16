@@ -36,8 +36,13 @@ protected:
 	ActorType* CreateActor(const std::string& _Name, int _Order)
 	{
 		ActorType* NewActor = new ActorType();
+		//protected에 접근하기위한 업케스팅
+		GameEngineActor* StartActor = NewActor;
 		NewActor->SetName(_Name);
 		NewActor->SetLevel(this);
+		//맘대로 호출하면 안됨
+		//protected에 접근하기위한 업케스팅 (GameEngineActo에서 friends 되어있음)
+		StartActor->Start();
 		std::list<GameEngineActor*>& Group = AllActor_[_Order];
 		Group.push_back(NewActor);
 		//NewActor는 무조건 GameEngineActor*의 값이어야 한다

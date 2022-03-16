@@ -16,6 +16,7 @@ public:
 
 protected:
 	void Start() override;
+	void Render() override;
 private:
 
 };
