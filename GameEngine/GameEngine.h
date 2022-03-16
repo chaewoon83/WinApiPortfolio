@@ -39,7 +39,6 @@ public:
 		if (nullptr == UserContents_)
 		{
 			MsgBoxAssert("GlobalEngine ERROR Engine is not started");
-			return;
 		}
 		return *UserContents_;
 	}

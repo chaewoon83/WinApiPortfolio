@@ -151,7 +151,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="TitileBackGround.h">
+    <ClInclude Include="TitleBackGround.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -177,7 +177,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="TitileBackGround.cpp">
+    <ClCompile Include="TitleBackGround.cpp">
       <SubType>
       </SubType>
     </ClCompile>

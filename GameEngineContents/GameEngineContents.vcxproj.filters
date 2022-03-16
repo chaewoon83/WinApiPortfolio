@@ -14,7 +14,7 @@
     <ClInclude Include="TitleLogo.h">
       <Filter>Title</Filter>
     </ClInclude>
-    <ClInclude Include="TitileBackGround.h">
+    <ClInclude Include="TitleBackGround.h">
       <Filter>Title</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,7 +32,7 @@
     <ClCompile Include="TitleLogo.cpp">
       <Filter>Title</Filter>
     </ClCompile>
-    <ClCompile Include="TitileBackGround.cpp">
+    <ClCompile Include="TitleBackGround.cpp">
       <Filter>Title</Filter>
     </ClCompile>
   </ItemGroup>

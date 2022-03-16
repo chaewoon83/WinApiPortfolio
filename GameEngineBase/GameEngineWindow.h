@@ -29,9 +29,9 @@ public:
 	void MessageLoop(void(*_InitFunction)(), void(*_LoopFunction)());
 	void Off();
 
-	inline HDC GETHDC() const
+	static inline HDC GETHDC()
 	{
-		return HDC_;
+		return Inst_->HDC_;
 	}
 
 private:

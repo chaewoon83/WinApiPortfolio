@@ -66,7 +66,9 @@ void GameEngine::EngineLoop()
 
     // 레벨수준 시간제한이 있는 게임이라면
     //매 프레임마다 시간을 체크해야하는데 그런일들을 함
-    NextLevel_->Update();
+    CurrentLevel_->Update();
+    CurrentLevel_->ActorUpdate();
+    CurrentLevel_->ActorRender();
 }
 void GameEngine::EngineEnd()
 {
