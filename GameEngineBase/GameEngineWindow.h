@@ -48,6 +48,7 @@ private:
 	//창 이미지는 2차원 배열이다. 
 	//HDC는 이미지를 표현하기위한 2차원 배열이다
 	//접근권한과 수정권한도 겸한다
+	//HDC_ = GetDC(hWnd_); 로 윈도우의 HDC를 가져온다
 	HWND hWnd_;
 	HDC HDC_;
 	float4 Scale_;
