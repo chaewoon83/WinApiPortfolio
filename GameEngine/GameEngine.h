@@ -34,14 +34,14 @@ public:
 		EngineEnd();
 	}
 
-	static GameEngine* GlobalEngine()
+	static GameEngine& GlobalEngine()
 	{
 		if (nullptr == UserContents_)
 		{
 			MsgBoxAssert("GlobalEngine ERROR Engine is not started");
-			return nullptr;
+			return;
 		}
-		return UserContents_;
+		return *UserContents_;
 	}
 
 	void ChangeLevel(const std::string _Name);
@@ -54,6 +54,7 @@ protected:
 	template<typename LevelType>
 	void CreateLevel(const std::string _Name)
 	{
+		//몇개가 생길지, 얼마나 생길지 알 수 없기때문에 동적할당을 한다
 		LevelType* NewLevel = new LevelType();
 		NewLevel->SetName(_Name);
 		GameEngineLevel* Level = NewLevel;
