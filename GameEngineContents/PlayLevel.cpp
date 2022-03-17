@@ -18,7 +18,7 @@ void PlayLevel::Update()
 
 }
 
-void PlayLevel::SceneChangeStart()
+void PlayLevel::LevelChangeStart()
 {
 
 }

@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{9D4685A4-1BF
 	ProjectSection(SolutionItems) = preProject
 		Level Design.txt = Level Design.txt
 		Object structure.txt = Object structure.txt
+		이미지.txt = 이미지.txt
 		젤다관련 정보들.txt = 젤다관련 정보들.txt
 	EndProjectSection
 EndProject

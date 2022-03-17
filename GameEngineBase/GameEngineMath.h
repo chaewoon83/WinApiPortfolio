@@ -29,6 +29,11 @@ public:
 	float w;
 
 public:
+	bool IsZero2D()
+	{
+		return x == 0.0f && y == 0.0f;
+	}
+public:
 	int ix()
 	{
 		return static_cast<int>(x);

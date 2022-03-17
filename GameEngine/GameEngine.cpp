@@ -1,7 +1,7 @@
 #include "GameEngine.h"
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngine/GameEngineLevel.h>
-
+#include "GameEngineImageManager.h"
 
 GameEngine* GameEngine::UserContents_ = nullptr;
 GameEngineLevel* GameEngine::CurrentLevel_ = nullptr;
@@ -54,9 +54,9 @@ void GameEngine::EngineLoop()
     {
         if (nullptr != CurrentLevel_)
         {
-            CurrentLevel_->SceneChangeEnd();
+            CurrentLevel_->LevelChangeEnd();
         }
-        NextLevel_->SceneChangeStart();
+        NextLevel_->LevelChangeStart();
         CurrentLevel_ = NextLevel_;
         NextLevel_ = nullptr;
     }
@@ -84,6 +84,7 @@ void GameEngine::EngineEnd()
         }
         delete StartIter->second;
     }
+    GameEngineImageManager::Destroy();
     GameEngineWindow::Destroy();
 }
 
