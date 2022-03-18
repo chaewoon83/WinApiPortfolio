@@ -39,6 +39,8 @@ public:
 	//빈 이미지를 만드는 것이다. 내용은 채워져있지 않다.
 	GameEngineImage* Create(const std::string& _Name, float4 _Scale);
 
+	GameEngineImage* Create(const std::string& _Name, HDC _DC);
+
 protected:
 
 private:

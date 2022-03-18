@@ -8,6 +8,7 @@ GameEngineLevel* GameEngine::CurrentLevel_ = nullptr;
 //Level을 실행하는 도중 Level이 바뀔 수 있기 때문에 만들었다
 GameEngineLevel* GameEngine::NextLevel_ = nullptr;
 GameEngineImage* GameEngine::BackBufferImage_ = nullptr;
+GameEngineImage* GameEngine:: WindowMainImage_ = nullptr;
 std::map<std::string, GameEngineLevel*> GameEngine::AllLevels_;
 
 HDC GameEngine::BackBufferDC()
@@ -51,6 +52,7 @@ void GameEngine::EngineStart()
     //윈도우의 크기가 결정남 (게임마다 윈도우의 크기가 다르기 때문에 GameInit()에서 정해진다)
     UserContents_->GameInit();
     //윈도우 크기와 같은 크기의 BackBuffer를 생성
+    WindowMainImage_ = GameEngineImageManager::GetInst()->Create("WindowMainImage", GameEngineWindow::GetHDC());
     BackBufferImage_ = GameEngineImageManager::GetInst()->Create("BackBuffer", GameEngineWindow::GetScale());
 }
 void GameEngine::EngineLoop()
@@ -79,6 +81,8 @@ void GameEngine::EngineLoop()
     CurrentLevel_->Update();
     CurrentLevel_->ActorUpdate();
     CurrentLevel_->ActorRender();
+    //백버퍼의 이미지를 윈도우메인 이미지로 copy한다
+    WindowMainImage_->BitCopy(BackBufferImage_, {0, 0}, {0, 0}, WindowMainImage_->GetScale());
 }
 void GameEngine::EngineEnd()
 {

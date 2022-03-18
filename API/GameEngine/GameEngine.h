@@ -75,6 +75,8 @@ private:
 	static GameEngineLevel* CurrentLevel_;
 	static GameEngineLevel* NextLevel_;
 	static GameEngine* UserContents_;
+
+	static GameEngineImage* WindowMainImage_;
 	static GameEngineImage* BackBufferImage_;
 
 	static void WindowCreate();
