@@ -4,6 +4,9 @@
 
 1. 자신이 만들 컨텐츠를 정하기
 
+Zelda Link to the Past
+East Plaace
+
 Global
 
 GlobalPlay
@@ -12,9 +15,21 @@ GlobalPlay
 		Sword Attack
 		Charge Attack
 	GlobalUI
-	-
+	-UI Layout
+	-Hearts
+	-Selected Item
+	-Magic Meter (Green Mp bar)
+	-UI Numbers
 	Items
-	Monsters
+	-Bomb
+	-Green Rupee
+	-Blue Rupee
+	-Red Rupee
+	-Magic Jar(Small)
+	-Magic Jar(Large)
+	-Recovery Heart
+	-Faries
+	Enemies
 	-Popo
 	-Ball
 	-Gargantuan Ball
@@ -24,6 +39,7 @@ GlobalPlay
 	-Bubble Group (Anti-Fairy Group)
 	-Green Eyegore
 	-Red Eyegore
+	-Armoms Knight
 
 Intro
 MainMenu
