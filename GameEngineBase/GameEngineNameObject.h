@@ -15,7 +15,6 @@ public:
 	GameEngineNameObject& operator=(const GameEngineNameObject& _Other) = delete;
 	GameEngineNameObject& operator=(GameEngineNameObject&& _Other) noexcept = delete;
 
-protected:
 	inline void SetName(const std::string& _Name)
 	{
 		Name_ = _Name;
@@ -36,6 +35,7 @@ protected:
 	{
 		return Name_.c_str();
 	}
+protected:
 private:
 	std::string Name_;
 };

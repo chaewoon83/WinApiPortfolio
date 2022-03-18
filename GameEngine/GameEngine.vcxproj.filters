@@ -11,11 +11,11 @@
     <ClInclude Include="GameEngineImage.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineSound.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineImageManager.h">
       <Filter>Resources\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineSound.h">
+      <Filter>Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -29,11 +29,11 @@
     <ClCompile Include="GameEngineImage.cpp">
       <Filter>Resources</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineSound.cpp">
-      <Filter>Resources</Filter>
-    </ClCompile>
     <ClCompile Include="GameEngineImageManager.cpp">
       <Filter>Resources\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineSound.cpp">
+      <Filter>Resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

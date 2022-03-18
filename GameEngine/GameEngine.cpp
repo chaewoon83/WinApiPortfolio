@@ -1,13 +1,19 @@
 #include "GameEngine.h"
 #include <GameEngineBase/GameEngineWindow.h>
-#include <GameEngine/GameEngineLevel.h>
+#include "GameEngineLevel.h"
 #include "GameEngineImageManager.h"
 
 GameEngine* GameEngine::UserContents_ = nullptr;
 GameEngineLevel* GameEngine::CurrentLevel_ = nullptr;
 //Level을 실행하는 도중 Level이 바뀔 수 있기 때문에 만들었다
 GameEngineLevel* GameEngine::NextLevel_ = nullptr;
+GameEngineImage* GameEngine::BackBufferImage_ = nullptr;
 std::map<std::string, GameEngineLevel*> GameEngine::AllLevels_;
+
+HDC GameEngine::BackBufferDC()
+{
+    return BackBufferImage_->ImageDC();
+}
 
 GameEngine::GameEngine() 
 {
@@ -42,7 +48,10 @@ void GameEngine::WindowCreate()
 
 void GameEngine::EngineStart()
 {
+    //윈도우의 크기가 결정남 (게임마다 윈도우의 크기가 다르기 때문에 GameInit()에서 정해진다)
     UserContents_->GameInit();
+    //윈도우 크기와 같은 크기의 BackBuffer를 생성
+    BackBufferImage_ = GameEngineImageManager::GetInst()->Create("BackBuffer", GameEngineWindow::GetScale());
 }
 void GameEngine::EngineLoop()
 {
@@ -74,6 +83,8 @@ void GameEngine::EngineLoop()
 void GameEngine::EngineEnd()
 {
     UserContents_->GameEnd();
+
+    //레벨 삭제
     std::map<std::string, GameEngineLevel*>::iterator StartIter = AllLevels_.begin();
     std::map<std::string, GameEngineLevel*>::iterator EndIter = AllLevels_.end();
     for (; StartIter != EndIter; ++StartIter)
@@ -84,7 +95,9 @@ void GameEngine::EngineEnd()
         }
         delete StartIter->second;
     }
-    GameEngineImageManager::Destroy();
+    //이미지 삭제
+    GameEngineImageManager::Destroy();\
+    //윈도우 삭제
     GameEngineWindow::Destroy();
 }
 
