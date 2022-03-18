@@ -20,6 +20,9 @@
     <ClInclude Include="Link.h">
       <Filter>Play</Filter>
     </ClInclude>
+    <ClInclude Include="Hp.h">
+      <Filter>Play\Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -41,6 +44,9 @@
     <ClCompile Include="Link.cpp">
       <Filter>Play</Filter>
     </ClCompile>
+    <ClCompile Include="Hp.cpp">
+      <Filter>Play\Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -54,6 +60,9 @@
     </Filter>
     <Filter Include="End">
       <UniqueIdentifier>{d895ea52-bb3e-4e54-96cf-83e0bc071d78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Global">
+      <UniqueIdentifier>{ffe82e8b-08cb-493a-8ab4-735e1bb1279f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

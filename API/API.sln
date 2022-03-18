@@ -7,6 +7,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameEngine", "GameEngine\Ga
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{9D4685A4-1BFB-4A0C-816A-7B84BE78C0CA}"
 	ProjectSection(SolutionItems) = preProject
+		Coding Order.txt = Coding Order.txt
 		Level Design.txt = Level Design.txt
 		Object structure.txt = Object structure.txt
 		이미지.txt = 이미지.txt

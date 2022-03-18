@@ -147,6 +147,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Hp.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Link.h">
       <SubType>
       </SubType>
@@ -174,6 +178,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EndLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Hp.cpp">
       <SubType>
       </SubType>
     </ClCompile>

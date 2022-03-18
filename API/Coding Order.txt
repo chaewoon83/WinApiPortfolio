@@ -1,0 +1,22 @@
+0. 리소스 git
+0. 프로젝트 git
+   을 스프레드시트에 올려서 선생님이 볼 수 있게 한다.
+
+1. 자신이 만들 컨텐츠를 정하기
+
+Global
+
+GlobalPlay
+
+	Link
+		Sword Attack
+		Bomb
+
+	GlobalUI
+Intro
+MainMenu
+
+Dungeon 1-1
+Dungeon 1-2
+Dungeon 1-3
+Dungeon 1-4

@@ -25,7 +25,12 @@ public:
 			Inst_ = nullptr;
 		}
 	}
-public:
+
+	//빈 이미지를 만드는 것이다. 내용은 채워져있지 않다.
+	GameEngineImage* Create(const std::string& _Name, float4 _Scale);
+
+	GameEngineImage* Create(const std::string& _Name, HDC _DC);
+private:
 	// constrcuter destructer
 	GameEngineImageManager();
 	~GameEngineImageManager();
@@ -36,10 +41,7 @@ public:
 	GameEngineImageManager& operator=(const GameEngineImageManager& _Other) = delete;
 	GameEngineImageManager& operator=(GameEngineImageManager&& _Other) noexcept = delete;
 
-	//빈 이미지를 만드는 것이다. 내용은 채워져있지 않다.
-	GameEngineImage* Create(const std::string& _Name, float4 _Scale);
 
-	GameEngineImage* Create(const std::string& _Name, HDC _DC);
 
 protected:
 
