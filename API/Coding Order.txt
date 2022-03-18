@@ -10,9 +10,21 @@ GlobalPlay
 
 	Link
 		Sword Attack
-		Bomb
-
+		Charge Attack
 	GlobalUI
+	-
+	Items
+	Monsters
+	-Popo
+	-Ball
+	-Gargantuan Ball
+	-Blue Stalfos (Blue Skeleton)
+	-Stalfos
+	-Anti-Fairy
+	-Bubble Group (Anti-Fairy Group)
+	-Green Eyegore
+	-Red Eyegore
+
 Intro
 MainMenu
 
