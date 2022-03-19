@@ -30,16 +30,16 @@ GlobalPlay
 	-Recovery Heart V
 	-Fariy V
 	Enemies
-	-Popo
-	-Ball
-	-Gargantuan Ball
-	-Blue Stalfos (Blue Skeleton)
-	-Stalfos
-	-Anti-Fairy
-	-Bubble Group (Anti-Fairy Group)
-	-Green Eyegore
-	-Red Eyegore
-	-Armoms Knight
+	-Popo V
+	-Ball V
+	-Gargantuan Ball V
+	-Blue Stalfos (Blue Skeleton) V
+	-Stalfos V
+	-AntiFairy V
+	-Bubble Group (AntiFairy Group) V
+	-Green Eyegore V
+	-Red Eyegore V
+	-Armoms Knight V
 
 Intro
 MainMenu
