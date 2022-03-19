@@ -143,15 +143,83 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BossArmomsKnight.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EndLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Hp.h">
+    <ClInclude Include="EnemyAntiFairy.h">
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Link.h">
+    <ClInclude Include="EnemyBall.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyBlueStalfos.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyBubbleGroup.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyGargantuanBall.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyGreenEyegore.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyPopo.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="EnemyStalfos.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ItemBlueRupee.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ItemBomb.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ItemFairy.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ItemGreenRupee.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ItemMagicJar(Large).h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ItemMagicJar(Small).h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ItemRecoveryHeart.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ItemRedRupee.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayerLink.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -171,21 +239,101 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="UILayout.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIMagicMeter.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UISelectedItem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Zelda.h">
       <SubType>
       </SubType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BossArmomsKnight.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EndLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Hp.cpp">
+    <ClCompile Include="EnemyAntiFairy.cpp">
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Link.cpp">
+    <ClCompile Include="EnemyBall.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyBlueStalfos.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyBubbleGroup.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyGargantuanBall.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyGreenEyegore.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyPopo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="EnemyStalfos.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ItemBlueRupee.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ItemBomb.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ItemFairy.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ItemGreenRupee.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ItemMagicJar(Large).cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ItemMagicJar(Small).cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ItemRecoveryHeart.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ItemRedRupee.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayerLink.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -202,6 +350,18 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="TitleLogo.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UILayout.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UIMagicMeter.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UISelectedItem.cpp">
       <SubType>
       </SubType>
     </ClCompile>

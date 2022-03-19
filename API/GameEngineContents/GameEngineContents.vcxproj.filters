@@ -17,11 +17,71 @@
     <ClInclude Include="TitleBackGround.h">
       <Filter>Title</Filter>
     </ClInclude>
-    <ClInclude Include="Link.h">
-      <Filter>Play</Filter>
-    </ClInclude>
-    <ClInclude Include="Hp.h">
+    <ClInclude Include="UILayout.h">
       <Filter>Play\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="UIMagicMeter.h">
+      <Filter>Play\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="UISelectedItem.h">
+      <Filter>Play\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemBlueRupee.h">
+      <Filter>Play\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemBomb.h">
+      <Filter>Play\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemGreenRupee.h">
+      <Filter>Play\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemMagicJar(Large).h">
+      <Filter>Play\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemMagicJar(Small).h">
+      <Filter>Play\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemRecoveryHeart.h">
+      <Filter>Play\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemRedRupee.h">
+      <Filter>Play\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemFairy.h">
+      <Filter>Play\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerLink.h">
+      <Filter>Play\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyPopo.h">
+      <Filter>Play\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBall.h">
+      <Filter>Play\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGargantuanBall.h">
+      <Filter>Play\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBlueStalfos.h">
+      <Filter>Play\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyStalfos.h">
+      <Filter>Play\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAntiFairy.h">
+      <Filter>Play\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBubbleGroup.h">
+      <Filter>Play\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGreenEyegore.h">
+      <Filter>Play\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="BossArmomsKnight.h">
+      <Filter>Play\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -41,11 +101,71 @@
     <ClCompile Include="TitleBackGround.cpp">
       <Filter>Title</Filter>
     </ClCompile>
-    <ClCompile Include="Link.cpp">
-      <Filter>Play</Filter>
-    </ClCompile>
-    <ClCompile Include="Hp.cpp">
+    <ClCompile Include="UILayout.cpp">
       <Filter>Play\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="UIMagicMeter.cpp">
+      <Filter>Play\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="UISelectedItem.cpp">
+      <Filter>Play\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemBlueRupee.cpp">
+      <Filter>Play\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemBomb.cpp">
+      <Filter>Play\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemGreenRupee.cpp">
+      <Filter>Play\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemMagicJar(Large).cpp">
+      <Filter>Play\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemMagicJar(Small).cpp">
+      <Filter>Play\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemRecoveryHeart.cpp">
+      <Filter>Play\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemRedRupee.cpp">
+      <Filter>Play\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemFairy.cpp">
+      <Filter>Play\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerLink.cpp">
+      <Filter>Play\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyPopo.cpp">
+      <Filter>Play\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBall.cpp">
+      <Filter>Play\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGargantuanBall.cpp">
+      <Filter>Play\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBlueStalfos.cpp">
+      <Filter>Play\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyStalfos.cpp">
+      <Filter>Play\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAntiFairy.cpp">
+      <Filter>Play\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBubbleGroup.cpp">
+      <Filter>Play\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGreenEyegore.cpp">
+      <Filter>Play\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="BossArmomsKnight.cpp">
+      <Filter>Play\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +183,15 @@
     </Filter>
     <Filter Include="Play\Global">
       <UniqueIdentifier>{ffe82e8b-08cb-493a-8ab4-735e1bb1279f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Item">
+      <UniqueIdentifier>{d7fffb9d-ca49-4dd8-9d52-5e73ca2be017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Enemies">
+      <UniqueIdentifier>{0eb4ae1d-4330-40fd-a1ed-e0d6eb5b27e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{3e9e6f76-af25-4494-8338-aaae3814126d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

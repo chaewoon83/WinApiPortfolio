@@ -15,20 +15,20 @@ GlobalPlay
 		Sword Attack
 		Charge Attack
 	GlobalUI
-	-UI Layout
+	-UI Layout V
 	-Hearts
-	-Selected Item
-	-Magic Meter (Green Mp bar)
+	-UISelected Item V
+	-Magic Meter (Green Mp bar) V
 	-UI Numbers
 	Items
-	-Bomb
-	-Green Rupee
-	-Blue Rupee
-	-Red Rupee
-	-Magic Jar(Small)
-	-Magic Jar(Large)
-	-Recovery Heart
-	-Faries
+	-Bomb V
+	-Green Rupee V
+	-Blue Rupee V
+	-Red Rupee V
+	-Magic Jar(Small) V
+	-Magic Jar(Large) V
+	-Recovery Heart V
+	-Fariy V
 	Enemies
 	-Popo
 	-Ball
