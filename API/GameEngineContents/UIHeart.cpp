@@ -1,27 +1,27 @@
-#include "Map.h"
+#include "UIHeart.h"
 #include <windows.h>
 #include <GameEngineBase/GameEngineWindow.h>
 
 
-Map::Map() 
+UIHeart::UIHeart() 
 {
 }
 
-Map::~Map() 
+UIHeart::~UIHeart() 
 {
 }
 
-void Map::Start()
+void UIHeart::Start()
 {
 	SetPosition(GameEngineWindow::GetScale().Half());
-	SetScale({ 1000, 1000 });
+	SetScale({ 500,500 });
 }
  
-void Map::Update()
+void UIHeart::Update()
 {
 
 }
-void Map::Render()
+void UIHeart::Render()
 {
 	DebugRectRender();
 

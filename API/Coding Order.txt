@@ -14,6 +14,8 @@ GlobalPlay
 	Link
 		Sword Attack
 		Charge Attack
+		Bow shoot
+		Bomb drop
 	GlobalUI
 	-UI Layout V
 	-Hearts

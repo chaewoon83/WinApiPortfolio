@@ -167,6 +167,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="EnemyDeathEffect.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EnemyGargantuanBall.h">
       <SubType>
       </SubType>
@@ -199,14 +203,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="ItemMagicJar(Large).h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="ItemMagicJar(Small).h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="ItemRecoveryHeart.h">
       <SubType>
       </SubType>
@@ -216,6 +212,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Map.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="MapLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -239,11 +239,23 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="UI Number.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UIHeart.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="UILayout.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="UIMagicMeter.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UINumber.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -281,6 +293,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="EnemyDeathEffect.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EnemyGargantuanBall.cpp">
       <SubType>
       </SubType>
@@ -313,14 +329,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="ItemMagicJar(Large).cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="ItemMagicJar(Small).cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="ItemRecoveryHeart.cpp">
       <SubType>
       </SubType>
@@ -330,6 +338,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Map.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="MapLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -353,11 +365,23 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="UI Number.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UIHeart.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="UILayout.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="UIMagicMeter.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UINumber.cpp">
       <SubType>
       </SubType>
     </ClCompile>

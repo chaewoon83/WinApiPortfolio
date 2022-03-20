@@ -18,7 +18,7 @@ void Zelda::GameInit()
 	CreateLevel<TitleLevel>("Title");
 	CreateLevel<PlayLevel>("Play");
 	CreateLevel<EndLevel>("End");
-	ChangeLevel("Title");
+	ChangeLevel("Play");
 }
 void Zelda::GameLoop()
 {

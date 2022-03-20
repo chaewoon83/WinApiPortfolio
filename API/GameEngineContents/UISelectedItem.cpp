@@ -13,8 +13,8 @@ UISelectedItem::~UISelectedItem()
 
 void UISelectedItem::Start()
 {
-	SetPosition(GameEngineWindow::GetScale().Half());
-	SetScale({ 500,500 });
+	SetPosition({300, 100});
+	SetScale({ 100,100 });
 }
  
 void UISelectedItem::Update()

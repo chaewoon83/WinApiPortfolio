@@ -17,12 +17,6 @@
     <ClInclude Include="TitleBackGround.h">
       <Filter>Title</Filter>
     </ClInclude>
-    <ClInclude Include="UILayout.h">
-      <Filter>Play\Global</Filter>
-    </ClInclude>
-    <ClInclude Include="UIMagicMeter.h">
-      <Filter>Play\Global</Filter>
-    </ClInclude>
     <ClInclude Include="UISelectedItem.h">
       <Filter>Play\Global</Filter>
     </ClInclude>
@@ -33,12 +27,6 @@
       <Filter>Play\Item</Filter>
     </ClInclude>
     <ClInclude Include="ItemGreenRupee.h">
-      <Filter>Play\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemMagicJar(Large).h">
-      <Filter>Play\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemMagicJar(Small).h">
       <Filter>Play\Item</Filter>
     </ClInclude>
     <ClInclude Include="ItemRecoveryHeart.h">
@@ -54,34 +42,53 @@
       <Filter>Play\Global</Filter>
     </ClInclude>
     <ClInclude Include="EnemyPopo.h">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBall.h">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnemyGargantuanBall.h">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBlueStalfos.h">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnemyStalfos.h">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnemyAntiFairy.h">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnemyBubbleGroup.h">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnemyGreenEyegore.h">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="BossArmomsKnight.h">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="UILayout.h">
+      <Filter>Play\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="MapLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="UIMagicMeter.h">
+      <Filter>Play\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDeathEffect.h">
+      <Filter>Play\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="UIHeart.h">
+      <Filter>Play\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="UI Number.h" />
+    <ClInclude Include="UINumber.h">
+      <Filter>Play\Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -101,12 +108,6 @@
     <ClCompile Include="TitleBackGround.cpp">
       <Filter>Title</Filter>
     </ClCompile>
-    <ClCompile Include="UILayout.cpp">
-      <Filter>Play\Global</Filter>
-    </ClCompile>
-    <ClCompile Include="UIMagicMeter.cpp">
-      <Filter>Play\Global</Filter>
-    </ClCompile>
     <ClCompile Include="UISelectedItem.cpp">
       <Filter>Play\Global</Filter>
     </ClCompile>
@@ -117,12 +118,6 @@
       <Filter>Play\Item</Filter>
     </ClCompile>
     <ClCompile Include="ItemGreenRupee.cpp">
-      <Filter>Play\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemMagicJar(Large).cpp">
-      <Filter>Play\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemMagicJar(Small).cpp">
       <Filter>Play\Item</Filter>
     </ClCompile>
     <ClCompile Include="ItemRecoveryHeart.cpp">
@@ -138,34 +133,53 @@
       <Filter>Play\Global</Filter>
     </ClCompile>
     <ClCompile Include="EnemyPopo.cpp">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBall.cpp">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyGargantuanBall.cpp">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBlueStalfos.cpp">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyStalfos.cpp">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyAntiFairy.cpp">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBubbleGroup.cpp">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyGreenEyegore.cpp">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="BossArmomsKnight.cpp">
-      <Filter>Play\Enemies</Filter>
+      <Filter>Play\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="UILayout.cpp">
+      <Filter>Play\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="MapLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="UIMagicMeter.cpp">
+      <Filter>Play\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyDeathEffect.cpp">
+      <Filter>Play\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="UIHeart.cpp">
+      <Filter>Play\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="UI Number.cpp" />
+    <ClCompile Include="UINumber.cpp">
+      <Filter>Play\Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,11 +189,14 @@
     <Filter Include="Title">
       <UniqueIdentifier>{62d55c2e-1655-48c9-8b4d-61848661261a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Play">
-      <UniqueIdentifier>{39722238-d3ab-41e7-8735-113094da0f97}</UniqueIdentifier>
-    </Filter>
     <Filter Include="End">
       <UniqueIdentifier>{d895ea52-bb3e-4e54-96cf-83e0bc071d78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Map">
+      <UniqueIdentifier>{3e9e6f76-af25-4494-8338-aaae3814126d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play">
+      <UniqueIdentifier>{39722238-d3ab-41e7-8735-113094da0f97}</UniqueIdentifier>
     </Filter>
     <Filter Include="Play\Global">
       <UniqueIdentifier>{ffe82e8b-08cb-493a-8ab4-735e1bb1279f}</UniqueIdentifier>
@@ -187,11 +204,8 @@
     <Filter Include="Play\Item">
       <UniqueIdentifier>{d7fffb9d-ca49-4dd8-9d52-5e73ca2be017}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Play\Enemies">
+    <Filter Include="Play\Enemy">
       <UniqueIdentifier>{0eb4ae1d-4330-40fd-a1ed-e0d6eb5b27e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Map">
-      <UniqueIdentifier>{3e9e6f76-af25-4494-8338-aaae3814126d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
