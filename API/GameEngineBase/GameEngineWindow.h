@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <string> 
 #include <GameEngineBase/GameEngineMath.h>
+#include "GameEngineDebug.h"
 // 설명 : 윈도우에 관련된 모든것을 담당하는 클래스
 class GameEngineWindow
 {

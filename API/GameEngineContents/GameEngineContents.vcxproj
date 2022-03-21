@@ -239,10 +239,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UI Number.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="UIHeart.h">
       <SubType>
       </SubType>
@@ -255,7 +251,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="UINumber.h">
+    <ClInclude Include="UINumbers.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -365,10 +361,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UI Number.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="UIHeart.cpp">
       <SubType>
       </SubType>
@@ -381,7 +373,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="UINumber.cpp">
+    <ClCompile Include="UINumbers.cpp">
       <SubType>
       </SubType>
     </ClCompile>

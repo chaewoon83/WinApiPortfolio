@@ -1,11 +1,15 @@
 #pragma once
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <GameEngineBase/GameEngineMath.h>
-class GameEngineLevel;
+#include "GameEngineEnum.h"
+#include <list>
 
+class GameEngineLevel;
+class GameEngineRenderer;
 // 설명 :
 class GameEngineActor : public GameEngineNameObject
 {
+///////////////////////////////////////////////////////////////Actor Options
 public:
 	//SetLevel함수를 GameEngineLevel에서만 호출 할 수 있게끔 만들었다
 	friend GameEngineLevel;
@@ -59,5 +63,14 @@ private:
 		Level_ = _Level;
 	}
 
+
+///////////////////////////////////////////////////////////////Render Options
+public:
+	//디폴트 인자는 오버로딩을 하는 경우 모호함이 생길 수 있기 때문에 함수를 하나만 만든다.
+	//디폴트 인자는 선언에서만 구현 가능하다.
+	GameEngineRenderer* CreateRenderer(const std::string& _Image, RenderPivot _PivotType = RenderPivot::CENTER, const float4& _PivotPos = {0,0});
+
+private:
+	std::list <GameEngineRenderer*> RenderList_;
 };
 

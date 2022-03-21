@@ -87,7 +87,7 @@
       <Filter>Play\Global</Filter>
     </ClInclude>
     <ClInclude Include="UI Number.h" />
-    <ClInclude Include="UINumber.h">
+    <ClInclude Include="UINumbers.h">
       <Filter>Play\Global</Filter>
     </ClInclude>
   </ItemGroup>
@@ -178,7 +178,7 @@
       <Filter>Play\Global</Filter>
     </ClCompile>
     <ClCompile Include="UI Number.cpp" />
-    <ClCompile Include="UINumber.cpp">
+    <ClCompile Include="UINumbers.cpp">
       <Filter>Play\Global</Filter>
     </ClCompile>
   </ItemGroup>

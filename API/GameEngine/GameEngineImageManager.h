@@ -26,10 +26,14 @@ public:
 		}
 	}
 
-	//빈 이미지를 만드는 것이다. 내용은 채워져있지 않다.
-	GameEngineImage* Create(const std::string& _Name, float4 _Scale);
+	GameEngineImage* Find(const std::string& _Name);
 
+	//빈 이미지를 만드는 것이다. 내용은 채워져있지 않다.
+	GameEngineImage* Create(const std::string& _Name, const float4& _Scale);
+	//HDC 는 이미 포인터이기 때문에 const reference를 안붙인다
 	GameEngineImage* Create(const std::string& _Name, HDC _DC);
+	GameEngineImage* Load(const std::string& _Path);
+	GameEngineImage* Load(const std::string& _Path, const std::string& _Name);
 private:
 	// constrcuter destructer
 	GameEngineImageManager();
