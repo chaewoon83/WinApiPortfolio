@@ -10,7 +10,7 @@ LRESULT CALLBACK MessageProcess(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
     case(WM_DESTROY):
         //창이 꺼질때(프로그램이 아닌 창)
         GameEngineWindow::GetInst().Off();
-        return DefWindowProc(hWnd, message, wParam, lParam);
+        break;
     case WM_PAINT:
     {
         //윈도우 화면에 뭔가가 그려질때
@@ -18,13 +18,17 @@ LRESULT CALLBACK MessageProcess(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
         EndPaint(hWnd, &ps);
-        return DefWindowProc(hWnd, message, wParam, lParam);
+        break;
+    }
+    case WM_CLOSE:
+    {
+        GameEngineWindow::GetInst().Off();
         break;
     }
     default:
-        break;
+        return DefWindowProc(hWnd, message, wParam, lParam);
     }
-    return DefWindowProc(hWnd, message, wParam, lParam);
+    return 0;
 }
 
 GameEngineWindow::GameEngineWindow()

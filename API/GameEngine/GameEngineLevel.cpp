@@ -67,6 +67,15 @@ void GameEngineLevel::ActorRender()
 	{
 		std::list<GameEngineActor*>& Group = GroupStart->second;
 
+		//Renderer가 호출된다
+		StartActor = Group.begin();
+		EndActor = Group.end();
+
+		for (; StartActor != EndActor; ++StartActor)
+		{
+			(*StartActor)->Rendering();
+		}
+		//Actor 개개인의 Render()함수가 호출된다
 		StartActor = Group.begin();
 		EndActor = Group.end();
 

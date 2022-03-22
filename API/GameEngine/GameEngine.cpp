@@ -82,7 +82,7 @@ void GameEngine::EngineLoop()
     CurrentLevel_->ActorUpdate();
     CurrentLevel_->ActorRender();
     //백버퍼의 이미지를 윈도우메인 이미지로 copy한다
-    WindowMainImage_->BitCopy(BackBufferImage_, {0, 0}, {0, 0}, WindowMainImage_->GetScale());
+    WindowMainImage_->BitCopy(BackBufferImage_);
 }
 void GameEngine::EngineEnd()
 {

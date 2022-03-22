@@ -1,11 +1,13 @@
 #pragma once
 //이미지가 없으면 렌더링을 할 수 없다
-#include "GameEngineImage.h"
 #include "GameEngineEnum.h"
-
+#include "GameEngineActorSubObject.h"
+//#include "GameEngineImage.h"
 // 설명 :
-class GameEngineRenderer
+class GameEngineImage;
+class GameEngineRenderer : public GameEngineActorSubObject
 {
+	friend GameEngineActor;
 public:
 	// constrcuter destructer
 	GameEngineRenderer();
@@ -19,7 +21,22 @@ public:
 
 	inline void SetType(const RenderPivot& _Type)
 	{
-		PivotType = _Type;
+		PivotType_ = _Type;
+	}
+
+	inline void SetScale(const RenderScaleMode& _Mode)
+	{
+		ScaleMode_ = _Mode;
+	}
+
+	inline void SetPivot(const float4& _Pos)
+	{
+		RenderPivot_ = _Pos;
+	}
+
+	inline void SetTransColor(unsigned int _Color)
+	{
+		TransColor_ = _Color;
 	}
 
 	void SetImage(const std::string& _Name);
@@ -28,7 +45,12 @@ public:
 protected:
 
 private:
+	//bool IsDebugMode_;
 	GameEngineImage* Image_;
-	RenderPivot PivotType;
+	RenderPivot PivotType_; //Center Bot etc
+	RenderScaleMode ScaleMode_;
+	float4 RenderPivot_;
+	float4 RenderScale_;
+	unsigned int TransColor_;
 };
 

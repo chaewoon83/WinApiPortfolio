@@ -18,12 +18,14 @@ void PlayerLink::Start()
 	SetPosition(GameEngineWindow::GetScale().Half());
 	SetScale({ 200, 200 });
 	CreateRenderer("Idle.bmp");
+	CreateRenderer("HPBAR.bmp", RenderPivot::CENTER, {0, -100});
 }
  
 void PlayerLink::Update()
 {
 
 }
+//렌더러가 다 돌고 액터들의 랜더함수를 호출한다
 void PlayerLink::Render()
 {
 	//GameEngineImage* FindImage = GameEngineImageManager::GetInst()->Find("Idle.bmp");
