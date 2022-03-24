@@ -57,6 +57,7 @@ void GameEngine::EngineStart()
 }
 void GameEngine::EngineLoop()
 {
+    // 
     // 엔진수준에서 매 프레임마다 체크하고 싶은거
     UserContents_->GameLoop();
     // 시점함수

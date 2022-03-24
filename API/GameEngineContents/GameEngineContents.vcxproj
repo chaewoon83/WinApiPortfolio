@@ -235,6 +235,18 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="PlayMap1F.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayMap2F.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="PlayMapB1F.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TitleBackGround.h">
       <SubType>
       </SubType>
@@ -358,6 +370,18 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayLevel.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayMap1F.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayMap2F.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="PlayMapB1F.cpp">
       <SubType>
       </SubType>
     </ClCompile>

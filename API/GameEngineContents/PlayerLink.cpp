@@ -24,7 +24,7 @@ void PlayerLink::Start()
  
 void PlayerLink::Update()
 {
-
+	//내가 키를 눌렀다면 움직이기
 }
 //렌더러가 다 돌고 액터들의 랜더함수를 호출한다
 void PlayerLink::Render()

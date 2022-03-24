@@ -92,6 +92,15 @@
     <ClInclude Include="Map1_1.h">
       <Filter>Play\Global</Filter>
     </ClInclude>
+    <ClInclude Include="PlayMap1F.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayMap2F.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayMapB1F.h">
+      <Filter>Level</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -184,6 +193,15 @@
     </ClCompile>
     <ClCompile Include="Map1_1.cpp">
       <Filter>Play\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayMap1F.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayMap2F.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayMapB1F.cpp">
+      <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

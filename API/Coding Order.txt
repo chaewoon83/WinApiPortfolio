@@ -27,8 +27,8 @@ GlobalPlay
 	-Green Rupee V
 	-Blue Rupee V
 	-Red Rupee V
-	-Magic Jar(Small) V
-	-Magic Jar(Large) V
+	-Magic Jar Small V
+	-Magic Jar Large  V
 	-Recovery Heart V
 	-Fariy V
 	Enemies
