@@ -2,6 +2,8 @@
 #include <GameEngineBase/GameEngineWindow.h>
 #include "GameEngineLevel.h"
 #include "GameEngineImageManager.h"
+#include <GameEngineBase/GameEngineInput.h>
+#include <GameEngineBase/GameEngineTime.h>
 
 GameEngine* GameEngine::UserContents_ = nullptr;
 GameEngineLevel* GameEngine::CurrentLevel_ = nullptr;
@@ -57,6 +59,7 @@ void GameEngine::EngineStart()
 }
 void GameEngine::EngineLoop()
 {
+    GameEngineTime::GetInst()->Update();
     // 
     // 엔진수준에서 매 프레임마다 체크하고 싶은거
     UserContents_->GameLoop();
@@ -68,14 +71,22 @@ void GameEngine::EngineLoop()
         {
             CurrentLevel_->LevelChangeEnd();
         }
-        NextLevel_->LevelChangeStart();
         CurrentLevel_ = NextLevel_;
+        if (nullptr != CurrentLevel_)
+        {
+            NextLevel_->LevelChangeStart();
+        }
         NextLevel_ = nullptr;
+
+        //레벨 로딩이 끝난 다음에 타임을 리셋 시켜준다
+        GameEngineTime::GetInst()->Reset();
     }
     if (nullptr == CurrentLevel_)
     {
         MsgBoxAssert("Level is nullptr => GameEngine Loop Error");
     }
+    //Level, Actor, Renderer가 호출되기전에 인풋 업데이트를 돌려준다
+    GameEngineInput::GetInst()->Update();
 
     // 레벨수준 시간제한이 있는 게임이라면
     //매 프레임마다 시간을 체크해야하는데 그런일들을 함
@@ -100,10 +111,14 @@ void GameEngine::EngineEnd()
         }
         delete StartIter->second;
     }
-    //이미지 삭제
-    GameEngineImageManager::Destroy();\
-    //윈도우 삭제
+    //이미지매니저 싱글톤 삭제
+    GameEngineImageManager::Destroy();
+    //윈도우 싱글톤 삭제
     GameEngineWindow::Destroy();
+    //인풋 싱글톤 삭제
+    GameEngineInput::Destroy();
+    //타임 싱글톤 삭제
+    GameEngineTime::Destroy();
 }
 
 void GameEngine::ChangeLevel(const std::string _Name)

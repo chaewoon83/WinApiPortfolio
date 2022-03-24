@@ -51,6 +51,7 @@
     <ClInclude Include="GameEngineTime.h">
       <Filter>Platform</Filter>
     </ClInclude>
+    <ClInclude Include="GameEngineInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineWindow.cpp">
@@ -80,5 +81,6 @@
     <ClCompile Include="GameEngineTime.cpp">
       <Filter>Platform</Filter>
     </ClCompile>
+    <ClCompile Include="GameEngineInput.cpp" />
   </ItemGroup>
 </Project>

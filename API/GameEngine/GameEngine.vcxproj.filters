@@ -26,7 +26,6 @@
     <ClInclude Include="GameEngineActorSubObject.h">
       <Filter>Object\Actor\SubObject</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngine.cpp" />
@@ -51,7 +50,6 @@
     <ClCompile Include="GameEngineActorSubObject.cpp">
       <Filter>Object\Actor\SubObject</Filter>
     </ClCompile>
-    <ClCompile Include="GameEngineInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Object">
