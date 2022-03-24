@@ -86,8 +86,10 @@
     <ClInclude Include="UIHeart.h">
       <Filter>Play\Global</Filter>
     </ClInclude>
-    <ClInclude Include="UI Number.h" />
     <ClInclude Include="UINumbers.h">
+      <Filter>Play\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1_1.h">
       <Filter>Play\Global</Filter>
     </ClInclude>
   </ItemGroup>
@@ -177,8 +179,10 @@
     <ClCompile Include="UIHeart.cpp">
       <Filter>Play\Global</Filter>
     </ClCompile>
-    <ClCompile Include="UI Number.cpp" />
     <ClCompile Include="UINumbers.cpp">
+      <Filter>Play\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1_1.cpp">
       <Filter>Play\Global</Filter>
     </ClCompile>
   </ItemGroup>

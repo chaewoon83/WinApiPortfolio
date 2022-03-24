@@ -11,10 +11,17 @@ UIMagicMeter::~UIMagicMeter()
 {
 }
 
+//총 높이 128, 한칸의 높이 8
+//16개까지 쌓고 시작한다
+
 void UIMagicMeter::Start()
 {
-	SetPosition({200, 100});
-	SetScale({ 50, 100 });
+	SetPosition({ 112, 216});
+	SetScale({ 32, 8 });
+	for (float i = 0; i < 16; i++)
+	{
+		CreateRenderer("UIMagicMeter.bmp", RenderPivot::CENTER, { 0, -i*8 });
+	}
 }
  
 void UIMagicMeter::Update()
@@ -23,6 +30,6 @@ void UIMagicMeter::Update()
 }
 void UIMagicMeter::Render()
 {
-	DebugRectRender();
+	//DebugRectRender();
 
 }

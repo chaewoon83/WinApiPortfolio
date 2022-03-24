@@ -17,7 +17,7 @@ GlobalPlay
 		Bow shoot
 		Bomb drop
 	GlobalUI
-	-UI Layout V
+	-UI Layout V (0,0) 
 	-Hearts
 	-UISelected Item V
 	-Magic Meter (Green Mp bar) V

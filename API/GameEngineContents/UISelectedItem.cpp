@@ -13,8 +13,9 @@ UISelectedItem::~UISelectedItem()
 
 void UISelectedItem::Start()
 {
-	SetPosition({300, 100});
-	SetScale({ 100,100 });
+	//크기는 64x64, 위치는 192, 124다
+	SetPosition({192, 124});
+	SetScale({64, 64});
 }
  
 void UISelectedItem::Update()
@@ -23,6 +24,6 @@ void UISelectedItem::Update()
 }
 void UISelectedItem::Render()
 {
-	DebugRectRender();
+	//DebugRectRender();
 
 }

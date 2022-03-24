@@ -17,8 +17,9 @@ void PlayerLink::Start()
 {
 	SetPosition(GameEngineWindow::GetScale().Half());
 	SetScale({ 200, 200 });
-	CreateRenderer("Idle.bmp");
-	CreateRenderer("HPBAR.bmp", RenderPivot::CENTER, {0, -100});
+	//아래부터 넣은 렌더러들이 맨 위부터 나온다
+	CreateRenderer("LinkStandStill.bmp");
+	//CreateRendererToScale("HPBAR.bmp", float4(100.0f, 20.0f), RenderPivot::CENTER, {0, -100});
 }
  
 void PlayerLink::Update()
