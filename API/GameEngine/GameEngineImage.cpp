@@ -166,7 +166,7 @@ void GameEngineImage::BitCopy(GameEngineImage* _Other, const float4& _CopyPos, c
 //이미지 크기를 늘였다 줄였다 할 수 있지만 리소스를 먹기때문에 렉을 유발할 수 있다
 void GameEngineImage::TransCopyCenterScale(GameEngineImage* _Other, const float4& _CopyPos, const float4& _RenderScale, unsigned int _TransColor)
 {
-	TransCopy(_Other, _CopyPos - _Other->GetScale().Half(), _RenderScale, { 0, 0 }, _Other->GetScale(), _TransColor);
+	TransCopy(_Other, _CopyPos - _RenderScale.Half(), _RenderScale, { 0, 0 }, _Other->GetScale(), _TransColor);
 }
 
 void GameEngineImage::TransCopyCenter(GameEngineImage* _Other, const float4& _CopyPos, unsigned int _TransColor)

@@ -1,6 +1,7 @@
 #include "GameEngineImageManager.h"
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngineBase/GameEngineString.h>
+#include <GameEngineBase/GameEnginePath.h>
 
 
 GameEngineImageManager* GameEngineImageManager::Inst_ = new GameEngineImageManager();
@@ -30,7 +31,7 @@ GameEngineImage* GameEngineImageManager::Find(const std::string& _Name)
 	std::map<std::string, GameEngineImage*>::iterator FindIter = AllRes.find(EngineName);
 	if (AllRes.end() == FindIter)
 	{
-		MsgBoxAssert("이미 존재하는 이름의 이미지를 또 만드려고 했습니다");
+		MsgBoxAssert("이미지를 찾을 수 없습니다");
 		return nullptr;
 	}
 
@@ -86,11 +87,10 @@ GameEngineImage* GameEngineImageManager::Create(const std::string& _Name, const 
 }
 
 GameEngineImage* GameEngineImageManager::Load(const std::string& _Path)
-{
-	//무시
-	//Create();
-	//이름이 없으면 로드를 할 수 없다
-	return nullptr;
+{ 
+	GameEnginePath NewPath = GameEnginePath(_Path);
+	std::string FileName = NewPath.GetFileName();
+	return Load(_Path, NewPath.GetFileName());
 }
 
 GameEngineImage* GameEngineImageManager::Load(const std::string& _Path,const std::string& _Name)
