@@ -93,6 +93,7 @@ void GameEngine::EngineLoop()
     CurrentLevel_->Update();
     CurrentLevel_->ActorUpdate();
     CurrentLevel_->ActorRender();
+    CurrentLevel_->ActorRelease();
     //백버퍼의 이미지를 윈도우메인 이미지로 copy한다
     WindowMainImage_->BitCopy(BackBufferImage_);
 }
@@ -111,6 +112,7 @@ void GameEngine::EngineEnd()
         }
         delete StartIter->second;
     }
+    //내가 원하는 순서대로 지울 수 있게 Destroy 함수를 따로 만들었다
     //이미지매니저 싱글톤 삭제
     GameEngineImageManager::Destroy();
     //윈도우 싱글톤 삭제

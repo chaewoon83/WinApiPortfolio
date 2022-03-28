@@ -15,11 +15,11 @@ PlayLevel::~PlayLevel()
 
 void PlayLevel::Loading()
 {
-	CreateActor<Map1_1>("Map1_1", 0);
-	CreateActor<UILayout>("UILayout", 1);
-	CreateActor<UIMagicMeter>("UIMagicMeter", 2);
-	CreateActor<UISelectedItem>("UISelectedItem", 2);
-	CreateActor<PlayerLink>("PlayerLink", 3);
+	CreateActor<Map1_1>((int)Order::BACKGROUND);
+	CreateActor<PlayerLink>((int)Order::PLAYER);
+	CreateActor<UILayout>((int)Order::UI);
+	CreateActor<UIMagicMeter>((int)Order::UI);
+	CreateActor<UISelectedItem>((int)Order::UI);
 }
 
 void PlayLevel::Update()

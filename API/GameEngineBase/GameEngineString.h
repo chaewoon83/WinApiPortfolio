@@ -10,7 +10,7 @@ public:
 	{
 		for (size_t i = 0; i < _Text.size(); i++)
 		{
-			std::toupper(_Text[i]);
+			_Text[i] = std::toupper(_Text[i]);
 		}
 	}
 
@@ -19,7 +19,7 @@ public:
 		std::string NewText = _Text;
 		for (size_t i = 0; i < NewText.size(); i++)
 		{
-			std::toupper(NewText[i]);
+			NewText[i] = std::toupper(NewText[i]);
 		}
 		return NewText;
 	}

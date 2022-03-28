@@ -147,6 +147,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Boomerang.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="BossArmomsKnight.h">
       <SubType>
       </SubType>
@@ -285,6 +289,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Boomerang.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="BossArmomsKnight.cpp">
       <SubType>
       </SubType>

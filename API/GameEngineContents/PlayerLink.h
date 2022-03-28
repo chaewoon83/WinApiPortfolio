@@ -15,6 +15,7 @@ public:
 	PlayerLink& operator=(PlayerLink&& _Other) noexcept = delete;
 
 protected:
+	float Speed_;
 	void Start() override;
 	void Update() override;
 	void Render() override;

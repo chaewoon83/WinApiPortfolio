@@ -15,6 +15,14 @@ public:
 	PlayLevel& operator=(const PlayLevel& _Other) = delete;
 	PlayLevel& operator=(PlayLevel&& _Other) noexcept = delete;
 
+	enum class Order
+	{
+		BACKGROUND,
+		MONSTER,
+		PLAYER,
+		UI
+	};
+
 protected:
 	void Loading() override;
 	void Update() override;

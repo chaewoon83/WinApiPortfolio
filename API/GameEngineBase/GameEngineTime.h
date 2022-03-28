@@ -23,9 +23,14 @@ public:
 	void Reset();
 	void Update();
 
-	inline float GetDeltaTime()
+	//Inst_->DeltaTime_을 리턴 함으로서, static 으로 리턴할 수 있게 된다
+	//GameEngineTime::GetInst()->GetDeltaTime()이런식으로 길게 안쓰고
+	//GameEngineTime::GetDeltaTime() 이렇게 짧게 쓸 수 있게 된다
+	//무조건 Inst_를 할당하기때문에 nullcheck를 하지 않는다
+
+	static inline float GetDeltaTime()
 	{
-		return DeltaTime_;
+		return Inst_->DeltaTime_;
 	}
 protected:
 

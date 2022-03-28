@@ -15,8 +15,8 @@ TitleLevel::~TitleLevel()
 void TitleLevel::Loading()
 {
 	//??
-	CreateActor<TitleLogo>("TitleLogo", 1);
-	CreateActor<TitleBackGround>("TitleBackGround", 0);
+	CreateActor<TitleLogo>(1);
+	CreateActor<TitleBackGround>(0);
 }
 
 void TitleLevel::Update()

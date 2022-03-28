@@ -101,6 +101,9 @@
     <ClInclude Include="PlayMapB1F.h">
       <Filter>Level</Filter>
     </ClInclude>
+    <ClInclude Include="Boomerang.h">
+      <Filter>Play\Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -202,6 +205,9 @@
     </ClCompile>
     <ClCompile Include="PlayMapB1F.cpp">
       <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Boomerang.cpp">
+      <Filter>Play\Global</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

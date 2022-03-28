@@ -5,9 +5,14 @@
 #include <GameEngine/GameEngineImageManager.h>
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
+#include "PlayLevel.h"
+
+#include <GameEngine/GameEngineLevel.h>
+#include "Boomerang.h"
 
 
 PlayerLink::PlayerLink() 
+	:Speed_(200.0f)
 {
 }
 
@@ -18,7 +23,7 @@ PlayerLink::~PlayerLink()
 void PlayerLink::Start()
 {
 	SetPosition(GameEngineWindow::GetScale().Half());
-	SetScale({ 200, 200 });
+	SetScale({ 300, 300 });
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다
 	CreateRenderer("LinkStandStill.bmp");
 	//CreateRendererToScale("HPBAR.bmp", float4(100.0f, 20.0f), RenderPivot::CENTER, {0, -100});
@@ -29,6 +34,7 @@ void PlayerLink::Start()
 		GameEngineInput::GetInst()->CreateKey("MoveRight", 'D');
 		GameEngineInput::GetInst()->CreateKey("MoveUp", 'W');
 		GameEngineInput::GetInst()->CreateKey("MoveDown", 'S');
+		GameEngineInput::GetInst()->CreateKey("Fire", 'K');
 		GameEngineInput::GetInst()->CreateKey("Attack", VK_SPACE);
 		GameEngineInput::GetInst()->CreateKey("InterAct", VK_LSHIFT);
 	}
@@ -41,19 +47,25 @@ void PlayerLink::Update()
 	//내가 키를 누르고있다면 움직이기
 	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
 	{
-		SetMove(float4::LEFT /** GameEngineTime::GetInst()->GetDeltaTime()*/);
+		SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * Speed_);
 	}
-		if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+	if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
 	{
-		SetMove(float4::RIGHT);
+		SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * Speed_);
 	}
-		if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
 	{
-		SetMove(float4::UP);
+		SetMove(float4::UP * GameEngineTime::GetDeltaTime() * Speed_);
 	}
-		if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+	if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
 	{
-		SetMove(float4::DOWN);
+		SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * Speed_);
+	}
+	if (true == GameEngineInput::GetInst()->IsDown("Fire"))
+	{
+		Boomerang* Ptr = GetLevel()->CreateActor<Boomerang>((int)PlayLevel::Order::PLAYER);
+		Ptr->SetPosition(GetPosition());
+
 	}
 
 }

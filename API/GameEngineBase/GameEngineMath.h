@@ -99,6 +99,12 @@ public:
 		return *this;
 	}
 
+	float4 operator*(const float _Value) const
+	{
+		return { x * _Value, y * _Value, z * _Value, 1.0f };
+	}
+
+
 public:
 	float4()
 		:x(0.0f), y(0.0f), z(0.0f), w(1.0f)

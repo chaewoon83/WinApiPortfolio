@@ -19,7 +19,7 @@ void GameEngineTime::Reset()
 	//QueryPerformanceCounter 안에 포인터인데 const가 안붙어있다 -> 넣은 인자값을 바꿔준다
 	QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&PrevCount_));
 	QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&CurrentCount_));
-	QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&SecondCount_));
+	QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&SecondCount_));
 	Update();
 }
 
@@ -27,7 +27,7 @@ void GameEngineTime::Update()
 {
 	QueryPerformanceCounter(reinterpret_cast<LARGE_INTEGER*>(&CurrentCount_));
 
-	RealDeltaTime_ = (static_cast<double>(CurrentCount_) - static_cast<double>(PrevCount)) / static_cast<double>(SecondCount_);
+	RealDeltaTime_ = (static_cast<double>(CurrentCount_) - static_cast<double>(PrevCount_)) / static_cast<double>(SecondCount_);
 	PrevCount_ = CurrentCount_;
 	DeltaTime_ = static_cast<float>(RealDeltaTime_);
 }

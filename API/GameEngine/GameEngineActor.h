@@ -1,13 +1,15 @@
 #pragma once
 #include <GameEngineBase/GameEngineNameObject.h>
+#include <GameEngineBase/GameEngineUpdateObject.h>
 #include <GameEngineBase/GameEngineMath.h>
 #include "GameEngineEnum.h"
 #include <list>
 
 class GameEngineLevel;
 class GameEngineRenderer;
-// 설명 :
-class GameEngineActor : public GameEngineNameObject
+//다중상속은 위험하다, 이름이 겹칠 수 있기때문.
+//메모리는 순서대로간다
+class GameEngineActor : public GameEngineNameObject, public GameEngineUpdateObject
 {
 ///////////////////////////////////////////////////////////////Actor Options
 public:
@@ -24,6 +26,11 @@ public:
 	GameEngineActor(GameEngineActor&& _Other) noexcept = delete;
 	GameEngineActor& operator=(const GameEngineActor& _Other) = delete;
 	GameEngineActor& operator=(GameEngineActor&& _Other) noexcept = delete;
+
+	inline GameEngineLevel* GetLevel()
+	{
+		return Level_;
+	}
 
 	inline float4 GetPosition()
 	{

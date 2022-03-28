@@ -52,6 +52,9 @@
       <Filter>Platform</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineInput.h" />
+    <ClInclude Include="GameEngineUpdateObject.h">
+      <Filter>Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameEngineWindow.cpp">
@@ -82,5 +85,8 @@
       <Filter>Platform</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineInput.cpp" />
+    <ClCompile Include="GameEngineUpdateObject.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
