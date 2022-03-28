@@ -7,15 +7,41 @@
 Zelda Link to the Past
 East Plaace
 
-Global
+Play1F
+
+BackGround
+	Door Animation
+	Pot Replacement
+	
 
 GlobalPlay
 
 	Link
+		-Function
+		Damaged
+			
+		Sword Attack
+			Attack
+		Charge Attack
+			Attack
+			Twinkle Effect(when charged)
+				follows the end of the Sword (Exactly End of the Link's Image)
+		Bow shoot
+			Create Arrow
+			Arrow
+				Attack
+		Bomb drop
+		Pick Pot
+			BackGround Pot Replacement
+		Toss Pot
+			Attack
+		-Animation
 		Sword Attack
 		Charge Attack
 		Bow shoot
 		Bomb drop
+		Pick Pot
+		Toss Pot
 	GlobalUI
 	-UI Layout V (0,0) 
 	-Hearts
@@ -24,6 +50,7 @@ GlobalPlay
 	-UI Numbers
 	Items
 	-Bomb V
+		Damage
 	-Green Rupee V
 	-Blue Rupee V
 	-Red Rupee V
@@ -31,22 +58,57 @@ GlobalPlay
 	-Magic Jar Large  V
 	-Recovery Heart V
 	-Fariy V
+
 	Enemies
 	-Popo V
+		animation
+		Function
+			Attack
+			Damaged
+			Move
 	-Ball V
+		animation
+		Function
+			Damaged
+			Move
 	-Gargantuan Ball V
+		animation
+		Function
+			Damaged
+			Move
 	-Blue Stalfos (Blue Skeleton) V
+		animation
+		Function
+			Damaged
+			Attack
+			Move
+			Jump
 	-Stalfos V
+		animation
+		Function
+		Function
+			Damaged
+			Attack
+			Move
+			Jump
 	-AntiFairy V
+		animation
+		Function
+			Damaged
+			Attack
+			Move
 	-Bubble Group (AntiFairy Group) V
+		animation
+		Function
 	-Green Eyegore V
+		animation
+		Function
 	-Red Eyegore V
+		animation
+		Function
 	-Armoms Knight V
+		animation
+		Function
 
 Intro
 MainMenu
-
-Dungeon 1-1
-Dungeon 1-2
-Dungeon 1-3
-Dungeon 1-4
