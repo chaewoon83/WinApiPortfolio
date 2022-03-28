@@ -2,6 +2,7 @@
 #include <GameEngineBase/GameEngineNameObject.h>
 #include <GameEngineBase/GameEngineMath.h>
 #include <Windows.h>
+#include <vector>
 
 // Ό³Έν :
 class GameEngineImage : public GameEngineNameObject
@@ -48,7 +49,7 @@ public:
 	//void TransCopyCenterPivot(GameEngineImage* _Other, const float4& _CopyPos, const float4& _CopyPivot);
 	//void TransCopyBot(GameEngineImage* _Other, const float4& _CopyPos);
 	//void TransCopyBotPivot(GameEngineImage* _Other, const float4& _CopyPos, const float4& _CopyPivot);
-
+	void TransCopyCenterScaleAndPos(GameEngineImage* _Other, const float4& _CopyPos, const float4& _RenderPivot, const float4& _RenderScale, unsigned int _TransColor);
 	void TransCopyCenterScale(GameEngineImage* _Other, const float4& _CopyPos, const float4& _RenderScale, unsigned int _TransColor);
 	void TransCopyCenter(GameEngineImage* _Other, const float4& _CopyPos, unsigned int _TransColor);
 
@@ -56,6 +57,22 @@ public:
 		const float4& _CopyScale,
 		const float4& _OtherPivot, const float4& _OtherScale, unsigned int _TransColor);
 
+	void Cut(const float4& _CutSize);
+
+	float4 GetCutPivot(size_t _Index)
+	{
+		return CutPivot_[_Index];
+	}
+
+	inline float4 GetCutSize()
+	{
+		return CutSize_;
+	}
+
+	inline bool IsCut()
+	{
+		return 0 != CutPivot_.size();
+	}
 protected:
 
 
@@ -64,6 +81,9 @@ private:
 	HBITMAP BitMap_;
 	HBITMAP OldBitMap_;
 	BITMAP Info_;
+
+	std::vector<float4> CutPivot_;
+	float4 CutSize_;
 
 	void ImageScaleCheck();
 };

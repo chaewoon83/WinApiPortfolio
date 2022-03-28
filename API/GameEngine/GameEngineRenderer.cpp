@@ -11,6 +11,8 @@ GameEngineRenderer::GameEngineRenderer()
 	, ScaleMode_(RenderScaleMode::Image)
 	, TransColor_(RGB(255, 0, 255))
 	//11111111 00000000 11111111 의 색을 만들어 낸것이다 (unsigned int 가 RBGA를 표현한다)
+	, RenderImagePivot_({0, 0})
+
 {
 }
 
@@ -27,6 +29,7 @@ void GameEngineRenderer::SetImageScale()
 	}
 	ScaleMode_ = RenderScaleMode::Image;
 	RenderScale_ = Image_->GetScale();
+	RenderImageScale_ = Image_->GetScale();
 }
 
 void GameEngineRenderer::SetImage(const std::string& _Name)
@@ -53,7 +56,9 @@ void GameEngineRenderer::Render()
 	switch (PivotType_)
 	{
 	case RenderPivot::CENTER:
-		GameEngine::BackBufferImage()->TransCopyCenterScale(Image_, RenderPos, RenderScale_, TransColor_);
+		//void GameEngineImage::TransCopy(GameEngineImage * _Other, const float4 & _CopyPos, const float4 & _CopyScale
+		//	, const float4 & _OtherPivot, const float4 & _OtherScale, unsigned int _TransColor)
+		GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - RenderScale_.Half(), RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
 		break;
 	case RenderPivot::BOT:
 		//GameEngine::BackBufferImage()->BitCopyCenter(Image_, RenderPos);
@@ -62,4 +67,16 @@ void GameEngineRenderer::Render()
 		break;
 	}
 	//GameEngine::BackBufferImage()->BitCopyBot(Image_, GetActor()->GetPosition());
+}
+
+void GameEngineRenderer::SetIndex(size_t _Index)
+{
+	if (false == Image_->IsCut())
+	{
+		MsgBoxAssert("이미지가 부분적으로 사용할 수 있게 잘려있지 않은 이미지입니다");
+		return;
+	}
+	RenderImagePivot_ = Image_->GetCutPivot(_Index);
+	RenderImageScale_ = Image_->GetCutSize();
+	RenderScale_ = Image_->GetCutSize();
 }

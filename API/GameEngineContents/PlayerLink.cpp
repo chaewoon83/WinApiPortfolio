@@ -6,6 +6,7 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
 #include "PlayLevel.h"
+#include <GameEngine/GameEngineRenderer.h>
 
 #include <GameEngine/GameEngineLevel.h>
 #include "Boomerang.h"
@@ -24,8 +25,11 @@ void PlayerLink::Start()
 {
 	SetPosition(GameEngineWindow::GetScale().Half());
 	SetScale({ 300, 300 });
+	GameEngineRenderer* Render = CreateRenderer("Right_Beam_Kirby.bmp");
+	Render->SetIndex(10);
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다
-	CreateRenderer("LinkStandStill.bmp");
+	//CreateRenderer("LinkStandStill.bmp");
+
 	//CreateRendererToScale("HPBAR.bmp", float4(100.0f, 20.0f), RenderPivot::CENTER, {0, -100});
 	if (false == GameEngineInput::GetInst()->IsKey("MoveLeft"))
 	{

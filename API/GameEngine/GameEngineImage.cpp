@@ -164,15 +164,6 @@ void GameEngineImage::BitCopy(GameEngineImage* _Other, const float4& _CopyPos, c
 ////////////////////////////////////////////////////////////////////////////TransBlt
 
 //이미지 크기를 늘였다 줄였다 할 수 있지만 리소스를 먹기때문에 렉을 유발할 수 있다
-void GameEngineImage::TransCopyCenterScale(GameEngineImage* _Other, const float4& _CopyPos, const float4& _RenderScale, unsigned int _TransColor)
-{
-	TransCopy(_Other, _CopyPos - _RenderScale.Half(), _RenderScale, { 0, 0 }, _Other->GetScale(), _TransColor);
-}
-
-void GameEngineImage::TransCopyCenter(GameEngineImage* _Other, const float4& _CopyPos, unsigned int _TransColor)
-{
-	TransCopy(_Other, _CopyPos - _Other->GetScale().Half(), _Other->GetScale(), { 0, 0 }, _Other->GetScale(), _TransColor);
-}
 
 void GameEngineImage::TransCopy(GameEngineImage* _Other, const float4& _CopyPos, const float4& _CopyScale
 	, const float4& _OtherPivot, const float4& _OtherScale, unsigned int _TransColor)
@@ -192,5 +183,30 @@ void GameEngineImage::TransCopy(GameEngineImage* _Other, const float4& _CopyPos,
 		_OtherScale.iy(), //복사 하려는 대상의 y 크기
 		_TransColor // 투명화할 색깔 
 	);
+}
+
+void GameEngineImage::Cut(const float4& _CutSize)
+{
+	if (0 != (GetScale().ix() % _CutSize.ix()))
+	{
+		MsgBoxAssert("이미지를 자를 수 있는 수치가 딱 맞아 떨어지지 않습니다")
+	}
+	if (0 != (GetScale().iy() % _CutSize.iy()))
+	{
+		MsgBoxAssert("이미지를 자를 수 있는 수치가 딱 맞아 떨어지지 않습니다")
+	}
+	CutSize_ = _CutSize;
+	int XCount = GetScale().ix() / _CutSize.ix();
+	int YCount = GetScale().iy() / _CutSize.iy();
+
+	// { (0,0), (0,128), (0,256), (128,0) , .....} 이미지를 자르기위한 좌표를 만드는 for문이다
+	for (int y = 0; y < YCount; y++)
+	{
+		for (int x = 0; x < XCount; x++)
+		{
+			CutPivot_.push_back({static_cast<float>( x * _CutSize.ix()), static_cast<float>(y * _CutSize.iy())});
+		}
+	}
+
 }
 
