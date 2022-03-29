@@ -50,7 +50,7 @@ public:
 
 	void SetImage(const std::string& _Name);
 	void Render();
-	void SetIndex(size_t Index);
+	void SetIndex(size_t Index, float4 _Scale = {-1.0f, -1.0f});
 
 protected:
 

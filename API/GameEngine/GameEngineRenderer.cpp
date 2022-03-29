@@ -41,6 +41,7 @@ void GameEngineRenderer::SetImage(const std::string& _Name)
 		return;
 	}
 	Image_ = FindImage;
+	SetImageScale();
 }
 
 void GameEngineRenderer::Render()
@@ -69,7 +70,7 @@ void GameEngineRenderer::Render()
 	//GameEngine::BackBufferImage()->BitCopyBot(Image_, GetActor()->GetPosition());
 }
 
-void GameEngineRenderer::SetIndex(size_t _Index)
+void GameEngineRenderer::SetIndex(size_t _Index, float4 _Scale)
 {
 	if (false == Image_->IsCut())
 	{
@@ -77,6 +78,14 @@ void GameEngineRenderer::SetIndex(size_t _Index)
 		return;
 	}
 	RenderImagePivot_ = Image_->GetCutPivot(_Index);
-	RenderImageScale_ = Image_->GetCutSize();
-	RenderScale_ = Image_->GetCutSize();
+	if (-1.0f == _Scale.x ||
+		-1.0f == _Scale.y)
+	{
+		RenderScale_ = Image_->GetCutScale(_Index);
+	}
+	else
+	{
+		RenderScale_ = _Scale;
+	}
+	RenderImageScale_ = Image_->GetCutScale(_Index);
 }

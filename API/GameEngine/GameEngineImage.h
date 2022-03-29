@@ -64,15 +64,25 @@ public:
 		return CutPivot_[_Index];
 	}
 
-	inline float4 GetCutSize()
+	inline float4 GetCutScale(size_t _Index)
 	{
-		return CutSize_;
+		return CutScale_[_Index];
 	}
 
 	inline bool IsCut()
 	{
 		return 0 != CutPivot_.size();
 	}
+	//다른크기로 잘라야 할 때가 있기때문에 _CutScale 과 _CutPivot에 백터로 하나하나의 컷의 사이즈를 넣어준다
+	void Cut(const float4& _CutScale, const float4& _CutPos)
+	{
+		CutPivot_.push_back(_CutPos);
+		CutScale_.push_back(_CutScale);
+	}
+
+
+
+
 protected:
 
 
@@ -83,6 +93,8 @@ private:
 	BITMAP Info_;
 
 	std::vector<float4> CutPivot_;
+	//다른크기로 잘라야 할 때가 있기때문에 백터로 하나하나의 컷의 사이즈를 저장한다
+	std::vector<float4> CutScale_;
 	float4 CutSize_;
 
 	void ImageScaleCheck();

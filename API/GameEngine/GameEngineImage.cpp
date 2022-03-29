@@ -195,7 +195,7 @@ void GameEngineImage::Cut(const float4& _CutSize)
 	{
 		MsgBoxAssert("이미지를 자를 수 있는 수치가 딱 맞아 떨어지지 않습니다")
 	}
-	CutSize_ = _CutSize;
+
 	int XCount = GetScale().ix() / _CutSize.ix();
 	int YCount = GetScale().iy() / _CutSize.iy();
 
@@ -205,6 +205,7 @@ void GameEngineImage::Cut(const float4& _CutSize)
 		for (int x = 0; x < XCount; x++)
 		{
 			CutPivot_.push_back({static_cast<float>( x * _CutSize.ix()), static_cast<float>(y * _CutSize.iy())});
+			CutScale_.push_back(_CutSize);
 		}
 	}
 
