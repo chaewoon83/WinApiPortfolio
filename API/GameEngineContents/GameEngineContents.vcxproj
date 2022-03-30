@@ -195,6 +195,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="GameEngineContentsEnum.h" />
     <ClInclude Include="ItemBlueRupee.h">
       <SubType>
       </SubType>

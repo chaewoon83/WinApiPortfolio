@@ -80,6 +80,9 @@ void GameEngine::EngineLoop()
 
         //레벨 로딩이 끝난 다음에 타임을 리셋 시켜준다
         GameEngineTime::GetInst()->Reset();
+
+        Rectangle(WindowMainImage_->ImageDC(), 0, 0, WindowMainImage_->GetScale().ix(), WindowMainImage_->GetScale().iy());
+        Rectangle(BackBufferImage_->ImageDC(), 0, 0, BackBufferImage_->GetScale().ix(), BackBufferImage_->GetScale().iy());
     }
     if (nullptr == CurrentLevel_)
     {

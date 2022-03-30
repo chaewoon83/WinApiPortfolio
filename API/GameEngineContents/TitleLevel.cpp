@@ -2,6 +2,7 @@
 #include "GameEngine/GameEngine.h"
 #include "TitleLogo.h"
 #include "TitleBackGround.h"
+#include <GameEngineBase/GameEngineInput.h>
 
 
 TitleLevel::TitleLevel() 
@@ -21,5 +22,10 @@ void TitleLevel::Loading()
 
 void TitleLevel::Update()
 {
-	// GameEngine::GlobalEngine().ChangeLevel("Play");
+	int a = 0;
+	if (true == GameEngineInput::GetInst()->IsPress("LevelChange"))
+	{
+		GameEngine::GlobalEngine().ChangeLevel("PlayLevel");
+	}
+
 }

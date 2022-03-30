@@ -5,7 +5,7 @@
 #include <GameEngine/GameEngineImageManager.h>
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
-#include "PlayLevel.h"
+#include "GameEngineContentsEnum.h"
 #include <GameEngine/GameEngineRenderer.h>
 
 #include <GameEngine/GameEngineLevel.h>
@@ -66,7 +66,7 @@ void PlayerLink::Update()
 	}
 	if (true == GameEngineInput::GetInst()->IsDown("Fire"))
 	{
-		Boomerang* Ptr = GetLevel()->CreateActor<Boomerang>((int)PlayLevel::Order::PLAYER);
+		Boomerang* Ptr = GetLevel()->CreateActor<Boomerang>((int)PlayLevelOrder::PLAYER);
 		Ptr->SetPosition(GetPosition());
 
 	}

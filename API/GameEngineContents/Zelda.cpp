@@ -6,6 +6,7 @@
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineFile.h>
+#include <GameEngineBase/GameEngineinput.h>
 #include <GameEngine/GameEngineImageManager.h>
 
 Zelda::Zelda()
@@ -23,20 +24,37 @@ void Zelda::GameInit()
 	GameEngineDirectory ResourcesDir;
 	ResourcesDir.MoveParent("API");
 	ResourcesDir.Move("Resources");
-	ResourcesDir.Move("Image");
+	ResourcesDir.Move("image");
 
 	std::vector<GameEngineFile> AllImageFileList = ResourcesDir.GetAllFile(".bmp");
 	for (size_t i = 0; i < AllImageFileList.size(); i++)
 	{
 		GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
 	}
+
 	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Right_Beam_Kirby.bmp");
 	Image->Cut({ 128, 128 });
+
+	ResourcesDir.Move("Title");
+	AllImageFileList = ResourcesDir.GetAllFile(".bmp");
+
+	for (size_t i = 0; i < AllImageFileList.size(); i++)
+	{
+		GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
+	}
+
+	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
+	{
+		GameEngineInput::GetInst()->CreateKey("LevelChange", '0');
+	}
+
 	CreateLevel<TitleLevel>("TitleLevel");
 	CreateLevel<PlayLevel>("PlayLevel");
 	CreateLevel<MapLevel>("MapLevel");
 	CreateLevel<EndLevel>("EndLevel");
-	ChangeLevel("PlayLevel"); 
+	ChangeLevel("TitleLevel"); 
+
+
 }
 void Zelda::GameLoop()
 {
