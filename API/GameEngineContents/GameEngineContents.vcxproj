@@ -224,7 +224,7 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="Map1_1.h">
+    <ClInclude Include="Map1F.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -233,10 +233,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayerLink.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="PlayLevel.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -366,7 +362,7 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="Map1_1.cpp">
+    <ClCompile Include="Map1F.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -375,10 +371,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayerLink.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="PlayLevel.cpp">
       <SubType>
       </SubType>
     </ClCompile>

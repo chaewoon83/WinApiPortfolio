@@ -2,9 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="Zelda.h" />
-    <ClInclude Include="PlayLevel.h">
-      <Filter>Level</Filter>
-    </ClInclude>
     <ClInclude Include="TitleLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -89,9 +86,6 @@
     <ClInclude Include="UINumbers.h">
       <Filter>Play\Global</Filter>
     </ClInclude>
-    <ClInclude Include="Map1_1.h">
-      <Filter>Play\Global</Filter>
-    </ClInclude>
     <ClInclude Include="PlayMap1F.h">
       <Filter>Level</Filter>
     </ClInclude>
@@ -105,12 +99,12 @@
       <Filter>Play\Global</Filter>
     </ClInclude>
     <ClInclude Include="GameEngineContentsEnum.h" />
+    <ClInclude Include="Map1F.h">
+      <Filter>Play\Global</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
-    <ClCompile Include="PlayLevel.cpp">
-      <Filter>Level</Filter>
-    </ClCompile>
     <ClCompile Include="TitleLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
@@ -195,9 +189,6 @@
     <ClCompile Include="UINumbers.cpp">
       <Filter>Play\Global</Filter>
     </ClCompile>
-    <ClCompile Include="Map1_1.cpp">
-      <Filter>Play\Global</Filter>
-    </ClCompile>
     <ClCompile Include="PlayMap1F.cpp">
       <Filter>Level</Filter>
     </ClCompile>
@@ -208,6 +199,9 @@
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="Boomerang.cpp">
+      <Filter>Play\Global</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1F.cpp">
       <Filter>Play\Global</Filter>
     </ClCompile>
   </ItemGroup>

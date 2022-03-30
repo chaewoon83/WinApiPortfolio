@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{9D4685A4-1BF
 	ProjectSection(SolutionItems) = preProject
 		Coding Order.txt = Coding Order.txt
 		Level Design.txt = Level Design.txt
+		MapStructure.txt = MapStructure.txt
 		Object structure.txt = Object structure.txt
 		이미지.txt = 이미지.txt
 		젤다관련 정보들.txt = 젤다관련 정보들.txt
@@ -21,9 +22,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Level1", "Level1", "{000874DF-E0D2-45B7-B171-90BFBDEE4A75}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Level2", "Level2", "{4D7FE19F-6F77-43D5-B418-16FDFA376111}"
-	ProjectSection(SolutionItems) = preProject
-		GameEngine\GameEngineInput.h = GameEngine\GameEngineInput.h
-	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameApp", "GameApp\GameApp.vcxproj", "{B9900F74-EA9B-473A-BDBD-C69C50CFDDEF}"
 EndProject

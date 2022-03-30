@@ -1,8 +1,10 @@
 #include "Zelda.h"
-#include "PlayLevel.h"
 #include "EndLevel.h"
 #include "TitleLevel.h"
 #include "MapLevel.h"
+#include "PlayMapB1F.h"
+#include "PlayMap1F.h"
+#include "PlayMap2F.h"
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngineBase/GameEngineDirectory.h>
 #include <GameEngineBase/GameEngineFile.h>
@@ -24,7 +26,8 @@ void Zelda::GameInit()
 	GameEngineDirectory ResourcesDir;
 	ResourcesDir.MoveParent("API");
 	ResourcesDir.Move("Resources");
-	ResourcesDir.Move("image");
+	ResourcesDir.Move("Image");
+	ResourcesDir.Move("Link");
 
 	std::vector<GameEngineFile> AllImageFileList = ResourcesDir.GetAllFile(".bmp");
 	for (size_t i = 0; i < AllImageFileList.size(); i++)
@@ -32,9 +35,8 @@ void Zelda::GameInit()
 		GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
 	}
 
-	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Right_Beam_Kirby.bmp");
-	Image->Cut({ 128, 128 });
 
+	ResourcesDir.MoveParent("Image");
 	ResourcesDir.Move("Title");
 	AllImageFileList = ResourcesDir.GetAllFile(".bmp");
 
@@ -43,15 +45,42 @@ void Zelda::GameInit()
 		GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
 	}
 
+	ResourcesDir.MoveParent("Image");
+	ResourcesDir.Move("UI");
+	AllImageFileList = ResourcesDir.GetAllFile(".bmp");
+
+	for (size_t i = 0; i < AllImageFileList.size(); i++)
+	{
+		GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
+	}
+
+	ResourcesDir.MoveParent("Image");
+	ResourcesDir.Move("Map");
+	AllImageFileList = ResourcesDir.GetAllFile(".bmp");
+
+	for (size_t i = 0; i < AllImageFileList.size(); i++)
+	{
+		GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
+	}
+
+
+
+
+	//GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Right_Beam_Kirby.bmp");
+	//Image->Cut({ 128, 128 });
+
+
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
 	{
 		GameEngineInput::GetInst()->CreateKey("LevelChange", '0');
 	}
 
 	CreateLevel<TitleLevel>("TitleLevel");
-	CreateLevel<PlayLevel>("PlayLevel");
 	CreateLevel<MapLevel>("MapLevel");
 	CreateLevel<EndLevel>("EndLevel");
+	CreateLevel<PlayMapB1F>("PlayMapB1F");
+	CreateLevel<PlayMap1F>("PlayMap1F");
+	CreateLevel<PlayMap2F>("PlayMap2F");
 	ChangeLevel("TitleLevel"); 
 
 

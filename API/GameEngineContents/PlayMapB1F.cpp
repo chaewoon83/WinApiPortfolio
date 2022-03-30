@@ -17,3 +17,8 @@ void PlayMapB1F::Update()
 {
 
 }
+
+void PlayMapB1F::LevelChangeStart()
+{
+
+}
