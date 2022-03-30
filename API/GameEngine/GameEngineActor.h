@@ -79,6 +79,7 @@ private:
 public:
 	//디폴트 인자는 오버로딩을 하는 경우 모호함이 생길 수 있기 때문에 함수를 하나만 만든다.
 	//디폴트 인자는 선언에서만 구현 가능하다.
+	GameEngineRenderer* CreateRenderer(RenderPivot _PivotType = RenderPivot::CENTER, const float4& _PivotPos = {0,0});
 	GameEngineRenderer* CreateRenderer(const std::string& _Image, RenderPivot _PivotType = RenderPivot::CENTER, const float4& _PivotPos = {0,0});
 	GameEngineRenderer* CreateRendererToScale(const std::string& _Image, const float4& _PivotScale, RenderPivot _PivotType = RenderPivot::CENTER, 
 		const float4& _PivotPos = { 0,0 });
