@@ -1,0 +1,114 @@
+0. 리소스 git
+0. 프로젝트 git
+   을 스프레드시트에 올려서 선생님이 볼 수 있게 한다.
+
+1. 자신이 만들 컨텐츠를 정하기
+
+Zelda Link to the Past
+East Plaace
+
+Play1F
+
+BackGround
+	Door Animation
+	Pot Replacement
+	
+
+GlobalPlay
+
+	Link
+		-Function
+		Damaged
+			
+		Sword Attack
+			Attack
+		Charge Attack
+			Attack
+			Twinkle Effect(when charged)
+				follows the end of the Sword (Exactly End of the Link's Image)
+		Bow shoot
+			Create Arrow
+			Arrow
+				Attack
+		Bomb drop
+		Pick Pot
+			BackGround Pot Replacement
+		Toss Pot
+			Attack
+		-Animation
+		Sword Attack
+		Charge Attack
+		Bow shoot
+		Bomb drop
+		Pick Pot
+		Toss Pot
+	GlobalUI
+	-UI Layout V (0,0) 
+	-Hearts
+	-UISelected Item V
+	-Magic Meter (Green Mp bar) V
+	-UI Numbers
+	Items
+	-Bomb V
+		Damage
+	-Green Rupee V
+	-Blue Rupee V
+	-Red Rupee V
+	-Magic Jar Small V
+	-Magic Jar Large  V
+	-Recovery Heart V
+	-Fariy V
+
+	Enemies
+	-Popo V
+		animation
+		Function
+			Attack
+			Damaged
+			Move
+	-Ball V
+		animation
+		Function
+			Damaged
+			Move
+	-Gargantuan Ball V
+		animation
+		Function
+			Damaged
+			Move
+	-Blue Stalfos (Blue Skeleton) V
+		animation
+		Function
+			Damaged
+			Attack
+			Move
+			Jump
+	-Stalfos V
+		animation
+		Function
+		Function
+			Damaged
+			Attack
+			Move
+			Jump
+	-AntiFairy V
+		animation
+		Function
+			Damaged
+			Attack
+			Move
+	-Bubble Group (AntiFairy Group) V
+		animation
+		Function
+	-Green Eyegore V
+		animation
+		Function
+	-Red Eyegore V
+		animation
+		Function
+	-Armoms Knight V
+		animation
+		Function
+
+Intro
+MainMenu

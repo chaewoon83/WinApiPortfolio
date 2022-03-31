@@ -1,0 +1,6 @@
+1F Player  ----> Default
+1F Monster
+1F Map
+B1F Player
+B1F Monster
+B1F Map

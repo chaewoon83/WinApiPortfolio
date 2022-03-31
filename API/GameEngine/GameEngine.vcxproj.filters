@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="GameEngineLevel.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineActor.h">
+      <Filter>Object\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineImage.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineImageManager.h">
+      <Filter>Resources\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineSound.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineRenderer.h">
+      <Filter>Object\Actor\SubObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineEnum.h">
+      <Filter>Global</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEngineActorSubObject.h">
+      <Filter>Object\Actor\SubObject</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="GameEngineLevel.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineActor.cpp">
+      <Filter>Object\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineImage.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineImageManager.cpp">
+      <Filter>Resources\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineSound.cpp">
+      <Filter>Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineRenderer.cpp">
+      <Filter>Object\Actor\SubObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEngineActorSubObject.cpp">
+      <Filter>Object\Actor\SubObject</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Object">
+      <UniqueIdentifier>{abf0545e-9c08-4fe1-b972-ee7ed11d9a5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor">
+      <UniqueIdentifier>{66468f35-4250-422d-bcbf-9f74108447a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{01035c23-40f6-456b-9f3f-e246b3374b10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\Manager">
+      <UniqueIdentifier>{56018042-60dc-449f-a20e-a450551a6dcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Actor\SubObject">
+      <UniqueIdentifier>{bdb8824e-edd4-4201-8654-0a149f0c6718}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Global">
+      <UniqueIdentifier>{dc62986f-aad8-48ba-91a6-4e7cda3a6ebf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

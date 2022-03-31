@@ -74,7 +74,7 @@ void PlayerLink::Update()
 		Boomerang* Ptr = GetLevel()->CreateActor<Boomerang>((int)PlayLevelOrder::PLAYER);
 		Ptr->SetPosition(GetPosition());
 	}
-	G//ameEngineInput::GetInst()->GetTime("Fire")
+
 
 
 
