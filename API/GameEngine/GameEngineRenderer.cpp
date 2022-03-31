@@ -69,8 +69,13 @@ void GameEngineRenderer::Render()
 		GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - RenderScale_.Half(), RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
 		break;
 	case RenderPivot::BOT:
-		//GameEngine::BackBufferImage()->BitCopyCenter(Image_, RenderPos);
+	{
+		float4 Scale = RenderScale_.Half();
+		Scale.y *= 2;
+
+		GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - Scale, RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
 		break;
+	}
 	default:
 		break;
 	}

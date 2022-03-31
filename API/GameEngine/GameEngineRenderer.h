@@ -20,7 +20,7 @@ public:
 	GameEngineRenderer& operator=(const GameEngineRenderer& _Other) = delete;
 	GameEngineRenderer& operator=(GameEngineRenderer&& _Other) noexcept = delete;
 
-	inline void SetType(const RenderPivot& _Type)
+	inline void SetPivotType(const RenderPivot& _Type)
 	{
 		PivotType_ = _Type;
 	}

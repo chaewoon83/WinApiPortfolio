@@ -33,6 +33,7 @@ void PlayerLink::Start()
 	//트루면 루프
 	Render->CreateAnimation("Kirby_Walk_Right.bmp", "Walk_Right", 0, 3, 0.1f, true);
 	Render->ChangeAnimation("Walk_Right");
+	Render->SetPivotType(RenderPivot::BOT);
 
 	//CreateRendererToScale("HPBAR.bmp", float4(100.0f, 20.0f), RenderPivot::CENTER, {0, -100});
 	if (false == GameEngineInput::GetInst()->IsKey("MoveLeft"))
