@@ -5,5 +5,6 @@ enum class PlayLevelOrder
 	BACKGROUND,
 	MONSTER,
 	PLAYER,
-	UI
+	UI,
+	UILAYOUT
 };

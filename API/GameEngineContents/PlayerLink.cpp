@@ -13,7 +13,7 @@
 
 
 PlayerLink::PlayerLink() 
-	:Speed_(200.0f)
+	:Speed_(250.0f)
 {
 }
 
@@ -24,17 +24,15 @@ PlayerLink::~PlayerLink()
 void PlayerLink::Start()
 {
 	SetPosition(GameEngineWindow::GetScale().Half());
-	//GameEngineRenderer* Render = CreateRenderer("Kirby_Walk_Right.bmp");
+	//GameEngineRenderer* Render = CreateRenderer("Link_Walk_Down.bmp");
 	//Render->SetIndex(0);
+	//Render->SetIndex(10);
+	GameEngineRenderer* Render = CreateRenderer();
+	//true 면 루프 false 면 루프아님
+	Render->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.1f, true);
+	Render->ChangeAnimation("Walk_Down");
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다
 	//CreateRenderer("LinkStandStill.bmp");
-
-	GameEngineRenderer* Render = CreateRenderer("Kirby_Walk_Right.bmp");
-	//트루면 루프
-	Render->CreateAnimation("Kirby_Walk_Right.bmp", "Walk_Right", 0, 3, 0.1f, true);
-	Render->ChangeAnimation("Walk_Right");
-	Render->SetPivotType(RenderPivot::BOT);
-
 	//CreateRendererToScale("HPBAR.bmp", float4(100.0f, 20.0f), RenderPivot::CENTER, {0, -100});
 	if (false == GameEngineInput::GetInst()->IsKey("MoveLeft"))
 	{

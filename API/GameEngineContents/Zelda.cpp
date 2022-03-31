@@ -64,10 +64,9 @@ void Zelda::GameInit()
 	}
 
 
+	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Link_Walk_Down.bmp");
+	Image->CutCount(8, 1);
 
-
-	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Kirby_Walk_Right.bmp");
-	Image->CutCount(4, 1);
 
 
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
@@ -81,7 +80,7 @@ void Zelda::GameInit()
 	CreateLevel<PlayMapB1F>("PlayMapB1F");
 	CreateLevel<PlayMap1F>("PlayMap1F");
 	CreateLevel<PlayMap2F>("PlayMap2F");
-	ChangeLevel("TitleLevel"); 
+	ChangeLevel("PlayMap1F"); 
 
 
 }
