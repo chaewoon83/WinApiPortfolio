@@ -93,10 +93,12 @@ void GameEngineRenderer::SetIndex(size_t _Index, float4 _Scale)
 	if (-1.0f == _Scale.x ||
 		-1.0f == _Scale.y)
 	{
+		// 자른 이미지 크기 그대로 렌더링 화면에 띄우기
 		RenderScale_ = Image_->GetCutScale(_Index);
 	}
 	else
 	{
+		// 입력된 스케일의 이미지 크기로 렌더링 화면에 띄우기 
 		RenderScale_ = _Scale;
 	}
 	RenderImageScale_ = Image_->GetCutScale(_Index);
