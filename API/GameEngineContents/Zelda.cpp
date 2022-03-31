@@ -66,8 +66,8 @@ void Zelda::GameInit()
 
 
 
-	//GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Right_Beam_Kirby.bmp");
-	//Image->Cut({ 128, 128 });
+	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Kirby_Walk_Right.bmp");
+	Image->CutCount(4, 1);
 
 
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))

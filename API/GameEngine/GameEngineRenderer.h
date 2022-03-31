@@ -2,6 +2,7 @@
 //이미지가 없으면 렌더링을 할 수 없다
 #include "GameEngineEnum.h"
 #include "GameEngineActorSubObject.h"
+#include <map>
 //#include "GameEngineImage.h"
 // 설명 :
 class GameEngineImage;
@@ -49,12 +50,17 @@ public:
 	}
 
 	void SetImage(const std::string& _Name);
+	inline GameEngineImage* GetImage()
+	{
+		return Image_;
+	}
 	void Render();
 	void SetIndex(size_t Index, float4 _Scale = {-1.0f, -1.0f});
 
 protected:
 
 private:
+	friend class FrameAnimation;
 	//bool IsDebugMode_;
 	GameEngineImage* Image_;
 	RenderPivot PivotType_; //Center Bot etc
@@ -63,10 +69,53 @@ private:
 	
 	//실제로 그려지는 크기
 	float4 RenderScale_;
-
+	//잘리는 이미지 시작점
 	float4 RenderImagePivot_;
 	//자르는 이미지의 크기
 	float4 RenderImageScale_;
 	unsigned int TransColor_;
-};
 
+//////////////////////////////////////////////////////////////////////////////////////////////Animation
+
+private:
+	class FrameAnimation
+	{
+	public:
+		GameEngineRenderer* Renderer_;
+		GameEngineImage* Image_;
+		int CurrentFrame_;
+		int StartFrame_;
+		int EndFrame_;
+		float InterTime_;
+		float CurrentInterTime_;
+		bool Loop_;
+
+	public:
+		FrameAnimation()
+			:Image_(nullptr),
+			CurrentFrame_(-1),
+			StartFrame_(-1),
+			EndFrame_(-1),
+			InterTime_(0.1f),
+			CurrentInterTime_(0.1f),
+			Loop_(true)
+		{
+		};
+		void Update();
+		void Reset()
+		{
+			CurrentFrame_ = StartFrame_;
+			CurrentInterTime_ = InterTime_;
+		}
+	};
+
+
+public:
+	void ChangeAnimation(const std::string& _Name);
+	void CreateAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex, 
+		float _InterTime, bool _Loop = true);
+
+private:
+	std::map<std::string, FrameAnimation> Animations_;
+	FrameAnimation* CurrentAnimation_;
+};

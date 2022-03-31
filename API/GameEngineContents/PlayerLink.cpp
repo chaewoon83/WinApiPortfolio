@@ -24,10 +24,15 @@ PlayerLink::~PlayerLink()
 void PlayerLink::Start()
 {
 	SetPosition(GameEngineWindow::GetScale().Half());
-	//GameEngineRenderer* Render = CreateRenderer("Right_Beam_Kirby.bmp");
-	//Render->SetIndex(10);
+	//GameEngineRenderer* Render = CreateRenderer("Kirby_Walk_Right.bmp");
+	//Render->SetIndex(0);
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다
-	CreateRenderer("LinkStandStill.bmp");
+	//CreateRenderer("LinkStandStill.bmp");
+
+	GameEngineRenderer* Render = CreateRenderer("Kirby_Walk_Right.bmp");
+	//트루면 루프
+	Render->CreateAnimation("Kirby_Walk_Right.bmp", "Walk_Right", 0, 3, 0.1f, true);
+	Render->ChangeAnimation("Walk_Right");
 
 	//CreateRendererToScale("HPBAR.bmp", float4(100.0f, 20.0f), RenderPivot::CENTER, {0, -100});
 	if (false == GameEngineInput::GetInst()->IsKey("MoveLeft"))
