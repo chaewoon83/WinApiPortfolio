@@ -1,8 +1,0 @@
-1. Tile, Play, Ending Screens are exist (Inventory screen is optional)
-	=>GameEngineLevel
-2. Elements which takes part in GameEngineLevel 
-   (Characters, UI, Monsters, ...)
-	=>Game EngineActor
-3. Remove, Create, Control the Level
-   (Title Screen => Play Screen => Inventory Screen)
-	=> GameEngine

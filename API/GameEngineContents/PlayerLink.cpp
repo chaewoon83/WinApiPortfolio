@@ -29,7 +29,7 @@ void PlayerLink::Start()
 	//Render->SetIndex(10);
 	GameEngineRenderer* Render = CreateRenderer();
 	//true 면 루프 false 면 루프아님
-	Render->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.1f, true);
+	Render->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.035f, true);
 	Render->ChangeAnimation("Walk_Down");
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다
 	//CreateRenderer("LinkStandStill.bmp");
@@ -68,12 +68,15 @@ void PlayerLink::Update()
 	{
 		SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * Speed_);
 	}
+
 	if (true == GameEngineInput::GetInst()->IsDown("Fire"))
 	{
 		Boomerang* Ptr = GetLevel()->CreateActor<Boomerang>((int)PlayLevelOrder::PLAYER);
 		Ptr->SetPosition(GetPosition());
-
 	}
+	G//ameEngineInput::GetInst()->GetTime("Fire")
+
+
 
 }
 //렌더러가 다 돌고 액터들의 랜더함수를 호출한다
