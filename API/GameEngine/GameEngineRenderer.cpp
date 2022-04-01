@@ -2,17 +2,19 @@
 #include "GameEngineImageManager.h"
 #include <GameEngineBase/GameEngineDebug.h>
 #include "GameEngine.h"
+#include "GameEngineLevel.h"
 #include <GameEngineBase/GameEngineTime.h>
 
 #pragma comment(lib, "msimg32.lib")
 
-GameEngineRenderer::GameEngineRenderer() 
+GameEngineRenderer::GameEngineRenderer()
 	: Image_(nullptr)
 	, PivotType_(RenderPivot::CENTER)
 	, ScaleMode_(RenderScaleMode::Image)
 	, TransColor_(RGB(255, 0, 255))
 	//11111111 00000000 11111111 의 색을 만들어 낸것이다 (unsigned int 가 RBGA를 표현한다)
-	, RenderImagePivot_({0, 0})
+	, RenderImagePivot_({ 0, 0 })
+	, IsCameraEffect_(true)
 
 {
 }
@@ -60,6 +62,11 @@ void GameEngineRenderer::Render()
 	}
 
 	float4 RenderPos = GetActor()->GetPosition() + RenderPivot_;
+
+	if (true == IsCameraEffect_)
+	{
+		RenderPos -= GetActor()->GetLevel()->GetCameraPos();
+	}
 
 	switch (PivotType_)
 	{

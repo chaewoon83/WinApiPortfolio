@@ -2,6 +2,7 @@
 #include "GameEngineBase/GameEngineNameObject.h"
 #include <map>
 #include <list>
+#include <GameEngineBase/GameEngineMath.h>
 // 설명 :
 class GameEngine;
 class GameEngineActor;
@@ -37,6 +38,22 @@ public:
 		return NewActor;
 	}
 
+	inline float4 GetCameraPos()
+	{
+		return CameraPos_;
+	}
+
+	inline float4 SetCameraPos(const float4& _Value)
+	{
+		return CameraPos_ = _Value;
+	}
+
+	inline float4 MoveCameraPos(const float4& _Value)
+	{
+		return CameraPos_ += _Value;
+	}
+
+	float4 CameraPos_;
 
 protected:
 	//시점함수

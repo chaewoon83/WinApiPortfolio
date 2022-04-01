@@ -216,3 +216,8 @@ void GameEngineImage::CutCount(int _x, int _y)
 	float4 Scale = { GetScale().x / _x, GetScale().y / _y };
 	Cut(Scale);
 }
+
+int GameEngineImage::GetImagePixel(int _x, int _y)
+{
+	return GetPixel(ImageDC_, _x, _y);
+}

@@ -155,9 +155,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\</AdditionalIncludeDirectories>
+    <ClCompile Include="..\GameEngineContents\UISelectedItem.cpp">
+      <SubType>
+      </SubType>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -170,6 +170,16 @@
     <ProjectReference Include="..\GameEngine\GameEngine.vcxproj">
       <Project>{4b728b60-abfd-4f4f-8bf8-dc4ce994113d}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\GameEngineContents\UINumbers.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="..\GameEngineContents\UISelectedItem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

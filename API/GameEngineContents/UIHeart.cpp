@@ -31,6 +31,7 @@ void UIHeart::Start()
 	GameEngineRenderer* FullHeart_8 = CreateRenderer("UIFullHeart.bmp", RenderPivot::CENTER, Padding * 7);
 	GameEngineRenderer* FullHeart_9 = CreateRenderer("UIFullHeart.bmp", RenderPivot::CENTER, Padding * 8);
 	GameEngineRenderer* FullHeart_10 =  CreateRenderer("UIFullHeart.bmp", RenderPivot::CENTER, Padding * 9);
+
 }
  
 void UIHeart::Update()

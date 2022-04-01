@@ -82,7 +82,11 @@ public:
 
 	void CutCount(int _x, int _y);
 
-
+	inline int GetImagePixel(const float4& _Pos)
+	{
+		return GetImagePixel(_Pos.ix(), _Pos.iy());
+	}
+	int GetImagePixel(int _x, int _y);
 
 
 protected:
