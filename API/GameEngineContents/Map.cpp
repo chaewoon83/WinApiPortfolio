@@ -14,7 +14,7 @@ Map::~Map()
 void Map::Start()
 {
 	SetPosition(GameEngineWindow::GetScale().Half());
-	SetScale({ 1000, 1000 });
+	//SetScale({ 1000, 1000 });
 }
  
 void Map::Update()

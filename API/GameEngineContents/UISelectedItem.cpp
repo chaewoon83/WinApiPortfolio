@@ -1,7 +1,7 @@
 #include "UISelectedItem.h"
 #include <windows.h>
 #include <GameEngineBase/GameEngineWindow.h>
-
+#include <GameEngine/GameEngineRenderer.h>
 
 UISelectedItem::UISelectedItem() 
 {

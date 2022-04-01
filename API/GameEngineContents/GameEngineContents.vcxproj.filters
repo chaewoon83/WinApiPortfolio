@@ -99,6 +99,12 @@
     <ClInclude Include="EXMap.h">
       <Filter>Play\Map</Filter>
     </ClInclude>
+    <ClInclude Include="UISelectedItem.h">
+      <Filter>Play\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UINumbers.h">
+      <Filter>Play\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -183,9 +189,6 @@
     <ClCompile Include="Boomerang.cpp">
       <Filter>Play\Player</Filter>
     </ClCompile>
-    <ClCompile Include="..\GameApp\main.cpp">
-      <Filter>Play\UI</Filter>
-    </ClCompile>
     <ClCompile Include="UIHeart.cpp">
       <Filter>Play\UI</Filter>
     </ClCompile>
@@ -203,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="Map1F.cpp">
       <Filter>Play\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="UISelectedItem.cpp">
+      <Filter>Play\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

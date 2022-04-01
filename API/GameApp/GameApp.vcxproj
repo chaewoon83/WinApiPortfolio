@@ -155,12 +155,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\GameEngineContents\UISelectedItem.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\GameEngineBase\GameEngineBase.vcxproj">
       <Project>{b9b39cfa-539d-4d56-8be7-3d1ecdc7cb85}</Project>
     </ProjectReference>
@@ -172,14 +166,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\GameEngineContents\UINumbers.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="..\GameEngineContents\UISelectedItem.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

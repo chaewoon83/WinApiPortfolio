@@ -1,6 +1,7 @@
 #include "UINumbers.h"
 #include <windows.h>
 #include <GameEngineBase/GameEngineWindow.h>
+#include <GameEngine/GameEngineRenderer.h>
 
 //UIRupee Numbers
 //1. coordinate(260, 96) size(28 28)

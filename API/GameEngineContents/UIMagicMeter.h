@@ -19,6 +19,6 @@ protected:
 	void Update() override;
 	void Render() override;
 private:
-
+	std::list<GameEngineRenderer*> AllMagicMeters;
 };
 

@@ -276,13 +276,20 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="UINumbers.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="UISelectedItem.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Zelda.h">
       <SubType>
       </SubType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\GameApp\main.cpp" />
     <ClCompile Include="Boomerang.cpp">
       <SubType>
       </SubType>
@@ -412,6 +419,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="UINumbers.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="UISelectedItem.cpp">
       <SubType>
       </SubType>
     </ClCompile>
