@@ -7,6 +7,7 @@
 
 class GameEngineLevel;
 class GameEngineRenderer;
+class GameEngineCollision;
 //다중상속은 위험하다, 이름이 겹칠 수 있기때문.
 //메모리는 순서대로간다
 class GameEngineActor : public GameEngineNameObject, public GameEngineUpdateObject
@@ -91,5 +92,14 @@ private:
 	std::list <GameEngineRenderer*>::iterator EndRenderIter;
 
 	std::list <GameEngineRenderer*> RenderList_;
+
+
+///////////////////////////////////////////////////////////////Collision
+public:
+	//디폴트 인자는 오버로딩을 하는 경우 모호함이 생길 수 있기 때문에 함수를 하나만 만든다.
+	//디폴트 인자는 선언에서만 구현 가능하다.
+	GameEngineCollision* CreateCollision(const std::string& _GroupName, float4 _Scale, float4 _Pivot = {0, 0});
+private:
+	std::list <GameEngineCollision*> CollisionList_;
 };
 

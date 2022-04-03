@@ -54,7 +54,7 @@ public:
 	{
 		return Image_;
 	}
-	void Render();
+
 	void SetIndex(size_t Index, float4 _Scale = {-1.0f, -1.0f});
 
 	void CameraEffectOff()
@@ -68,7 +68,7 @@ public:
 	}
 
 protected:
-
+	void Render();
 private:
 	friend class FrameAnimation;
 	//bool IsDebugMode_;

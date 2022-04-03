@@ -7,5 +7,4 @@ enum class PlayLevelOrder
 	PLAYER,
 	UILAYOUT,
 	UI,
-
 };

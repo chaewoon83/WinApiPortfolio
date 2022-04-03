@@ -219,5 +219,25 @@ void GameEngineImage::CutCount(int _x, int _y)
 
 int GameEngineImage::GetImagePixel(int _x, int _y)
 {
+	//이미지 밖의 색은 검은색으로 설정해놓는다
+	if (0> _x)
+	{
+		return RGB(0, 0, 0);
+	}
+
+	if ( 0 > _y)
+	{
+		return RGB(0, 0, 0);
+	}
+
+	if (GetScale().ix() <= _x)
+	{
+		return RGB(0, 0, 0);
+	}
+
+	if (GetScale().iy() <= _y)
+	{
+		return RGB(0, 0, 0);
+	}
 	return GetPixel(ImageDC_, _x, _y);
 }

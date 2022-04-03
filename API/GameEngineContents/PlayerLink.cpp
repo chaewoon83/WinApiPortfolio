@@ -10,6 +10,8 @@
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngine/GameEngineLevel.h>
+#include <GameEngine/GameEngineCollision.h>
+
 #include "Boomerang.h"
 
 //링크의 크기 == 64x96
@@ -25,6 +27,9 @@ PlayerLink::~PlayerLink()
 
 void PlayerLink::Start()
 {
+	//충돌
+	PlayerCollision_ = CreateCollision("PlayerHitBox", {100, 100});
+
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
 	//SetPosition(GameEngineWindow::GetScale().Half());
 	GameEngineRenderer* Render = CreateRenderer();
@@ -44,17 +49,19 @@ void PlayerLink::Start()
 		GameEngineInput::GetInst()->CreateKey("Fire", 'K');
 		GameEngineInput::GetInst()->CreateKey("Attack", VK_SPACE);
 		GameEngineInput::GetInst()->CreateKey("InterAct", VK_LSHIFT);
+
+		GameEngineImage* MapColImage_ = GameEngineImageManager::GetInst()->Find("ExMapColMap.bmp");
+
+		if (nullptr == MapColImage_)
+		{
+			MsgBoxAssert("충돌용 맵을 찾지 못했습니다");
+		}
 	}
 }
  
 void PlayerLink::Update()
 {
-	GameEngineImage* ColMap = GameEngineImageManager::GetInst()->Find("ExMapColMap.bmp");
 
-	if (nullptr == ColMap)
-	{
-		MsgBoxAssert("충돌용 맵을 찾지 못했습니다");
-	}
 
 	float4 CheckPos;
 	float4 MoveDir = float4::ZERO;
@@ -106,10 +113,10 @@ void PlayerLink::Update()
 		float4 CheckPosBotLeft = NextPos + float4{ -32.0f, 42.0f };
 
 
-		int ColorTopRight = ColMap->GetImagePixel(CheckPosTopRight);
-		int ColorTopLeft = ColMap->GetImagePixel(CheckPosTopLeft);
-		int ColorBotRight = ColMap->GetImagePixel(CheckPosBotRight);
-		int ColorBotLeft = ColMap->GetImagePixel(CheckPosBotLeft);
+		int ColorTopRight = MapColImage_->GetImagePixel(CheckPosTopRight);
+		int ColorTopLeft = MapColImage_->GetImagePixel(CheckPosTopLeft);
+		int ColorBotRight = MapColImage_->GetImagePixel(CheckPosBotRight);
+		int ColorBotLeft = MapColImage_->GetImagePixel(CheckPosBotLeft);
 		if (Black != ColorTopRight &&
 			Black != ColorTopLeft &&
 			Black != ColorBotRight &&
@@ -121,8 +128,8 @@ void PlayerLink::Update()
 		{
 			if (true == MoveLeft)
 			{
-				if (Black != ColMap->GetImagePixel({ MyPosTopLeft.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosTopLeft.y }) &&
-					Black != ColMap->GetImagePixel({ MyPosBotLeft.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosBotLeft.y }))
+				if (Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosTopLeft.y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosBotLeft.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosBotLeft.y }))
 				{
 					SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * Speed_);
 				}
@@ -130,8 +137,8 @@ void PlayerLink::Update()
 
 			if (true == MoveRight)
 			{
-				if (Black != ColMap->GetImagePixel({ MyPosTopRight.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosTopRight.y }) &&
-					Black != ColMap->GetImagePixel({ MyPosBotRight.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosBotRight.y }))
+				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosTopRight.y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosBotRight.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosBotRight.y }))
 				{
 					SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * Speed_);
 				}
@@ -139,8 +146,8 @@ void PlayerLink::Update()
 
 			if (true == MoveUp)
 			{
-				if (Black != ColMap->GetImagePixel({MyPosTopRight.x, MyPosTopRight.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y}) &&
-					Black != ColMap->GetImagePixel({MyPosTopLeft.x, MyPosTopLeft.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y}))
+				if (Black != MapColImage_->GetImagePixel({MyPosTopRight.x, MyPosTopRight.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y}) &&
+					Black != MapColImage_->GetImagePixel({MyPosTopLeft.x, MyPosTopLeft.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y}))
 				{
 					SetMove(float4::UP * GameEngineTime::GetDeltaTime() * Speed_);
 				}
@@ -148,23 +155,65 @@ void PlayerLink::Update()
 
 			if (true == MoveDown)
 			{
-				if (Black != ColMap->GetImagePixel({ MyPosBotRight.x, MyPosBotRight.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }) &&
-					Black != ColMap->GetImagePixel({ MyPosBotLeft.x, MyPosBotLeft.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }))
+				if (Black != MapColImage_->GetImagePixel({ MyPosBotRight.x, MyPosBotRight.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosBotLeft.x, MyPosBotLeft.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }))
 				{
 					SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * Speed_);
 				}
 			}
 		}
 
-
+	//장비 사용 관련
 	}
-	if (true == GameEngineInput::GetInst()->IsDown("Fire"))
+
 	{
-		Boomerang* Ptr = GetLevel()->CreateActor<Boomerang>((int)PlayLevelOrder::PLAYER);
-		Ptr->SetPosition(GetPosition());
+		if (true == GameEngineInput::GetInst()->IsDown("Fire"))
+		{
+			Boomerang* Ptr = GetLevel()->CreateActor<Boomerang>((int)PlayLevelOrder::PLAYER);
+			Ptr->SetPosition(GetPosition());
+		}
 	}
 
-	GetLevel()->SetCameraPos(GetPosition() - GameEngineWindow::GetInst().GetScale().Half());
+	//카메라 관련
+	{
+
+		GetLevel()->SetCameraPos(GetPosition() - GameEngineWindow::GetInst().GetScale().Half());
+		float4 CurCameraPos = GetLevel()->GetCameraPos();
+
+		if (0.0f > CurCameraPos.x)
+		{
+			CurCameraPos.x = 0.0f;
+			GetLevel()->SetCameraPos(CurCameraPos);
+		}
+
+		if (0.0f > CurCameraPos.y)
+		{
+			CurCameraPos.y = 0.0f;
+			GetLevel()->SetCameraPos(CurCameraPos);
+		}
+
+		float4 MapSize = { 2048.0f, 948.0f };
+
+		if (MapSize.x - GameEngineWindow::GetScale().x < CurCameraPos.x)
+		{
+			CurCameraPos.x = MapSize.x - GameEngineWindow::GetScale().x;
+			GetLevel()->SetCameraPos(CurCameraPos);
+		}
+
+		if (MapSize.y - GameEngineWindow::GetScale().y< CurCameraPos.y)
+		{
+			CurCameraPos.y  = MapSize.y - GameEngineWindow::GetScale().y;
+			GetLevel()->SetCameraPos(CurCameraPos);
+		}
+	}
+
+	//충돌 관련
+	{
+		if (true == PlayerCollision_->Collision("Door"))
+		{
+			int a = 0;
+		}
+	}
 
 }
 //렌더러가 다 돌고 액터들의 랜더함수를 호출한다

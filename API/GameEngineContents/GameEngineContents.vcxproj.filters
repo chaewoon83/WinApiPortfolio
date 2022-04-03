@@ -80,9 +80,6 @@
     <ClInclude Include="PlayMapB1F.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="Boomerang.h">
-      <Filter>Play\Player</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineContentsEnum.h" />
     <ClInclude Include="UIHeart.h">
       <Filter>Play\UI</Filter>
@@ -104,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="UINumbers.h">
       <Filter>Play\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Boomerang.h">
+      <Filter>Play\Player\Equipment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -186,9 +186,6 @@
     <ClCompile Include="PlayMapB1F.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="Boomerang.cpp">
-      <Filter>Play\Player</Filter>
-    </ClCompile>
     <ClCompile Include="UIHeart.cpp">
       <Filter>Play\UI</Filter>
     </ClCompile>
@@ -209,6 +206,9 @@
     </ClCompile>
     <ClCompile Include="UISelectedItem.cpp">
       <Filter>Play\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Boomerang.cpp">
+      <Filter>Play\Player\Equipment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -241,6 +241,9 @@
     </Filter>
     <Filter Include="Play\Player">
       <UniqueIdentifier>{ffe82e8b-08cb-493a-8ab4-735e1bb1279f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Player\Equipment">
+      <UniqueIdentifier>{2e12ab9e-793e-4667-932f-e3c2a724c15a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -6,10 +6,12 @@
 // 설명 :
 class GameEngine;
 class GameEngineActor;
-
+class GameEngineCollision;
 class GameEngineLevel : public GameEngineNameObject
 {
 	friend GameEngine;
+	friend GameEngineActor;
+	friend GameEngineCollision;
 public:
 	// constrcuter destructer
 	GameEngineLevel();
@@ -74,5 +76,14 @@ private:
 	void ActorUpdate();
 	void ActorRender();
 	void ActorRelease();
+
+private:
+	//삭제는 Actor에서 하지만 실제 사용은 Level에서
+	//Level에서 함부러 GameEngineCollision* 을 delete하면 안된다
+	//사용을 Level에서 하는 이유는 Level에 모든 Actor들이 모여있어
+	//다른 Actor와의 충돌 판정을 손쉽게 핸들할 수 있기 때문이다
+	std::map<std::string, std::list<GameEngineCollision*>> AllCollision_;
+
+	void AddCollision(const std::string& _GroupName, GameEngineCollision* _Collision);
 };
 

@@ -1,6 +1,7 @@
 #include "GameEngineLevel.h"
 //delete (*StartActor)를 하기위해 (불완전한 형식 오류를 없애기 위하여)
 #include "GameEngineActor.h"
+#include "GameEngineCollision.h"
 
 GameEngineLevel::GameEngineLevel() 
 	: CameraPos_(float4::ZERO)
@@ -125,5 +126,12 @@ void GameEngineLevel::ActorRelease()
 			++StartActor;
 		}
 	}
+}
+
+void GameEngineLevel::AddCollision(const std::string& _GroupName, 
+	GameEngineCollision* _Collision)
+{
+	//find 후 create까지
+	AllCollision_[_GroupName].push_back(_Collision);
 }
 

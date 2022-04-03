@@ -1,6 +1,8 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 // Ό³Έν :
+class GameEngineImage;
+class GmaeEngineCollision;
 class PlayerLink : public GameEngineActor
 {
 public:
@@ -15,11 +17,15 @@ public:
 	PlayerLink& operator=(PlayerLink&& _Other) noexcept = delete;
 
 protected:
+
+
+private:
 	float Speed_;
+	GameEngineImage* MapColImage_;
+	GameEngineCollision* PlayerCollision_;
+
 	void Start() override;
 	void Update() override;
 	void Render() override;
-private:
-
 };
 
