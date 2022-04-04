@@ -27,6 +27,7 @@ void EXMap::Start()
 	ImagePos.x = (Renderer->GetImage()->GetScale().Half().x);
 	ImagePos.y = (Renderer->GetImage()->GetScale().Half().y);
 	Renderer->SetPivot(ImagePos);
+	CreateCollision("Door", { 80, 40 }, { 1024, 122 });
 }
  
 void EXMap::Update()

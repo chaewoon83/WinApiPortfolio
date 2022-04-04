@@ -30,10 +30,23 @@ public:
 		Scale_ = _Scale;
 	}
 
+
+	inline float4 GetCollisionPos()
+	{
+		return Pivot_ + GetActor()->GetPosition();
+	}
+	
+	inline GameEngineRect GetRect()
+	{
+		return GameEngineRect(Pivot_ + GetActor()->GetPosition(), Scale_);
+	}
+
 	//충돌한 대상이 존재하다면 true리턴
 	bool CollisionCheck(const std::string& _TargetGroup, 
 		CollisionType _This = CollisionType::Circle, 
 		CollisionType _Target = CollisionType::Circle);
+
+	void DebugRender();
 
 protected:
 
@@ -42,7 +55,5 @@ private:
 	float4 Pivot_;
 	//중심을 기준으로 한 크기
 	float4 Scale_;
-
-//////////////////////////////////////////////////////////////////////////////////////////////Animation
 
 };

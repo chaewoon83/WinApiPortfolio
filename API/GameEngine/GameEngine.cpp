@@ -96,6 +96,7 @@ void GameEngine::EngineLoop()
     CurrentLevel_->Update();
     CurrentLevel_->ActorUpdate();
     CurrentLevel_->ActorRender();
+    CurrentLevel_->CollisionDebugRender();
     CurrentLevel_->ActorRelease();
     //백버퍼의 이미지를 윈도우메인 이미지로 copy한다
     WindowMainImage_->BitCopy(BackBufferImage_);

@@ -3,7 +3,7 @@
 #include <GameEngine/GameEngine.h>
 #include "GameEngineRenderer.h"
 #include "GameEngineCollision.h"
-#include "GameEngineLevel.h"
+
 
 GameEngineActor::GameEngineActor()
 	:Level_(nullptr)
@@ -93,7 +93,12 @@ void GameEngineActor::Rendering()
 GameEngineCollision* GameEngineActor::CreateCollision(const std::string& _GroupName, float4 _Scale, float4 _Pivot /*= { 0, 0 }*/)
 {
 	GameEngineCollision* NewCollision = new GameEngineCollision();
+	NewCollision->SetActor(this);
+	NewCollision->SetPivot(_Pivot);
+	NewCollision->SetScale(_Scale);
+
 	GetLevel()->AddCollision(_GroupName, NewCollision);
+	CollisionList_.push_back(NewCollision);
 	return NewCollision;
 }
 

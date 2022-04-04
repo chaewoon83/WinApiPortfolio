@@ -96,6 +96,27 @@ void GameEngineLevel::ActorRender()
 		}
 	}
 }
+	
+void GameEngineLevel::CollisionDebugRender()
+{
+	std::map<std::string, std::list<GameEngineCollision*>>::iterator GroupStart = AllCollision_.begin();
+	std::map<std::string, std::list<GameEngineCollision*>>::iterator GroupEnd = AllCollision_.end();
+
+	std::list<GameEngineCollision*>::iterator StartActor;
+	std::list<GameEngineCollision*>::iterator EndActor;
+
+	for (; GroupStart != GroupEnd; ++GroupStart)
+	{
+		std::list<GameEngineCollision*>& Group = GroupStart->second;
+		StartActor = Group.begin();
+		EndActor = Group.end();
+		for (; StartActor != EndActor; ++StartActor)
+		{
+			(*StartActor)->DebugRender();
+		}
+	}
+}
+
 void GameEngineLevel::ActorRelease()
 {
 	std::map<int, std::list<GameEngineActor*>>::iterator GroupStart = AllActor_.begin();

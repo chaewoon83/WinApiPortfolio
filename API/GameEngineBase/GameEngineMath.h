@@ -148,25 +148,50 @@ public:
 	float4 Scale;
 public:
 
-	int CenterLeft()
+	int CenterLeft() const
 	{
 		return Pos.ix() - Scale.hix();
 	}
 
-	int CenterRight()
+	int CenterRight() const
 	{
 		return Pos.ix() + Scale.hix();
 	}
 
-	int CenterTop()
+	int CenterTop() const
 	{
 		return Pos.iy() - Scale.hiy();
 	}
 
-	int CenterBot()
+	int CenterBot() const
 	{
 		return Pos.iy() + Scale.hiy();
 	}
+
+	bool OverLap(const GameEngineRect& _Other)
+	{
+		if (CenterBot() < _Other.CenterTop())
+		{
+			return false;
+		}
+
+		if (CenterTop() > _Other.CenterBot())
+		{
+			return false;
+		}
+
+		if (CenterRight() < _Other.CenterLeft())
+		{
+			return false;
+		}
+
+		if (CenterLeft() > _Other.CenterRight())
+		{
+			return false;
+		}
+		return true;
+	}
+
 	GameEngineRect(float4 _Pos, float4 _Scale)
 		:Pos(_Pos)
 		,Scale(_Scale)

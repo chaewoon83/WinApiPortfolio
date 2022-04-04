@@ -34,6 +34,7 @@ void PlayMap1F::Loading()
 	CreateActor<UINumbers>((int)PlayLevelOrder::UI);
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
 	Player->SetPosition(GameEngineWindow::GetScale().Half());
+
 }
 
 void PlayMap1F::Update()
