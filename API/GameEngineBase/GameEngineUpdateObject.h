@@ -24,12 +24,12 @@ public:
 		IsUpdate_ = false;
 	}
 
-	virtual bool IsUpdate()
+	inline virtual bool IsUpdate()
 	{
 		return IsUpdate_ && false == IsDeath_;
 	}
 
-	inline bool IsDeath()
+	inline virtual bool IsDeath()
 	{
 		return IsDeath_;
 	}

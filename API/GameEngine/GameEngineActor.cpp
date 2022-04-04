@@ -10,11 +10,12 @@ GameEngineActor::GameEngineActor()
 {
 }
 
-GameEngineActor::~GameEngineActor() 
+GameEngineActor::~GameEngineActor()
 {
-	std::list <GameEngineRenderer*>::iterator StartIter = RenderList_.begin();
-	std::list <GameEngineRenderer*>::iterator EndIter = RenderList_.end();
-	for (; StartIter != EndIter; ++StartIter)
+	{
+		std::list <GameEngineRenderer*>::iterator StartIter = RenderList_.begin();
+		std::list <GameEngineRenderer*>::iterator EndIter = RenderList_.end();
+		for (; StartIter != EndIter; ++StartIter)
 	{
 		if (nullptr != *StartIter)
 		{
@@ -22,6 +23,20 @@ GameEngineActor::~GameEngineActor()
 			(*StartIter) = nullptr;
 		}
 	}
+}
+	{
+		std::list <GameEngineCollision*>::iterator StartIter = CollisionList_.begin();
+		std::list <GameEngineCollision*>::iterator EndIter = CollisionList_.end();
+		for (; StartIter != EndIter; ++StartIter)
+		{
+			if (nullptr != *StartIter)
+			{
+				delete (*StartIter);
+				(*StartIter) = nullptr;
+			}
+		}
+	}
+
 	
 }
 
@@ -100,5 +115,42 @@ GameEngineCollision* GameEngineActor::CreateCollision(const std::string& _GroupN
 	GetLevel()->AddCollision(_GroupName, NewCollision);
 	CollisionList_.push_back(NewCollision);
 	return NewCollision;
+}
+
+void GameEngineActor::Release()
+{
+	//엑터를 릴리즈하면 모두가 delete되지만, collision만 파괴하고 싶거나 render만 파괴하고 싶을 경우도 있기 때문에
+	//분리해서 릴리즈 한다
+	{
+		std::list <GameEngineRenderer*>::iterator StartIter = RenderList_.begin();
+		std::list <GameEngineRenderer*>::iterator EndIter = RenderList_.end();
+		for (; StartIter != EndIter; )
+		{
+			if (false == (*StartIter)->IsDeath())
+			{
+				++StartIter;
+				continue;
+			}
+			delete (*StartIter);
+			StartIter = RenderList_.erase(StartIter);
+			(*StartIter) = nullptr;
+		}
+
+		{
+			std::list <GameEngineCollision*>::iterator StartIter = CollisionList_.begin();
+			std::list <GameEngineCollision*>::iterator EndIter = CollisionList_.end();
+			for (; StartIter != EndIter; )
+			{
+				if (false == (*StartIter)->IsDeath())
+				{
+					++StartIter;
+					continue;
+				}
+				delete (*StartIter);
+				StartIter = CollisionList_.erase(StartIter);
+				(*StartIter) = nullptr;
+			}
+		}
+	}
 }
 

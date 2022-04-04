@@ -24,7 +24,7 @@ void TitleLevel::Update()
 {
 	if (true == GameEngineInput::GetInst()->IsDown("LevelChange"))
 	{
-		GameEngine::GlobalEngine().ChangeLevel("PlayMap1F");
+		GameEngine::GetInst().ChangeLevel("PlayMap1F");
 	}
 
 }

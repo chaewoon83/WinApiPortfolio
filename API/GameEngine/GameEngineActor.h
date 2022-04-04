@@ -72,6 +72,9 @@ protected:
 	//지속적으로 게임이 실행될때 호출됨
 	virtual void Update() {} // 때에 따라서 엑터에서 생성해야한다
 	virtual void Render() {} // 떼에 따라서 엑터에서 생성해야한다
+
+	void Release();
+
 	void DebugRectRender();
 private:
 	GameEngineLevel* Level_;
@@ -102,8 +105,6 @@ private:
 
 ///////////////////////////////////////////////////////////////Collision
 public:
-	//디폴트 인자는 오버로딩을 하는 경우 모호함이 생길 수 있기 때문에 함수를 하나만 만든다.
-	//디폴트 인자는 선언에서만 구현 가능하다.
 	GameEngineCollision* CreateCollision(const std::string& _GroupName, float4 _Scale, float4 _Pivot = {0, 0});
 private:
 	std::list <GameEngineCollision*> CollisionList_;

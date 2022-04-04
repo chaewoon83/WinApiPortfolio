@@ -102,49 +102,83 @@ void GameEngineLevel::CollisionDebugRender()
 	std::map<std::string, std::list<GameEngineCollision*>>::iterator GroupStart = AllCollision_.begin();
 	std::map<std::string, std::list<GameEngineCollision*>>::iterator GroupEnd = AllCollision_.end();
 
-	std::list<GameEngineCollision*>::iterator StartActor;
-	std::list<GameEngineCollision*>::iterator EndActor;
+	std::list<GameEngineCollision*>::iterator StartCollision;
+	std::list<GameEngineCollision*>::iterator EndCollision;
 
 	for (; GroupStart != GroupEnd; ++GroupStart)
 	{
 		std::list<GameEngineCollision*>& Group = GroupStart->second;
-		StartActor = Group.begin();
-		EndActor = Group.end();
-		for (; StartActor != EndActor; ++StartActor)
+		StartCollision = Group.begin();
+		EndCollision = Group.end();
+		for (; StartCollision != EndCollision; ++StartCollision)
 		{
-			(*StartActor)->DebugRender();
+			if (false == (*StartCollision)->IsUpdate())
+			{
+				continue;
+			}
+			(*StartCollision)->DebugRender();
 		}
 	}
 }
 
 void GameEngineLevel::ActorRelease()
 {
-	std::map<int, std::list<GameEngineActor*>>::iterator GroupStart = AllActor_.begin();
-	std::map<int, std::list<GameEngineActor*>>::iterator GroupEnd = AllActor_.end();
-	std::list<GameEngineActor*>::iterator StartActor;
-	std::list<GameEngineActor*>::iterator EndActor;
-
-
-	for (; GroupStart != GroupEnd; ++GroupStart)
+	//액터를 delete하기전에 레벨 안에있는 collision 삭제하기
 	{
-		std::list<GameEngineActor*>& Group = GroupStart->second;
+		std::map<std::string, std::list<GameEngineCollision*>>::iterator GroupStart = AllCollision_.begin();
+		std::map<std::string, std::list<GameEngineCollision*>>::iterator GroupEnd = AllCollision_.end();
 
-		//IsDeath를 확인후 true면 delete한다
-		StartActor = Group.begin();
-		EndActor = Group.end();
+		std::list<GameEngineCollision*>::iterator StartCollision;
+		std::list<GameEngineCollision*>::iterator EndCollision;
 
-		for (; StartActor != EndActor;)
+		for (; GroupStart != GroupEnd; ++GroupStart)
 		{
-			if (true == (*StartActor)->IsDeath())
+			std::list<GameEngineCollision*>& Group = GroupStart->second;
+			StartCollision = Group.begin();
+			EndCollision = Group.end();
+			for (; StartCollision != EndCollision;)
 			{
-				delete (* StartActor);
-				StartActor = Group.erase(StartActor);
-				continue;
+				if (false == (*StartCollision)->IsDeath())
+				{
+					++StartCollision;
+					continue;
+				}
+				StartCollision = Group.erase(StartCollision);
 			}
-			// 만약 List.erase(iteratorValue)를 하게 된다면 자동적으로 ++StartActor값을 리턴해주기때문에
-			// StartActor = Group.erase(StartActor); 일땐 ++StartActor를 하면안된다
-			// 따라서 밖에 따로 ++StartActor를 해준다
-			++StartActor;
+		}
+	}
+	//액터삭제
+	{
+
+		std::map<int, std::list<GameEngineActor*>>::iterator GroupStart = AllActor_.begin();
+		std::map<int, std::list<GameEngineActor*>>::iterator GroupEnd = AllActor_.end();
+		std::list<GameEngineActor*>::iterator StartActor;
+		std::list<GameEngineActor*>::iterator EndActor;
+
+
+		for (; GroupStart != GroupEnd; ++GroupStart)
+		{
+			std::list<GameEngineActor*>& Group = GroupStart->second;
+
+			//IsDeath를 확인후 true면 delete한다
+			StartActor = Group.begin();
+			EndActor = Group.end();
+
+			for (; StartActor != EndActor;)
+			{
+				if (true == (*StartActor)->IsDeath())
+				{
+					delete (*StartActor);
+					StartActor = Group.erase(StartActor);
+					continue;
+				}
+				//삭제가 안되었다면 collision이나 renderer확인
+				(*StartActor)->Release();
+				// 만약 List.erase(iteratorValue)를 하게 된다면 자동적으로 ++StartActor값을 리턴해주기때문에
+				// StartActor = Group.erase(StartActor); 일땐 ++StartActor를 하면안된다
+				// 따라서 밖에 따로 ++StartActor를 해준다
+				++StartActor;
+			}
 		}
 	}
 }

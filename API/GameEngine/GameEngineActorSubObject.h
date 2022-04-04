@@ -3,7 +3,7 @@
 
 // Waterfall design 이기 때문에 순환참조가 일어날 수 없다
 //
-class GameEngineActorSubObject 
+class GameEngineActorSubObject : public GameEngineUpdateObject
 {
 	friend GameEngineActor;
 public:

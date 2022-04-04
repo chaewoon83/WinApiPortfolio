@@ -3,6 +3,7 @@
 #include "GameEngineEnum.h"
 #include "GameEngineActorSubObject.h"
 #include <map>
+#include <vector>
 //#include "GameEngineImage.h"
 // 설명 :
 class GameEngineImage;
@@ -44,6 +45,12 @@ public:
 	//충돌한 대상이 존재하다면 true리턴
 	bool CollisionCheck(const std::string& _TargetGroup, 
 		CollisionType _This = CollisionType::Circle, 
+		CollisionType _Target = CollisionType::Circle);
+
+	//_ColResult 안에 충돌된 Collision*들을 넣어주는 역할
+	bool CollisionResult(const std::string& _TargetGroup,
+		std::vector<GameEngineCollision*>& _ColResult,
+		CollisionType _This = CollisionType::Circle,
 		CollisionType _Target = CollisionType::Circle);
 
 	void DebugRender();

@@ -206,11 +206,19 @@ void PlayerLink::Update()
 			GetLevel()->SetCameraPos(CurCameraPos);
 		}
 	}
+	
+	
+
 
 	//충돌 관련
 	{
-		if (true == PlayerCollision_->CollisionCheck("Door", CollisionType::Rect, CollisionType::Rect))
+		std::vector<GameEngineCollision*> ColList;
+		if (true == PlayerCollision_->CollisionResult("Door", ColList, CollisionType::Rect, CollisionType::Rect))
 		{
+			for (size_t i = 0; i < ColList.size(); i++)
+			{
+				ColList[i]->Death();
+			}
 			int a = 0;
 		}
 	}
