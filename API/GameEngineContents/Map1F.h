@@ -14,6 +14,12 @@ public:
 	Map1F& operator=(const Map1F& _Other) = delete;
 	Map1F& operator=(Map1F&& _Other) noexcept = delete;
 
+	static GameEngineRenderer* TopDoor1;
+	static GameEngineRenderer* TopDoor2;
+	static GameEngineRenderer* TopDoor3;
+	static GameEngineRenderer* BotDoor1;
+	static GameEngineRenderer* RightDoor1;
+
 protected:
 	void Start() override;
 	void Update() override;
@@ -23,11 +29,6 @@ private:
 	void DoorAnimationCreate();
 	void PlaceDoor();
 
-	GameEngineRenderer* UpDoor1;
-	GameEngineRenderer* UpDoor2;
-	GameEngineRenderer* UpDoor3;
-	GameEngineRenderer* BotDoor1;
-	GameEngineRenderer* RightDoor1;
 
 };
 

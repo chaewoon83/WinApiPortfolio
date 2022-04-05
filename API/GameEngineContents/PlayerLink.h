@@ -24,6 +24,7 @@ private:
 	float Speed_;
 	GameEngineImage* MapColImage_;
 	GameEngineCollision* PlayerCollision_;
+	GameEngineCollision* SwitchCollision_;
 
 	void Start() override;
 	void Update() override;

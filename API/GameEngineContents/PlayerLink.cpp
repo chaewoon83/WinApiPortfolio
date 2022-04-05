@@ -12,6 +12,7 @@
 #include <GameEngine/GameEngineLevel.h>
 #include <GameEngine/GameEngineCollision.h>
 
+#include "Map1F.h"
 #include "Boomerang.h"
 
 //링크의 크기 == 64x96
@@ -30,7 +31,7 @@ void PlayerLink::Start()
 {
 	//충돌
 	PlayerCollision_ = CreateCollision("PlayerHitBox", {64, 64});
-	PlayerCollision_->Off();
+	//PlayerCollision_->Off();
 
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
 	//SetPosition(GameEngineWindow::GetScale().Half());
@@ -111,17 +112,20 @@ void PlayerLink::Update()
 	}
 	
 	
-
-
+	//3016,3468 48x40
+	//3040,3488
 	//충돌 관련
 	{
 		std::vector<GameEngineCollision*> ColList;
-		if (true == PlayerCollision_->CollisionResult("Door", ColList, CollisionType::Rect, CollisionType::Rect))
+
+		if (true == PlayerCollision_->CollisionResult("Switch", ColList, CollisionType::Rect, CollisionType::Rect))
 		{
 			for (size_t i = 0; i < ColList.size(); i++)
 			{
+				Map1F::TopDoor1->ChangeAnimation("Top");
 				ColList[i]->Death();
 			}
+
 			int a = 0;
 		}
 	}

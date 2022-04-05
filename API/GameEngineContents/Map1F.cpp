@@ -4,6 +4,11 @@
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngine/GameEngineImage.h>
 
+GameEngineRenderer* Map1F::TopDoor1 = nullptr;
+GameEngineRenderer* Map1F::TopDoor2 = nullptr;
+GameEngineRenderer* Map1F::TopDoor3 = nullptr;
+GameEngineRenderer* Map1F::BotDoor1 = nullptr;
+GameEngineRenderer* Map1F::RightDoor1 = nullptr;
 
 Map1F::Map1F() 
 {
@@ -31,6 +36,8 @@ void Map1F::Start()
 
 	DoorAnimationCreate();
 	PlaceDoor();
+
+	CreateCollision("Switch", { 48, 40 }, { 3040, 3488 });
 }
  
 void Map1F::Update()
@@ -47,9 +54,11 @@ void Map1F::PlaceDoor()
 {
 	//3008+64, 3200+48 
 	//128,96
-	UpDoor1->SetPivot(float4{3072, 3248});
-	UpDoor2->SetPivot({ 0, -11 });
-	UpDoor3->SetPivot({ 0, -11 });
+	TopDoor1->SetPivot(float4{3072, 3248});
+	CreateCollision("Door", { 128,96 }, { 3072, 3248 });
+	TopDoor2->SetPivot({ 0, -11 });
+	CreateCollision("Door", { 128,96 }, { 3072, 2848 });
+	TopDoor3->SetPivot({ 0, -11 });
 	BotDoor1->SetPivot({ 0, -11 });
 	RightDoor1->SetPivot({ 0, -11 });
 }
@@ -57,20 +66,20 @@ void Map1F::PlaceDoor()
 void Map1F::DoorAnimationCreate()
 {
 
-	UpDoor1 = CreateRenderer();
-	UpDoor1->CreateAnimation("Top_Door_Idle_Animation.bmp", "Idle_Top", 0, 2, 0.035f, false);
-	UpDoor1->CreateAnimation("Top_Door_Animation.bmp", "Top", 0, 2, 0.035f, false);
-	UpDoor1->ChangeAnimation("Top");
+	TopDoor1 = CreateRenderer();
+	TopDoor1->CreateAnimation("Top_Door_Idle_Animation.bmp", "Idle_Top", 0, 2, 0.035f, false);
+	TopDoor1->CreateAnimation("Top_Door_Animation.bmp", "Top", 0, 2, 0.035f, false);
+	TopDoor1->ChangeAnimation("Idle_Top");
 
-	UpDoor2 = CreateRenderer();
-	UpDoor2->CreateAnimation("Top_Door_Idle_Animation.bmp", "Idle_Top", 0, 2, 0.035f, false);
-	UpDoor2->CreateAnimation("Top_Door_Animation.bmp", "Top", 0, 2, 0.035f, false);
-	UpDoor2->ChangeAnimation("Idle_Top");
+	TopDoor2 = CreateRenderer();
+	TopDoor2->CreateAnimation("Top_Door_Idle_Animation.bmp", "Idle_Top", 0, 2, 0.035f, false);
+	TopDoor2->CreateAnimation("Top_Door_Animation.bmp", "Top", 0, 2, 0.035f, false);
+	TopDoor2->ChangeAnimation("Idle_Top");
 
-	UpDoor3 = CreateRenderer();
-	UpDoor3->CreateAnimation("Top_Door_Idle_Animation.bmp", "Idle_Top", 0, 2, 0.035f, false);
-	UpDoor3->CreateAnimation("Top_Door_Animation.bmp", "Top", 0, 2, 0.035f, false);
-	UpDoor3->ChangeAnimation("Idle_Top");
+	TopDoor3 = CreateRenderer();
+	TopDoor3->CreateAnimation("Top_Door_Idle_Animation.bmp", "Idle_Top", 0, 2, 0.035f, false);
+	TopDoor3->CreateAnimation("Top_Door_Animation.bmp", "Top", 0, 2, 0.035f, false);
+	TopDoor3->ChangeAnimation("Idle_Top");
 
 	BotDoor1 = CreateRenderer();
 	BotDoor1->CreateAnimation("Bot_Door_Idle_Animation.bmp", "Idle_Bot", 0, 2, 0.035f, false);
