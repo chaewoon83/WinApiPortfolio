@@ -216,6 +216,27 @@ void PlayerLink::PlayerMovement()
 				{
 					SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * Speed_);
 				}
+
+				if (Black != MapColImage_->GetImagePixel(CheckPosLeft) &&
+					Black != MapColImage_->GetImagePixel(CheckPosTopLeft) &&
+					Black != MapColImage_->GetImagePixel(CheckPosTopRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosBotRight))
+				{
+					if (false == MoveUp)
+					{
+						SetMove(float4::UP * GameEngineTime::GetDeltaTime() * Speed_);
+					}
+				}
+				if (Black != MapColImage_->GetImagePixel(CheckPosLeft) &&
+					Black != MapColImage_->GetImagePixel(CheckPosBotLeft) &&
+					Black != MapColImage_->GetImagePixel(CheckPosTopRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosBotRight))
+				{
+					if (false == MoveDown)
+					{
+						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * Speed_);
+					}
+				}
 			}
 
 			if (true == MoveRight)
@@ -224,6 +245,27 @@ void PlayerLink::PlayerMovement()
 					Black != MapColImage_->GetImagePixel({ MyPosBotRight.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosBotRight.y }))
 				{
 					SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * Speed_);
+				}
+
+				if (Black != MapColImage_->GetImagePixel(CheckPosRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosTopRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosTopLeft) &&
+					Black != MapColImage_->GetImagePixel(CheckPosBotLeft))
+				{
+					if (false == MoveUp)
+					{
+						SetMove(float4::UP * GameEngineTime::GetDeltaTime() * Speed_);
+					}
+				}
+				if (Black != MapColImage_->GetImagePixel(CheckPosRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosBotRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosTopLeft) &&
+					Black != MapColImage_->GetImagePixel(CheckPosBotLeft))
+				{
+					if (false == MoveDown)
+					{
+						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * Speed_);
+					}
 				}
 			}
 
@@ -234,6 +276,28 @@ void PlayerLink::PlayerMovement()
 				{
 					SetMove(float4::UP * GameEngineTime::GetDeltaTime() * Speed_);
 				}
+
+				if (Black != MapColImage_->GetImagePixel(CheckPosTop) &&
+					Black != MapColImage_->GetImagePixel(CheckPosTopRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosBotRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosBotLeft))
+				{
+					if (false == MoveRight)
+					{
+						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * Speed_);
+					}
+				}
+
+				if (Black != MapColImage_->GetImagePixel(CheckPosTop) &&
+					Black != MapColImage_->GetImagePixel(CheckPosTopLeft) &&
+					Black != MapColImage_->GetImagePixel(CheckPosBotRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosBotLeft))
+				{
+					if (false == MoveLeft)
+					{
+						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * Speed_);
+					}
+				}
 			}
 
 			if (true == MoveDown)
@@ -243,7 +307,32 @@ void PlayerLink::PlayerMovement()
 				{
 					SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * Speed_);
 				}
+
+				if (Black != MapColImage_->GetImagePixel(CheckPosBot) && 
+					Black != MapColImage_->GetImagePixel(CheckPosBotRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosTopRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosTopLeft))
+				{
+					if (false == MoveRight)
+					{
+						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * Speed_);
+					}
+				}
+
+				if (Black != MapColImage_->GetImagePixel(CheckPosBot) &&
+					Black != MapColImage_->GetImagePixel(CheckPosBotLeft) &&
+					Black != MapColImage_->GetImagePixel(CheckPosTopRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosTopLeft))
+				{
+					if (false == MoveLeft)
+					{
+						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * Speed_);
+					}
+				}
+
 			}
 		}
+
 	}
+
 }
