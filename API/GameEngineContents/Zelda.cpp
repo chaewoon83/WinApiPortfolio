@@ -23,49 +23,22 @@ void Zelda::GameInit()
 {
 	GameEngineWindow::GetInst().SetWindowScaleAndPosition({ 100 ,100 }, { 1024, 896 });
 	//모든 리소스를 로드 할 예정
-	GameEngineDirectory ResourcesDir;
-	ResourcesDir.MoveParent("API");
-	ResourcesDir.Move("Resources");
-	ResourcesDir.Move("Image");
-	ResourcesDir.Move("Link");
+	GetImageFromFolder("Link");
+	GetImageFromFolder("Title");
+	GetImageFromFolder("UI");
+	GetImageFromFolder("Map");
 
-	std::vector<GameEngineFile> AllImageFileList = ResourcesDir.GetAllFile(".bmp");
-	for (size_t i = 0; i < AllImageFileList.size(); i++)
-	{
-		GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
-	}
-
-
-	ResourcesDir.MoveParent("Image");
-	ResourcesDir.Move("Title");
-	AllImageFileList = ResourcesDir.GetAllFile(".bmp");
-
-	for (size_t i = 0; i < AllImageFileList.size(); i++)
-	{
-		GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
-	}
-
-	ResourcesDir.MoveParent("Image");
-	ResourcesDir.Move("UI");
-	AllImageFileList = ResourcesDir.GetAllFile(".bmp");
-
-	for (size_t i = 0; i < AllImageFileList.size(); i++)
-	{
-		GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
-	}
-
-	ResourcesDir.MoveParent("Image");
-	ResourcesDir.Move("Map");
-	AllImageFileList = ResourcesDir.GetAllFile(".bmp");
-
-	for (size_t i = 0; i < AllImageFileList.size(); i++)
-	{
-		GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
-	}
-
-
-	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Link_Walk_Down.bmp");
-	Image->CutCount(8, 1);
+	ImageCutter("Link_Walk_Down.bmp", 8, 1);
+	ImageCutter("Top_Door_Animation.bmp", 1, 3);
+	ImageCutter("Top_Door_Idle_Animation.bmp", 1, 3);
+	ImageCutter("Bot_Door_Animation.bmp", 1, 3);
+	ImageCutter("Bot_Door_Idle_Animation.bmp", 1, 3);
+	ImageCutter("Left_Door_Animation.bmp", 3, 1);
+	ImageCutter("Left_Door_Idle_Animation.bmp", 3, 1);
+	ImageCutter("Right_Door_Animation.bmp", 3, 1);
+	ImageCutter("Right_Door_Idle_Animation.bmp", 3, 1);
+	//GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Link_Walk_Down.bmp");
+	//Image->CutCount(8, 1);
 
 
 
@@ -91,4 +64,25 @@ void Zelda::GameLoop()
 void Zelda::GameEnd()
 {
 
+}
+
+void Zelda::GetImageFromFolder(const std::string& _Folder)
+{
+	GameEngineDirectory ResourcesDir;
+	ResourcesDir.MoveParent("API");
+	ResourcesDir.Move("Resources");
+	ResourcesDir.Move("Image");
+	ResourcesDir.Move(_Folder);
+	std::vector<GameEngineFile> AllImageFileList = ResourcesDir.GetAllFile(".bmp");
+
+	for (size_t i = 0; i < AllImageFileList.size(); i++)
+	{
+		GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
+	}
+}
+
+void Zelda::ImageCutter(const std::string& _Image, int _x, int _y)
+{
+	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find(_Image);
+	Image->CutCount(_x, _y);
 }

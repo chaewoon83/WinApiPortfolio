@@ -21,6 +21,7 @@ public:
 protected:
 
 private:
-
+	void GetImageFromFolder(const std::string& _Folder);
+	void ImageCutter(const std::string& _Image, int _x, int _y);
 };
 
