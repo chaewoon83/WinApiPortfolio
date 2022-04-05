@@ -15,6 +15,7 @@ public:
 	PlayerLink(PlayerLink&& _Other) noexcept = delete;
 	PlayerLink& operator=(const PlayerLink& _Other) = delete;
 	PlayerLink& operator=(PlayerLink&& _Other) noexcept = delete;
+	void PlayerMovement();
 
 protected:
 

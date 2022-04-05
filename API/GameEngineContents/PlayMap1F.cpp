@@ -24,7 +24,7 @@ PlayMap1F::~PlayMap1F()
 
 void PlayMap1F::Loading()
 {
-	CreateActor<EXMap>((int)PlayLevelOrder::BACKGROUND);
+	CreateActor<Map1F>((int)PlayLevelOrder::BACKGROUND);
 	//CreateActor<Map1F>((int)PlayLevelOrder::BACKGROUND);
 	PlayerLink* Player = CreateActor<PlayerLink>((int)PlayLevelOrder::PLAYER);
 	CreateActor<UILayout>((int)PlayLevelOrder::UILAYOUT);
@@ -33,7 +33,7 @@ void PlayMap1F::Loading()
 	CreateActor<UIHeart>((int)PlayLevelOrder::UI);
 	CreateActor<UINumbers>((int)PlayLevelOrder::UI);
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
-	Player->SetPosition(GameEngineWindow::GetScale().Half());
+	Player->SetPosition({3000.0f, 800.0f});
 
 }
 

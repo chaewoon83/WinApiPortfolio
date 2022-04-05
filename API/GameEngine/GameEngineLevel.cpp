@@ -143,6 +143,7 @@ void GameEngineLevel::ActorRelease()
 					++StartCollision;
 					continue;
 				}
+				//delete를 할 수 있는 권한은 Actor에게 있다. 목록에서만 제외
 				StartCollision = Group.erase(StartCollision);
 			}
 		}

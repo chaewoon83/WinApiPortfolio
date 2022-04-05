@@ -50,7 +50,7 @@ void PlayerLink::Start()
 		GameEngineInput::GetInst()->CreateKey("Attack", VK_SPACE);
 		GameEngineInput::GetInst()->CreateKey("InterAct", VK_LSHIFT);
 
-		MapColImage_ = GameEngineImageManager::GetInst()->Find("ExMapColMap.bmp");
+		MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_ColMap.bmp");
 
 		if (nullptr == MapColImage_)
 		{
@@ -61,8 +61,83 @@ void PlayerLink::Start()
  
 void PlayerLink::Update()
 {
+	PlayerMovement();
+	float4 Postion = GetPosition();
+	//장비 사용 관련
+
+	{
+		if (true == GameEngineInput::GetInst()->IsDown("Fire"))
+		{
+			Boomerang* Ptr = GetLevel()->CreateActor<Boomerang>((int)PlayLevelOrder::PLAYER);
+			Ptr->SetPosition(GetPosition());
+		}
+	}
+
+	//카메라 관련
+	{
+
+		GetLevel()->SetCameraPos(GetPosition() - GameEngineWindow::GetInst().GetScale().Half());
+		float4 CurCameraPos = GetLevel()->GetCameraPos();
+
+		if (0.0f > CurCameraPos.x)
+		{
+			CurCameraPos.x = 0.0f;
+			GetLevel()->SetCameraPos(CurCameraPos);
+		}
+
+		if (0.0f > CurCameraPos.y)
+		{
+			CurCameraPos.y = 0.0f;
+			GetLevel()->SetCameraPos(CurCameraPos);
+		}
+
+		float4 MapSize = { 6144.0f, 4096.0f };
+
+		if (MapSize.x - GameEngineWindow::GetScale().x < CurCameraPos.x)
+		{
+			CurCameraPos.x = MapSize.x - GameEngineWindow::GetScale().x;
+			GetLevel()->SetCameraPos(CurCameraPos);
+		}
+
+		if (MapSize.y - GameEngineWindow::GetScale().y< CurCameraPos.y)
+		{
+			CurCameraPos.y  = MapSize.y - GameEngineWindow::GetScale().y;
+			GetLevel()->SetCameraPos(CurCameraPos);
+		}
+	}
+	
+	
 
 
+	//충돌 관련
+	{
+		std::vector<GameEngineCollision*> ColList;
+		if (true == PlayerCollision_->CollisionResult("Door", ColList, CollisionType::Rect, CollisionType::Rect))
+		{
+			for (size_t i = 0; i < ColList.size(); i++)
+			{
+				ColList[i]->Death();
+			}
+			int a = 0;
+		}
+	}
+
+}
+//렌더러가 다 돌고 액터들의 랜더함수를 호출한다
+void PlayerLink::Render()
+{
+	//GameEngineImage* FindImage = GameEngineImageManager::GetInst()->Find("Idle.bmp");
+	//if (nullptr == FindImage)
+	//{
+	//	MsgBoxAssert("이미지 렌더링 과정에서 이미지를 찾지 못했습니다");
+	//}
+	//GameEngine::BackBufferImage()->BitCopyBot(FindImage, GetPosition());
+
+}
+
+
+void PlayerLink::PlayerMovement()
+{
 	float4 CheckPos;
 	float4 MoveDir = float4::ZERO;
 	//맵 이미지와 캐릭터의 이미지의 픽셀 위치를 동일하게 맞춰놔야한다
@@ -146,8 +221,8 @@ void PlayerLink::Update()
 
 			if (true == MoveUp)
 			{
-				if (Black != MapColImage_->GetImagePixel({MyPosTopRight.x, MyPosTopRight.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y}) &&
-					Black != MapColImage_->GetImagePixel({MyPosTopLeft.x, MyPosTopLeft.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y}))
+				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x, MyPosTopRight.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x, MyPosTopLeft.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }))
 				{
 					SetMove(float4::UP * GameEngineTime::GetDeltaTime() * Speed_);
 				}
@@ -162,76 +237,5 @@ void PlayerLink::Update()
 				}
 			}
 		}
-
-	//장비 사용 관련
 	}
-
-	{
-		if (true == GameEngineInput::GetInst()->IsDown("Fire"))
-		{
-			Boomerang* Ptr = GetLevel()->CreateActor<Boomerang>((int)PlayLevelOrder::PLAYER);
-			Ptr->SetPosition(GetPosition());
-		}
-	}
-
-	//카메라 관련
-	{
-
-		GetLevel()->SetCameraPos(GetPosition() - GameEngineWindow::GetInst().GetScale().Half());
-		float4 CurCameraPos = GetLevel()->GetCameraPos();
-
-		if (0.0f > CurCameraPos.x)
-		{
-			CurCameraPos.x = 0.0f;
-			GetLevel()->SetCameraPos(CurCameraPos);
-		}
-
-		if (0.0f > CurCameraPos.y)
-		{
-			CurCameraPos.y = 0.0f;
-			GetLevel()->SetCameraPos(CurCameraPos);
-		}
-
-		float4 MapSize = { 2048.0f, 948.0f };
-
-		if (MapSize.x - GameEngineWindow::GetScale().x < CurCameraPos.x)
-		{
-			CurCameraPos.x = MapSize.x - GameEngineWindow::GetScale().x;
-			GetLevel()->SetCameraPos(CurCameraPos);
-		}
-
-		if (MapSize.y - GameEngineWindow::GetScale().y< CurCameraPos.y)
-		{
-			CurCameraPos.y  = MapSize.y - GameEngineWindow::GetScale().y;
-			GetLevel()->SetCameraPos(CurCameraPos);
-		}
-	}
-	
-	
-
-
-	//충돌 관련
-	{
-		std::vector<GameEngineCollision*> ColList;
-		if (true == PlayerCollision_->CollisionResult("Door", ColList, CollisionType::Rect, CollisionType::Rect))
-		{
-			for (size_t i = 0; i < ColList.size(); i++)
-			{
-				ColList[i]->Death();
-			}
-			int a = 0;
-		}
-	}
-
-}
-//렌더러가 다 돌고 액터들의 랜더함수를 호출한다
-void PlayerLink::Render()
-{
-	//GameEngineImage* FindImage = GameEngineImageManager::GetInst()->Find("Idle.bmp");
-	//if (nullptr == FindImage)
-	//{
-	//	MsgBoxAssert("이미지 렌더링 과정에서 이미지를 찾지 못했습니다");
-	//}
-	//GameEngine::BackBufferImage()->BitCopyBot(FindImage, GetPosition());
-
 }

@@ -47,7 +47,6 @@ public:
 		CollisionType _This = CollisionType::Circle, 
 		CollisionType _Target = CollisionType::Circle);
 
-	//_ColResult 안에 충돌된 Collision*들을 넣어주는 역할
 	bool CollisionResult(const std::string& _TargetGroup,
 		std::vector<GameEngineCollision*>& _ColResult,
 		CollisionType _This = CollisionType::Circle,

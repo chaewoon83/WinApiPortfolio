@@ -21,6 +21,19 @@ public:
 		return Actor_;
 	}
 
+	inline bool IsUpdate() override
+	{
+		//나와 엑터의 IsUpdate_가 True여야만 업데이트를 한다
+		return GameEngineUpdateObject::IsUpdate() && Actor_->IsUpdate();
+	}
+
+	inline bool IsDeath() override
+	{
+		//둘중 하나만 살아있어도 살아있는것이다.
+		return GameEngineUpdateObject::IsDeath() || Actor_->IsDeath();
+	}
+
+
 protected:
 	//엔진 수준에서 관리가 되어야한다. (오직 부모만 세팅 가능)
 	inline void SetActor(GameEngineActor* _Actor)

@@ -96,6 +96,7 @@ void GameEngineCollision::DebugRender()
 	);
 }
 
+
 bool GameEngineCollision::CollisionResult(const std::string& _TargetGroup,
 	std::vector<GameEngineCollision*>& _ColResult,
 	CollisionType _This /*= CollisionType::Circle*/,

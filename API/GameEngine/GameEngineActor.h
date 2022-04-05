@@ -74,7 +74,6 @@ protected:
 	virtual void Render() {} // 떼에 따라서 엑터에서 생성해야한다
 
 	void Release();
-
 	void DebugRectRender();
 private:
 	GameEngineLevel* Level_;

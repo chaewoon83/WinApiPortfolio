@@ -16,14 +16,14 @@ GameEngineActor::~GameEngineActor()
 		std::list <GameEngineRenderer*>::iterator StartIter = RenderList_.begin();
 		std::list <GameEngineRenderer*>::iterator EndIter = RenderList_.end();
 		for (; StartIter != EndIter; ++StartIter)
-	{
-		if (nullptr != *StartIter)
 		{
-			delete (*StartIter);
-			(*StartIter) = nullptr;
+			if (nullptr != *StartIter)
+			{
+				delete (*StartIter);
+				(*StartIter) = nullptr;
+			}
 		}
 	}
-}
 	{
 		std::list <GameEngineCollision*>::iterator StartIter = CollisionList_.begin();
 		std::list <GameEngineCollision*>::iterator EndIter = CollisionList_.end();
@@ -100,6 +100,10 @@ void GameEngineActor::Rendering()
 	
 	for (; StartRenderIter != EndRenderIter; ++StartRenderIter)
 	{
+		if (false == (*StartRenderIter)->IsUpdate())
+		{
+			continue;
+		}
 		(*StartRenderIter)->Render();
 	}
 
@@ -132,8 +136,8 @@ void GameEngineActor::Release()
 				continue;
 			}
 			delete (*StartIter);
-			StartIter = RenderList_.erase(StartIter);
 			(*StartIter) = nullptr;
+			StartIter = RenderList_.erase(StartIter);
 		}
 
 		{
@@ -147,8 +151,8 @@ void GameEngineActor::Release()
 					continue;
 				}
 				delete (*StartIter);
-				StartIter = CollisionList_.erase(StartIter);
 				(*StartIter) = nullptr;
+				StartIter = CollisionList_.erase(StartIter);
 			}
 		}
 	}
