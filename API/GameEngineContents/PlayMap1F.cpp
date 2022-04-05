@@ -33,7 +33,7 @@ void PlayMap1F::Loading()
 	CreateActor<UIHeart>((int)PlayLevelOrder::UI);
 	CreateActor<UINumbers>((int)PlayLevelOrder::UI);
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
-	Player->SetPosition({3000.0f, 800.0f});
+	Player->SetPosition({3072.0f, 3800.0f});
 
 }
 

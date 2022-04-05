@@ -15,9 +15,10 @@
 #include "Boomerang.h"
 
 //링크의 크기 == 64x96
+//링크 히트박스의 크키 == 64x64
 
 PlayerLink::PlayerLink() 
-	:Speed_(250.0f)
+	:Speed_(300.0f)
 {
 }
 
@@ -28,14 +29,17 @@ PlayerLink::~PlayerLink()
 void PlayerLink::Start()
 {
 	//충돌
-	PlayerCollision_ = CreateCollision("PlayerHitBox", {60, 100});
+	PlayerCollision_ = CreateCollision("PlayerHitBox", {64, 64});
+	PlayerCollision_->Off();
 
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
 	//SetPosition(GameEngineWindow::GetScale().Half());
 	GameEngineRenderer* Render = CreateRenderer();
 	//true 면 루프 false 면 루프아님
+	Render->SetPivot({ 0, -11 });
 	Render->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.035f, true);
 	Render->ChangeAnimation("Walk_Down");
+
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다
 	//CreateRenderer("LinkStandStill.bmp");
 	//CreateRendererToScale("HPBAR.bmp", float4(100.0f, 20.0f), RenderPivot::CENTER, {0, -100});
@@ -177,15 +181,19 @@ void PlayerLink::PlayerMovement()
 	{
 		int Black = RGB(0, 0, 0);
 		float4 MyPos = GetPosition();
-		float4 MyPosTopRight = MyPos + float4{ 32.0f, -30.0f };
-		float4 MyPosTopLeft = MyPos + float4{ -32.0f, -30.0f };
-		float4 MyPosBotRight = MyPos + float4{ 32.0f, 42.0f };
-		float4 MyPosBotLeft = MyPos + float4{ -32.0f, 42.0f };
+		float4 MyPosTopRight = MyPos + float4{ 32.0f, -32.0f };
+		float4 MyPosTopLeft = MyPos + float4{ -32.0f, -32.0f };
+		float4 MyPosBotRight = MyPos + float4{ 32.0f, 32.0f };
+		float4 MyPosBotLeft = MyPos + float4{ -32.0f, 32.0f };
 		float4 NextPos = GetPosition() + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
-		float4 CheckPosTopRight = NextPos + float4{ 32.0f, -30.0f };
-		float4 CheckPosTopLeft = NextPos + float4{ -32.0f, -30.0f };
-		float4 CheckPosBotRight = NextPos + float4{ 32.0f, 42.0f };
-		float4 CheckPosBotLeft = NextPos + float4{ -32.0f, 42.0f };
+		float4 CheckPosTopRight = NextPos + float4{ 32.0f, -32.0f };
+		float4 CheckPosTopLeft = NextPos + float4{ -32.0f, -32.0f };
+		float4 CheckPosBotRight = NextPos + float4{ 32.0f, 32.0f };
+		float4 CheckPosBotLeft = NextPos + float4{ -32.0f, 32.0f };
+		float4 CheckPosRight = NextPos + float4{ 32.0f, 0.0f };
+		float4 CheckPosLeft = NextPos + float4{ -32.0f, 0.0f };
+		float4 CheckPosTop = NextPos + float4{ 0.0f, -32.0f };
+		float4 CheckPosBot = NextPos + float4{ 0.0f, 32.0f };
 
 
 		int ColorTopRight = MapColImage_->GetImagePixel(CheckPosTopRight);

@@ -23,7 +23,7 @@ void UIHeart::Start()
 	SetPosition({ 658, 110 });
 	for (int i = 0; i < 10; i++)
 	{
-		AllHearts.push_back(CreateRenderer("UIFullHeart.bmp", RenderPivot::CENTER, Padding * i));
+		AllHearts.push_back(CreateRenderer("UIFullHeart.bmp", RenderPivot::CENTER, Padding * static_cast<float>(i)));
 	}
 
 	std::list<GameEngineRenderer*>::iterator Iter = AllHearts.begin();

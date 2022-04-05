@@ -20,7 +20,7 @@ void Map1F::Start()
 	//CreateRendererToScale("HPBAR.bmp", float4(100.0f, 20.0f), RenderPivot::CENTER, {0, -100});
 	GameEngineRenderer* Renderer;
 	float4 ImagePos = {};
-	Renderer = CreateRenderer("EastPalace1F_1_1F.bmp");
+	Renderer = CreateRenderer("EastPalace1F_1_1F_ColMap.bmp");
 	//렌더러는  0,0 을 기준으로 중앙에 배치된다 ( 그대로 쓰면 이미지 짤림 )
 	//이미지, Rect는 0, 0 을 기준으로 오른쪽 아래에 배치된다
 	ImagePos.x = (Renderer->GetImage()->GetScale().Half().x);
