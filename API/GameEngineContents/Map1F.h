@@ -19,6 +19,15 @@ protected:
 	void Update() override;
 	void Render() override;
 private:
+	//문을 설치하는 함수
+	void DoorAnimationCreate();
+	void PlaceDoor();
+
+	GameEngineRenderer* UpDoor1;
+	GameEngineRenderer* UpDoor2;
+	GameEngineRenderer* UpDoor3;
+	GameEngineRenderer* BotDoor1;
+	GameEngineRenderer* RightDoor1;
 
 };
 

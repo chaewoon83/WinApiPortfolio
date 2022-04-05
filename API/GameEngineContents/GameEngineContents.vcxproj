@@ -232,6 +232,7 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Map1FRoof.h" />
     <ClInclude Include="MapLevel.h">
       <SubType>
       </SubType>
@@ -374,6 +375,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Map1FRoof.cpp" />
     <ClCompile Include="MapLevel.cpp">
       <SubType>
       </SubType>

@@ -6,6 +6,7 @@
 #include "UIHeart.h"
 #include "UINumbers.h"
 #include "Map1F.h"
+#include "Map1FRoof.h"
 #include "EXMap.h"
 #include "Background.h"
 #include "GameEngineContentsEnum.h"
@@ -25,6 +26,7 @@ PlayMap1F::~PlayMap1F()
 void PlayMap1F::Loading()
 {
 	CreateActor<Map1F>((int)PlayLevelOrder::BACKGROUND);
+	CreateActor<Map1FRoof>((int)PlayLevelOrder::BACKGROUNDROOF);
 	//CreateActor<Map1F>((int)PlayLevelOrder::BACKGROUND);
 	PlayerLink* Player = CreateActor<PlayerLink>((int)PlayLevelOrder::PLAYER);
 	CreateActor<UILayout>((int)PlayLevelOrder::UILAYOUT);
