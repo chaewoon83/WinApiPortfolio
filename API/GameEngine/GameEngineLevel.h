@@ -7,11 +7,13 @@
 class GameEngine;
 class GameEngineActor;
 class GameEngineCollision;
+class GameEngineRenderer;
 class GameEngineLevel : public GameEngineNameObject
 {
 	friend GameEngine;
 	friend GameEngineActor;
 	friend GameEngineCollision;
+	friend GameEngineRenderer;
 public:
 	// constrcuter destructer
 	GameEngineLevel();
@@ -23,11 +25,12 @@ public:
 	GameEngineLevel& operator=(const GameEngineLevel& _Other) = delete;
 	GameEngineLevel& operator=(GameEngineLevel&& _Other) noexcept = delete;
 	template<typename ActorType>
-	ActorType* CreateActor(int _Order = 0 , const std::string& _Name = "")
+	ActorType* CreateActor(int _Order = 0, const std::string& _Name = "")
 	{
 		ActorType* NewActor = new ActorType();
 		//protected에 접근하기위한 업케스팅
 		GameEngineActor* StartActor = NewActor;
+		NewActor->SetOrder(_Order);
 		NewActor->SetName(_Name);
 		NewActor->SetLevel(this);
 		//맘대로 호출하면 안됨
@@ -66,7 +69,7 @@ protected:
 	virtual void Update() = 0;
 	//이전레벨에서 현재레벨로 이전할때 "현재"레벨이 실행하는 함수
 	virtual void LevelChangeStart() {};
-		//이전레벨에서 현재레벨로 이전할때 "이전"레벨이 실행하는 함수
+	//이전레벨에서 현재레벨로 이전할때 "이전"레벨이 실행하는 함수
 	virtual void LevelChangeEnd() {}
 
 private:
@@ -77,6 +80,13 @@ private:
 	void ActorRender();
 	void CollisionDebugRender();
 	void ActorRelease();
+
+private:
+	std::map<int, std::list<GameEngineRenderer*>> AllRenderer_;
+
+	void AddRenderer(GameEngineRenderer* _Renderer);
+
+	void ChangeRenderOrder(GameEngineRenderer* _Renderer, int _NewOrder);
 
 private:
 	//삭제는 Actor에서 하지만 실제 사용은 Level에서

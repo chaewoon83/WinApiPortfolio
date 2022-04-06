@@ -55,9 +55,9 @@ void Map1F::PlaceDoor()
 	//3008+64, 3200+48 
 	//128,96
 	TopDoor1->SetPivot(float4{3072, 3248});
-	CreateCollision("Door", { 128,96 }, { 3072, 3248 });
+	//CreateCollision("Door", { 128,96 }, { 3072, 3248 });
 	TopDoor2->SetPivot({ 0, -11 });
-	CreateCollision("Door", { 128,96 }, { 3072, 2848 });
+	//CreateCollision("Door", { 128,96 }, { 3072, 2848 });
 	TopDoor3->SetPivot({ 0, -11 });
 	BotDoor1->SetPivot({ 0, -11 });
 	RightDoor1->SetPivot({ 0, -11 });
@@ -67,8 +67,8 @@ void Map1F::DoorAnimationCreate()
 {
 
 	TopDoor1 = CreateRenderer();
-	TopDoor1->CreateAnimation("Top_Door_Idle_Animation.bmp", "Idle_Top", 0, 2, 0.035f, false);
-	TopDoor1->CreateAnimation("Top_Door_Animation.bmp", "Top", 0, 2, 0.035f, false);
+	TopDoor1->CreateAnimation("Top_Door_Idle_Animation.bmp", "Idle_Top", 0, 2, 1.0f, false);
+	TopDoor1->CreateAnimation("Top_Door_Animation.bmp", "Top", 0, 2, 0.07f, false);
 	TopDoor1->ChangeAnimation("Idle_Top");
 
 	TopDoor2 = CreateRenderer();

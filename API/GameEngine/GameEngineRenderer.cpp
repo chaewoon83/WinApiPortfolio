@@ -19,7 +19,7 @@ GameEngineRenderer::GameEngineRenderer()
 {
 }
 
-GameEngineRenderer::~GameEngineRenderer() 
+GameEngineRenderer::~GameEngineRenderer()
 {
 }
 
@@ -40,7 +40,7 @@ void GameEngineRenderer::SetImage(const std::string& _Name)
 	GameEngineImage* FindImage = GameEngineImageManager::GetInst()->Find(_Name);
 	if (nullptr == FindImage)
 	{
-		MsgBoxAssertString(_Name+ "존재하지 않는 이미지를 랜더러에 세팅하려 했습니다.");
+		MsgBoxAssertString(_Name + "존재하지 않는 이미지를 랜더러에 세팅하려 했습니다.");
 		return;
 	}
 	Image_ = FindImage;
@@ -176,6 +176,21 @@ void GameEngineRenderer::FrameAnimation::Update()
 			}
 		}
 	}
-		Renderer_->Image_ = Image_;
-		Renderer_->SetIndex(CurrentFrame_);
+	Renderer_->Image_ = Image_;
+	Renderer_->SetIndex(CurrentFrame_);
+}
+
+void GameEngineRenderer::SetOrder(int _Order)
+{
+	if (nullptr == GetActor())
+	{
+		MsgBoxAssert("렌더링 오더를 세팅하는중 액터가 세팅되어있지 않습니다");
+	}
+
+	if (nullptr == GetActor()->GetLevel())
+	{
+		MsgBoxAssert("렌더링 오더를 세팅하는중 레벨이 세팅되어있지 않습니다");
+	}
+
+	GetActor()->GetLevel()->ChangeRenderOrder(this, _Order);
 }

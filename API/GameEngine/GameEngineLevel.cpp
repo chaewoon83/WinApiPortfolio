@@ -2,15 +2,17 @@
 //delete (*StartActor)를 하기위해 (불완전한 형식 오류를 없애기 위하여)
 #include "GameEngineActor.h"
 #include "GameEngineCollision.h"
+#include "GameEngineRenderer.h"
 
-GameEngineLevel::GameEngineLevel() 
+
+GameEngineLevel::GameEngineLevel()
 	: CameraPos_(float4::ZERO)
 {
-}  
+}
 
 
 
-GameEngineLevel::~GameEngineLevel() 
+GameEngineLevel::~GameEngineLevel()
 {
 	std::map<int, std::list<GameEngineActor*>>::iterator GroupStart = AllActor_.begin();
 	std::map<int, std::list<GameEngineActor*>>::iterator GroupEnd = AllActor_.end();
@@ -64,6 +66,31 @@ void GameEngineLevel::ActorUpdate()
 }
 void GameEngineLevel::ActorRender()
 {
+
+	{
+		std::map<int, std::list<GameEngineRenderer*>>::iterator GroupStart = AllRenderer_.begin();
+		std::map<int, std::list<GameEngineRenderer*>>::iterator GroupEnd = AllRenderer_.end();
+
+		std::list<GameEngineRenderer*>::iterator StartRenderer;
+		std::list<GameEngineRenderer*>::iterator EndRenderer;
+
+		for (; GroupStart != GroupEnd; ++GroupStart)
+		{
+			std::list<GameEngineRenderer*>& Group = GroupStart->second;
+			StartRenderer = Group.begin();
+			EndRenderer = Group.end();
+			for (; StartRenderer != EndRenderer; ++StartRenderer)
+			{
+				if (false == (*StartRenderer)->IsUpdate())
+				{
+					continue;
+				}
+				//delete를 할 수 있는 권한은 Actor에게 있다. 목록에서만 제외
+				(*StartRenderer)->Render();
+			}
+		}
+	}
+
 	std::map<int, std::list<GameEngineActor*>>::iterator GroupStart = AllActor_.begin();
 	std::map<int, std::list<GameEngineActor*>>::iterator GroupEnd = AllActor_.end();
 	std::list<GameEngineActor*>::iterator StartActor;
@@ -74,18 +101,6 @@ void GameEngineLevel::ActorRender()
 	{
 		std::list<GameEngineActor*>& Group = GroupStart->second;
 
-		//Renderer가 호출된다
-		StartActor = Group.begin();
-		EndActor = Group.end();
-
-		for (; StartActor != EndActor; ++StartActor)
-		{
-			if (false == (*StartActor)->IsUpdate())
-			{
-				continue;
-			}
-			(*StartActor)->Rendering();
-		}
 		//Actor 개개인의 Render()함수가 호출된다
 		StartActor = Group.begin();
 		EndActor = Group.end();
@@ -96,7 +111,7 @@ void GameEngineLevel::ActorRender()
 		}
 	}
 }
-	
+
 void GameEngineLevel::CollisionDebugRender()
 {
 	std::map<std::string, std::list<GameEngineCollision*>>::iterator GroupStart = AllCollision_.begin();
@@ -123,6 +138,33 @@ void GameEngineLevel::CollisionDebugRender()
 
 void GameEngineLevel::ActorRelease()
 {
+
+	//액터를 delete하기전에 레벨 안에있는 collision 삭제하기
+	{
+		std::map<int, std::list<GameEngineRenderer*>>::iterator GroupStart = AllRenderer_.begin();
+		std::map<int, std::list<GameEngineRenderer*>>::iterator GroupEnd = AllRenderer_.end();
+
+		std::list<GameEngineRenderer*>::iterator StartRender;
+		std::list<GameEngineRenderer*>::iterator EndRender;
+
+		for (; GroupStart != GroupEnd; ++GroupStart)
+		{
+			std::list<GameEngineRenderer*>& Group = GroupStart->second;
+			StartRender = Group.begin();
+			EndRender = Group.end();
+			for (; StartRender != EndRender;)
+			{
+				if (false == (*StartRender)->IsDeath())
+				{
+					++StartRender;
+					continue;
+				}
+				//delete를 할 수 있는 권한은 Actor에게 있다. 목록에서만 제외
+				StartRender = Group.erase(StartRender);
+			}
+		}
+	}
+
 	//액터를 delete하기전에 레벨 안에있는 collision 삭제하기
 	{
 		std::map<std::string, std::list<GameEngineCollision*>>::iterator GroupStart = AllCollision_.begin();
@@ -184,10 +226,22 @@ void GameEngineLevel::ActorRelease()
 	}
 }
 
-void GameEngineLevel::AddCollision(const std::string& _GroupName, 
+void GameEngineLevel::AddCollision(const std::string& _GroupName,
 	GameEngineCollision* _Collision)
 {
 	//find 후 create까지
 	AllCollision_[_GroupName].push_back(_Collision);
 }
 
+
+void GameEngineLevel::AddRenderer(GameEngineRenderer* _Renderer)
+{
+	AllRenderer_[_Renderer->GetOrder()].push_back(_Renderer);
+}
+
+void GameEngineLevel::ChangeRenderOrder(GameEngineRenderer* _Renderer, int _NewOrder)
+{
+	AllRenderer_[_Renderer->GetOrder()].remove(_Renderer);
+	_Renderer->GameEngineUpdateObject::SetOrder(_NewOrder);
+	AllRenderer_[_Renderer->GetOrder()].push_back(_Renderer);
+}

@@ -58,11 +58,20 @@ public:
 		IsReleaseUpdate_ = true;
 	}
 
+	inline int GetOrder()
+	{
+		return Order_;
+	}
 
+	virtual inline void SetOrder(int _Order)
+	{
+		Order_ = _Order;
+	}
 
 protected:
 
 private:
+	int Order_;
 	bool IsReleaseUpdate_;
 	float DeathTime_;
 	float OffTime_;

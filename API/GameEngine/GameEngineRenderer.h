@@ -9,6 +9,7 @@ class GameEngineImage;
 class GameEngineRenderer : public GameEngineActorSubObject
 {
 	friend GameEngineActor;
+	friend GameEngineLevel;
 public:
 	// constrcuter destructer
 	GameEngineRenderer();
@@ -55,7 +56,7 @@ public:
 		return Image_;
 	}
 
-	void SetIndex(size_t Index, float4 _Scale = {-1.0f, -1.0f});
+	void SetIndex(size_t Index, float4 _Scale = { -1.0f, -1.0f });
 
 	void CameraEffectOff()
 	{
@@ -67,6 +68,8 @@ public:
 		IsCameraEffect_ = true;
 	}
 
+	void SetOrder(int _Order) override;
+
 protected:
 	void Render();
 private:
@@ -75,8 +78,8 @@ private:
 	GameEngineImage* Image_;
 	RenderPivot PivotType_; //Center Bot etc
 	RenderScaleMode ScaleMode_;
+
 	float4 RenderPivot_;
-	
 	//실제로 그려지는 크기
 	float4 RenderScale_;
 	//잘리는 이미지 시작점
@@ -87,7 +90,7 @@ private:
 
 	bool IsCameraEffect_;
 
-//////////////////////////////////////////////////////////////////////////////////////////////Animation
+	//////////////////////////////////////////////////////////////////////////////////////////////Animation
 
 private:
 	class FrameAnimation
@@ -124,7 +127,7 @@ private:
 
 public:
 	void ChangeAnimation(const std::string& _Name);
-	void CreateAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex, 
+	void CreateAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex,
 		float _InterTime, bool _Loop = true);
 
 private:

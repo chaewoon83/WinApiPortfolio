@@ -13,7 +13,7 @@ class GameEngineCollision;
 //메모리는 순서대로간다
 class GameEngineActor : public GameEngineNameObject, public GameEngineUpdateObject
 {
-///////////////////////////////////////////////////////////////Actor Options
+	///////////////////////////////////////////////////////////////Actor Options
 public:
 	//SetLevel함수를 GameEngineLevel에서만 호출 할 수 있게끔 만들었다
 	friend GameEngineLevel;
@@ -64,7 +64,7 @@ public:
 	}
 
 
-		 
+
 protected:
 	//생성자에서는 처리못하는 만들어지거나 시작할때 처리할것
 	//맘대로 호출하면 안됨
@@ -85,15 +85,17 @@ private:
 	}
 
 
-///////////////////////////////////////////////////////////////Render Options
+	///////////////////////////////////////////////////////////////Render Options
 public:
 	//디폴트 인자는 오버로딩을 하는 경우 모호함이 생길 수 있기 때문에 함수를 하나만 만든다.
 	//디폴트 인자는 선언에서만 구현 가능하다.
-	GameEngineRenderer* CreateRenderer(RenderPivot _PivotType = RenderPivot::CENTER, const float4& _PivotPos = {0,0});
-	GameEngineRenderer* CreateRenderer(const std::string& _Image, RenderPivot _PivotType = RenderPivot::CENTER, const float4& _PivotPos = {0,0});
-	GameEngineRenderer* CreateRendererToScale(const std::string& _Image, const float4& _PivotScale, RenderPivot _PivotType = RenderPivot::CENTER, 
+	GameEngineRenderer* CreateRenderer(int _Order = static_cast<int>(EngineMax::RENDERORDERMAX), RenderPivot _PivotType = RenderPivot::CENTER, const float4& _PivotPos = { 0,0 });
+	GameEngineRenderer* CreateRenderer(const std::string& _Image,
+		int _Order = static_cast<int>(EngineMax::RENDERORDERMAX),
+		RenderPivot _PivotType = RenderPivot::CENTER,
 		const float4& _PivotPos = { 0,0 });
-	void Rendering();
+	GameEngineRenderer* CreateRendererToScale(const std::string& _Image, const float4& _PivotScale, int _Order = static_cast<int>(EngineMax::RENDERORDERMAX), RenderPivot _PivotType = RenderPivot::CENTER,
+		const float4& _PivotPos = { 0,0 });
 private:
 	//딴데서 사용하지 말것
 	std::list <GameEngineRenderer*>::iterator StartRenderIter;
@@ -102,9 +104,9 @@ private:
 	std::list <GameEngineRenderer*> RenderList_;
 
 
-///////////////////////////////////////////////////////////////Collision
+	///////////////////////////////////////////////////////////////Collision
 public:
-	GameEngineCollision* CreateCollision(const std::string& _GroupName, float4 _Scale, float4 _Pivot = {0, 0});
+	GameEngineCollision* CreateCollision(const std::string& _GroupName, float4 _Scale, float4 _Pivot = { 0, 0 });
 private:
 	std::list <GameEngineCollision*> CollisionList_;
 };
