@@ -38,7 +38,7 @@ void PlayerLink::Start()
 	GameEngineRenderer* Render = CreateRenderer();
 	//true 면 루프 false 면 루프아님
 	Render->SetPivot({ 0, -11 });
-	Render->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.07f, true);
+	Render->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.035f, true);
 	Render->ChangeAnimation("Walk_Down");
 
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다

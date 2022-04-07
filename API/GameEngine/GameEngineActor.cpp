@@ -64,11 +64,11 @@ GameEngineRenderer* GameEngineActor::CreateRenderer(
 	NewRenderer->SetActor(this);
 	if (static_cast<int>(EngineMax::RENDERORDERMAX) != _Order)
 	{
-		NewRenderer->SetOrder(_Order);
+		NewRenderer->GameEngineUpdateObject::SetOrder(_Order);
 	}
 	else
 	{
-		NewRenderer->SetOrder(GetOrder());
+		NewRenderer->GameEngineUpdateObject::SetOrder(GetOrder());
 	}
 	NewRenderer->SetPivot(_PivotPos);
 	NewRenderer->SetPivotType(_PivotType);
