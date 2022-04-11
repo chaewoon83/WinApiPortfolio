@@ -1,5 +1,6 @@
 #pragma once
 #include "GameEngineImage.h"
+#include "GameEngineFolderImage.h"
 #include <GameEngineBase/GameEngineMath.h>
 #include <map>
 
@@ -53,5 +54,16 @@ private:
 	//같은 이름의 이미지가 두개 존재할 수 없다.
 	//여기다가 모든 이미지를 모아놔야 관리하기도 편하고, 나중에 delete도 할 수 있다
 	std::map<std::string, GameEngineImage*> AllRes;
+
+
+	///////////////////////////////////////////////////////////////////////폴더 이미지
+public:
+	GameEngineFolderImage* FolderImageFind(const std::string& _Name);
+	GameEngineFolderImage* FolderImageLoad(const std::string& _Path);
+	GameEngineFolderImage* FolderImageLoad(const std::string& _Path, const std::string& _Name);
+
+
+private:
+	std::map<std::string, GameEngineFolderImage*> AllFolderRes;
 };
 

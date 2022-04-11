@@ -31,8 +31,8 @@ void GameEngineRenderer::SetImageScale()
 		return;
 	}
 	ScaleMode_ = RenderScaleMode::Image;
-	RenderScale_ = Image_->GetScale();
-	RenderImageScale_ = Image_->GetScale();
+	RenderScale_ = Image_->GetScale();		//화면 출력 크기, 이미지 크기로
+	RenderImageScale_ = Image_->GetScale(); //실제 이미지를, 이미지크기로
 }
 
 void GameEngineRenderer::SetImage(const std::string& _Name)
@@ -50,7 +50,7 @@ void GameEngineRenderer::SetImage(const std::string& _Name)
 void GameEngineRenderer::Render()
 {
 
-	if (nullptr != CurrentAnimation_)
+	if (nullptr != CurrentAnimation_) //CurrentAnimation이 nullptr이면 애니메이션이 지정된 렌더러가 아니므로
 	{
 		CurrentAnimation_->Update();
 	}
@@ -123,7 +123,7 @@ void GameEngineRenderer::ChangeAnimation(const std::string& _Name)
 		return;
 	}
 
-	CurrentAnimation_ = &(FindIter->second);
+	CurrentAnimation_ = &(FindIter->second); //FrameAnimation은 값형이다
 }
 
 void GameEngineRenderer::CreateAnimation(
@@ -147,6 +147,7 @@ void GameEngineRenderer::CreateAnimation(
 	}
 
 	FrameAnimation& NewAnimation = Animations_[_Name];
+	NewAnimation.SetName(_Name);
 	NewAnimation.Renderer_ = this;
 	NewAnimation.Image_ = FindImage;
 	NewAnimation.CurrentFrame_ = _StartIndex;
@@ -157,8 +158,38 @@ void GameEngineRenderer::CreateAnimation(
 	NewAnimation.Loop_ = _Loop;
 }
 
+
+void GameEngineRenderer::CreateFolderAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex, float _InterTime, bool _Loop /*= true*/)
+{
+	GameEngineFolderImage* FindImage = GameEngineImageManager::GetInst()->FolderImageFind(_Image);
+	if (nullptr == FindImage)
+	{
+		MsgBoxAssertString(_Name + "존재하지 않는 이미지로 애니메이션을 만들려고 했습니다.");
+		return;
+	}
+
+	if (Animations_.end() != Animations_.find(_Name))
+	{
+		MsgBoxAssert("이미 존재하는 애니메이션을 또 만들려고 했습니다.");
+		return;
+	}
+
+	FrameAnimation& NewAnimation = Animations_[_Name];
+	NewAnimation.SetName(_Name);
+	NewAnimation.Renderer_ = this;
+	NewAnimation.FolderImage_ = FindImage;
+	NewAnimation.CurrentFrame_ = _StartIndex;
+	NewAnimation.StartFrame_ = _StartIndex;
+	NewAnimation.EndFrame_ = _EndIndex;
+	NewAnimation.CurrentInterTime_ = _InterTime;
+	NewAnimation.InterTime_ = _InterTime;
+	NewAnimation.Loop_ = _Loop;
+
+}
+
 void GameEngineRenderer::FrameAnimation::Update()
 {
+	IsEnd = false;
 	CurrentInterTime_ -= GameEngineTime::GetDeltaTime();
 	if (0 >= CurrentInterTime_)
 	{
@@ -168,16 +199,26 @@ void GameEngineRenderer::FrameAnimation::Update()
 		{
 			if (true == Loop_)
 			{
+				IsEnd = true;
 				CurrentFrame_ = StartFrame_;
 			}
 			else
 			{
+				IsEnd = true;
 				CurrentFrame_ = EndFrame_;
 			}
 		}
 	}
-	Renderer_->Image_ = Image_;
-	Renderer_->SetIndex(CurrentFrame_);
+	if (nullptr != Image_)
+	{
+		Renderer_->Image_ = Image_;		// 렌더러에게 이 애니메이션 만들때 세팅했던 이미지를 세팅해준다.
+		Renderer_->SetIndex(CurrentFrame_);	// 렌더러에게 인덱스도 세팅해준다. 즉, 해당 애니메이션 이미지의 몇번째 칸(Index) 세팅해주면 렌더러는 알아서 출력한다.
+	}
+	else if (nullptr != FolderImage_)
+	{
+		Renderer_->Image_ = FolderImage_->GetImage(CurrentFrame_);		// 렌더러에게 이 애니메이션 만들때 세팅했떤 이미지를 세팅해준다.
+		Renderer_->SetImageScale();	// 렌더러에게 인덱스도 세팅해준다. 즉, 해당 애니메이션 이미지의 몇번째 칸(Index) 세팅해주면 렌더러는 알아서 출력한다.
+	}
 }
 
 void GameEngineRenderer::SetOrder(int _Order)
@@ -193,4 +234,14 @@ void GameEngineRenderer::SetOrder(int _Order)
 	}
 
 	GetActor()->GetLevel()->ChangeRenderOrder(this, _Order);
+}
+
+bool GameEngineRenderer::IsEndAnimation()
+{
+	return CurrentAnimation_->IsEnd;
+}
+
+bool GameEngineRenderer::IsAnimationName(const std::string& _Name)
+{
+	return CurrentAnimation_->GetNameConstRef() == _Name;
 }

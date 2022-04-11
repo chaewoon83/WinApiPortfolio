@@ -6,6 +6,7 @@
 //#include "GameEngineImage.h"
 // 설명 :
 class GameEngineImage;
+class GameEngineFolderImage;
 class GameEngineRenderer : public GameEngineActorSubObject
 {
 	friend GameEngineActor;
@@ -36,7 +37,7 @@ public:
 		ScaleMode_ = RenderScaleMode::User;
 		RenderScale_ = _Scale;
 	}
-
+	// 렌더러 스케일과 이미지 스케일을 같이 맞춰줌, SetImage()에서 호출하여 사용한다.
 	void SetImageScale();
 
 
@@ -71,6 +72,7 @@ public:
 	void SetOrder(int _Order) override;
 
 protected:
+	// EngineImage의 TransCopy 로 이미지를 백버퍼에 그린다.
 	void Render();
 private:
 	friend class FrameAnimation;
@@ -86,24 +88,27 @@ private:
 	float4 RenderImagePivot_;
 	//자르는 이미지의 크기
 	float4 RenderImageScale_;
+	//투명화할 색깔
 	unsigned int TransColor_;
-
+	// 해당 렌더러의 카메라 영향 유무
 	bool IsCameraEffect_;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////Animation
 
 private:
-	class FrameAnimation
+	class FrameAnimation : public GameEngineNameObject
 	{
 	public:
 		GameEngineRenderer* Renderer_;
 		GameEngineImage* Image_;
+		GameEngineFolderImage* FolderImage_;
 		int CurrentFrame_;
 		int StartFrame_;
 		int EndFrame_;
 		float InterTime_;
 		float CurrentInterTime_;
-		bool Loop_;
+		bool Loop_ = false;
+		bool IsEnd;
 
 	public:
 		FrameAnimation()
@@ -117,8 +122,10 @@ private:
 		{
 		};
 		void Update();
+		//처음 재생 상태로 만드는 것
 		void Reset()
 		{
+			IsEnd = false;
 			CurrentFrame_ = StartFrame_;
 			CurrentInterTime_ = InterTime_;
 		}
@@ -129,6 +136,12 @@ public:
 	void ChangeAnimation(const std::string& _Name);
 	void CreateAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex,
 		float _InterTime, bool _Loop = true);
+	void CreateFolderAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex, float _InterTime,
+		bool _Loop = true);
+
+	bool IsEndAnimation();
+
+	bool IsAnimationName(const std::string& _Name);
 
 private:
 	std::map<std::string, FrameAnimation> Animations_;

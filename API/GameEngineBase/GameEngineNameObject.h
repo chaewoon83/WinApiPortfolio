@@ -26,7 +26,7 @@ public:
 		return Name_;
 	}
 
-	std::string& GetNameRef()
+	std::string& GetNameConstRef()
 	{
 		return Name_;
 	}
