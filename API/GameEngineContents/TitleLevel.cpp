@@ -1,8 +1,9 @@
 #include "TitleLevel.h"
-#include "GameEngine/GameEngine.h"
+#include <GameEngineBase/GameEngineInput.h>
+#include <GameEngine/GameEngine.h>
 #include "TitleLogo.h"
 #include "TitleBackGround.h"
-#include <GameEngineBase/GameEngineInput.h>
+#include "TitleTriangle.h"
 
 
 TitleLevel::TitleLevel() 
@@ -18,6 +19,8 @@ void TitleLevel::Loading()
 	//??
 	CreateActor<TitleLogo>(1);
 	CreateActor<TitleBackGround>(0);
+	CreateActor<TitleTriangle>(2);
+
 }
 
 void TitleLevel::Update()

@@ -23,6 +23,6 @@ void TitleLogo::Update()
 }
 void TitleLogo::Render()
 {
-	DebugRectRender();
+	//DebugRectRender();
 
 }

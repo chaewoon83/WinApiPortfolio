@@ -108,6 +108,9 @@
     <ClInclude Include="Map1FRoof.h">
       <Filter>Play\Map</Filter>
     </ClInclude>
+    <ClInclude Include="TitleTriangle.h">
+      <Filter>Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -215,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="Map1FRoof.cpp">
       <Filter>Play\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleTriangle.cpp">
+      <Filter>Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

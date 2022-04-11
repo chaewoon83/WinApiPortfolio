@@ -37,6 +37,7 @@ void Zelda::GameInit()
 	ImageCutter("Left_Door_Idle_Animation.bmp", 3, 1);
 	ImageCutter("Right_Door_Animation.bmp", 3, 1);
 	ImageCutter("Right_Door_Idle_Animation.bmp", 3, 1);
+	ImageCutter("trianglebmp.bmp", 5, 34);
 	//GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Link_Walk_Down.bmp");
 	//Image->CutCount(8, 1);
 
@@ -53,7 +54,7 @@ void Zelda::GameInit()
 	CreateLevel<PlayMapB1F>("PlayMapB1F");
 	CreateLevel<PlayMap1F>("PlayMap1F");
 	CreateLevel<PlayMap2F>("PlayMap2F");
-	ChangeLevel("PlayMap1F"); 
+	ChangeLevel("TitleLevel"); 
 
 
 }

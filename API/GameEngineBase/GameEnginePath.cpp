@@ -21,7 +21,7 @@ void GameEnginePath::SetCurrentPath()
 }
 
 //이 경로가 존재하는 경로인지 확인
-bool GameEnginePath::IsExist()
+bool GameEnginePath::IsExits()
 {
 	return std::filesystem::exists(Path_);
 }

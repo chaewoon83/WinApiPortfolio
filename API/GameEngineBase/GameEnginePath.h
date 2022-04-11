@@ -17,7 +17,7 @@ public:
 
 	void SetCurrentPath();
 
-	bool IsExist();
+	bool IsExits();
 
 	std::string GetExtension();
 
