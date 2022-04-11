@@ -36,6 +36,6 @@ void Map1FRoof::Update()
 }
 void Map1FRoof::Render()
 {
-	DebugRectRender();
+	//DebugRectRender();
 
 }

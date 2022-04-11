@@ -46,7 +46,7 @@ void Map1F::Update()
 }
 void Map1F::Render()
 {
-	DebugRectRender();
+	//DebugRectRender();
 
 }
 
