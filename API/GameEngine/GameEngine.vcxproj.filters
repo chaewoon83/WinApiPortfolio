@@ -14,9 +14,6 @@
     <ClInclude Include="GameEngineImageManager.h">
       <Filter>Resources\Manager</Filter>
     </ClInclude>
-    <ClInclude Include="GameEngineSound.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngineRenderer.h">
       <Filter>Object\Actor\SubObject</Filter>
     </ClInclude>
@@ -49,9 +46,6 @@
     </ClCompile>
     <ClCompile Include="GameEngineImageManager.cpp">
       <Filter>Resources\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="GameEngineSound.cpp">
-      <Filter>Resources</Filter>
     </ClCompile>
     <ClCompile Include="GameEngineRenderer.cpp">
       <Filter>Object\Actor\SubObject</Filter>

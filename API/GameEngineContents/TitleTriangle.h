@@ -23,5 +23,19 @@ private:
 	float4 TopTrianglePos_;
 	float4 BotRightTrianglePos_;
 	float4 BotLeftTrianglePos_;
+	bool IsTriangleExist_;
+	bool IsTriangleDeath_;
+
+	GameEngineRenderer* TopTriangle;
+	GameEngineRenderer* BotRightTriangle;
+	GameEngineRenderer* BotLeftTriangle;
+
+private:
+	float4 SetRenderMove(float4& _Pos, const float4& _Value)
+	{
+		_Pos += _Value;
+		return _Pos;
+	}
 };
+
 

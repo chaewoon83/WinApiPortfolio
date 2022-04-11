@@ -103,8 +103,7 @@ GameEngineImage* GameEngineImageManager::Create(const std::string& _Name, const 
 GameEngineImage* GameEngineImageManager::Load(const std::string& _Path)
 { 
 	GameEnginePath NewPath = GameEnginePath(_Path);
-	std::string FileName = NewPath.GetFileName();
-	return Load(_Path, NewPath.GetFileName());
+	return GameEngineImageManager::Load(_Path, NewPath.GetFileName());
 }
 
 GameEngineImage* GameEngineImageManager::Load(const std::string& _Path,const std::string& _Name)

@@ -19,6 +19,7 @@ protected:
 	void Update() override;
 	void Render() override;
 private:
-
+	GameEngineRenderer* TitleLogo_;
+	bool IsTitleLogoExist_;
 };
 

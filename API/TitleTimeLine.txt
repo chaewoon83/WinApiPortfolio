@@ -1,0 +1,30 @@
+타임라인
+
+0.5 -> 2.5 nintendo presents appears
+
+3-> 1911 1992nintendo appears
+
+4->8.5  triangle move
+
+11.7-> logo, Twinkle appears
+
+12.5 -> triangle go backward
+
+13-> sword come out
+13.5 -> sword stop
+
+14-> background came out
+
+(512, 448)
+
+TopTriangle 512, 0 -> 512, 448-64-22+8 -> 512, 370
+BotRightTriangle (1024, 896) -> (512-64-16, 448+64+22) -> (432, 
+BotLeftTriangle (0, 896) -> (512+64+16, 448+64+22) ->
+
+Sword Pos, x = Center-262, y = Cneter
+
+LogoScale = 696, 348 half = 348, 174
+
+TwinklePos2 425, 102 -> 77, -72
+TwinklePos3 257, 257 -> -91, 83
+TwinklePos4 25, 106 -> -323, -68

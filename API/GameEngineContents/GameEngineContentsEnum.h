@@ -8,4 +8,17 @@ enum class PlayLevelOrder
 	BACKGROUNDROOF,
 	UILAYOUT,
 	UI,
+	MAX,
+};
+
+enum class TitleOrder
+{
+	BACKGROUND,
+	OBJECTS,
+	LOGO,
+	TRIANGLES,
+	SWORD,
+	ZeldaZ,
+	TWINKLE,
+	MAX,
 };

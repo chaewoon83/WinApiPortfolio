@@ -4,6 +4,7 @@
 #include "GameEngineImageManager.h"
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
+#include <GameEngineBase/GameEngineSound.h>
 
 GameEngine* GameEngine::UserContents_ = nullptr;
 GameEngineLevel* GameEngine::CurrentLevel_ = nullptr;
@@ -117,7 +118,9 @@ void GameEngine::EngineEnd()
         delete StartIter->second;
     }
     //내가 원하는 순서대로 지울 수 있게 Destroy 함수를 따로 만들었다
-    //이미지매니저 싱글톤 삭제
+    //사운드 삭제
+    GameEngineSound::AllResourcesDestroy();
+    //이미지매니저 싱글톤 삭제 (이미지도 모두 이때 삭제)
     GameEngineImageManager::Destroy();
     //윈도우 싱글톤 삭제
     GameEngineWindow::Destroy();

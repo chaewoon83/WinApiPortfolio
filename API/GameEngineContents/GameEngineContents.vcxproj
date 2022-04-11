@@ -253,6 +253,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Title19911992.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TitleBackGround.h">
       <SubType>
       </SubType>
@@ -265,7 +269,31 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="TitleNintenPresents.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TitleSword.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TitleTimeObject.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="TitleTriangle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TitleTripleTrigangle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TitleTwinkle.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="TitleZeldaZ.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -400,6 +428,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Title19911992.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TitleBackGround.cpp">
       <SubType>
       </SubType>
@@ -412,7 +444,31 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="TitleNintenPresents.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TitleSword.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TitleTimeObject.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="TitleTriangle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TitleTripleTrigangle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TitleTwinkle.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="TitleZeldaZ.cpp">
       <SubType>
       </SubType>
     </ClCompile>

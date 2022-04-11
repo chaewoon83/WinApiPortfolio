@@ -16,8 +16,10 @@ public:
 
 protected:
 	void Start() override;
+	void Update() override;
 	void Render() override;
 private:
-
+	GameEngineRenderer* BackGround_;
+	bool IsBackGroundExist_;
 };
 

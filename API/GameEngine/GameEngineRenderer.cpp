@@ -200,12 +200,12 @@ void GameEngineRenderer::FrameAnimation::Update()
 			if (true == Loop_)
 			{
 				IsEnd = true;
-				CurrentFrame_ = StartFrame_;
+				CurrentFrame_ = StartFrame_;	// Loop가 True라면 이미지를 반복시킨다.
 			}
 			else
 			{
 				IsEnd = true;
-				CurrentFrame_ = EndFrame_;
+				CurrentFrame_ = EndFrame_;	// Loop가 false라면 애니메이션 진행후 EndFrame으로 고정시킨다.
 			}
 		}
 	}

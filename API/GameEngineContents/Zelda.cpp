@@ -10,6 +10,7 @@
 #include <GameEngineBase/GameEngineFile.h>
 #include <GameEngineBase/GameEngineinput.h>
 #include <GameEngine/GameEngineImageManager.h>
+#include <GameEngineBase/GameEngineSound.h>
 
 Zelda::Zelda()
 {
@@ -38,6 +39,7 @@ void Zelda::GameInit()
 	ImageCutter("Right_Door_Animation.bmp", 3, 1);
 	ImageCutter("Right_Door_Idle_Animation.bmp", 3, 1);
 	ImageCutter("trianglebmp.bmp", 5, 34);
+	ImageCutter("TitleTwinkle.bmp", 9, 1);
 	//GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Link_Walk_Down.bmp");
 	//Image->CutCount(8, 1);
 
@@ -75,6 +77,21 @@ void Zelda::GetImageFromFolder(const std::string& _Folder)
 	ResourcesDir.Move("Image");
 	ResourcesDir.Move(_Folder);
 	std::vector<GameEngineFile> AllImageFileList = ResourcesDir.GetAllFile(".bmp");
+
+	for (size_t i = 0; i < AllImageFileList.size(); i++)
+	{
+		GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
+	}
+}
+
+void Zelda::GetSoundFromFolder()
+{
+	GameEngineDirectory ResourcesDir;
+	ResourcesDir.MoveParent("API");
+	ResourcesDir.Move("Resources");
+	ResourcesDir.Move("Sound");
+
+	std::vector<GameEngineFile> AllImageFileList = ResourcesDir.GetAllFile(".mp3");
 
 	for (size_t i = 0; i < AllImageFileList.size(); i++)
 	{

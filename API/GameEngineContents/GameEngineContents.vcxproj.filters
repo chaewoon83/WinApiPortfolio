@@ -111,6 +111,27 @@
     <ClInclude Include="TitleTriangle.h">
       <Filter>Title</Filter>
     </ClInclude>
+    <ClInclude Include="TitleTimeObject.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleNintenPresents.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Title19911992.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleSword.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleZeldaZ.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleTripleTrigangle.h">
+      <Filter>Title</Filter>
+    </ClInclude>
+    <ClInclude Include="TitleTwinkle.h">
+      <Filter>Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -220,6 +241,27 @@
       <Filter>Play\Map</Filter>
     </ClCompile>
     <ClCompile Include="TitleTriangle.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleTimeObject.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleNintenPresents.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Title19911992.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleSword.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleZeldaZ.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleTripleTrigangle.cpp">
+      <Filter>Title</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleTwinkle.cpp">
       <Filter>Title</Filter>
     </ClCompile>
   </ItemGroup>

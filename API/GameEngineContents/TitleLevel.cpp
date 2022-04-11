@@ -1,10 +1,17 @@
 #include "TitleLevel.h"
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngine/GameEngine.h>
+#include "GameEngineContentsEnum.h"
 #include "TitleLogo.h"
 #include "TitleBackGround.h"
 #include "TitleTriangle.h"
-
+#include "TitleTimeObject.h"
+#include "Title19911992.h"
+#include "TitleNintenPresents.h"
+#include "TitleSword.h"
+#include "TitleZeldaZ.h"
+#include "TitleTripleTrigangle.h"
+#include "TitleTwinkle.h"
 
 TitleLevel::TitleLevel() 
 {
@@ -17,9 +24,17 @@ TitleLevel::~TitleLevel()
 void TitleLevel::Loading()
 {
 	//??
-	CreateActor<TitleLogo>(1);
-	CreateActor<TitleBackGround>(0);
-	CreateActor<TitleTriangle>(2);
+	CreateActor<TitleBackGround>(static_cast<int>(TitleOrder::BACKGROUND));
+	CreateActor<TitleTimeObject>(static_cast<int>(TitleOrder::BACKGROUND));
+	CreateActor<TitleTripleTrigangle>(static_cast<int>(TitleOrder::OBJECTS));
+	CreateActor<TitleNintenPresents>(static_cast<int>(TitleOrder::OBJECTS));
+	CreateActor<Title19911992>(static_cast<int>(TitleOrder::OBJECTS));
+	CreateActor<TitleLogo>(static_cast<int>(TitleOrder::LOGO));
+	CreateActor<TitleTriangle>(static_cast<int>(TitleOrder::TRIANGLES));
+	CreateActor<TitleSword>(static_cast<int>(TitleOrder::SWORD));
+	CreateActor<TitleZeldaZ>(static_cast<int>(TitleOrder::ZeldaZ));
+	CreateActor<TitleTwinkle>(static_cast<int>(TitleOrder::TWINKLE));
+
 
 }
 
