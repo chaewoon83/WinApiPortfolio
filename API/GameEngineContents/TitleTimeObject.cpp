@@ -1,7 +1,7 @@
 #include "TitleTimeObject.h"
 #include <GameEngineBase/GameEngineTime.h>
 
-float TitleTimeObject::TimeLine_ = 0;
+float TitleTimeObject::TimeLine_ = -0.7f;
 
 TitleTimeObject::TitleTimeObject() 
 {

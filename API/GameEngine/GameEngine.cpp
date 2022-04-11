@@ -89,7 +89,9 @@ void GameEngine::EngineLoop()
     {
         MsgBoxAssert("Level is nullptr => GameEngine Loop Error");
     }
-    //Level, Actor, Renderer가 호출되기전에 인풋 업데이트를 돌려준다
+    //Level, Actor, Renderer가 호출되기전에 기본(사운드와 인풋) 업데이트를 돌려준다
+
+    GameEngineSound::Update();
     GameEngineInput::GetInst()->Update(GameEngineTime::GetInst()->GetDeltaTime());
 
     // 레벨수준 시간제한이 있는 게임이라면

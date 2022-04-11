@@ -1,6 +1,7 @@
 #include "TitleLevel.h"
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngine/GameEngine.h>
+#include <GameEngineBase/GameEngineSound.h>
 #include "GameEngineContentsEnum.h"
 #include "TitleLogo.h"
 #include "TitleBackGround.h"
@@ -46,3 +47,9 @@ void TitleLevel::Update()
 	}
 
 }
+
+void TitleLevel::LevelChangeStart()
+{
+	GameEngineSound::PlayOneShot("TitleScreen.mp3");
+}
+

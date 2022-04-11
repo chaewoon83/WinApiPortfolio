@@ -23,7 +23,7 @@ Zelda::~Zelda()
 void Zelda::GameInit()
 {
 	GameEngineWindow::GetInst().SetWindowScaleAndPosition({ 100 ,100 }, { 1024, 896 });
-	//모든 리소스를 로드 할 예정
+	//폴더에서 이미지 가져오기
 	GetImageFromFolder("Link");
 	GetImageFromFolder("Title");
 	GetImageFromFolder("UI");
@@ -43,6 +43,8 @@ void Zelda::GameInit()
 	//GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Link_Walk_Down.bmp");
 	//Image->CutCount(8, 1);
 
+	//폴더에서 사운드 가져오기
+	GetSoundFromFolder();
 
 
 	if (false == GameEngineInput::GetInst()->IsKey("LevelChange"))
@@ -95,7 +97,7 @@ void Zelda::GetSoundFromFolder()
 
 	for (size_t i = 0; i < AllImageFileList.size(); i++)
 	{
-		GameEngineImageManager::GetInst()->Load(AllImageFileList[i].GetFullPath());
+		GameEngineSound::LoadRes(AllImageFileList[i].GetFullPath());
 	}
 }
 

@@ -34,7 +34,7 @@ void TitleTwinkle::Update()
 			Twinkle1_->SetPivot(TwinklePos2_);
 			Twinkle1_->ChangeAnimation("Twinkle2");
 			CurrentTwinkle_ = 2;
-			Twinkle1_->IsEndAnimation();
+			return;
 		}
 
 		else if (2 == CurrentTwinkle_ && Twinkle1_->IsEndAnimation())
@@ -42,6 +42,7 @@ void TitleTwinkle::Update()
 			Twinkle1_->SetPivot(TwinklePos3_);
 			Twinkle1_->ChangeAnimation("Twinkle3");
 			CurrentTwinkle_ = 3;
+			return;
 
 		}
 
@@ -50,6 +51,7 @@ void TitleTwinkle::Update()
 			Twinkle1_->SetPivot(TwinklePos4_);
 			Twinkle1_->ChangeAnimation("Twinkle4");
 			CurrentTwinkle_ = 4;
+			return;
 		}
 
 		else if (4 == CurrentTwinkle_ && Twinkle1_->IsEndAnimation())
@@ -57,6 +59,7 @@ void TitleTwinkle::Update()
 			Twinkle1_->SetPivot(TwinklePos1_);
 			Twinkle1_->ChangeAnimation("Twinkle1");
 			CurrentTwinkle_ = 1;
+			return;
 		}
 	}
 
