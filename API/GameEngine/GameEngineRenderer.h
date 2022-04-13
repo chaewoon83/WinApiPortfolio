@@ -64,6 +64,16 @@ public:
 
 	void SetIndex(size_t Index, float4 _Scale = { -1.0f, -1.0f });
 
+	inline void SetAlpha(unsigned int _Alpha)
+	{
+		Alpha_ = _Alpha;
+
+		if (Alpha_ >= 255)
+		{
+			Alpha_ = 255;
+		}
+	}
+
 	void CameraEffectOff()
 	{
 		IsCameraEffect_ = false;
@@ -95,6 +105,9 @@ private:
 	float4 RenderImageScale_;
 	//투명화할 색깔
 	unsigned int TransColor_;
+	//이미지의 알파값
+	unsigned int Alpha_;
+
 	// 해당 렌더러의 카메라 영향 유무
 	bool IsCameraEffect_;
 

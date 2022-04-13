@@ -15,7 +15,7 @@ GameEngineRenderer::GameEngineRenderer()
 	//11111111 00000000 11111111 의 색을 만들어 낸것이다 (unsigned int 가 RBGA를 표현한다)
 	, RenderImagePivot_({ 0, 0 })
 	, IsCameraEffect_(true)
-
+	, Alpha_(255)
 {
 }
 
@@ -72,16 +72,30 @@ void GameEngineRenderer::Render()
 	switch (PivotType_)
 	{
 	case RenderPivot::CENTER:
+
+		if (Alpha_ == 255)
+		{
+			GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - RenderScale_.Half(), RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
+		}
+		else {
+			GameEngine::BackBufferImage()->AlphaCopy(Image_, RenderPos - RenderScale_.Half(), RenderScale_, RenderImagePivot_, RenderImageScale_, Alpha_);
+		}
+		break;
 		//void GameEngineImage::TransCopy(GameEngineImage * _Other, const float4 & _CopyPos, const float4 & _CopyScale
 		//	, const float4 & _OtherPivot, const float4 & _OtherScale, unsigned int _TransColor)
-		GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - RenderScale_.Half(), RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
-		break;
 	case RenderPivot::BOT:
 	{
 		float4 Scale = RenderScale_.Half();
 		Scale.y *= 2;
 
-		GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - Scale, RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
+		if (Alpha_ == 255)
+		{
+			GameEngine::BackBufferImage()->TransCopy(Image_, RenderPos - Scale, RenderScale_, RenderImagePivot_, RenderImageScale_, TransColor_);
+		}
+		else {
+			GameEngine::BackBufferImage()->AlphaCopy(Image_, RenderPos - Scale, RenderScale_, RenderImagePivot_, RenderImageScale_, Alpha_);
+		}
+
 		break;
 	}
 	default:
