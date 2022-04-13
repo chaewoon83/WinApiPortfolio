@@ -63,6 +63,7 @@ public:
 		Scale_ = _Value;
 	}
 
+	void SetOrder(int _Order) override;
 
 
 protected:

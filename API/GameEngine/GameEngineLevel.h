@@ -2,7 +2,16 @@
 #include "GameEngineBase/GameEngineNameObject.h"
 #include <map>
 #include <list>
+#include <vector>
 #include <GameEngineBase/GameEngineMath.h>
+
+class GameEngineActor;
+struct ChangeOrderItem
+{
+	GameEngineActor* TargetObject; // 이녀석을
+	int ChangeOrder; // 이렇게 바꿔라.
+};
+
 // 설명 :
 class GameEngine;
 class GameEngineActor;
@@ -76,6 +85,8 @@ private:
 	// std::vector 로 관리하는게 더 좋다고 생각한다
 	std::map<int, std::list<GameEngineActor*>> AllActor_;
 
+	std::vector<ChangeOrderItem> ChangeOrderList;
+
 	void ActorUpdate();
 	void ActorRender();
 	void CollisionDebugRender();
@@ -85,6 +96,8 @@ private:
 	std::map<int, std::list<GameEngineRenderer*>> AllRenderer_;
 
 	void AddRenderer(GameEngineRenderer* _Renderer);
+
+	void ChangeUpdateOrder(GameEngineActor* _Actor, int _Oreder);
 
 	void ChangeRenderOrder(GameEngineRenderer* _Renderer, int _NewOrder);
 
