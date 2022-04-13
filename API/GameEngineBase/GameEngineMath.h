@@ -167,6 +167,18 @@ public:
 		return *this;
 	}
 
+	bool CompareInt2D(const float4& _Value)
+	{
+		return ix() == _Value.ix() && iy() == _Value.iy();
+	}
+
+	bool CompareInt3D(const float4& _Value)
+	{
+		return ix() == _Value.ix() &&
+			iy() == _Value.iy() &&
+			iz() == _Value.iz();
+	}
+
 
 
 public:
