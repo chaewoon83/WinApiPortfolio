@@ -68,6 +68,8 @@ void GameEngine::EngineLoop()
     //레벨이 바뀐 시점
     if (nullptr != NextLevel_)
     {
+        PrevLevel_ = CurrentLevel_;
+
         if (nullptr != CurrentLevel_)
         {
             CurrentLevel_->LevelChangeEnd();

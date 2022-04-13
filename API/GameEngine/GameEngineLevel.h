@@ -39,9 +39,9 @@ public:
 		ActorType* NewActor = new ActorType();
 		//protected에 접근하기위한 업케스팅
 		GameEngineActor* StartActor = NewActor;
+		NewActor->SetLevel(this);
 		NewActor->SetOrder(_Order);
 		NewActor->SetName(_Name);
-		NewActor->SetLevel(this);
 		//맘대로 호출하면 안됨
 		//protected에 접근하기위한 업케스팅 (GameEngineActo에서 friends 되어있음)
 		StartActor->Start();

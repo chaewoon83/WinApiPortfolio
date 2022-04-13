@@ -52,6 +52,11 @@ public:
 
 	void ChangeLevel(const std::string _Name);
 
+	static inline GameEngineLevel* GetPrevLevel()
+	{
+		return PrevLevel_;
+	}
+
 protected:
 	//굳이 NewLevel이 아닌 GameEngineLevel* Level 을 새로 만든 이유
 	//Loading 함수의 경우 우리가 따로 더 실행 할 수 없게 protected로 걸려있다
@@ -74,6 +79,7 @@ private:
 	static std::map<std::string, GameEngineLevel*> AllLevels_;
 	static GameEngineLevel* CurrentLevel_;
 	static GameEngineLevel* NextLevel_;
+	static GameEngineLevel* PrevLevel_;
 	static GameEngine* UserContents_;
 
 	static GameEngineImage* WindowMainImage_;
