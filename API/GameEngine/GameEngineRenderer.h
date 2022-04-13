@@ -46,6 +46,11 @@ public:
 		RenderPivot_ = _Pos;
 	}
 
+	inline float4 GetPivot()
+	{
+		return RenderPivot_;
+	}
+
 	inline void SetTransColor(unsigned int _Color)
 	{
 		TransColor_ = _Color;

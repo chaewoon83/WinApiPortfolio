@@ -50,6 +50,6 @@ void TitleLevel::Update()
 
 void TitleLevel::LevelChangeStart()
 {
-	GameEngineSound::PlayOneShot("TitleScreen.mp3");
+	GameEngineSound::SoundPlayOneShot("TitleScreen.mp3", 2);
 }
 

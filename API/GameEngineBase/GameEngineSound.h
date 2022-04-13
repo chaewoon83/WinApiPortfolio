@@ -27,7 +27,7 @@ private:
 public:
 	static GameEngineSoundPlayer SoundPlayControl(const std::string& _Name);
 	//재생 1회만 가능
-	static void PlayOneShot(const std::string& _Name);
+	static void SoundPlayOneShot(const std::string& _Name, int LoopCount = 0);
 	static void Update();
 
 ///////////////////////////////////리소스 매니지먼트
