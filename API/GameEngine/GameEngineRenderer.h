@@ -120,7 +120,8 @@ private:
 			EndFrame_(-1),
 			InterTime_(0.1f),
 			CurrentInterTime_(0.1f),
-			Loop_(true)
+			Loop_(true),
+			TimeKey(0)
 		{
 		};
 		void Update();

@@ -10,6 +10,7 @@ GameEngine* GameEngine::UserContents_ = nullptr;
 GameEngineLevel* GameEngine::CurrentLevel_ = nullptr;
 //Level을 실행하는 도중 Level이 바뀔 수 있기 때문에 만들었다
 GameEngineLevel* GameEngine::NextLevel_ = nullptr;
+GameEngineLevel* GameEngine::PrevLevel_ = nullptr;
 GameEngineImage* GameEngine::BackBufferImage_ = nullptr;
 GameEngineImage* GameEngine:: WindowMainImage_ = nullptr;
 std::map<std::string, GameEngineLevel*> GameEngine::AllLevels_;
