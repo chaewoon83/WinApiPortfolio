@@ -31,13 +31,15 @@
 //ÆÄ¶õ»ö -> ÃþÀÌµ¿
 //³ë¶õ»ö -> ¹®ÀÌµ¿
 //»¡°£»ö -> ´ÝÈù ¹® ÀÌµ¿
-PlayerLink::PlayerLink() 
+PlayerLink::PlayerLink()
 	:Speed_(300.0f),
 	 PlayerCurState_(PlayerState::DownIdle),
 	 CameraState_(CameraState::Room1),
 	 IsCameraAutoMove_(false),
 	 IsCharacterAutoMove_(false),
-	 AutoMoveDir_(float4::ZERO)
+	 AutoMoveDir_(float4::ZERO),
+	 CurStairs_(StairsState::Top),
+	 IsOnStairs_(false)
 {
 }
 
@@ -319,6 +321,9 @@ void PlayerLink::CameraStateChange(CameraState _State)
 		case CameraState::Room2:
 			Room2Start();
 			break;
+		case CameraState::Room3:
+			Room3Start();
+			break;
 		case CameraState::Max:
 			break;
 		default:
@@ -337,6 +342,9 @@ void PlayerLink::CameraStateUpdate()
 		break;
 	case CameraState::Room2:
 		Room2Update();
+		break;
+	case CameraState::Room3:
+		Room3Update();
 		break;
 	case CameraState::Max:
 		break;
@@ -415,6 +423,35 @@ bool PlayerLink::PosAndColorCheck(int _Color, GameEngineImage* _Image)
 
 void PlayerLink::CameraAutoMove()
 {
+	if (AutoMoveDir_.CompareInt2D(float4::RIGHT))
+	{
+		float4 CurCameraPos = GetLevel()->GetCameraPos();
+
+		GetLevel()->SetCameraPos(CurCameraPos + AutoMoveDir_ * GameEngineTime::GetDeltaTime() * 800);
+
+		float Time = GameEngineTime::GetDeltaTime();
+
+
+		if (RoomSize_[0].x < GetLevel()->GetCameraPos().x)
+		{
+			IsCameraAutoMove_ = false;
+		}
+	}
+
+	if (AutoMoveDir_.CompareInt2D(float4::LEFT))
+	{
+		float4 CurCameraPos = GetLevel()->GetCameraPos();
+
+		GetLevel()->SetCameraPos(CurCameraPos + AutoMoveDir_ * GameEngineTime::GetDeltaTime() * 800);
+
+		float Time = GameEngineTime::GetDeltaTime();
+
+
+		if (RoomSize_[1].x - GameEngineWindow::GetInst().GetScale().x > GetLevel()->GetCameraPos().y)
+		{
+			IsCameraAutoMove_ = false;
+		}
+	}
 	if (AutoMoveDir_.CompareInt2D(float4::UP))
 	{
 		float4 CurCameraPos = GetLevel()->GetCameraPos();
@@ -445,4 +482,47 @@ void PlayerLink::CameraAutoMove()
 		}
 	}
 
+
+}
+
+void PlayerLink::PlayerAutoMove()
+{
+	CheckDirection();
+	SetMove(AutoMoveDir_ * GameEngineTime::GetDeltaTime() * Speed_);
+	int Red = RGB(255, 0, 0);
+	if (PosAndColorCheck(Red, MapPasImage_))
+	{
+		IsCharacterAutoMove_ = false;
+	}
+}
+
+void PlayerLink::PlayerAutoMove(float _Speed)
+{
+	CheckDirection();
+	SetMove(AutoMoveDir_ * GameEngineTime::GetDeltaTime() * _Speed);
+	int Red = RGB(255, 0, 0);
+	if (PosAndColorCheck(Red, MapPasImage_))
+	{
+		IsCharacterAutoMove_ = false;
+	}
+}
+
+void PlayerLink::CheckDirection()
+{
+	if (PlayerState::MoveRight == PlayerCurState_)
+	{
+		AutoMoveDir_ = float4::RIGHT;
+	}
+	if (PlayerState::MoveLeft == PlayerCurState_)
+	{
+		AutoMoveDir_ = float4::LEFT;
+	}
+	if (PlayerState::MoveUp == PlayerCurState_)
+	{
+		AutoMoveDir_ = float4::UP;
+	}
+	if (PlayerState::MoveDown == PlayerCurState_)
+	{
+		AutoMoveDir_ = float4::DOWN;
+	}
 }

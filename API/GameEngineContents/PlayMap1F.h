@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineLevel.h>
 
+class Map1FBridge;
 // Ό³Έν :
 class PlayMap1F : public GameEngineLevel
 {
@@ -15,11 +16,15 @@ public:
 	PlayMap1F& operator=(const PlayMap1F& _Other) = delete;
 	PlayMap1F& operator=(PlayMap1F&& _Other) noexcept = delete;
 
+	void BridgeOn();
+	void BridgeOff();
 protected:
 	void Loading() override;
 	void Update() override;
 	void LevelChangeStart() override;
-private:
 
+private:
+	Map1FBridge* Bridge_;
 };
+
 

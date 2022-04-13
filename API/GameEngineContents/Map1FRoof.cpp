@@ -5,11 +5,11 @@
 #include <GameEngine/GameEngineImage.h>
 
 
-Map1FRoof::Map1FRoof() 
+Map1FRoof::Map1FRoof()
 {
 }
 
-Map1FRoof::~Map1FRoof() 
+Map1FRoof::~Map1FRoof()
 {
 }
 

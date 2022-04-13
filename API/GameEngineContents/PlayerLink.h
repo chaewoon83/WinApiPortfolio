@@ -22,6 +22,18 @@ enum class CameraState
 {
 	Room1,
 	Room2,
+	Room3,
+	Room4,
+	Room5,
+	Room6,
+	Room7,
+	Max
+};
+
+enum class StairsState
+{
+	Top,
+	Bot,
 	Max
 };
 
@@ -62,6 +74,8 @@ private:
 	void MoveFunction();
 	bool PosOrColorCheck(int _Color, GameEngineImage* _Image);
 	bool PosAndColorCheck(int _Color, GameEngineImage* _Image);
+	bool IsOnStairs_;
+	void CheckDirection();
 
 private:
 
@@ -78,9 +92,11 @@ public:
 	bool IsCharacterAutoMove_;
 	float4 AutoMoveDir_;
 
+	void PlayerAutoMove();
+	void PlayerAutoMove(float _Speed);
+
 	void PlayerChangeState(PlayerState _State);
 	void PlayerStateUpdate();
-
 private:
 	void IdleUpdate();
 
@@ -105,6 +121,7 @@ private:
 	bool IsCameraAutoMove_;
 
 	void CameraAutoMove();
+
 	void CameraStateChange(CameraState _State);
 	void CameraStateUpdate();
 	void CameraUpdate();
@@ -115,5 +132,11 @@ private:
 
 	void Room2Start();
 	void Room2Update();
+
+	void Room3Start();
+	void Room3Update();
+	/////////////////////////////////////////////////////////////////////Staris State
+private:
+	StairsState CurStairs_;
 };
 

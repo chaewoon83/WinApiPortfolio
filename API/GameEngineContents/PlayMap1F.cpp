@@ -7,6 +7,7 @@
 #include "UINumbers.h"
 #include "Map1F.h"
 #include "Map1FRoof.h"
+#include "Map1FBridge.h"
 #include "EXMap.h"
 #include "Background.h"
 #include "GameEngineContentsEnum.h"
@@ -26,9 +27,10 @@ PlayMap1F::~PlayMap1F()
 void PlayMap1F::Loading()
 {
 	CreateActor<Map1F>((int)PlayLevelOrder::BACKGROUND);
-	CreateActor<Map1FRoof>((int)PlayLevelOrder::BACKGROUNDROOF);
 	//CreateActor<Map1F>((int)PlayLevelOrder::BACKGROUND);
 	PlayerLink* Player = CreateActor<PlayerLink>((int)PlayLevelOrder::PLAYER);
+	CreateActor<Map1FRoof>((int)PlayLevelOrder::BACKGROUNDROOF);
+	Bridge_ = CreateActor<Map1FBridge>((int)PlayLevelOrder::BACKGROUNDROOF);
 	CreateActor<UILayout>((int)PlayLevelOrder::UILAYOUT);
 	CreateActor<UIMagicMeter>((int)PlayLevelOrder::UI);
 	CreateActor<UISelectedItem>((int)PlayLevelOrder::UI);

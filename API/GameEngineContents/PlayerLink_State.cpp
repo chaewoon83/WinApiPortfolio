@@ -7,6 +7,7 @@
 #include <GameEngine/GameEngineRenderer.h>
 
 #include <GameEngine/GameEngineLevel.h> // 레벨을 통해서
+#include "PlayMap1F.h"
 
 void PlayerLink::IdleUpdate()
 {
@@ -420,25 +421,20 @@ void PlayerLink::Room1Update()
 
 	if (true == IsCharacterAutoMove_)
 	{
-		SetMove(AutoMoveDir_ * GameEngineTime::GetDeltaTime() * Speed_);
-		int Red = RGB(255, 0, 0);
-		if (PosAndColorCheck(Red, MapPasImage_))
-		{
-			IsCharacterAutoMove_ = false;
-		}
+		PlayerAutoMove();
 	}
 
 	/// ///////////////////////////////////////// Room Check
 	int Red = RGB(255, 0, 0);
 	int Yellow = RGB(255, 255, 0);
-	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveUp == PlayerCurState_)
+	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_)
 	{
 		AutoMoveDir_ = float4::UP;
 		CameraStateChange(CameraState::Room2);
 		return;
 	}
 
-	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveUp == PlayerCurState_)
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_)
 	{
 		AutoMoveDir_ = float4::UP;
 		CameraStateChange(CameraState::Room2);
@@ -470,35 +466,124 @@ void PlayerLink::Room2Update()
 
 	if (true == IsCharacterAutoMove_)
 	{
-		SetMove(AutoMoveDir_ * GameEngineTime::GetDeltaTime() * Speed_);
-		int Red = RGB(255, 0, 0);
-		if (PosAndColorCheck(Red, MapPasImage_))
-		{
-			IsCharacterAutoMove_ = false;
-		}
+		PlayerAutoMove();
 	}
 
 	/// ///////////////////////////////////////// Room Check
 	int Red = RGB(255, 0, 0);
 	int Yellow = RGB(255, 255, 0);
 
-	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveDown == PlayerCurState_)
+	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_)
 	{
 		AutoMoveDir_ = float4::DOWN;
 		CameraStateChange(CameraState::Room1);
 		return;
 	}
 
-	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveDown == PlayerCurState_)
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_)
 	{
 		AutoMoveDir_ = float4::DOWN;
 		CameraStateChange(CameraState::Room1);
 		return;
 	}
+
+	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_)
+	{
+		AutoMoveDir_ = float4::UP;
+		CameraStateChange(CameraState::Room3);
+		return;
+	}
+
 
 	/// ///////////////////////////////////////// CameraUpdate
 	if (false == IsCameraAutoMove_)
 	{
 		CameraUpdate();
+	}
+}
+
+void PlayerLink::Room3Start()
+{
+	IsCameraAutoMove_ = true;
+	IsCharacterAutoMove_ = true;
+	RoomSize_[0] = { 2048, 1955 };
+	RoomSize_[1] = { 4095, 0 };
+}
+
+void PlayerLink::Room3Update()
+{
+	/// ///////////////////////////////////////// Room Transition
+	if (true == IsCameraAutoMove_)
+	{
+		CameraAutoMove();
+	}
+
+	if (false == IsCameraAutoMove_)
+	{
+		CameraUpdate();
+	}
+
+	if (true == IsCharacterAutoMove_)
+	{
+		if (true == IsOnStairs_)
+		{
+			PlayerAutoMove(150.0f);
+			return;
+		}
+
+		if (false == IsOnStairs_)
+		{
+			PlayerAutoMove();
+			return;
+		}
+	}
+
+	/// ///////////////////////////////////////// Room Check
+	int Red = RGB(255, 0, 0);
+	int Yellow = RGB(255, 255, 0);
+	int Blue = RGB(0, 0, 255);
+
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ )
+	{
+		AutoMoveDir_ = float4::UP;
+		CameraStateChange(CameraState::Room7);
+		return;
+	}
+
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveLeft == PlayerCurState_)
+	{
+		AutoMoveDir_ = float4::LEFT;
+		CameraStateChange(CameraState::Room4);
+		return;
+	}
+
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveRight == PlayerCurState_)
+	{
+		AutoMoveDir_ = float4::RIGHT;
+		CameraStateChange(CameraState::Room5);
+		return;
+	}
+
+	if (PosOrColorCheck(Blue, MapColImage_))
+	{
+
+
+		if (StairsState::Top == CurStairs_)
+		{
+			MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_B1F_ColMap.bmp");
+			CurStairs_ = StairsState::Bot;
+			IsCharacterAutoMove_ = true;
+			IsOnStairs_ = true;
+			return;
+		}
+
+		if (StairsState::Bot == CurStairs_)
+		{
+			MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_ColMap.bmp");
+			CurStairs_ = StairsState::Top;
+			IsCharacterAutoMove_ = true;
+			IsOnStairs_ = true;
+			return;
+		}
 	}
 }
