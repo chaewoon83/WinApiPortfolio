@@ -29,6 +29,14 @@ void Zelda::GameInit()
 	GetImageFromFolder("UI");
 	GetImageFromFolder("Map");
 
+
+	ImageCutter("Link_Idle_Right.bmp", 2, 1);
+	ImageCutter("Link_Idle_Left.bmp", 2, 1);
+	ImageCutter("Link_Idle_Up.bmp", 2, 1);
+	ImageCutter("Link_Idle_Down.bmp", 2, 1);
+	ImageCutter("Link_Walk_Right.bmp", 6, 1);
+	ImageCutter("Link_Walk_Left.bmp", 6, 1);
+	ImageCutter("Link_Walk_Up.bmp", 8, 1);
 	ImageCutter("Link_Walk_Down.bmp", 8, 1);
 	ImageCutter("Top_Door_Animation.bmp", 1, 3);
 	ImageCutter("Top_Door_Idle_Animation.bmp", 1, 3);

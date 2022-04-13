@@ -32,7 +32,12 @@
 //노란색 -> 문이동
 //빨간색 -> 닫힌 문 이동
 PlayerLink::PlayerLink() 
-	:Speed_(300.0f)
+	:Speed_(300.0f),
+	 PlayerCurState_(PlayerState::DownIdle),
+	 CameraState_(CameraState::Room1),
+	 IsCameraAutoMove_(false),
+	 IsCharacterAutoMove_(false),
+	 AutoMoveDir_(float4::ZERO)
 {
 }
 
@@ -48,11 +53,20 @@ void PlayerLink::Start()
 
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
 	//SetPosition(GameEngineWindow::GetScale().Half());
-	GameEngineRenderer* Render = CreateRenderer();
+	PlayerRenderer = CreateRenderer();
 	//true 면 루프 false 면 루프아님
-	Render->SetPivot({ 0, -11 });
-	Render->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.035f, true);
-	Render->ChangeAnimation("Walk_Down");
+	PlayerRenderer->SetPivot({ 0, -11 });
+
+	PlayerRenderer->CreateAnimation("Link_Idle_Right.bmp", "Idle_Right", 0, 1, 0.035f, false);
+	PlayerRenderer->CreateAnimation("Link_Idle_Left.bmp", "Idle_Left", 0, 1, 0.035f, false);
+	PlayerRenderer->CreateAnimation("Link_Idle_Up.bmp", "Idle_Up", 0, 1, 0.035f, false);
+	PlayerRenderer->CreateAnimation("Link_Idle_Down.bmp", "Idle_Down", 0, 1, 0.035f, false);
+
+	PlayerRenderer->CreateAnimation("Link_Walk_Right.bmp", "Walk_Right", 0, 5, 0.035f, true);
+	PlayerRenderer->CreateAnimation("Link_Walk_Left.bmp", "Walk_Left", 0, 5, 0.035f, true);
+	PlayerRenderer->CreateAnimation("Link_Walk_Up.bmp", "Walk_Up", 0, 7, 0.035f, true);
+	PlayerRenderer->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.035f, true);
+	PlayerRenderer->ChangeAnimation("Idle_Down");
 
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다
 	//CreateRenderer("LinkStandStill.bmp");
@@ -60,27 +74,41 @@ void PlayerLink::Start()
 	if (false == GameEngineInput::GetInst()->IsKey("MoveLeft"))
 	{
 		//이때 대문자여야 한다
-		GameEngineInput::GetInst()->CreateKey("MoveLeft", 'A');
 		GameEngineInput::GetInst()->CreateKey("MoveRight", 'D');
+		GameEngineInput::GetInst()->CreateKey("MoveLeft", 'A');
 		GameEngineInput::GetInst()->CreateKey("MoveUp", 'W');
 		GameEngineInput::GetInst()->CreateKey("MoveDown", 'S');
 		GameEngineInput::GetInst()->CreateKey("Fire", 'K');
 		GameEngineInput::GetInst()->CreateKey("Attack", VK_SPACE);
 		GameEngineInput::GetInst()->CreateKey("InterAct", VK_LSHIFT);
 
-		MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_ColMap.bmp");
 
-		if (nullptr == MapColImage_)
-		{
-			MsgBoxAssert("충돌용 맵을 찾지 못했습니다");
-		}
 	}
+	MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_ColMap.bmp");
+
+	if (nullptr == MapColImage_)
+	{
+		MsgBoxAssert("충돌용 맵을 찾지 못했습니다");
+	}
+
+	MapPasImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_PasMap.bmp");
+
+	if (nullptr == MapPasImage_)
+	{
+		MsgBoxAssert("통로 맵을 찾지 못했습니다");
+	}
+
+	RoomSize_[0] = { 2048, 4063 };
+	RoomSize_[1] = { 4095, 3088 };
 }
  
 void PlayerLink::Update()
 {
-	PlayerMovement();
+	PlayerStateUpdate();
+	CameraStateUpdate();
+
 	float4 Postion = GetPosition();
+
 	//장비 사용 관련
 
 	{
@@ -89,41 +117,7 @@ void PlayerLink::Update()
 			Boomerang* Ptr = GetLevel()->CreateActor<Boomerang>((int)PlayLevelOrder::PLAYER);
 			Ptr->SetPosition(GetPosition());
 		}
-	}
-
-	//카메라 관련
-	{
-
-		GetLevel()->SetCameraPos(GetPosition() - GameEngineWindow::GetInst().GetScale().Half());
-		float4 CurCameraPos = GetLevel()->GetCameraPos();
-
-		if (0.0f > CurCameraPos.x)
-		{
-			CurCameraPos.x = 0.0f;
-			GetLevel()->SetCameraPos(CurCameraPos);
-		}
-
-		if (0.0f > CurCameraPos.y)
-		{
-			CurCameraPos.y = 0.0f;
-			GetLevel()->SetCameraPos(CurCameraPos);
-		}
-
-		float4 MapSize = { 6144.0f, 4096.0f };
-
-		if (MapSize.x - GameEngineWindow::GetScale().x < CurCameraPos.x)
-		{
-			CurCameraPos.x = MapSize.x - GameEngineWindow::GetScale().x;
-			GetLevel()->SetCameraPos(CurCameraPos);
-		}
-
-		if (MapSize.y - GameEngineWindow::GetScale().y< CurCameraPos.y)
-		{
-			CurCameraPos.y  = MapSize.y - GameEngineWindow::GetScale().y;
-			GetLevel()->SetCameraPos(CurCameraPos);
-		}
-	}
-	
+	}	
 	
 	//3016,3468 48x40
 	//3040,3488
@@ -147,209 +141,308 @@ void PlayerLink::Update()
 //렌더러가 다 돌고 액터들의 랜더함수를 호출한다
 void PlayerLink::Render()
 {
-	//GameEngineImage* FindImage = GameEngineImageManager::GetInst()->Find("Idle.bmp");
-	//if (nullptr == FindImage)
-	//{
-	//	MsgBoxAssert("이미지 렌더링 과정에서 이미지를 찾지 못했습니다");
-	//}
-	//GameEngine::BackBufferImage()->BitCopyBot(FindImage, GetPosition());
 
 }
 
-
-void PlayerLink::PlayerMovement()
+bool PlayerLink::IsMoveKeyFree()
 {
-	float4 CheckPos;
-	float4 MoveDir = float4::ZERO;
-	//맵 이미지와 캐릭터의 이미지의 픽셀 위치를 동일하게 맞춰놔야한다
-	bool MoveLeft = false;
-	bool MoveRight = false;
-	bool MoveUp = false;
-	bool MoveDown = false;
-
-	//float DeltaTime = GameEngineTime::GetInst()->GetDeltaTime()
-	//내가 키를 누르고있다면 움직이기
-	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+	if (false == GameEngineInput::GetInst()->IsPress("MoveRight") &&
+		false == GameEngineInput::GetInst()->IsPress("MoveLeft") &&
+		false == GameEngineInput::GetInst()->IsPress("MoveUp") &&
+		false == GameEngineInput::GetInst()->IsPress("MoveDown"))
 	{
-		MoveDir += float4::LEFT;
-		MoveLeft = true;
-		//SetMove(MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
-	}
-	if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
-	{
-		MoveDir += float4::RIGHT;
-		MoveRight = true;
-		//SetMove(MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
-	}
-	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
-	{
-		MoveDir += float4::UP;
-		MoveUp = true;
-		//SetMove(MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
-	}
-	if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
-	{
-		MoveDir += float4::DOWN;
-		MoveDown = true;
-		//SetMove(MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
+		return true;
 	}
 
-	//SetMove(MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
+	return false;
+}
+
+bool PlayerLink::IsRightMoveKey()
+{
+	if (true == GameEngineInput::GetInst()->IsDown("MoveRight"))
 	{
-		int Black = RGB(0, 0, 0);
-		float4 MyPos = GetPosition();
-		float4 MyPosTopRight = MyPos + float4{ 32.0f, -32.0f };
-		float4 MyPosTopLeft = MyPos + float4{ -32.0f, -32.0f };
-		float4 MyPosBotRight = MyPos + float4{ 32.0f, 32.0f };
-		float4 MyPosBotLeft = MyPos + float4{ -32.0f, 32.0f };
-		float4 NextPos = GetPosition() + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
-		float4 CheckPosTopRight = NextPos + float4{ 32.0f, -32.0f };
-		float4 CheckPosTopLeft = NextPos + float4{ -32.0f, -32.0f };
-		float4 CheckPosBotRight = NextPos + float4{ 32.0f, 32.0f };
-		float4 CheckPosBotLeft = NextPos + float4{ -32.0f, 32.0f };
-		float4 CheckPosRight = NextPos + float4{ 32.0f, 0.0f };
-		float4 CheckPosLeft = NextPos + float4{ -32.0f, 0.0f };
-		float4 CheckPosTop = NextPos + float4{ 0.0f, -32.0f };
-		float4 CheckPosBot = NextPos + float4{ 0.0f, 32.0f };
+		return true;
+	}
 
+	return false;
+}
 
-		int ColorTopRight = MapColImage_->GetImagePixel(CheckPosTopRight);
-		int ColorTopLeft = MapColImage_->GetImagePixel(CheckPosTopLeft);
-		int ColorBotRight = MapColImage_->GetImagePixel(CheckPosBotRight);
-		int ColorBotLeft = MapColImage_->GetImagePixel(CheckPosBotLeft);
-		if (Black != ColorTopRight &&
-			Black != ColorTopLeft &&
-			Black != ColorBotRight &&
-			Black != ColorBotLeft)
+bool PlayerLink::IsLeftMoveKey()
+{
+	if (true == GameEngineInput::GetInst()->IsDown("MoveLeft"))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool PlayerLink::IsUpMoveKey()
+{
+	if (true == GameEngineInput::GetInst()->IsDown("MoveUp"))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool PlayerLink::IsDownMoveKey()
+{
+	if (true == GameEngineInput::GetInst()->IsDown("MoveDown"))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void PlayerLink::PlayerChangeState(PlayerState _State)
+{
+	if (PlayerCurState_ != _State)
+	{
+		switch (_State)
 		{
-			SetMove(MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
+		case PlayerState::RightIdle:
+			IdleRightStart();
+			break;
+		case PlayerState::LeftIdle:
+			IdleLeftStart();
+			break;
+		case PlayerState::UpIdle:
+			IdleUpStart();
+			break;
+		case PlayerState::DownIdle:
+			IdleDownStart();
+			break;
+		case PlayerState::Attack:
+			AttackStart();
+			break;
+		case PlayerState::MoveRight:
+			MoveRightStart();
+			break;
+		case PlayerState::MoveLeft:
+			MoveLeftStart();
+			break;
+		case PlayerState::MoveUp:
+			MoveUpStart();
+			break;
+		case PlayerState::MoveDown:
+			MoveDownStart();
+			break;
+
+		case PlayerState::Max:
+			break;
+		default:
+			break;
 		}
-		else
+	}
+
+	PlayerCurState_ = _State;
+}
+
+void PlayerLink::PlayerStateUpdate()
+{
+	switch (PlayerCurState_)
+	{
+	case PlayerState::RightIdle:
+	case PlayerState::LeftIdle:
+	case PlayerState::UpIdle:
+	case PlayerState::DownIdle:
+		IdleUpdate();
+		break;
+	case PlayerState::Attack:
+		AttackUpdate();
+		break;
+	case PlayerState::MoveRight:
+		MoveUpdate();
+		break;
+	case PlayerState::MoveLeft:
+		MoveUpdate();
+		break;
+	case PlayerState::MoveUp:
+		MoveUpdate();
+		break;
+	case PlayerState::MoveDown:
+		MoveUpdate();
+		break;
+	case PlayerState::Max:
+		break;
+	default:
+		break;
+	}
+}
+
+void PlayerLink::CameraUpdate()
+{
+	{
+		GetLevel()->SetCameraPos(GetPosition() - GameEngineWindow::GetInst().GetScale().Half());
+		float4 CurCameraPos = GetLevel()->GetCameraPos();
+
+		if (RoomSize_[0].x > CurCameraPos.x)
 		{
-			if (true == MoveLeft)
-			{
-				if (Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosTopLeft.y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosBotLeft.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosBotLeft.y }))
-				{
-					SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * Speed_);
-				}
-
-				if (Black != MapColImage_->GetImagePixel(CheckPosLeft) &&
-					Black != MapColImage_->GetImagePixel(CheckPosTopLeft) &&
-					Black != MapColImage_->GetImagePixel(CheckPosTopRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosBotRight))
-				{
-					if (false == MoveUp)
-					{
-						SetMove(float4::UP * GameEngineTime::GetDeltaTime() * Speed_);
-					}
-				}
-				if (Black != MapColImage_->GetImagePixel(CheckPosLeft) &&
-					Black != MapColImage_->GetImagePixel(CheckPosBotLeft) &&
-					Black != MapColImage_->GetImagePixel(CheckPosTopRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosBotRight))
-				{
-					if (false == MoveDown)
-					{
-						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * Speed_);
-					}
-				}
-			}
-
-			if (true == MoveRight)
-			{
-				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosTopRight.y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosBotRight.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosBotRight.y }))
-				{
-					SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * Speed_);
-				}
-
-				if (Black != MapColImage_->GetImagePixel(CheckPosRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosTopRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosTopLeft) &&
-					Black != MapColImage_->GetImagePixel(CheckPosBotLeft))
-				{
-					if (false == MoveUp)
-					{
-						SetMove(float4::UP * GameEngineTime::GetDeltaTime() * Speed_);
-					}
-				}
-				if (Black != MapColImage_->GetImagePixel(CheckPosRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosBotRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosTopLeft) &&
-					Black != MapColImage_->GetImagePixel(CheckPosBotLeft))
-				{
-					if (false == MoveDown)
-					{
-						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * Speed_);
-					}
-				}
-			}
-
-			if (true == MoveUp)
-			{
-				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x, MyPosTopRight.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x, MyPosTopLeft.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }))
-				{
-					SetMove(float4::UP * GameEngineTime::GetDeltaTime() * Speed_);
-				}
-
-				if (Black != MapColImage_->GetImagePixel(CheckPosTop) &&
-					Black != MapColImage_->GetImagePixel(CheckPosTopRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosBotRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosBotLeft))
-				{
-					if (false == MoveRight)
-					{
-						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * Speed_);
-					}
-				}
-
-				if (Black != MapColImage_->GetImagePixel(CheckPosTop) &&
-					Black != MapColImage_->GetImagePixel(CheckPosTopLeft) &&
-					Black != MapColImage_->GetImagePixel(CheckPosBotRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosBotLeft))
-				{
-					if (false == MoveLeft)
-					{
-						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * Speed_);
-					}
-				}
-			}
-
-			if (true == MoveDown)
-			{
-				if (Black != MapColImage_->GetImagePixel({ MyPosBotRight.x, MyPosBotRight.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosBotLeft.x, MyPosBotLeft.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }))
-				{
-					SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * Speed_);
-				}
-
-				if (Black != MapColImage_->GetImagePixel(CheckPosBot) && 
-					Black != MapColImage_->GetImagePixel(CheckPosBotRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosTopRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosTopLeft))
-				{
-					if (false == MoveRight)
-					{
-						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * Speed_);
-					}
-				}
-
-				if (Black != MapColImage_->GetImagePixel(CheckPosBot) &&
-					Black != MapColImage_->GetImagePixel(CheckPosBotLeft) &&
-					Black != MapColImage_->GetImagePixel(CheckPosTopRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosTopLeft))
-				{
-					if (false == MoveLeft)
-					{
-						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * Speed_);
-					}
-				}
-
-			}
+			CurCameraPos.x = RoomSize_[0].x;
+			GetLevel()->SetCameraPos(CurCameraPos);
 		}
 
+		if (RoomSize_[0].y - GameEngineWindow::GetInst().GetScale().y < CurCameraPos.y)
+		{
+			int a = 0;
+			CurCameraPos.y = RoomSize_[0].y - GameEngineWindow::GetInst().GetScale().y;
+			GetLevel()->SetCameraPos(CurCameraPos);
+		}
+
+
+		if (RoomSize_[1].x - GameEngineWindow::GetInst().GetScale().x < CurCameraPos.x)
+		{
+			CurCameraPos.x = RoomSize_[1].x - GameEngineWindow::GetScale().x;
+			GetLevel()->SetCameraPos(CurCameraPos);
+		}
+
+		if (RoomSize_[1].y > CurCameraPos.y)
+		{
+			CurCameraPos.y = RoomSize_[1].y;
+			GetLevel()->SetCameraPos(CurCameraPos);
+		}
+	}
+}
+
+void PlayerLink::CameraStateChange(CameraState _State)
+{
+	if (CameraState_ != _State)
+	{
+		switch (_State)
+		{
+		case CameraState::Room1:
+			Room1Start();
+			break;
+		case CameraState::Room2:
+			Room2Start();
+			break;
+		case CameraState::Max:
+			break;
+		default:
+			break;
+		}
+	}
+	CameraState_ = _State;
+}
+
+void PlayerLink::CameraStateUpdate()
+{
+	switch (CameraState_)
+	{
+	case CameraState::Room1:
+		Room1Update();
+		break;
+	case CameraState::Room2:
+		Room2Update();
+		break;
+	case CameraState::Max:
+		break;
+	default:
+		break;
+	}
+}
+
+bool PlayerLink::PosOrColorCheck(int _Color, GameEngineImage* _Image)
+{
+	float4 MyPos = GetPosition();
+	float4 MyPosTopRight = MyPos + float4{ 32.0f, -32.0f };
+	float4 MyPosTopLeft = MyPos + float4{ -32.0f, -32.0f };
+	float4 MyPosBotRight = MyPos + float4{ 32.0f, 32.0f };
+	float4 MyPosBotLeft = MyPos + float4{ -32.0f, 32.0f };
+	float4 MyPosRight = MyPos + float4{ +32.0f,  0.0f };
+	float4 MyPosLeft = MyPos + float4{ -32.0f, 0.0f };
+	float4 MyPosTop = MyPos + float4{ 0.0f, -32.0f };
+	float4 MyPosBot = MyPos + float4{ 0.0f, 32.0f };
+
+	int ColorTopRight = _Image->GetImagePixel(MyPosTopRight);
+	int ColorTopLeft = _Image->GetImagePixel(MyPosTopLeft);
+	int ColorBotRight = _Image->GetImagePixel(MyPosBotRight);
+	int ColorBotLeft = _Image->GetImagePixel(MyPosBotLeft);
+	int ColorRight = _Image->GetImagePixel(MyPosRight);
+	int ColorLeft = _Image->GetImagePixel(MyPosLeft);
+	int ColorTop = _Image->GetImagePixel(MyPosTop);
+	int ColorBot = _Image->GetImagePixel(MyPosBot);
+	if (_Color == ColorTopRight ||
+		_Color == ColorTopLeft ||
+		_Color == ColorBotRight ||
+		_Color == ColorBotLeft ||
+		_Color == ColorRight ||
+		_Color == ColorLeft ||
+		_Color == ColorBot ||
+		_Color == ColorTop)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool PlayerLink::PosAndColorCheck(int _Color, GameEngineImage* _Image)
+{
+	float4 MyPos = GetPosition();
+	float4 MyPosTopRight = MyPos + float4{ 32.0f, -32.0f };
+	float4 MyPosTopLeft = MyPos + float4{ -32.0f, -32.0f };
+	float4 MyPosBotRight = MyPos + float4{ 32.0f, 32.0f };
+	float4 MyPosBotLeft = MyPos + float4{ -32.0f, 32.0f };
+	float4 MyPosRight = MyPos + float4{ +32.0f,  0.0f };
+	float4 MyPosLeft = MyPos + float4{ -32.0f, 0.0f };
+	float4 MyPosTop = MyPos + float4{ 0.0f, -32.0f };
+	float4 MyPosBot = MyPos + float4{ 0.0f, 32.0f };
+
+	int ColorTopRight = _Image->GetImagePixel(MyPosTopRight);
+	int ColorTopLeft = _Image->GetImagePixel(MyPosTopLeft);
+	int ColorBotRight = _Image->GetImagePixel(MyPosBotRight);
+	int ColorBotLeft = _Image->GetImagePixel(MyPosBotLeft);
+	int ColorRight = _Image->GetImagePixel(MyPosRight);
+	int ColorLeft = _Image->GetImagePixel(MyPosLeft);
+	int ColorTop = _Image->GetImagePixel(MyPosTop);
+	int ColorBot = _Image->GetImagePixel(MyPosBot);
+	if (_Color != ColorTopRight &&
+		_Color != ColorTopLeft &&
+		_Color != ColorBotRight &&
+		_Color != ColorBotLeft &&
+		_Color != ColorRight &&
+		_Color != ColorLeft &&
+		_Color != ColorBot &&
+		_Color != ColorTop)
+	{
+		return true;
+	}
+	return false;
+}
+
+void PlayerLink::CameraAutoMove()
+{
+	if (AutoMoveDir_.CompareInt2D(float4::UP))
+	{
+		float4 CurCameraPos = GetLevel()->GetCameraPos();
+
+		GetLevel()->SetCameraPos(CurCameraPos + AutoMoveDir_ * GameEngineTime::GetDeltaTime() * 800);
+
+		float Time = GameEngineTime::GetDeltaTime();
+
+
+		if (RoomSize_[0].y - GameEngineWindow::GetInst().GetScale().y > GetLevel()->GetCameraPos().y)
+		{
+			IsCameraAutoMove_ = false;
+		}
+	}
+
+	if (AutoMoveDir_.CompareInt2D(float4::DOWN))
+	{
+		float4 CurCameraPos = GetLevel()->GetCameraPos();
+
+		GetLevel()->SetCameraPos(CurCameraPos + AutoMoveDir_ * GameEngineTime::GetDeltaTime() * 800);
+
+		float Time = GameEngineTime::GetDeltaTime();
+
+
+		if (RoomSize_[1].y < GetLevel()->GetCameraPos().y)
+		{
+			IsCameraAutoMove_ = false;
+		}
 	}
 
 }

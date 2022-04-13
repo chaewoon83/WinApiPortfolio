@@ -264,6 +264,9 @@
     <ClCompile Include="TitleTwinkle.cpp">
       <Filter>Title</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerLink_State.cpp">
+      <Filter>Play\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">

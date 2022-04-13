@@ -420,6 +420,7 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="PlayerLink_State.cpp" />
     <ClCompile Include="PlayMap1F.cpp">
       <SubType>
       </SubType>

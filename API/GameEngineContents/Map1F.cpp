@@ -37,7 +37,7 @@ void Map1F::Start()
 	DoorAnimationCreate();
 	PlaceDoor();
 
-	CreateCollision("Switch", { 48, 40 }, { 3040, 3488 });
+	CreateCollision("Switch", { 48, 40 }, { 3040, 3451 });
 }
  
 void Map1F::Update()
@@ -54,7 +54,7 @@ void Map1F::PlaceDoor()
 {
 	//3008+64, 3200+48 
 	//128,96
-	TopDoor1->SetPivot(float4{3072, 3248});
+	TopDoor1->SetPivot(float4{3072, 3216});
 	//CreateCollision("Door", { 128,96 }, { 3072, 3248 });
 	TopDoor2->SetPivot({ 0, -11 });
 	//CreateCollision("Door", { 128,96 }, { 3072, 2848 });
