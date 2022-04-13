@@ -20,6 +20,9 @@ protected:
 	void Render() override;
 private:
 	GameEngineRenderer* Twinkle1_;
+	GameEngineRenderer* Twinkle2_;
+	GameEngineRenderer* Twinkle3_;
+	GameEngineRenderer* Twinkle4_;
 	bool IsTwinkleExist_;
 	float4 TwinklePos_;
 	float4 TwinklePos1_;

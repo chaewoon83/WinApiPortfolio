@@ -122,7 +122,6 @@ void GameEngineRenderer::ChangeAnimation(const std::string& _Name)
 		MsgBoxAssert("존재하지 않는 애니메이션으로 바꾸려 합니다");
 		return;
 	}
-
 	CurrentAnimation_ = &(FindIter->second); //FrameAnimation은 값형이다
 }
 

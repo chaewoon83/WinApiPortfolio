@@ -25,14 +25,14 @@ void TitleSword::Start()
  
 void TitleSword::Update()
 {
-	if (13 < TitleTimeObject::TimeLine_ && false == IsSwordExist_)
+	if (13.6 < TitleTimeObject::TimeLine_ && false == IsSwordExist_)
 	{
 		Sword_ = CreateRenderer("TitleSword.bmp");
 
 		IsSwordExist_ = true;
 	}
 
-	if (13 < TitleTimeObject::TimeLine_ && 13.125 > TitleTimeObject::TimeLine_)
+	if (13.6 < TitleTimeObject::TimeLine_ && 13.725 > TitleTimeObject::TimeLine_)
 	{
 		if (true == IsSwordExist_)
 		{

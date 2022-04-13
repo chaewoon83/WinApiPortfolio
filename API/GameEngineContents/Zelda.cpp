@@ -39,7 +39,7 @@ void Zelda::GameInit()
 	ImageCutter("Right_Door_Animation.bmp", 3, 1);
 	ImageCutter("Right_Door_Idle_Animation.bmp", 3, 1);
 	ImageCutter("trianglebmp.bmp", 5, 34);
-	ImageCutter("TitleTwinkle.bmp", 9, 1);
+	ImageCutter("TitleTwinkle.bmp", 11, 1);
 	//GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Link_Walk_Down.bmp");
 	//Image->CutCount(8, 1);
 

@@ -43,7 +43,7 @@ void TitleTriangle::Start()
  
 void TitleTriangle::Update()
 {
-	if (4 < TitleTimeObject::TimeLine_ && false == IsTriangleExist_)
+	if (5 < TitleTimeObject::TimeLine_ && false == IsTriangleExist_)
 	{
 		TopTriangle = CreateRenderer();
 		TopTriangle->SetPivot(TopTrianglePos_);
@@ -63,7 +63,7 @@ void TitleTriangle::Update()
 		IsTriangleExist_ = true;
 	}
 
-	if (4 < TitleTimeObject::TimeLine_ && 8 > TitleTimeObject::TimeLine_)
+	if (5 < TitleTimeObject::TimeLine_ && 9 > TitleTimeObject::TimeLine_)
 	{
 		if (true == IsTriangleExist_)
 		{

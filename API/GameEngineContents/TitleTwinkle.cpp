@@ -32,34 +32,25 @@ void TitleTwinkle::Update()
 		if (1 == CurrentTwinkle_ && Twinkle1_->IsEndAnimation())
 		{
 			Twinkle1_->SetPivot(TwinklePos2_);
-			Twinkle1_->ChangeAnimation("Twinkle2");
 			CurrentTwinkle_ = 2;
-			return;
 		}
 
 		else if (2 == CurrentTwinkle_ && Twinkle1_->IsEndAnimation())
 		{
 			Twinkle1_->SetPivot(TwinklePos3_);
-			Twinkle1_->ChangeAnimation("Twinkle3");
 			CurrentTwinkle_ = 3;
-			return;
-
 		}
 
 		else if (3 == CurrentTwinkle_ && Twinkle1_->IsEndAnimation())
 		{
 			Twinkle1_->SetPivot(TwinklePos4_);
-			Twinkle1_->ChangeAnimation("Twinkle4");
 			CurrentTwinkle_ = 4;
-			return;
 		}
 
 		else if (4 == CurrentTwinkle_ && Twinkle1_->IsEndAnimation())
 		{
 			Twinkle1_->SetPivot(TwinklePos1_);
-			Twinkle1_->ChangeAnimation("Twinkle1");
 			CurrentTwinkle_ = 1;
-			return;
 		}
 	}
 
@@ -67,10 +58,7 @@ void TitleTwinkle::Update()
 	{
 		Twinkle1_ = CreateRenderer();
 		Twinkle1_->SetPivot(TwinklePos1_);
-		Twinkle1_->CreateAnimation("TitleTwinkle.bmp", "Twinkle1", 0, 8, 0.1f, false);
-		Twinkle1_->CreateAnimation("TitleTwinkle.bmp", "Twinkle2", 0, 8, 0.1f, false);
-		Twinkle1_->CreateAnimation("TitleTwinkle.bmp", "Twinkle3", 0, 8, 0.1f, false);
-		Twinkle1_->CreateAnimation("TitleTwinkle.bmp", "Twinkle4", 0, 8, 0.1f, false);
+		Twinkle1_->CreateAnimation("TitleTwinkle.bmp", "Twinkle1", 0, 10, 0.05f, true);
 		Twinkle1_->ChangeAnimation("Twinkle1");
 		IsTwinkleExist_ = true;
 		CurrentTwinkle_ = 1;
