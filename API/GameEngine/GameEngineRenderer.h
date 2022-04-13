@@ -83,6 +83,25 @@ public:
 	{
 		IsCameraEffect_ = true;
 	}
+	void SetPause(bool _Value)
+	{
+		Pause_ = _Value;
+	}
+
+	void PauseOn()
+	{
+		Pause_ = true;
+	}
+
+	void PauseOff()
+	{
+		Pause_ = false;
+	}
+
+	void PauseSwitch()
+	{
+		Pause_ = !Pause_;
+	}
 
 	void SetOrder(int _Order) override;
 
@@ -110,6 +129,7 @@ private:
 
 	// 해당 렌더러의 카메라 영향 유무
 	bool IsCameraEffect_;
+	bool Pause_;
 
 	//////////////////////////////////////////////////////////////////////////////////////////////Animation
 
@@ -129,17 +149,40 @@ private:
 		float CurrentInterTime_;
 		bool Loop_ = false;
 		bool IsEnd;
+	public:
+		inline int WorldCurrentFrame() const
+		{
+			return CurrentFrame_;
+		}
+
+		inline int WorldStartFrame() const
+		{
+			return StartFrame_;
+		}
+
+		inline int WorldEndFrame() const
+		{
+			return EndFrame_;
+		}
+
+		inline int LocalCurrentFrame() const
+		{
+			return StartFrame_ - CurrentFrame_;
+		}
 
 	public:
 		FrameAnimation()
 			:Image_(nullptr),
+			Renderer_(nullptr),
+			FolderImage_(nullptr),
+			TimeKey(0),
 			CurrentFrame_(-1),
 			StartFrame_(-1),
 			EndFrame_(-1),
 			InterTime_(0.1f),
 			CurrentInterTime_(0.1f),
 			Loop_(true),
-			TimeKey(0)
+			IsEnd(false)
 		{
 		};
 		void Update();
@@ -165,6 +208,15 @@ public:
 	bool IsEndAnimation();
 
 	bool IsAnimationName(const std::string& _Name);
+
+	const FrameAnimation* FindAnimation(const std::string& _Name);
+
+	inline const FrameAnimation* CurrentAnimation()
+	{
+		return CurrentAnimation_;
+	}
+
+
 
 private:
 	std::map<std::string, FrameAnimation> Animations_;
