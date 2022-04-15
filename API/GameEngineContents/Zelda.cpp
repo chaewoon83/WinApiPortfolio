@@ -38,6 +38,8 @@ void Zelda::GameInit()
 	ImageCutter("Link_Walk_Left.bmp", 6, 1);
 	ImageCutter("Link_Walk_Up.bmp", 8, 1);
 	ImageCutter("Link_Walk_Down.bmp", 8, 1);
+	ImageCutter("Link_Wield_Down.bmp", 6, 1);
+
 	ImageCutter("Top_Door_Animation.bmp", 1, 3);
 	ImageCutter("Top_Door_Idle_Animation.bmp", 1, 3);
 	ImageCutter("Bot_Door_Animation.bmp", 1, 3);
@@ -49,7 +51,7 @@ void Zelda::GameInit()
 	ImageCutter("trianglebmp.bmp", 5, 34);
 	ImageCutter("TitleTwinkle.bmp", 11, 1);
 	//GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Link_Walk_Down.bmp");
-	//Image->CutCount(8, 1);
+	//Image->CutCount(8, 1);w
 
 	//폴더에서 사운드 가져오기
 	GetSoundFromFolder();

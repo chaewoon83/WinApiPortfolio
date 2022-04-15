@@ -38,14 +38,17 @@ void PlayerLink::IdleUpdate()
 
 	if (true == GameEngineInput::GetInst()->IsDown("Fire"))
 	{
-		//PlayerChangeState(PlayerState::Attack);
-		//return;
+		PlayerChangeState(PlayerState::Attack);
+		return;
 	}
 }
 
 void PlayerLink::AttackUpdate()
 {
-
+	if (PlayerRenderer->IsEndAnimation())
+	{
+		PlayerChangeState(PlayerState::DownIdle);
+	}
 }
 
 //////////////////////////////////////// State
@@ -96,6 +99,10 @@ void PlayerLink::MoveDownStart()
 	PlayerRenderer->ChangeAnimation("Walk_Down");
 }
 
+void PlayerLink::AttackStart()
+{
+	PlayerRenderer->ChangeAnimation("Wield_Down");
+}
 
 void PlayerLink::MoveUpdate()
 {
@@ -395,11 +402,6 @@ void PlayerLink::MoveFunction()
 		}
 
 	}
-}
-
-void PlayerLink::AttackStart()
-{
-
 }
 
 void PlayerLink::Room1Start()

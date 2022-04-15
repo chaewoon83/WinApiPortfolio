@@ -71,6 +71,7 @@ void PlayerLink::Start()
 	PlayerRenderer->CreateAnimation("Link_Walk_Left.bmp", "Walk_Left", 0, 5, 0.05f, true);
 	PlayerRenderer->CreateAnimation("Link_Walk_Up.bmp", "Walk_Up", 0, 7, 0.05f, true);
 	PlayerRenderer->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.05f, true);
+	PlayerRenderer->CreateAnimation("Link_Wield_Down.bmp", "Wield_Down", 0, 5, 0.05f, true);
 	PlayerRenderer->ChangeAnimation("Idle_Down");
 
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다
@@ -116,13 +117,13 @@ void PlayerLink::Update()
 
 	//장비 사용 관련
 
-	{
-		if (true == GameEngineInput::GetInst()->IsDown("Fire"))
-		{
-			Boomerang* Ptr = GetLevel()->CreateActor<Boomerang>((int)PlayLevelOrder::PLAYER);
-			Ptr->SetPosition(GetPosition());
-		}
-	}	
+	//{
+	//	if (true == GameEngineInput::GetInst()->IsDown("Fire"))
+	//	{
+	//		Boomerang* Ptr = GetLevel()->CreateActor<Boomerang>((int)PlayLevelOrder::PLAYER);
+	//		Ptr->SetPosition(GetPosition());
+	//	}
+	//}	
 	
 	//3016,3468 48x40
 	//3040,3488
