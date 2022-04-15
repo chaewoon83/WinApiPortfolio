@@ -543,37 +543,36 @@ void PlayerLink::Room3Update()
 	int Yellow = RGB(255, 255, 0);
 	int Blue = RGB(0, 0, 255);
 
-	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ )
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
 		AutoMoveDir_ = float4::UP;
 		CameraStateChange(CameraState::Room7);
 		return;
 	}
 
-	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveLeft == PlayerCurState_)
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveLeft == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
 		AutoMoveDir_ = float4::LEFT;
 		CameraStateChange(CameraState::Room4);
 		return;
 	}
 
-	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveRight == PlayerCurState_)
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveRight == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
 		AutoMoveDir_ = float4::RIGHT;
 		CameraStateChange(CameraState::Room5);
 		return;
 	}
 
-	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveDown == PlayerCurState_)
+	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
 		AutoMoveDir_ = float4::DOWN;
 		CameraStateChange(CameraState::Room2);
 		return;
 	}
 
-	if (PosOrColorCheck(Blue, MapColImage_))
+	if (PosOrColorCheck(Blue, MapColImage_) && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
-
 
 		if (StairsState::Top == CurStairs_)
 		{
