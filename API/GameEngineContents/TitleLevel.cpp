@@ -1,7 +1,6 @@
 #include "TitleLevel.h"
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngine/GameEngine.h>
-#include <GameEngineBase/GameEngineSound.h>
 #include "GameEngineContentsEnum.h"
 #include "TitleLogo.h"
 #include "TitleBackGround.h"
@@ -50,6 +49,13 @@ void TitleLevel::Update()
 
 void TitleLevel::LevelChangeStart()
 {
-	//GameEngineSound::SoundPlayOneShot("TitleScreen.mp3", 2);
+	SoundPlayer_ = GameEngineSound::SoundPlayControl("TitleScreen.mp3");
 }
+
+void TitleLevel::LevelChangeEnd()
+{
+	SoundPlayer_.Stop();
+}
+
+
 

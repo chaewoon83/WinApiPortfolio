@@ -5,9 +5,9 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngine/GameEngineRenderer.h>
-
+#include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineLevel.h> // 레벨을 통해서
-#include "PlayMap1F.h"
+#include "Map1FBridge.h"
 
 void PlayerLink::IdleUpdate()
 {
@@ -38,8 +38,8 @@ void PlayerLink::IdleUpdate()
 
 	if (true == GameEngineInput::GetInst()->IsDown("Fire"))
 	{
-		PlayerChangeState(PlayerState::Attack);
-		return;
+		//PlayerChangeState(PlayerState::Attack);
+		//return;
 	}
 }
 
@@ -99,13 +99,35 @@ void PlayerLink::MoveDownStart()
 
 void PlayerLink::MoveUpdate()
 {
-	if (false == IsCharacterAutoMove_)
+	if (false == IsCameraAutoMove_ && false == IsCharacterAutoMove_)
 	{
+		if (true == IsMoveKeyFree())
+		{
+			if (PlayerState::MoveRight == PlayerCurState_)
+			{
+				PlayerChangeState(PlayerState::RightIdle);
+			}
+			if (PlayerState::MoveLeft == PlayerCurState_)
+			{
+				PlayerChangeState(PlayerState::LeftIdle);
+			}
+			if (PlayerState::MoveUp == PlayerCurState_)
+			{
+				PlayerChangeState(PlayerState::UpIdle);
+			}
+			if (PlayerState::MoveDown == PlayerCurState_)
+			{
+				PlayerChangeState(PlayerState::DownIdle);
+			}
+
+		}
+
 		MoveFunction();
+
 		/// ///////////////////////////////////////////////////////////Right
 		if (false == GameEngineInput::GetInst()->IsPress("MoveUp") &&
 			false == GameEngineInput::GetInst()->IsPress("MoveDown") &&
-			true == IsRightMoveKey())
+			true == GameEngineInput::GetInst()->IsPress("MoveRight"))
 		{
 			PlayerChangeState(PlayerState::MoveRight);
 			return;
@@ -123,7 +145,7 @@ void PlayerLink::MoveUpdate()
 		/// ///////////////////////////////////////////////////////////Left
 		if (false == GameEngineInput::GetInst()->IsPress("MoveUp") &&
 			false == GameEngineInput::GetInst()->IsPress("MoveDown") &&
-			true == IsLeftMoveKey())
+			true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
 		{
 			PlayerChangeState(PlayerState::MoveLeft);
 			return;
@@ -141,7 +163,7 @@ void PlayerLink::MoveUpdate()
 		/// ///////////////////////////////////////////////////////////Up
 		if (false == GameEngineInput::GetInst()->IsPress("MoveRight") &&
 			false == GameEngineInput::GetInst()->IsPress("MoveLeft") &&
-			true == IsUpMoveKey())
+			true == GameEngineInput::GetInst()->IsPress("MoveUp"))
 		{
 			PlayerChangeState(PlayerState::MoveUp);
 			return;
@@ -160,7 +182,7 @@ void PlayerLink::MoveUpdate()
 		if (
 			false == GameEngineInput::GetInst()->IsPress("MoveRight") &&
 			false == GameEngineInput::GetInst()->IsPress("MoveLeft") &&
-			true == IsDownMoveKey())
+			true == GameEngineInput::GetInst()->IsPress("MoveDown"))
 		{
 			PlayerChangeState(PlayerState::MoveDown);
 			return;
@@ -174,30 +196,6 @@ void PlayerLink::MoveUpdate()
 				PlayerChangeState(PlayerState::MoveDown);
 				return;
 			}
-		}
-		/// ///////////////////////////////////////////////////////////Idle
-		if (true == IsMoveKeyFree() && GameEngineInput::GetInst()->IsUp("MoveRight"))
-		{
-			PlayerChangeState(PlayerState::RightIdle);
-			return;
-		}
-
-		if (true == IsMoveKeyFree() && GameEngineInput::GetInst()->IsUp("MoveLeft"))
-		{
-			PlayerChangeState(PlayerState::LeftIdle);
-			return;
-		}
-
-		if (true == IsMoveKeyFree() && GameEngineInput::GetInst()->IsUp("MoveUp"))
-		{
-			PlayerChangeState(PlayerState::UpIdle);
-			return;
-		}
-
-		if (true == IsMoveKeyFree() && GameEngineInput::GetInst()->IsUp("MoveDown"))
-		{
-			PlayerChangeState(PlayerState::DownIdle);
-			return;
 		}
 	}
 }
@@ -267,6 +265,7 @@ void PlayerLink::MoveFunction()
 			Black != ColorBotRight &&
 			Black != ColorBotLeft)
 		{
+			MoveDir.Normal2D();
 			SetMove(MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
 		}
 		else
@@ -427,14 +426,14 @@ void PlayerLink::Room1Update()
 	/// ///////////////////////////////////////// Room Check
 	int Red = RGB(255, 0, 0);
 	int Yellow = RGB(255, 255, 0);
-	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_)
+	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
 		AutoMoveDir_ = float4::UP;
 		CameraStateChange(CameraState::Room2);
 		return;
 	}
 
-	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_)
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
 		AutoMoveDir_ = float4::UP;
 		CameraStateChange(CameraState::Room2);
@@ -473,21 +472,21 @@ void PlayerLink::Room2Update()
 	int Red = RGB(255, 0, 0);
 	int Yellow = RGB(255, 255, 0);
 
-	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_)
+	if (true == PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
 		AutoMoveDir_ = float4::DOWN;
 		CameraStateChange(CameraState::Room1);
 		return;
 	}
 
-	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_)
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
 		AutoMoveDir_ = float4::DOWN;
 		CameraStateChange(CameraState::Room1);
 		return;
 	}
 
-	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_)
+	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
 		AutoMoveDir_ = float4::UP;
 		CameraStateChange(CameraState::Room3);
@@ -537,6 +536,7 @@ void PlayerLink::Room3Update()
 			return;
 		}
 	}
+	
 
 	/// ///////////////////////////////////////// Room Check
 	int Red = RGB(255, 0, 0);
@@ -564,6 +564,13 @@ void PlayerLink::Room3Update()
 		return;
 	}
 
+	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveDown == PlayerCurState_)
+	{
+		AutoMoveDir_ = float4::DOWN;
+		CameraStateChange(CameraState::Room2);
+		return;
+	}
+
 	if (PosOrColorCheck(Blue, MapColImage_))
 	{
 
@@ -574,6 +581,7 @@ void PlayerLink::Room3Update()
 			CurStairs_ = StairsState::Bot;
 			IsCharacterAutoMove_ = true;
 			IsOnStairs_ = true;
+			BridgeActor_->On();
 			return;
 		}
 
@@ -583,6 +591,7 @@ void PlayerLink::Room3Update()
 			CurStairs_ = StairsState::Top;
 			IsCharacterAutoMove_ = true;
 			IsOnStairs_ = true;
+			BridgeActor_->Off();
 			return;
 		}
 	}

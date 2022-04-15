@@ -15,6 +15,8 @@
 #include <GameEngine/GameEngineRenderer.h>
 #include "GameEngineBase/GameEngineInput.h"
 #include <GameEngineBase/GameEngineWindow.h>
+#include <GameEngineBase/GameEngineSound.h>
+#include "TitleLevel.h"
 
 PlayMap1F::PlayMap1F()
 {
@@ -24,13 +26,15 @@ PlayMap1F::~PlayMap1F()
 {
 }
 
+
 void PlayMap1F::Loading()
 {
 	CreateActor<Map1F>((int)PlayLevelOrder::BACKGROUND);
 	//CreateActor<Map1F>((int)PlayLevelOrder::BACKGROUND);
 	PlayerLink* Player = CreateActor<PlayerLink>((int)PlayLevelOrder::PLAYER);
 	CreateActor<Map1FRoof>((int)PlayLevelOrder::BACKGROUNDROOF);
-	Bridge_ = CreateActor<Map1FBridge>((int)PlayLevelOrder::BACKGROUNDROOF);
+	Map1FBridge* BridgeActor = CreateActor<Map1FBridge>((int)PlayLevelOrder::BACKGROUNDROOF);
+	Player->SetBridgeActor(BridgeActor);
 	CreateActor<UILayout>((int)PlayLevelOrder::UILAYOUT);
 	CreateActor<UIMagicMeter>((int)PlayLevelOrder::UI);
 	CreateActor<UISelectedItem>((int)PlayLevelOrder::UI);
@@ -38,7 +42,7 @@ void PlayMap1F::Loading()
 	CreateActor<UINumbers>((int)PlayLevelOrder::UI);
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
 	Player->SetPosition({3072.0f, 3800.0f});
-
+	BridgeActor->Off();
 }
 
 void PlayMap1F::Update()
@@ -51,5 +55,4 @@ void PlayMap1F::Update()
 
 void PlayMap1F::LevelChangeStart()
 {
-
 }

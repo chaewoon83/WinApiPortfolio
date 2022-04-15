@@ -3,7 +3,7 @@
 // Ό³Έν :
 class GameEngineImage;
 class GmaeEngineCollision;
-
+class Map1FBridge;
 enum class PlayerState
 {
 	RightIdle,
@@ -37,6 +37,9 @@ enum class StairsState
 	Max
 };
 
+
+
+
 class PlayerLink : public GameEngineActor
 {
 public:
@@ -49,6 +52,12 @@ public:
 	PlayerLink(PlayerLink&& _Other) noexcept = delete;
 	PlayerLink& operator=(const PlayerLink& _Other) = delete;
 	PlayerLink& operator=(PlayerLink&& _Other) noexcept = delete;
+
+	Map1FBridge* BridgeActor_;
+	void SetBridgeActor(Map1FBridge* _BridgeActor)
+	{
+		BridgeActor_ = _BridgeActor;
+	}
 
 protected:
 
@@ -95,6 +104,8 @@ public:
 	void PlayerAutoMove();
 	void PlayerAutoMove(float _Speed);
 
+	bool IsPlayerMoveState();
+	void PlayerSetIdle();
 	void PlayerChangeState(PlayerState _State);
 	void PlayerStateUpdate();
 private:

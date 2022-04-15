@@ -16,15 +16,12 @@ public:
 	PlayMap1F& operator=(const PlayMap1F& _Other) = delete;
 	PlayMap1F& operator=(PlayMap1F&& _Other) noexcept = delete;
 
-	void BridgeOn();
-	void BridgeOff();
 protected:
 	void Loading() override;
 	void Update() override;
 	void LevelChangeStart() override;
 
 private:
-	Map1FBridge* Bridge_;
 };
 
 

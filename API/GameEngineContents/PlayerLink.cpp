@@ -18,10 +18,13 @@
 //링크의 크기 == 64x96
 //링크 히트박스의 크키 == 64x64
 
+
+//FIN
+//대각선입력 속력 노말라이즈 하기V
+//FSM 대입하기V
+//걷기애니메이션 추가V
 //TODO
-//대각선입력 속력 노말라이즈 하기
-//FSM 대입하기
-//걷기애니메이션 추가
+//통로 통과 버그 고치기 ( 키 꾹누르면 state가 변화하지 않음)
 //공격 애니메이션, 함수 추가
 //피격 함수 추가
 
@@ -32,7 +35,7 @@
 //노란색 -> 문이동
 //빨간색 -> 닫힌 문 이동
 PlayerLink::PlayerLink()
-	:Speed_(300.0f),
+	:Speed_(350.0f),
 	 PlayerCurState_(PlayerState::DownIdle),
 	 CameraState_(CameraState::Room1),
 	 IsCameraAutoMove_(false),
@@ -59,15 +62,15 @@ void PlayerLink::Start()
 	//true 면 루프 false 면 루프아님
 	PlayerRenderer->SetPivot({ 0, -11 });
 
-	PlayerRenderer->CreateAnimation("Link_Idle_Right.bmp", "Idle_Right", 0, 1, 0.035f, false);
-	PlayerRenderer->CreateAnimation("Link_Idle_Left.bmp", "Idle_Left", 0, 1, 0.035f, false);
-	PlayerRenderer->CreateAnimation("Link_Idle_Up.bmp", "Idle_Up", 0, 1, 0.035f, false);
-	PlayerRenderer->CreateAnimation("Link_Idle_Down.bmp", "Idle_Down", 0, 1, 0.035f, false);
+	PlayerRenderer->CreateAnimation("Link_Idle_Right.bmp", "Idle_Right", 0, 1, 0.05f, false);
+	PlayerRenderer->CreateAnimation("Link_Idle_Left.bmp", "Idle_Left", 0, 1, 0.05f, false);
+	PlayerRenderer->CreateAnimation("Link_Idle_Up.bmp", "Idle_Up", 0, 1, 0.05f, false);
+	PlayerRenderer->CreateAnimation("Link_Idle_Down.bmp", "Idle_Down", 0, 1, 0.05f, false);
 
-	PlayerRenderer->CreateAnimation("Link_Walk_Right.bmp", "Walk_Right", 0, 5, 0.035f, true);
-	PlayerRenderer->CreateAnimation("Link_Walk_Left.bmp", "Walk_Left", 0, 5, 0.035f, true);
-	PlayerRenderer->CreateAnimation("Link_Walk_Up.bmp", "Walk_Up", 0, 7, 0.035f, true);
-	PlayerRenderer->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.035f, true);
+	PlayerRenderer->CreateAnimation("Link_Walk_Right.bmp", "Walk_Right", 0, 5, 0.05f, true);
+	PlayerRenderer->CreateAnimation("Link_Walk_Left.bmp", "Walk_Left", 0, 5, 0.05f, true);
+	PlayerRenderer->CreateAnimation("Link_Walk_Up.bmp", "Walk_Up", 0, 7, 0.05f, true);
+	PlayerRenderer->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.05f, true);
 	PlayerRenderer->ChangeAnimation("Idle_Down");
 
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다
@@ -106,8 +109,8 @@ void PlayerLink::Start()
  
 void PlayerLink::Update()
 {
-	PlayerStateUpdate();
 	CameraStateUpdate();
+	PlayerStateUpdate();
 
 	float4 Postion = GetPosition();
 
@@ -482,6 +485,23 @@ void PlayerLink::CameraAutoMove()
 		}
 	}
 
+
+}
+
+bool PlayerLink::IsPlayerMoveState()
+{
+	if (PlayerState::MoveRight == PlayerCurState_ ||
+		PlayerState::MoveLeft == PlayerCurState_ || 
+		PlayerState::MoveUp == PlayerCurState_ || 
+		PlayerState::MoveDown == PlayerCurState_)
+	{
+		return true;
+	}
+	return false;
+}
+
+void PlayerLink::PlayerSetIdle()
+{
 
 }
 
