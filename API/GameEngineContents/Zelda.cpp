@@ -38,6 +38,9 @@ void Zelda::GameInit()
 	ImageCutter("Link_Walk_Left.bmp", 6, 1);
 	ImageCutter("Link_Walk_Up.bmp", 8, 1);
 	ImageCutter("Link_Walk_Down.bmp", 8, 1);
+	ImageCutter("Link_Wield_Right.bmp", 5, 1);
+	ImageCutter("Link_Wield_Left.bmp", 5, 1);
+	ImageCutter("Link_Wield_Up.bmp", 5, 1);
 	ImageCutter("Link_Wield_Down.bmp", 6, 1);
 
 	ImageCutter("Top_Door_Animation.bmp", 1, 3);

@@ -11,6 +11,17 @@
 
 void PlayerLink::IdleUpdate()
 {
+	if (true == IsUpMoveKey())
+	{
+		PlayerChangeState(PlayerState::MoveUp);
+		return;
+	}
+
+	if (true == IsDownMoveKey())
+	{
+		PlayerChangeState(PlayerState::MoveDown);
+		return;
+	}
 	if (true == IsRightMoveKey())
 	{
 		PlayerChangeState(PlayerState::MoveRight);
@@ -23,31 +34,117 @@ void PlayerLink::IdleUpdate()
 		return;
 	}
 
-	if (true == IsUpMoveKey())
-	{
-		PlayerChangeState(PlayerState::MoveUp);
-		return;
-	}
-
-	if (true == IsDownMoveKey())
-	{
-		PlayerChangeState(PlayerState::MoveDown);
-		return;
-	}
 
 
 	if (true == GameEngineInput::GetInst()->IsDown("Fire"))
 	{
-		PlayerChangeState(PlayerState::Attack);
-		return;
+		if (PlayerState::RightIdle == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			PlayerChangeState(PlayerState::WieldRight);
+			return;
+		}
+
+		if (PlayerState::LeftIdle == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			PlayerChangeState(PlayerState::WieldLeft);
+			return;
+		}
+
+		if (PlayerState::UpIdle == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			PlayerChangeState(PlayerState::WieldUp);
+			return;
+		}
+
+		if (PlayerState::DownIdle == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			PlayerChangeState(PlayerState::WieldDown);
+			return;
+		}
 	}
 }
 
-void PlayerLink::AttackUpdate()
+void PlayerLink::WieldUpdate()
 {
 	if (PlayerRenderer->IsEndAnimation())
 	{
-		PlayerChangeState(PlayerState::DownIdle);
+		if (PlayerState::MoveRight == PlayerPrevState_ &&
+			true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+		{
+			PlayerChangeState(PlayerState::MoveRight);
+			return;
+		}
+
+		if (PlayerState::MoveLeft == PlayerPrevState_ &&
+			true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+		{
+			PlayerChangeState(PlayerState::MoveLeft);
+			return;
+		}
+
+		if (PlayerState::MoveUp == PlayerPrevState_ &&
+			true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+		{
+			PlayerChangeState(PlayerState::MoveUp);
+			return;
+		}
+
+		if (PlayerState::MoveDown == PlayerPrevState_ &&
+			true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+		{
+			PlayerChangeState(PlayerState::MoveDown);
+			return;
+		}
+		if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+		{
+			PlayerChangeState(PlayerState::MoveUp);
+			return;
+		}
+		if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+		{
+			PlayerChangeState(PlayerState::MoveDown);
+			return;
+		}
+		if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+		{
+			PlayerChangeState(PlayerState::MoveRight);
+			return;
+		}
+
+		if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+		{
+			PlayerChangeState(PlayerState::MoveLeft);
+			return;
+		}
+
+		if (PlayerState::UpIdle == PlayerPrevState_ ||
+			PlayerState::MoveUp == PlayerPrevState_)
+		{
+			PlayerChangeState(PlayerState::UpIdle);
+			return;
+		}
+		if (PlayerState::DownIdle == PlayerPrevState_ ||
+			PlayerState::MoveDown == PlayerPrevState_)
+		{
+			PlayerChangeState(PlayerState::DownIdle);
+			return;
+		}
+		if (PlayerState::RightIdle == PlayerPrevState_ ||
+			PlayerState::MoveRight == PlayerPrevState_)
+		{
+			PlayerChangeState(PlayerState::RightIdle);
+			return;
+		}
+		if (PlayerState::LeftIdle == PlayerPrevState_ ||
+			PlayerState::MoveLeft == PlayerPrevState_)
+		{
+			PlayerChangeState(PlayerState::LeftIdle);
+			return;
+		}
 	}
 }
 
@@ -99,7 +196,22 @@ void PlayerLink::MoveDownStart()
 	PlayerRenderer->ChangeAnimation("Walk_Down");
 }
 
-void PlayerLink::AttackStart()
+void PlayerLink::WieldRightStart()
+{
+	PlayerRenderer->ChangeAnimation("Wield_Right");
+}
+
+void PlayerLink::WieldLeftStart()
+{
+	PlayerRenderer->ChangeAnimation("Wield_Left");
+}
+
+void PlayerLink::WieldUpStart()
+{
+	PlayerRenderer->ChangeAnimation("Wield_Up");
+}
+
+void PlayerLink::WieldDownStart()
 {
 	PlayerRenderer->ChangeAnimation("Wield_Down");
 }
@@ -126,10 +238,48 @@ void PlayerLink::MoveUpdate()
 			{
 				PlayerChangeState(PlayerState::DownIdle);
 			}
-
 		}
 
+		//if (true == GameEngineInput::GetInst()->IsDown("Fire"))
+		//{
+		//	PlayerPrevState_ = PlayerCurState_;
+		//	PlayerChangeState(PlayerState::Attack);
+		//	return;
+		//}
+
 		MoveFunction();
+
+		//Wield
+		if (true == GameEngineInput::GetInst()->IsDown("Fire"))
+		{
+			if (PlayerState::MoveRight == PlayerCurState_)
+			{
+				PlayerPrevState_ = PlayerCurState_;
+				PlayerChangeState(PlayerState::WieldRight);
+				return;
+			}
+
+			if (PlayerState::MoveLeft == PlayerCurState_)
+			{
+				PlayerPrevState_ = PlayerCurState_;
+				PlayerChangeState(PlayerState::WieldLeft);
+				return;
+			}
+
+			if (PlayerState::MoveUp == PlayerCurState_)
+			{
+				PlayerPrevState_ = PlayerCurState_;
+				PlayerChangeState(PlayerState::WieldUp);
+				return;
+			}
+
+			if (PlayerState::MoveDown == PlayerCurState_)
+			{
+				PlayerPrevState_ = PlayerCurState_;
+				PlayerChangeState(PlayerState::WieldDown);
+				return;
+			}
+		}
 
 		/// ///////////////////////////////////////////////////////////Right
 		if (false == GameEngineInput::GetInst()->IsPress("MoveUp") &&

@@ -71,7 +71,12 @@ void PlayerLink::Start()
 	PlayerRenderer->CreateAnimation("Link_Walk_Left.bmp", "Walk_Left", 0, 5, 0.05f, true);
 	PlayerRenderer->CreateAnimation("Link_Walk_Up.bmp", "Walk_Up", 0, 7, 0.05f, true);
 	PlayerRenderer->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.05f, true);
-	PlayerRenderer->CreateAnimation("Link_Wield_Down.bmp", "Wield_Down", 0, 5, 0.05f, true);
+
+	PlayerRenderer->CreateAnimation("Link_Wield_Right.bmp", "Wield_Right", 0, 4, 0.04f, true);
+	PlayerRenderer->CreateAnimation("Link_Wield_Left.bmp", "Wield_Left", 0, 4, 0.04f, true);
+	PlayerRenderer->CreateAnimation("Link_Wield_Up.bmp", "Wield_Up", 0, 4, 0.04f, true);
+	PlayerRenderer->CreateAnimation("Link_Wield_Down.bmp", "Wield_Down", 0, 5, 0.04f, true);
+
 	PlayerRenderer->ChangeAnimation("Idle_Down");
 
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다
@@ -221,8 +226,17 @@ void PlayerLink::PlayerChangeState(PlayerState _State)
 		case PlayerState::DownIdle:
 			IdleDownStart();
 			break;
-		case PlayerState::Attack:
-			AttackStart();
+		case PlayerState::WieldRight:
+			WieldRightStart();
+			break;
+		case PlayerState::WieldLeft:
+			WieldLeftStart();
+			break;
+		case PlayerState::WieldUp:
+			WieldUpStart();
+			break;
+		case PlayerState::WieldDown:
+			WieldDownStart();
 			break;
 		case PlayerState::MoveRight:
 			MoveRightStart();
@@ -257,8 +271,11 @@ void PlayerLink::PlayerStateUpdate()
 	case PlayerState::DownIdle:
 		IdleUpdate();
 		break;
-	case PlayerState::Attack:
-		AttackUpdate();
+	case PlayerState::WieldRight:
+	case PlayerState::WieldLeft:
+	case PlayerState::WieldUp:
+	case PlayerState::WieldDown:
+		WieldUpdate();
 		break;
 	case PlayerState::MoveRight:
 		MoveUpdate();

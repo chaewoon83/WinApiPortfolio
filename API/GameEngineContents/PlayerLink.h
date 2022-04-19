@@ -10,7 +10,10 @@ enum class PlayerState
 	LeftIdle,
 	UpIdle,
 	DownIdle,
-	Attack,
+	WieldRight,
+	WieldLeft,
+	WieldUp,
+	WieldDown,
 	MoveRight,
 	MoveLeft,
 	MoveUp,
@@ -97,6 +100,7 @@ private:
 	/// ////////////////////////////////////////////////////////////////////Player Movements
 public:
 	PlayerState PlayerCurState_;
+	PlayerState PlayerPrevState_;
 
 	bool IsCharacterAutoMove_;
 	float4 AutoMoveDir_;
@@ -111,14 +115,17 @@ public:
 private:
 	void IdleUpdate();
 
-	void AttackUpdate();
+	void WieldUpdate();
 	void MoveUpdate();
 
 	void IdleRightStart();
 	void IdleLeftStart();
 	void IdleUpStart();
 	void IdleDownStart();
-	void AttackStart();
+	void WieldRightStart();
+	void WieldLeftStart();
+	void WieldUpStart();
+	void WieldDownStart();
 	void MoveRightStart();
 	void MoveLeftStart();
 	void MoveUpStart();
