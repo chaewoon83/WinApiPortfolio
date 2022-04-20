@@ -4,6 +4,11 @@
 // 설명 : 수학에 관련된 모든것을 넣을것이다
 class GameEngineMath
 {
+public:
+	static const float PIE;
+	static const float DEG;
+	static const float DegreeToRadian;
+
 private:
 	// constrcuter destructer
 	GameEngineMath();
@@ -23,6 +28,19 @@ private:
 
 class float4
 {
+
+public:
+	static float4 DegreeToDirectionFloat4(float _Degree)
+	{
+		return RadianToDirectionFloat4(_Degree * GameEngineMath::DegreeToRadian);
+	}
+
+	static float4 RadianToDirectionFloat4(float _Radian)
+	{
+		return { cosf(_Radian), sinf(_Radian) };
+	}
+
+
 public:
 	static float4 LEFT;
 	static float4 RIGHT;
