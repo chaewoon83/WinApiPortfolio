@@ -103,12 +103,13 @@ protected:
 	//레벨 수준의 업데이트
 	virtual void Update() = 0;
 	//이전레벨에서 현재레벨로 이전할때 "현재"레벨이 실행하는 함수
-	void ActorLevelChangeStart();
-	virtual void LevelChangeStart() {};
+	void ActorLevelChangeStart(GameEngineLevel* _PrevLevel);
+	virtual void LevelChangeStart(GameEngineLevel* _PrevLevel) {};
 	//이전레벨에서 현재레벨로 이전할때 "이전"레벨이 실행하는 함수
-	void ActorLevelChangeEnd();
-	virtual void LevelChangeEnd() {}
+	void ActorLevelChangeEnd(GameEngineLevel* _NextLevel);
+	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel) {};
 
+	void ObjectLevelMoveCheck(GameEngineLevel* _NextLevel);
 private:
 	static bool IsDebug;
 

@@ -63,6 +63,11 @@ public:
 		Scale_ = _Value;
 	}
 
+	inline void NextLevelOn()
+	{
+		NextLevelOn_ = true;
+	}
+
 	void SetOrder(int _Order) override;
 
 
@@ -74,8 +79,8 @@ protected:
 	virtual void Update() {} // 때에 따라서 엑터에서 생성해야한다
 	virtual void Render() {} // 떼에 따라서 엑터에서 생성해야한다
 
-	virtual void LevelChangeStart() {}
-	virtual void LevelChangeEnd() {}
+	virtual void LevelChangeStart(GameEngineLevel* _PrevLevel) {}
+	virtual void LevelChangeEnd(GameEngineLevel* _NextLevel) {}
 
 	void Release();
 	void DebugRectRender();
@@ -87,6 +92,13 @@ private:
 	inline void SetLevel(GameEngineLevel* _Level)
 	{
 		Level_ = _Level;
+	}
+
+	bool NextLevelOn_;
+
+	inline void NextLevelOff()
+	{
+		NextLevelOn_ = false;
 	}
 
 

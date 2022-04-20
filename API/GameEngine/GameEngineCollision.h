@@ -10,6 +10,7 @@ class GameEngineImage;
 class GameEngineCollision : public GameEngineActorSubObject
 {
 	friend GameEngineActor;
+	friend GameEngineLevel;
 public:
 	// constrcuter destructer
 	GameEngineCollision();
@@ -61,5 +62,7 @@ private:
 	float4 Pivot_;
 	//중심을 기준으로 한 크기
 	float4 Scale_;
+
+	std::string CollisionName_;
 
 };
