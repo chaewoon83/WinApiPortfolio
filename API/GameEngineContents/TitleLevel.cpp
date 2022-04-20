@@ -47,12 +47,12 @@ void TitleLevel::Update()
 
 }
 
-void TitleLevel::LevelChangeStart()
+void TitleLevel::LevelChangeStart(GameEngineLevel* _NextLevel)
 {
 	SoundPlayer_ = GameEngineSound::SoundPlayControl("TitleScreen.mp3");
 }
 
-void TitleLevel::LevelChangeEnd()
+void TitleLevel::LevelChangeEnd(GameEngineLevel* _PrevLevel)
 {
 	SoundPlayer_.Stop();
 }

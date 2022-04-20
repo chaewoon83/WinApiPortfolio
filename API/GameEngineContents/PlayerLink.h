@@ -10,14 +10,18 @@ enum class PlayerState
 	LeftIdle,
 	UpIdle,
 	DownIdle,
-	WieldRight,
-	WieldLeft,
-	WieldUp,
-	WieldDown,
 	MoveRight,
 	MoveLeft,
 	MoveUp,
 	MoveDown,
+	WieldRight,
+	WieldLeft,
+	WieldUp,
+	WieldDown,
+	DamagedRight,
+	DamagedLeft,
+	DamagedUp,
+	DamagedDown,
 	Max
 };
 
@@ -73,7 +77,13 @@ private:
 	GameEngineImage* MapColImage_;
 	GameEngineImage* MapPasImage_;
 	GameEngineCollision* PlayerCollision_;
+	GameEngineCollision* SwordCollision_;
 	GameEngineCollision* SwitchCollision_;
+
+	float AnimationTimer_;
+	float AttackAnimationInterval_;
+	int AnimationIndex_;
+
 
 	void Start() override;
 	void Update() override;
@@ -117,19 +127,28 @@ private:
 
 	void WieldUpdate();
 	void MoveUpdate();
+	void DamagedUpdate();
+	void WieldRightUpdate();
+	void WieldLeftUpdate();
+	void WieldUpUpdate();
+	void WieldDownUpdate();
 
 	void IdleRightStart();
 	void IdleLeftStart();
 	void IdleUpStart();
 	void IdleDownStart();
-	void WieldRightStart();
-	void WieldLeftStart();
-	void WieldUpStart();
-	void WieldDownStart();
 	void MoveRightStart();
 	void MoveLeftStart();
 	void MoveUpStart();
 	void MoveDownStart();
+	void WieldRightStart();
+	void WieldLeftStart();
+	void WieldUpStart();
+	void WieldDownStart();
+	void DamagedRightStart();
+	void DamagedLeftStart();
+	void DamagedUpStart();
+	void DamagedDownStart();
 
 
 	/// ////////////////////////////////////////////////////////////////////Camera Movemnets
@@ -156,5 +175,13 @@ private:
 	/////////////////////////////////////////////////////////////////////Staris State
 private:
 	StairsState CurStairs_;
+
+	/////////////////////////////////////////////////////////////////////Combat
+	int Hp_;
+	bool IsGetDamaged_;
+	bool IsInvulnerable_;
+	float VulnerableTime_;
+	float CurVulnerableTime_;
+	void GetDamaged();
 };
 

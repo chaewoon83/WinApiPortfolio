@@ -24,35 +24,11 @@ void Zelda::GameInit()
 {
 	GameEngineWindow::GetInst().SetWindowScaleAndPosition({ 100 ,100 }, { 1024, 896 });
 	//폴더에서 이미지 가져오기
-	GetImageFromFolder("Link");
-	GetImageFromFolder("Title");
-	GetImageFromFolder("UI");
-	GetImageFromFolder("Map");
+	TotalImageGetFromFolder();
 
+	//이미지 자르기
+	TotalImageCut();
 
-	ImageCutter("Link_Idle_Right.bmp", 2, 1);
-	ImageCutter("Link_Idle_Left.bmp", 2, 1);
-	ImageCutter("Link_Idle_Up.bmp", 2, 1);
-	ImageCutter("Link_Idle_Down.bmp", 2, 1);
-	ImageCutter("Link_Walk_Right.bmp", 6, 1);
-	ImageCutter("Link_Walk_Left.bmp", 6, 1);
-	ImageCutter("Link_Walk_Up.bmp", 8, 1);
-	ImageCutter("Link_Walk_Down.bmp", 8, 1);
-	ImageCutter("Link_Wield_Right.bmp", 5, 1);
-	ImageCutter("Link_Wield_Left.bmp", 5, 1);
-	ImageCutter("Link_Wield_Up.bmp", 5, 1);
-	ImageCutter("Link_Wield_Down.bmp", 6, 1);
-
-	ImageCutter("Top_Door_Animation.bmp", 1, 3);
-	ImageCutter("Top_Door_Idle_Animation.bmp", 1, 3);
-	ImageCutter("Bot_Door_Animation.bmp", 1, 3);
-	ImageCutter("Bot_Door_Idle_Animation.bmp", 1, 3);
-	ImageCutter("Left_Door_Animation.bmp", 3, 1);
-	ImageCutter("Left_Door_Idle_Animation.bmp", 3, 1);
-	ImageCutter("Right_Door_Animation.bmp", 3, 1);
-	ImageCutter("Right_Door_Idle_Animation.bmp", 3, 1);
-	ImageCutter("trianglebmp.bmp", 5, 34);
-	ImageCutter("TitleTwinkle.bmp", 11, 1);
 	//GameEngineImage* Image = GameEngineImageManager::GetInst()->Find("Link_Walk_Down.bmp");
 	//Image->CutCount(8, 1);w
 
@@ -118,4 +94,52 @@ void Zelda::ImageCutter(const std::string& _Image, int _x, int _y)
 {
 	GameEngineImage* Image = GameEngineImageManager::GetInst()->Find(_Image);
 	Image->CutCount(_x, _y);
+}
+
+void Zelda::TotalImageGetFromFolder()
+{
+	GetImageFromFolder("Link");
+	GetImageFromFolder("Title");
+	GetImageFromFolder("UI");
+	GetImageFromFolder("Map");
+	GetImageFromFolder("Enemy");
+}
+
+void Zelda::TotalImageCut()
+{
+	//Link
+	ImageCutter("Link_Idle_Right.bmp", 2, 1);
+	ImageCutter("Link_Idle_Left.bmp", 2, 1);
+	ImageCutter("Link_Idle_Up.bmp", 2, 1);
+	ImageCutter("Link_Idle_Down.bmp", 2, 1);
+	ImageCutter("Link_Walk_Right.bmp", 6, 1);
+	ImageCutter("Link_Walk_Left.bmp", 6, 1);
+	ImageCutter("Link_Walk_Up.bmp", 8, 1);
+	ImageCutter("Link_Walk_Down.bmp", 8, 1);
+	ImageCutter("Link_Wield_Right.bmp", 5, 1);
+	ImageCutter("Link_Wield_Left.bmp", 5, 1);
+	ImageCutter("Link_Wield_Up.bmp", 5, 1);
+	ImageCutter("Link_Wield_Down.bmp", 6, 1);
+	ImageCutter("Link_Damaged_Right.bmp", 2, 1);
+	ImageCutter("Link_Damaged_Left.bmp", 2, 1);
+	ImageCutter("Link_Damaged_Up.bmp", 2, 1);
+	ImageCutter("Link_Damaged_Down.bmp", 2, 1);
+
+	//Map Object
+	ImageCutter("Right_Door_Animation.bmp", 3, 1);
+	ImageCutter("Right_Door_Idle_Animation.bmp", 3, 1);
+	ImageCutter("Left_Door_Animation.bmp", 3, 1);
+	ImageCutter("Left_Door_Idle_Animation.bmp", 3, 1);
+	ImageCutter("Top_Door_Animation.bmp", 1, 3);
+	ImageCutter("Top_Door_Idle_Animation.bmp", 1, 3);
+	ImageCutter("Bot_Door_Animation.bmp", 1, 3);
+	ImageCutter("Bot_Door_Idle_Animation.bmp", 1, 3);
+
+	//Title
+	ImageCutter("trianglebmp.bmp", 5, 34);
+	ImageCutter("TitleTwinkle.bmp", 11, 1);
+
+	//Enemy
+	ImageCutter("EnemyPopo.bmp", 3, 1);
+	ImageCutter("EnemyDeathEffect.bmp", 7, 1); 
 }

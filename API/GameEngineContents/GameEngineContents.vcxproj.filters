@@ -38,38 +38,11 @@
     <ClInclude Include="EnemyPopo.h">
       <Filter>Play\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBall.h">
-      <Filter>Play\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyGargantuanBall.h">
-      <Filter>Play\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBlueStalfos.h">
-      <Filter>Play\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyStalfos.h">
-      <Filter>Play\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyAntiFairy.h">
-      <Filter>Play\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyBubbleGroup.h">
-      <Filter>Play\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyGreenEyegore.h">
-      <Filter>Play\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="BossArmomsKnight.h">
-      <Filter>Play\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Map.h">
       <Filter>Map</Filter>
     </ClInclude>
     <ClInclude Include="MapLevel.h">
       <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyDeathEffect.h">
-      <Filter>Play\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="PlayMap1F.h">
       <Filter>Level</Filter>
@@ -135,6 +108,33 @@
     <ClInclude Include="Map1FBridge.h">
       <Filter>Play\Map</Filter>
     </ClInclude>
+    <ClInclude Include="BossArmomsKnight.h">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAntiFairy.h">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBall.h">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBlueStalfos.h">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBubbleGroup.h">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDeathEffect.h">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGargantuanBall.h">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGreenEyegore.h">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyStalfos.h">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -174,38 +174,11 @@
     <ClCompile Include="EnemyPopo.cpp">
       <Filter>Play\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBall.cpp">
-      <Filter>Play\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyGargantuanBall.cpp">
-      <Filter>Play\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyBlueStalfos.cpp">
-      <Filter>Play\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyStalfos.cpp">
-      <Filter>Play\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyAntiFairy.cpp">
-      <Filter>Play\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyBubbleGroup.cpp">
-      <Filter>Play\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyGreenEyegore.cpp">
-      <Filter>Play\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="BossArmomsKnight.cpp">
-      <Filter>Play\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Map.cpp">
       <Filter>Map</Filter>
     </ClCompile>
     <ClCompile Include="MapLevel.cpp">
       <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyDeathEffect.cpp">
-      <Filter>Play\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="PlayMap1F.cpp">
       <Filter>Level</Filter>
@@ -273,6 +246,33 @@
     <ClCompile Include="Map1FBridge.cpp">
       <Filter>Play\Map</Filter>
     </ClCompile>
+    <ClCompile Include="BossArmomsKnight.cpp">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAntiFairy.cpp">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBall.cpp">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBlueStalfos.cpp">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBubbleGroup.cpp">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyDeathEffect.cpp">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGargantuanBall.cpp">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGreenEyegore.cpp">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyStalfos.cpp">
+      <Filter>Play\Enemy\Yet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -307,6 +307,9 @@
     </Filter>
     <Filter Include="Play\Player\Equipment">
       <UniqueIdentifier>{2e12ab9e-793e-4667-932f-e3c2a724c15a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Enemy\Yet">
+      <UniqueIdentifier>{42b96f0b-90a3-478b-92ed-f51892a2cffe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

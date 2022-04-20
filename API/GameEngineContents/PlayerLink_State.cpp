@@ -7,6 +7,7 @@
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineLevel.h> // 레벨을 통해서
+#include <GameEngine/GameEngineCollision.h>
 #include "Map1FBridge.h"
 
 void PlayerLink::IdleUpdate()
@@ -70,8 +71,36 @@ void PlayerLink::IdleUpdate()
 
 void PlayerLink::WieldUpdate()
 {
+	AnimationTimer_ += GameEngineTime::GetDeltaTime();
+	/////// Create Attack Collision
+	if (PlayerState::WieldRight == PlayerCurState_) 
+	{
+		WieldRightUpdate();
+	}
+	if (PlayerState::WieldLeft == PlayerCurState_)
+	{
+		WieldLeftUpdate();
+	}
+	if (PlayerState::WieldUp == PlayerCurState_)
+	{
+		WieldUpUpdate();
+	}
+	if (PlayerState::WieldDown == PlayerCurState_)
+	{
+		WieldDownUpdate();
+	}
+
+
+
+	//////End Of Animation
 	if (PlayerRenderer->IsEndAnimation())
 	{
+		AnimationTimer_ = 0.0f;
+		if (nullptr != SwordCollision_)
+		{
+			SwordCollision_->Death();
+			SwordCollision_ = nullptr;
+		}
 		if (PlayerState::MoveRight == PlayerPrevState_ &&
 			true == GameEngineInput::GetInst()->IsPress("MoveRight"))
 		{
@@ -148,72 +177,173 @@ void PlayerLink::WieldUpdate()
 	}
 }
 
-//////////////////////////////////////// State
-
-void PlayerLink::IdleRightStart()
+void PlayerLink::WieldRightUpdate()
 {
-	// 애니메이션이 바뀐다.
-	PlayerRenderer->ChangeAnimation("Idle_Right");
+
+	if (nullptr == SwordCollision_)
+	{
+		SwordCollision_ = CreateCollision("Sword", { 32, 48 }, { 16, -24 });
+		AnimationIndex_ = 0;
+	}
+
+	if (0 == AnimationIndex_ && AttackAnimationInterval_ < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ 72, 52 });
+		SwordCollision_->SetPivot({ 36, -26 });
+		AnimationIndex_ = 1;
+	}
+
+	if (1 == AnimationIndex_ && AttackAnimationInterval_ * 2 < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ 98, 26 });
+		SwordCollision_->SetPivot({ 49, 13 });
+		AnimationIndex_ = 2;
+	}
+
+	if (2 == AnimationIndex_ && AttackAnimationInterval_ * 3 < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ 82, 42 });
+		SwordCollision_->SetPivot({ 41, 21 });
+		AnimationIndex_ = 3;
+	}
+
+	if (3 == AnimationIndex_ && AttackAnimationInterval_ * 4 < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ 58, 82 });
+		SwordCollision_->SetPivot({ 29, 41 });
+		AnimationIndex_ = 4;
+	}
+
 }
 
-void PlayerLink::IdleLeftStart()
+void PlayerLink::WieldLeftUpdate()
 {
-	// 애니메이션이 바뀐다.
-	PlayerRenderer->ChangeAnimation("Idle_Left");
+
+	if (nullptr == SwordCollision_)
+	{
+		SwordCollision_ = CreateCollision("Sword", { -32, 48 }, { -16, -24 });
+		AnimationIndex_ = 0;
+	}
+
+	if (0 == AnimationIndex_ && AttackAnimationInterval_ < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ -72, 52 });
+		SwordCollision_->SetPivot({ -36, -26 });
+		AnimationIndex_ = 1;
+	}
+
+	if (1 == AnimationIndex_ && AttackAnimationInterval_ * 2 < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ -98, 26 });
+		SwordCollision_->SetPivot({ -49, 13 });
+		AnimationIndex_ = 2;
+	}
+
+	if (2 == AnimationIndex_ && AttackAnimationInterval_ * 3 < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ -82, 42 });
+		SwordCollision_->SetPivot({ -41, 21 });
+		AnimationIndex_ = 3;
+	}
+
+	if (3 == AnimationIndex_ && AttackAnimationInterval_ * 4 < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ -58, 82 });
+		SwordCollision_->SetPivot({ -29, 41 });
+		AnimationIndex_ = 4;
+	}
+
 }
 
-void PlayerLink::IdleUpStart()
+void PlayerLink::WieldUpUpdate()
 {
-	// 애니메이션이 바뀐다.
-	PlayerRenderer->ChangeAnimation("Idle_Up");
+
+	if (nullptr == SwordCollision_)
+	{
+		//SwordCollision_ = CreateCollision("Sword", { 4,4 });
+		SwordCollision_ = CreateCollision("Sword", { 56, 25 }, { 28,-13 });
+		AnimationIndex_ = 0;
+	}
+
+	if (0 == AnimationIndex_ && AttackAnimationInterval_ < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ 50, 77 });
+		SwordCollision_->SetPivot({ 25, -39 });
+		AnimationIndex_ = 1;
+	}
+
+	if (1 == AnimationIndex_ && AttackAnimationInterval_ * 2 < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ 32, 98 });
+		SwordCollision_->SetPivot({ -16, -49 });
+		AnimationIndex_ = 2;
+	}
+
+	if (2 == AnimationIndex_ && AttackAnimationInterval_ * 3 < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ 56, 78 });
+		SwordCollision_->SetPivot({ -28, -39 });
+		AnimationIndex_ = 3;
+	}
+
+	if (3 == AnimationIndex_ && AttackAnimationInterval_ * 4 < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ 88, 50 });
+		SwordCollision_->SetPivot({ -44, -25 });
+		AnimationIndex_ = 4;
+	}
+
 }
 
-void PlayerLink::IdleDownStart()
+void PlayerLink::WieldDownUpdate()
 {
-	// 애니메이션이 바뀐다.
-	PlayerRenderer->ChangeAnimation("Idle_Down");
+
+	if (nullptr == SwordCollision_)
+	{
+		SwordCollision_ = CreateCollision("Sword", { 56, 18 }, { -28,14 });
+		AnimationIndex_ = 0;
+	}
+
+	if (0 == AnimationIndex_ && AttackAnimationInterval_ < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ 60, 58 });
+		SwordCollision_->SetPivot({ -30, 29 });
+		AnimationIndex_ = 1;
+	}
+
+	if (1 == AnimationIndex_ && AttackAnimationInterval_ * 2 < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ 24, 86 });
+		SwordCollision_->SetPivot({ -4, 43 });
+		AnimationIndex_ = 2;
+	}
+
+	if (2 == AnimationIndex_ && AttackAnimationInterval_ * 3 < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ 30, 98 });
+		SwordCollision_->SetPivot({ 15, 49 });
+		AnimationIndex_ = 3;
+	}
+
+	if (3 == AnimationIndex_ && AttackAnimationInterval_ * 4 < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ 66, 78 });
+		SwordCollision_->SetPivot({ 33, 49 });
+		AnimationIndex_ = 4;
+	}
+
+	if (4 == AnimationIndex_ && AttackAnimationInterval_ * 5 < AnimationTimer_)
+	{
+		SwordCollision_->SetScale({ 82, 70 });
+		SwordCollision_->SetPivot({ 41, 35 });
+		AnimationIndex_ = 5;
+	}
 
 }
 
-void PlayerLink::MoveRightStart()
+void PlayerLink::DamagedUpdate()
 {
-	PlayerRenderer->ChangeAnimation("Walk_Right");
-}
 
-void PlayerLink::MoveLeftStart()
-{
-	PlayerRenderer->ChangeAnimation("Walk_Left");
-}
-
-
-void PlayerLink::MoveUpStart()
-{
-	PlayerRenderer->ChangeAnimation("Walk_Up");
-}
-
-void PlayerLink::MoveDownStart()
-{
-	PlayerRenderer->ChangeAnimation("Walk_Down");
-}
-
-void PlayerLink::WieldRightStart()
-{
-	PlayerRenderer->ChangeAnimation("Wield_Right");
-}
-
-void PlayerLink::WieldLeftStart()
-{
-	PlayerRenderer->ChangeAnimation("Wield_Left");
-}
-
-void PlayerLink::WieldUpStart()
-{
-	PlayerRenderer->ChangeAnimation("Wield_Up");
-}
-
-void PlayerLink::WieldDownStart()
-{
-	PlayerRenderer->ChangeAnimation("Wield_Down");
 }
 
 void PlayerLink::MoveUpdate()
@@ -356,7 +486,6 @@ void PlayerLink::MoveUpdate()
 		}
 	}
 }
-
 void PlayerLink::MoveFunction()
 {
 	float4 CheckPos;
@@ -400,17 +529,17 @@ void PlayerLink::MoveFunction()
 		float4 MyPos = GetPosition();
 		float4 MyPosTopRight = MyPos + float4{ 32.0f, -32.0f };
 		float4 MyPosTopLeft = MyPos + float4{ -32.0f, -32.0f };
-		float4 MyPosBotRight = MyPos + float4{ 32.0f, 32.0f };
-		float4 MyPosBotLeft = MyPos + float4{ -32.0f, 32.0f };
+		float4 MyPosBotRight = MyPos + float4{ 32.0f, 43.0f };
+		float4 MyPosBotLeft = MyPos + float4{ -32.0f, 43.0f };
 		float4 NextPos = GetPosition() + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
 		float4 CheckPosTopRight = NextPos + float4{ 32.0f, -32.0f };
 		float4 CheckPosTopLeft = NextPos + float4{ -32.0f, -32.0f };
-		float4 CheckPosBotRight = NextPos + float4{ 32.0f, 32.0f };
-		float4 CheckPosBotLeft = NextPos + float4{ -32.0f, 32.0f };
+		float4 CheckPosBotRight = NextPos + float4{ 32.0f, 43.0f };
+		float4 CheckPosBotLeft = NextPos + float4{ -32.0f, 43.0f };
 		float4 CheckPosRight = NextPos + float4{ 32.0f, 0.0f };
 		float4 CheckPosLeft = NextPos + float4{ -32.0f, 0.0f };
 		float4 CheckPosTop = NextPos + float4{ 0.0f, -32.0f };
-		float4 CheckPosBot = NextPos + float4{ 0.0f, 32.0f };
+		float4 CheckPosBot = NextPos + float4{ 0.0f, 43.0f };
 
 
 		int ColorTopRight = MapColImage_->GetImagePixel(CheckPosTopRight);
@@ -553,6 +682,98 @@ void PlayerLink::MoveFunction()
 
 	}
 }
+
+//////////////////////////////////////// State
+
+void PlayerLink::IdleRightStart()
+{
+	// 애니메이션이 바뀐다.
+	PlayerRenderer->ChangeAnimation("Idle_Right");
+}
+
+void PlayerLink::IdleLeftStart()
+{
+	// 애니메이션이 바뀐다.
+	PlayerRenderer->ChangeAnimation("Idle_Left");
+}
+
+void PlayerLink::IdleUpStart()
+{
+	// 애니메이션이 바뀐다.
+	PlayerRenderer->ChangeAnimation("Idle_Up");
+}
+
+void PlayerLink::IdleDownStart()
+{
+	// 애니메이션이 바뀐다.
+	PlayerRenderer->ChangeAnimation("Idle_Down");
+
+}
+
+void PlayerLink::MoveRightStart()
+{
+	PlayerRenderer->ChangeAnimation("Walk_Right");
+}
+
+void PlayerLink::MoveLeftStart()
+{
+	PlayerRenderer->ChangeAnimation("Walk_Left");
+}
+
+
+void PlayerLink::MoveUpStart()
+{
+	PlayerRenderer->ChangeAnimation("Walk_Up");
+}
+
+void PlayerLink::MoveDownStart()
+{
+	PlayerRenderer->ChangeAnimation("Walk_Down");
+}
+
+void PlayerLink::WieldRightStart()
+{
+	PlayerRenderer->ChangeAnimation("Wield_Right");
+}
+
+void PlayerLink::WieldLeftStart()
+{
+	PlayerRenderer->ChangeAnimation("Wield_Left");
+}
+
+void PlayerLink::WieldUpStart()
+{
+	PlayerRenderer->ChangeAnimation("Wield_Up");
+}
+
+void PlayerLink::WieldDownStart()
+{
+	PlayerRenderer->ChangeAnimation("Wield_Down");
+}
+
+void PlayerLink::DamagedRightStart()
+{
+	PlayerRenderer->ChangeAnimation("Damaged_Right");
+}
+
+void PlayerLink::DamagedLeftStart()
+{
+	PlayerRenderer->ChangeAnimation("Damaged_Left");
+}
+
+void PlayerLink::DamagedUpStart()
+{
+	PlayerRenderer->ChangeAnimation("Damaged_Up");
+}
+
+void PlayerLink::DamagedDownStart()
+{
+	PlayerRenderer->ChangeAnimation("Damaged_Down");
+}
+
+
+
+/// ///////////////////////////////////// Room State
 
 void PlayerLink::Room1Start()
 {

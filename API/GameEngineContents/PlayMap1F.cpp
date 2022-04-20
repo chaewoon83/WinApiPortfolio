@@ -1,3 +1,9 @@
+#include "GameEngineContentsEnum.h"
+#include "GameEngine/GameEngine.h"
+#include <GameEngine/GameEngineRenderer.h>
+#include "GameEngineBase/GameEngineInput.h"
+#include <GameEngineBase/GameEngineWindow.h>
+#include <GameEngineBase/GameEngineSound.h>
 #include "PlayMap1F.h"
 #include "PlayerLink.h"
 #include "UILayout.h"
@@ -10,13 +16,8 @@
 #include "Map1FBridge.h"
 #include "EXMap.h"
 #include "Background.h"
-#include "GameEngineContentsEnum.h"
-#include "GameEngine/GameEngine.h"
-#include <GameEngine/GameEngineRenderer.h>
-#include "GameEngineBase/GameEngineInput.h"
-#include <GameEngineBase/GameEngineWindow.h>
-#include <GameEngineBase/GameEngineSound.h>
 #include "TitleLevel.h"
+#include "EnemyPopo.h"
 
 PlayMap1F::PlayMap1F()
 {
@@ -30,11 +31,16 @@ PlayMap1F::~PlayMap1F()
 void PlayMap1F::Loading()
 {
 	CreateActor<Map1F>((int)PlayLevelOrder::BACKGROUND);
-	//CreateActor<Map1F>((int)PlayLevelOrder::BACKGROUND);
+
+	CreateActor<EnemyPopo>((int)PlayLevelOrder::MONSTER);
+
 	PlayerLink* Player = CreateActor<PlayerLink>((int)PlayLevelOrder::PLAYER);
+
 	CreateActor<Map1FRoof>((int)PlayLevelOrder::BACKGROUNDROOF);
 	Map1FBridge* BridgeActor = CreateActor<Map1FBridge>((int)PlayLevelOrder::BACKGROUNDROOF);
 	Player->SetBridgeActor(BridgeActor);
+
+
 	CreateActor<UILayout>((int)PlayLevelOrder::UILAYOUT);
 	CreateActor<UIMagicMeter>((int)PlayLevelOrder::UI);
 	CreateActor<UISelectedItem>((int)PlayLevelOrder::UI);
@@ -53,6 +59,3 @@ void PlayMap1F::Update()
 	}
 }
 
-void PlayMap1F::LevelChangeStart()
-{
-}

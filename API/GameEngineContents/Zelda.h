@@ -24,5 +24,8 @@ private:
 	void GetImageFromFolder(const std::string& _Folder);
 	void GetSoundFromFolder();
 	void ImageCutter(const std::string& _Image, int _x, int _y);
+
+	void TotalImageGetFromFolder();
+	void TotalImageCut();
 };
 

@@ -34,6 +34,8 @@
 //파란색 -> 층이동
 //노란색 -> 문이동
 //빨간색 -> 닫힌 문 이동
+
+
 PlayerLink::PlayerLink()
 	:Speed_(350.0f),
 	 PlayerCurState_(PlayerState::DownIdle),
@@ -42,7 +44,17 @@ PlayerLink::PlayerLink()
 	 IsCharacterAutoMove_(false),
 	 AutoMoveDir_(float4::ZERO),
 	 CurStairs_(StairsState::Top),
-	 IsOnStairs_(false)
+	 IsOnStairs_(false),
+	 PlayerCollision_(nullptr),
+	 SwordCollision_(nullptr),
+	 AnimationTimer_(0.0f),
+	 AnimationIndex_(0),
+	 AttackAnimationInterval_(0.04f),
+	 IsGetDamaged_(false),
+	 IsInvulnerable_(false),
+	 VulnerableTime_(3.0f),
+	 CurVulnerableTime_(0.0f),
+	 Hp_(10)
 {
 }
 
@@ -60,7 +72,7 @@ void PlayerLink::Start()
 	//SetPosition(GameEngineWindow::GetScale().Half());
 	PlayerRenderer = CreateRenderer();
 	//true 면 루프 false 면 루프아님
-	PlayerRenderer->SetPivot({ 0, -11 });
+	//PlayerRenderer->SetPivot({ 0, -11 });
 
 	PlayerRenderer->CreateAnimation("Link_Idle_Right.bmp", "Idle_Right", 0, 1, 0.05f, false);
 	PlayerRenderer->CreateAnimation("Link_Idle_Left.bmp", "Idle_Left", 0, 1, 0.05f, false);
@@ -72,10 +84,16 @@ void PlayerLink::Start()
 	PlayerRenderer->CreateAnimation("Link_Walk_Up.bmp", "Walk_Up", 0, 7, 0.05f, true);
 	PlayerRenderer->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.05f, true);
 
-	PlayerRenderer->CreateAnimation("Link_Wield_Right.bmp", "Wield_Right", 0, 4, 0.04f, true);
-	PlayerRenderer->CreateAnimation("Link_Wield_Left.bmp", "Wield_Left", 0, 4, 0.04f, true);
-	PlayerRenderer->CreateAnimation("Link_Wield_Up.bmp", "Wield_Up", 0, 4, 0.04f, true);
-	PlayerRenderer->CreateAnimation("Link_Wield_Down.bmp", "Wield_Down", 0, 5, 0.04f, true);
+	PlayerRenderer->CreateAnimation("Link_Wield_Right.bmp", "Wield_Right", 0, 4, AttackAnimationInterval_, true);
+	PlayerRenderer->CreateAnimation("Link_Wield_Left.bmp", "Wield_Left", 0, 4, AttackAnimationInterval_, true);
+	PlayerRenderer->CreateAnimation("Link_Wield_Up.bmp", "Wield_Up", 0, 4, AttackAnimationInterval_, true);
+	PlayerRenderer->CreateAnimation("Link_Wield_Down.bmp", "Wield_Down", 0, 5, AttackAnimationInterval_, true);
+
+	PlayerRenderer->CreateAnimation("Link_Damaged_Right.bmp", "Damaged_Right", 0, 1, 0.05f, false);
+	PlayerRenderer->CreateAnimation("Link_Damaged_Left.bmp", "Damaged_Left", 0, 1, 0.05f, false);
+	PlayerRenderer->CreateAnimation("Link_Damaged_Up.bmp", "Damaged_Up", 0, 1, 0.05f, false);
+	PlayerRenderer->CreateAnimation("Link_Damaged_Down.bmp", "Damaged_Down", 0, 1, 0.05f, false);
+
 
 	PlayerRenderer->ChangeAnimation("Idle_Down");
 
@@ -92,6 +110,8 @@ void PlayerLink::Start()
 		GameEngineInput::GetInst()->CreateKey("Fire", 'K');
 		GameEngineInput::GetInst()->CreateKey("Attack", VK_SPACE);
 		GameEngineInput::GetInst()->CreateKey("InterAct", VK_LSHIFT);
+		GameEngineInput::GetInst()->CreateKey("Debug", '9');
+
 
 
 	}
@@ -115,9 +135,13 @@ void PlayerLink::Start()
  
 void PlayerLink::Update()
 {
+	if (GameEngineInput::GetInst()->IsDown("Debug"))
+	{
+		GetLevel()->IsDebugModeSwitch();
+	}
 	CameraStateUpdate();
 	PlayerStateUpdate();
-
+	
 	float4 Postion = GetPosition();
 
 	//장비 사용 관련
@@ -208,94 +232,6 @@ bool PlayerLink::IsDownMoveKey()
 	return false;
 }
 
-void PlayerLink::PlayerChangeState(PlayerState _State)
-{
-	if (PlayerCurState_ != _State)
-	{
-		switch (_State)
-		{
-		case PlayerState::RightIdle:
-			IdleRightStart();
-			break;
-		case PlayerState::LeftIdle:
-			IdleLeftStart();
-			break;
-		case PlayerState::UpIdle:
-			IdleUpStart();
-			break;
-		case PlayerState::DownIdle:
-			IdleDownStart();
-			break;
-		case PlayerState::WieldRight:
-			WieldRightStart();
-			break;
-		case PlayerState::WieldLeft:
-			WieldLeftStart();
-			break;
-		case PlayerState::WieldUp:
-			WieldUpStart();
-			break;
-		case PlayerState::WieldDown:
-			WieldDownStart();
-			break;
-		case PlayerState::MoveRight:
-			MoveRightStart();
-			break;
-		case PlayerState::MoveLeft:
-			MoveLeftStart();
-			break;
-		case PlayerState::MoveUp:
-			MoveUpStart();
-			break;
-		case PlayerState::MoveDown:
-			MoveDownStart();
-			break;
-
-		case PlayerState::Max:
-			break;
-		default:
-			break;
-		}
-	}
-
-	PlayerCurState_ = _State;
-}
-
-void PlayerLink::PlayerStateUpdate()
-{
-	switch (PlayerCurState_)
-	{
-	case PlayerState::RightIdle:
-	case PlayerState::LeftIdle:
-	case PlayerState::UpIdle:
-	case PlayerState::DownIdle:
-		IdleUpdate();
-		break;
-	case PlayerState::WieldRight:
-	case PlayerState::WieldLeft:
-	case PlayerState::WieldUp:
-	case PlayerState::WieldDown:
-		WieldUpdate();
-		break;
-	case PlayerState::MoveRight:
-		MoveUpdate();
-		break;
-	case PlayerState::MoveLeft:
-		MoveUpdate();
-		break;
-	case PlayerState::MoveUp:
-		MoveUpdate();
-		break;
-	case PlayerState::MoveDown:
-		MoveUpdate();
-		break;
-	case PlayerState::Max:
-		break;
-	default:
-		break;
-	}
-}
-
 void PlayerLink::CameraUpdate()
 {
 	{
@@ -379,12 +315,12 @@ bool PlayerLink::PosOrColorCheck(int _Color, GameEngineImage* _Image)
 	float4 MyPos = GetPosition();
 	float4 MyPosTopRight = MyPos + float4{ 32.0f, -32.0f };
 	float4 MyPosTopLeft = MyPos + float4{ -32.0f, -32.0f };
-	float4 MyPosBotRight = MyPos + float4{ 32.0f, 32.0f };
-	float4 MyPosBotLeft = MyPos + float4{ -32.0f, 32.0f };
+	float4 MyPosBotRight = MyPos + float4{ 32.0f, 43.0f };
+	float4 MyPosBotLeft = MyPos + float4{ -32.0f, 43.0f };
 	float4 MyPosRight = MyPos + float4{ +32.0f,  0.0f };
 	float4 MyPosLeft = MyPos + float4{ -32.0f, 0.0f };
 	float4 MyPosTop = MyPos + float4{ 0.0f, -32.0f };
-	float4 MyPosBot = MyPos + float4{ 0.0f, 32.0f };
+	float4 MyPosBot = MyPos + float4{ 0.0f, 43.0f };
 
 	int ColorTopRight = _Image->GetImagePixel(MyPosTopRight);
 	int ColorTopLeft = _Image->GetImagePixel(MyPosTopLeft);
@@ -413,12 +349,12 @@ bool PlayerLink::PosAndColorCheck(int _Color, GameEngineImage* _Image)
 	float4 MyPos = GetPosition();
 	float4 MyPosTopRight = MyPos + float4{ 32.0f, -32.0f };
 	float4 MyPosTopLeft = MyPos + float4{ -32.0f, -32.0f };
-	float4 MyPosBotRight = MyPos + float4{ 32.0f, 32.0f };
-	float4 MyPosBotLeft = MyPos + float4{ -32.0f, 32.0f };
+	float4 MyPosBotRight = MyPos + float4{ 32.0f, 43.0f };
+	float4 MyPosBotLeft = MyPos + float4{ -32.0f, 43.0f };
 	float4 MyPosRight = MyPos + float4{ +32.0f,  0.0f };
 	float4 MyPosLeft = MyPos + float4{ -32.0f, 0.0f };
 	float4 MyPosTop = MyPos + float4{ 0.0f, -32.0f };
-	float4 MyPosBot = MyPos + float4{ 0.0f, 32.0f };
+	float4 MyPosBot = MyPos + float4{ 0.0f, 43.0f };
 
 	int ColorTopRight = _Image->GetImagePixel(MyPosTopRight);
 	int ColorTopLeft = _Image->GetImagePixel(MyPosTopLeft);
@@ -562,5 +498,115 @@ void PlayerLink::CheckDirection()
 	if (PlayerState::MoveDown == PlayerCurState_)
 	{
 		AutoMoveDir_ = float4::DOWN;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////Combat
+
+void PlayerLink::GetDamaged()
+{
+	Hp_ -= 1;
+	IsInvulnerable_ = true;
+}
+
+/// //////////////////////////// State Change, Update
+ 
+void PlayerLink::PlayerChangeState(PlayerState _State)
+{
+	if (PlayerCurState_ != _State)
+	{
+		switch (_State)
+		{
+		case PlayerState::RightIdle:
+			IdleRightStart();
+			break;
+		case PlayerState::LeftIdle:
+			IdleLeftStart();
+			break;
+		case PlayerState::UpIdle:
+			IdleUpStart();
+			break;
+		case PlayerState::DownIdle:
+			IdleDownStart();
+			break;
+		case PlayerState::MoveRight:
+			MoveRightStart();
+			break;
+		case PlayerState::MoveLeft:
+			MoveLeftStart();
+			break;
+		case PlayerState::MoveUp:
+			MoveUpStart();
+			break;
+		case PlayerState::MoveDown:
+			MoveDownStart();
+			break;
+		case PlayerState::WieldRight:
+			WieldRightStart();
+			break;
+		case PlayerState::WieldLeft:
+			WieldLeftStart();
+			break;
+		case PlayerState::WieldUp:
+			WieldUpStart();
+			break;
+		case PlayerState::WieldDown:
+			WieldDownStart();
+			break;
+		case PlayerState::DamagedRight:
+			DamagedRightStart();
+			break;
+		case PlayerState::DamagedLeft:
+			DamagedLeftStart();
+			break;
+		case PlayerState::DamagedUp:
+			DamagedUpStart();
+			break;
+		case PlayerState::DamagedDown:
+			DamagedDownStart();
+			break;
+
+		case PlayerState::Max:
+			break;
+		default:
+			break;
+		}
+	}
+
+	PlayerCurState_ = _State;
+}
+
+void PlayerLink::PlayerStateUpdate()
+{
+	switch (PlayerCurState_)
+	{
+	case PlayerState::RightIdle:
+	case PlayerState::LeftIdle:
+	case PlayerState::UpIdle:
+	case PlayerState::DownIdle:
+		IdleUpdate();
+		break;
+	case PlayerState::MoveRight:
+	case PlayerState::MoveLeft:
+	case PlayerState::MoveUp:
+	case PlayerState::MoveDown:
+		MoveUpdate();
+		break;
+	case PlayerState::WieldRight:
+	case PlayerState::WieldLeft:
+	case PlayerState::WieldUp:
+	case PlayerState::WieldDown:
+		WieldUpdate();
+		break;
+	case PlayerState::DamagedRight:
+	case PlayerState::DamagedLeft:
+	case PlayerState::DamagedUp:
+	case PlayerState::DamagedDown:
+		DamagedUpdate();
+		break;
+	case PlayerState::Max:
+		break;
+	default:
+		break;
 	}
 }

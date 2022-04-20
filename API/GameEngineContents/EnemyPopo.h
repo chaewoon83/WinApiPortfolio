@@ -19,6 +19,15 @@ protected:
 	void Update() override;
 	void Render() override;
 private:
+	GameEngineRenderer* PopoRenderer_;
+	GameEngineCollision* PopoCol_;
 
+	int Hp_;
+	float InvincibleTime_;
+	float CurInvincibleTime_;
+	bool IsInvincible_;
+	bool IsDeath_;
+
+	void GetDamaged();
 };
 

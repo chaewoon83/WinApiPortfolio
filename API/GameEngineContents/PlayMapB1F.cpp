@@ -18,7 +18,7 @@ void PlayMapB1F::Update()
 
 }
 
-void PlayMapB1F::LevelChangeStart()
+void PlayMapB1F::LevelChangeStart(GameEngineLevel* _NextLevel)
 {
 
 }
