@@ -191,3 +191,14 @@ void GameEngineActor::SetOrder(int _Order)
 
 	GetLevel()->ChangeUpdateOrder(this, _Order);
 }
+
+void GameEngineActor::LevelRegist(std::string _RegistName/* = ""*/)
+{
+	if (_RegistName == "")
+	{
+		GetLevel()->RegistActor(GetNameConstPtr(), this);
+		return;
+	}
+
+	GetLevel()->RegistActor(_RegistName, this);
+}

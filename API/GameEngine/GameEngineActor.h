@@ -74,8 +74,12 @@ protected:
 	virtual void Update() {} // 때에 따라서 엑터에서 생성해야한다
 	virtual void Render() {} // 떼에 따라서 엑터에서 생성해야한다
 
+	virtual void LevelChangeStart() {}
+	virtual void LevelChangeEnd() {}
+
 	void Release();
 	void DebugRectRender();
+	void LevelRegist(std::string _RegistName = "");
 private:
 	GameEngineLevel* Level_;
 	float4 Position_;

@@ -54,7 +54,7 @@ void PlayerLink::Start()
 {
 	//충돌
 	PlayerCollision_ = CreateCollision("PlayerHitBox", {64, 64});
-	PlayerCollision_->Off();
+	//PlayerCollision_->Off();
 
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
 	//SetPosition(GameEngineWindow::GetScale().Half());
