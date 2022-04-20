@@ -33,6 +33,22 @@ public:
 	GameEngineLevel(GameEngineLevel&& _Other) noexcept = delete;
 	GameEngineLevel& operator=(const GameEngineLevel& _Other) = delete;
 	GameEngineLevel& operator=(GameEngineLevel&& _Other) noexcept = delete;
+
+	bool IsDebugModeOn()
+	{
+		IsDebug = true;
+	}
+
+	bool IsDebugModeOff()
+	{
+		IsDebug = false;
+	}
+
+	bool IsDebugModeSwitch()
+	{
+		IsDebug = !IsDebug;
+	}
+
 	template<typename ActorType>
 	ActorType* CreateActor(int _Order = 0, const std::string& _Name = "")
 	{
@@ -94,6 +110,8 @@ protected:
 	virtual void LevelChangeEnd() {}
 
 private:
+	static bool IsDebug;
+
 	// std::vector 로 관리하는게 더 좋다고 생각한다
 	std::map<int, std::list<GameEngineActor*>> AllActor_;
 
