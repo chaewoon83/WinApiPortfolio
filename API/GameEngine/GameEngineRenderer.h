@@ -133,9 +133,10 @@ private:
 
 	//로테이션
 	float RotZ_;
-	GameEngineImage* RotationCuttingImage_;
+	GameEngineImage* RotationFilterImage_;
 
 public:
+	void SetRotationFilter(const std::string& _ImageName);
 	void SetRotationZ(float _RotZ)
 	{
 		RotZ_ = _RotZ;
