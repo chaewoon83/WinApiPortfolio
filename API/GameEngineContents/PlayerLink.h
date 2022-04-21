@@ -70,10 +70,12 @@ protected:
 
 
 private:
+	GameEngineActor* HitActor_;
 
 	GameEngineRenderer* PlayerRenderer;
 
 	float Speed_;
+	float KnockBackSpeed_;
 	GameEngineImage* MapColImage_;
 	GameEngineImage* MapPasImage_;
 	GameEngineCollision* PlayerCollision_;
@@ -98,6 +100,7 @@ private:
 	bool PosAndColorCheck(int _Color, GameEngineImage* _Image);
 	bool IsOnStairs_;
 	void CheckDirection();
+	void Blink();
 
 private:
 
@@ -120,10 +123,12 @@ public:
 
 	bool IsPlayerMoveState();
 	void PlayerSetIdle();
+	void PlayerPrevStateCheck();
+
 	void PlayerChangeState(PlayerState _State);
 	void PlayerStateUpdate();
 
-	GameEngineActor* ChangeToDamaged();
+	void DamagedCheck();
 private:
 	void IdleUpdate();
 
@@ -182,8 +187,12 @@ private:
 	int Hp_;
 	bool IsGetDamaged_;
 	bool IsInvulnerable_;
+	bool IsBlink_;
 	float VulnerableTime_;
 	float CurVulnerableTime_;
+	float BlinkTime_;
+	float CurBlinkTime_;
+	float4 KnockbackDir_;
 	void GetDamaged();
 };
 

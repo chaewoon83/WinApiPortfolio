@@ -35,7 +35,7 @@ void PlayerLink::IdleUpdate()
 		return;
 	}
 
-
+	DamagedCheck();
 
 	if (true == GameEngineInput::GetInst()->IsDown("Fire"))
 	{
@@ -90,7 +90,7 @@ void PlayerLink::WieldUpdate()
 		WieldDownUpdate();
 	}
 
-
+	DamagedCheck();
 
 	//////End Of Animation
 	if (PlayerRenderer->IsEndAnimation())
@@ -101,79 +101,7 @@ void PlayerLink::WieldUpdate()
 			SwordCollision_->Death();
 			SwordCollision_ = nullptr;
 		}
-		if (PlayerState::MoveRight == PlayerPrevState_ &&
-			true == GameEngineInput::GetInst()->IsPress("MoveRight"))
-		{
-			PlayerChangeState(PlayerState::MoveRight);
-			return;
-		}
-
-		if (PlayerState::MoveLeft == PlayerPrevState_ &&
-			true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
-		{
-			PlayerChangeState(PlayerState::MoveLeft);
-			return;
-		}
-
-		if (PlayerState::MoveUp == PlayerPrevState_ &&
-			true == GameEngineInput::GetInst()->IsPress("MoveUp"))
-		{
-			PlayerChangeState(PlayerState::MoveUp);
-			return;
-		}
-
-		if (PlayerState::MoveDown == PlayerPrevState_ &&
-			true == GameEngineInput::GetInst()->IsPress("MoveDown"))
-		{
-			PlayerChangeState(PlayerState::MoveDown);
-			return;
-		}
-		if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
-		{
-			PlayerChangeState(PlayerState::MoveUp);
-			return;
-		}
-		if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
-		{
-			PlayerChangeState(PlayerState::MoveDown);
-			return;
-		}
-		if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
-		{
-			PlayerChangeState(PlayerState::MoveRight);
-			return;
-		}
-
-		if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
-		{
-			PlayerChangeState(PlayerState::MoveLeft);
-			return;
-		}
-
-		if (PlayerState::UpIdle == PlayerPrevState_ ||
-			PlayerState::MoveUp == PlayerPrevState_)
-		{
-			PlayerChangeState(PlayerState::UpIdle);
-			return;
-		}
-		if (PlayerState::DownIdle == PlayerPrevState_ ||
-			PlayerState::MoveDown == PlayerPrevState_)
-		{
-			PlayerChangeState(PlayerState::DownIdle);
-			return;
-		}
-		if (PlayerState::RightIdle == PlayerPrevState_ ||
-			PlayerState::MoveRight == PlayerPrevState_)
-		{
-			PlayerChangeState(PlayerState::RightIdle);
-			return;
-		}
-		if (PlayerState::LeftIdle == PlayerPrevState_ ||
-			PlayerState::MoveLeft == PlayerPrevState_)
-		{
-			PlayerChangeState(PlayerState::LeftIdle);
-			return;
-		}
+		PlayerPrevStateCheck();
 	}
 }
 
@@ -343,13 +271,25 @@ void PlayerLink::WieldDownUpdate()
 
 void PlayerLink::DamagedUpdate()
 {
-
+	CurVulnerableTime_ += GameEngineTime::GetDeltaTime();
+	int Black = RGB(0, 0, 0);
+	if (true == PosAndColorCheck(Black, MapColImage_))
+	{
+		SetMove(KnockbackDir_ * KnockBackSpeed_ * GameEngineTime::GetDeltaTime());
+	}
+	PlayerPrevState_;
+	if (VulnerableTime_ < CurVulnerableTime_)
+	{
+		IsInvulnerable_ = false;
+		PlayerPrevStateCheck();
+	}
 }
 
 void PlayerLink::MoveUpdate()
 {
 	if (false == IsCameraAutoMove_ && false == IsCharacterAutoMove_)
 	{
+
 		if (true == IsMoveKeyFree())
 		{
 			if (PlayerState::MoveRight == PlayerCurState_)
@@ -369,13 +309,17 @@ void PlayerLink::MoveUpdate()
 				PlayerChangeState(PlayerState::DownIdle);
 			}
 		}
-		ChangeToDamaged();
 		//if (true == GameEngineInput::GetInst()->IsDown("Fire"))
 		//{
 		//	PlayerPrevState_ = PlayerCurState_;
 		//	PlayerChangeState(PlayerState::Attack);
 		//	return;
 		//}
+		DamagedCheck();
+		if (true == IsInvulnerable_)
+		{
+			return;
+		}
 
 		MoveFunction();
 
@@ -527,18 +471,18 @@ void PlayerLink::MoveFunction()
 	{
 		int Black = RGB(0, 0, 0);
 		float4 MyPos = GetPosition();
-		float4 MyPosTopRight = MyPos + float4{ 32.0f, -32.0f };
-		float4 MyPosTopLeft = MyPos + float4{ -32.0f, -32.0f };
+		float4 MyPosTopRight = MyPos + float4{ 32.0f, -21.0f };
+		float4 MyPosTopLeft = MyPos + float4{ -32.0f, -21.0f };
 		float4 MyPosBotRight = MyPos + float4{ 32.0f, 43.0f };
 		float4 MyPosBotLeft = MyPos + float4{ -32.0f, 43.0f };
 		float4 NextPos = GetPosition() + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
-		float4 CheckPosTopRight = NextPos + float4{ 32.0f, -32.0f };
-		float4 CheckPosTopLeft = NextPos + float4{ -32.0f, -32.0f };
+		float4 CheckPosTopRight = NextPos + float4{ 32.0f, -21.0f };
+		float4 CheckPosTopLeft = NextPos + float4{ -32.0f, -21.0f};
 		float4 CheckPosBotRight = NextPos + float4{ 32.0f, 43.0f };
 		float4 CheckPosBotLeft = NextPos + float4{ -32.0f, 43.0f };
 		float4 CheckPosRight = NextPos + float4{ 32.0f, 0.0f };
 		float4 CheckPosLeft = NextPos + float4{ -32.0f, 0.0f };
-		float4 CheckPosTop = NextPos + float4{ 0.0f, -32.0f };
+		float4 CheckPosTop = NextPos + float4{ 0.0f, -21.0f };
 		float4 CheckPosBot = NextPos + float4{ 0.0f, 43.0f };
 
 
@@ -753,57 +697,75 @@ void PlayerLink::WieldDownStart()
 
 void PlayerLink::DamagedRightStart()
 {
+	IsBlink_ = true;
+	CurBlinkTime_ = 0.0f;
+	CurVulnerableTime_ = 0.0f;
 	PlayerRenderer->ChangeAnimation("Damaged_Right");
 }
 
 void PlayerLink::DamagedLeftStart()
 {
+	IsBlink_ = true;
+	CurBlinkTime_ = 0.0f;
+	CurVulnerableTime_ = 0.0f;
 	PlayerRenderer->ChangeAnimation("Damaged_Left");
 }
 
 void PlayerLink::DamagedUpStart()
 {
+	IsBlink_ = true;
+	CurBlinkTime_ = 0.0f;
+	CurVulnerableTime_ = 0.0f;
 	PlayerRenderer->ChangeAnimation("Damaged_Up");
 }
 
 void PlayerLink::DamagedDownStart()
 {
+	IsBlink_ = true;
+	CurBlinkTime_ = 0.0f;
+	CurVulnerableTime_ = 0.0f;
 	PlayerRenderer->ChangeAnimation("Damaged_Down");
 }
 
-GameEngineActor* PlayerLink::ChangeToDamaged()
+void PlayerLink::DamagedCheck()
 {
 	std::vector<GameEngineCollision*> ColList;
-	if (true == PlayerCollision_->CollisionResult("MonsterHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
+	if (true == PlayerCollision_->CollisionResult("MonsterHitBox", ColList, CollisionType::Rect, CollisionType::Rect) && false == IsInvulnerable_)
 	{
-
+		GetDamaged();
+		PlayerPrevState_ = PlayerCurState_;
+		IsInvulnerable_ = true;
+		IsBlink_ = true;
+		HitActor_ = ColList[0]->GetActor();
+		KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
+		KnockbackDir_.Normal2D();
 		if (PlayerState::RightIdle == PlayerCurState_ ||
 			PlayerState::MoveRight == PlayerCurState_ ||
 			PlayerState::WieldRight == PlayerCurState_)
 		{
 			PlayerChangeState(PlayerState::DamagedRight);
-			return ColList[0]->GetActor();
+			return;
 		}
 		if (PlayerState::LeftIdle == PlayerCurState_ ||
 			PlayerState::MoveLeft == PlayerCurState_ ||
 			PlayerState::WieldLeft == PlayerCurState_)
 		{
 			PlayerChangeState(PlayerState::DamagedLeft);
-			return ColList[0]->GetActor();
-		}
-		if (PlayerState::DownIdle == PlayerCurState_ ||
-			PlayerState::MoveDown == PlayerCurState_ ||
-			PlayerState::WieldDown == PlayerCurState_)
-		{
-			PlayerChangeState(PlayerState::DamagedUp);
-			return ColList[0]->GetActor();
+			return;
 		}
 		if (PlayerState::UpIdle == PlayerCurState_ ||
 			PlayerState::MoveUp == PlayerCurState_ ||
 			PlayerState::WieldUp == PlayerCurState_)
 		{
+			PlayerChangeState(PlayerState::DamagedUp);
+			return;
+		}
+		if (PlayerState::DownIdle == PlayerCurState_ ||
+			PlayerState::MoveDown == PlayerCurState_ ||
+			PlayerState::WieldDown == PlayerCurState_)
+		{
 			PlayerChangeState(PlayerState::DamagedDown);
-			return ColList[0]->GetActor();
+			return;
 		}
 	}
 }
@@ -1001,5 +963,82 @@ void PlayerLink::Room3Update()
 			BridgeActor_->Off();
 			return;
 		}
+	}
+}
+
+void PlayerLink::PlayerPrevStateCheck()
+{
+	if (PlayerState::MoveRight == PlayerPrevState_ &&
+		true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+	{
+		PlayerChangeState(PlayerState::MoveRight);
+		return;
+	}
+
+	if (PlayerState::MoveLeft == PlayerPrevState_ &&
+		true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+	{
+		PlayerChangeState(PlayerState::MoveLeft);
+		return;
+	}
+
+	if (PlayerState::MoveUp == PlayerPrevState_ &&
+		true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+	{
+		PlayerChangeState(PlayerState::MoveUp);
+		return;
+	}
+
+	if (PlayerState::MoveDown == PlayerPrevState_ &&
+		true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+	{
+		PlayerChangeState(PlayerState::MoveDown);
+		return;
+	}
+	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+	{
+		PlayerChangeState(PlayerState::MoveUp);
+		return;
+	}
+	if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+	{
+		PlayerChangeState(PlayerState::MoveDown);
+		return;
+	}
+	if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+	{
+		PlayerChangeState(PlayerState::MoveRight);
+		return;
+	}
+
+	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+	{
+		PlayerChangeState(PlayerState::MoveLeft);
+		return;
+	}
+
+	if (PlayerState::UpIdle == PlayerPrevState_ ||
+		PlayerState::MoveUp == PlayerPrevState_)
+	{
+		PlayerChangeState(PlayerState::UpIdle);
+		return;
+	}
+	if (PlayerState::DownIdle == PlayerPrevState_ ||
+		PlayerState::MoveDown == PlayerPrevState_)
+	{
+		PlayerChangeState(PlayerState::DownIdle);
+		return;
+	}
+	if (PlayerState::RightIdle == PlayerPrevState_ ||
+		PlayerState::MoveRight == PlayerPrevState_)
+	{
+		PlayerChangeState(PlayerState::RightIdle);
+		return;
+	}
+	if (PlayerState::LeftIdle == PlayerPrevState_ ||
+		PlayerState::MoveLeft == PlayerPrevState_)
+	{
+		PlayerChangeState(PlayerState::LeftIdle);
+		return;
 	}
 }
