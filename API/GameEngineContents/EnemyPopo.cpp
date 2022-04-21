@@ -58,8 +58,11 @@ void EnemyPopo::GetDamaged()
 	if (false == IsInvincible_  && false == IsDeath_)
 	{
 		if (true == PopoCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect))
-		Hp_ -= 1;
-		IsInvincible_ = true;
+		{
+			Hp_ -= 1;
+			IsInvincible_ = true;
+		}
+
 		if (0 >= Hp_)
 		{
 			IsDeath_ = true;

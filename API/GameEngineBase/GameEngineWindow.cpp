@@ -1,9 +1,11 @@
 #include "GameEngineWindow.h"
 #include "GameEngineDebug.h"
+#include "GameEngineInput.h"
 
 GameEngineWindow* GameEngineWindow::Inst_ = new GameEngineWindow();
 
-LRESULT CALLBACK MessageProcess(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+
+LRESULT CALLBACK GameEngineWindow::MessageProcess(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
@@ -23,6 +25,11 @@ LRESULT CALLBACK MessageProcess(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
     case WM_CLOSE:
     {
         GameEngineWindow::GetInst().Off();
+        break;
+    }
+    case WM_MOUSEWHEEL:
+    {
+        GameEngineInput::GetInst()->WheelValue = (SHORT)HIWORD(wParam);
         break;
     }
     default:

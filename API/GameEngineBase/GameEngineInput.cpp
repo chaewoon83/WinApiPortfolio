@@ -5,6 +5,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 void GameEngineInput::GameEngineKey::Update(float _DeltaTime)
 {
+
 	if (true == KeyCheck())
 	{
 		//키가 안눌린 상태에서 키를 눌렀을때
@@ -92,6 +93,10 @@ void GameEngineInput::CreateKey(const std::string& _Name, int _Key)
 
 void GameEngineInput::Update(float _DeltaTime)
 {
+	CurWheelValue = 0;
+	CurWheelValue = WheelValue;
+	WheelValue = 0;
+
 	std::map<std::string, GameEngineKey>::iterator KeyUpdateStart = AllInputKey_.begin();
 	std::map<std::string, GameEngineKey>::iterator KeyUpdateEnd = AllInputKey_.end();
 	for (; KeyUpdateEnd != KeyUpdateStart; ++KeyUpdateStart)

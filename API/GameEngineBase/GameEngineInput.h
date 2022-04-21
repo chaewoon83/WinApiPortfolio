@@ -6,6 +6,7 @@
 // 설명 : 게임의 인풋에 관련된 기능들을 다루는 클래스
 class GameEngineInput
 {
+	friend class GameEngineWindow;
 private:
 	class GameEngineKey
 	{
@@ -75,6 +76,11 @@ public:
 	bool IsFree(const std::string& _Name);
 	bool IsKey(const std::string& _Name);
 
+	inline int GetMouseWheel()
+	{
+		return CurWheelValue;
+	}
+
 
 	//"PlayerAttack", "A"
 	void CreateKey(const std::string& _Name, int _key);
@@ -82,6 +88,9 @@ public:
 protected:
 
 private:
+	int WheelValue;
+	int CurWheelValue;
+
 	// constrcuter destructer
 	GameEngineInput();
 	~GameEngineInput();
