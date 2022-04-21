@@ -135,6 +135,9 @@
     <ClInclude Include="EnemyStalfos.h">
       <Filter>Play\Enemy\Yet</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyManager.h">
+      <Filter>Play\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -272,6 +275,9 @@
     </ClCompile>
     <ClCompile Include="EnemyStalfos.cpp">
       <Filter>Play\Enemy\Yet</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyManager.cpp">
+      <Filter>Play\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

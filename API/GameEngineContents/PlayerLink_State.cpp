@@ -369,7 +369,7 @@ void PlayerLink::MoveUpdate()
 				PlayerChangeState(PlayerState::DownIdle);
 			}
 		}
-
+		ChangeToDamaged();
 		//if (true == GameEngineInput::GetInst()->IsDown("Fire"))
 		//{
 		//	PlayerPrevState_ = PlayerCurState_;
@@ -771,7 +771,42 @@ void PlayerLink::DamagedDownStart()
 	PlayerRenderer->ChangeAnimation("Damaged_Down");
 }
 
+GameEngineActor* PlayerLink::ChangeToDamaged()
+{
+	std::vector<GameEngineCollision*> ColList;
+	if (true == PlayerCollision_->CollisionResult("MonsterHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
+	{
 
+		if (PlayerState::RightIdle == PlayerCurState_ ||
+			PlayerState::MoveRight == PlayerCurState_ ||
+			PlayerState::WieldRight == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::DamagedRight);
+			return ColList[0]->GetActor();
+		}
+		if (PlayerState::LeftIdle == PlayerCurState_ ||
+			PlayerState::MoveLeft == PlayerCurState_ ||
+			PlayerState::WieldLeft == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::DamagedLeft);
+			return ColList[0]->GetActor();
+		}
+		if (PlayerState::DownIdle == PlayerCurState_ ||
+			PlayerState::MoveDown == PlayerCurState_ ||
+			PlayerState::WieldDown == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::DamagedUp);
+			return ColList[0]->GetActor();
+		}
+		if (PlayerState::UpIdle == PlayerCurState_ ||
+			PlayerState::MoveUp == PlayerCurState_ ||
+			PlayerState::WieldUp == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::DamagedDown);
+			return ColList[0]->GetActor();
+		}
+	}
+}
 
 /// ///////////////////////////////////// Room State
 

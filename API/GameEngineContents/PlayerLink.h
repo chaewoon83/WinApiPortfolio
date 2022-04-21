@@ -122,6 +122,8 @@ public:
 	void PlayerSetIdle();
 	void PlayerChangeState(PlayerState _State);
 	void PlayerStateUpdate();
+
+	GameEngineActor* ChangeToDamaged();
 private:
 	void IdleUpdate();
 
