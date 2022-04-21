@@ -58,6 +58,9 @@ PlayerLink::PlayerLink()
 	 CurVulnerableTime_(0.0f),
 	 BlinkTime_(2.0f),
 	 CurBlinkTime_(0.0f),
+	 BlinkFreq_(0.03f),
+	 CurBlinkFreq_(0.0f),
+	 IsAlphaOn_(true),
 	 Hp_(10)
 {
 }
@@ -79,7 +82,7 @@ void PlayerLink::Start()
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
 	//SetPosition(GameEngineWindow::GetScale().Half());
 	PlayerRenderer = CreateRenderer();
-	PlayerRenderer->SetAlpha(50);
+	//PlayerRenderer->SetAlpha(50);
 	//true 면 루프 false 면 루프아님
 	//PlayerRenderer->SetPivot({ 0, -11 });
 
@@ -150,6 +153,7 @@ void PlayerLink::Update()
 	}
 	CameraStateUpdate();
 	PlayerStateUpdate();
+	BlinkUpdate();
 	
 	float4 Postion = GetPosition();
 
@@ -517,11 +521,37 @@ void PlayerLink::GetDamaged()
 	Hp_ -= 1;
 }
 
-void PlayerLink::Blink()
+void PlayerLink::BlinkUpdate()
 {
+
 	if (true == IsBlink_)
 	{
+		CurBlinkTime_  += GameEngineTime::GetDeltaTime();
+		CurBlinkFreq_ += GameEngineTime::GetDeltaTime();
+		if (BlinkFreq_ < CurBlinkFreq_)
+		{
+			CurBlinkFreq_ = 0.0f;
+			if (false == IsAlphaOn_)
+			{
+				PlayerRenderer->SetAlpha(255);
+				IsAlphaOn_ = true;
+			}
+			else
+			{
+				PlayerRenderer->SetAlpha(0);
+				IsAlphaOn_ = false;
+			}
+		}
 
+		if (BlinkTime_ < CurBlinkTime_)
+		{
+
+			IsBlink_ = false;
+			CurBlinkTime_ = 0.0f;
+			CurBlinkFreq_ = 0.0f;
+			IsAlphaOn_ = true;
+			PlayerRenderer->SetAlpha(255);
+		}
 	}
 
 }

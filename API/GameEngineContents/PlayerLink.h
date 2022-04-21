@@ -100,7 +100,7 @@ private:
 	bool PosAndColorCheck(int _Color, GameEngineImage* _Image);
 	bool IsOnStairs_;
 	void CheckDirection();
-	void Blink();
+	void BlinkUpdate();
 
 private:
 
@@ -192,6 +192,9 @@ private:
 	float CurVulnerableTime_;
 	float BlinkTime_;
 	float CurBlinkTime_;
+	float BlinkFreq_;
+	float CurBlinkFreq_;
+	bool IsAlphaOn_;
 	float4 KnockbackDir_;
 	void GetDamaged();
 };
