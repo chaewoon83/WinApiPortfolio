@@ -79,7 +79,7 @@ void PlayerLink::Start()
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
 	//SetPosition(GameEngineWindow::GetScale().Half());
 	PlayerRenderer = CreateRenderer();
-	//PlayerRenderer->SetAlpha(50);
+	PlayerRenderer->SetAlpha(50);
 	//true 면 루프 false 면 루프아님
 	//PlayerRenderer->SetPivot({ 0, -11 });
 
