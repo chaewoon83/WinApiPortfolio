@@ -131,6 +131,17 @@ private:
 	bool IsCameraEffect_;
 	bool Pause_;
 
+	//로테이션
+	float RotZ_;
+	GameEngineImage* RotationCuttingImage_;
+
+public:
+	void SetRotationZ(float _RotZ)
+	{
+		RotZ_ = _RotZ;
+		Alpha_ = 255;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////////Animation
 
 private:
