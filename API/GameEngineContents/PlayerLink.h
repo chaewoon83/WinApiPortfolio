@@ -186,10 +186,10 @@ private:
 	/////////////////////////////////////////////////////////////////////Combat
 	int Hp_;
 	bool IsGetDamaged_;
-	bool IsInvulnerable_;
+	bool IsKnockback_;
 	bool IsBlink_;
-	float VulnerableTime_;
-	float CurVulnerableTime_;
+	float KnockbackTime_;
+	float CurKnockbackTime_;
 	float BlinkTime_;
 	float CurBlinkTime_;
 	float BlinkFreq_;

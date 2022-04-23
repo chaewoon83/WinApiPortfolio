@@ -38,7 +38,7 @@
 
 PlayerLink::PlayerLink()
 	:Speed_(350.0f),
-	 KnockBackSpeed_(100.0f),
+	 KnockBackSpeed_(350.0f),
 	 PlayerCurState_(PlayerState::DownIdle),
 	 CameraState_(CameraState::Room1),
 	 IsCameraAutoMove_(false),
@@ -52,13 +52,13 @@ PlayerLink::PlayerLink()
 	 AnimationIndex_(0),
 	 AttackAnimationInterval_(0.04f),
 	 IsGetDamaged_(false),
-	 IsInvulnerable_(false),
+	 IsKnockback_(false),
 	 IsBlink_(false),
-	 VulnerableTime_(0.7f),
-	 CurVulnerableTime_(0.0f),
-	 BlinkTime_(2.0f),
+	 KnockbackTime_(0.2f),
+	 CurKnockbackTime_(0.0f),
+	 BlinkTime_(1.5f),
 	 CurBlinkTime_(0.0f),
-	 BlinkFreq_(0.03f),
+	 BlinkFreq_(0.01f),
 	 CurBlinkFreq_(0.0f),
 	 IsAlphaOn_(true),
 	 Hp_(10)

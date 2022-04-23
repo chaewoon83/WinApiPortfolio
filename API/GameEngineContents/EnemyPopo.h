@@ -1,6 +1,13 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 // Ό³Έν :
+enum class PopoState
+{
+	Idle,
+	Damaged,
+	Max,
+};
+
 class EnemyPopo : public GameEngineActor
 {
 public:
@@ -18,9 +25,11 @@ protected:
 	void Start() override;
 	void Update() override;
 	void Render() override;
+
 private:
 	GameEngineRenderer* PopoRenderer_;
 	GameEngineCollision* PopoCol_;
+	GameEngineActor* HitActor_;
 
 	int Hp_;
 	float InvincibleTime_;
@@ -28,6 +37,37 @@ private:
 	bool IsInvincible_;
 	bool IsDeath_;
 
+	bool IsGetDamaged_;
+	bool IsKnockback_;
+	bool IsBlink_;
+
+	float KnockbackTime_;
+	float CurKnockbackTime_;
+	float BlinkTime_;
+	float CurBlinkTime_;
+	float BlinkFreq_;
+	float CurBlinkFreq_;
+
+	float4 KnockbackDir_;
+	bool IsAlphaOn_;
+
 	void GetDamaged();
+	void BlinkUpdate();
+	void DamagedCheck();
+
+	/// ////////FSM
+private:
+	void PopoChangeState(PopoState _State);
+	void PopoStateUpdate();
+
+	PopoState PopoCurState_;
+
+	void IdleStart();
+	void DamagedStart();
+
+	void IdleUpdate();
+	void DamagedUpdate();
+
+
 };
 

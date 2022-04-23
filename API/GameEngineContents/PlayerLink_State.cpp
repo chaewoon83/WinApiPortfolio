@@ -271,16 +271,16 @@ void PlayerLink::WieldDownUpdate()
 
 void PlayerLink::DamagedUpdate()
 {
-	CurVulnerableTime_ += GameEngineTime::GetDeltaTime();
+	CurKnockbackTime_ += GameEngineTime::GetDeltaTime();
 	int Black = RGB(0, 0, 0);
 	if (true == PosAndColorCheck(Black, MapColImage_))
 	{
 		SetMove(KnockbackDir_ * KnockBackSpeed_ * GameEngineTime::GetDeltaTime());
 	}
 	PlayerPrevState_;
-	if (VulnerableTime_ < CurVulnerableTime_)
+	if (KnockbackTime_ < CurKnockbackTime_)
 	{
-		IsInvulnerable_ = false;
+		IsKnockback_ = false;
 		PlayerPrevStateCheck();
 	}
 }
@@ -316,7 +316,7 @@ void PlayerLink::MoveUpdate()
 		//	return;
 		//}
 		DamagedCheck();
-		if (true == IsInvulnerable_)
+		if (true == IsKnockback_)
 		{
 			return;
 		}
@@ -699,7 +699,7 @@ void PlayerLink::DamagedRightStart()
 {
 	IsBlink_ = true;
 	CurBlinkTime_ = 0.0f;
-	CurVulnerableTime_ = 0.0f;
+	CurKnockbackTime_ = 0.0f;
 	PlayerRenderer->ChangeAnimation("Damaged_Right");
 }
 
@@ -707,7 +707,7 @@ void PlayerLink::DamagedLeftStart()
 {
 	IsBlink_ = true;
 	CurBlinkTime_ = 0.0f;
-	CurVulnerableTime_ = 0.0f;
+	CurKnockbackTime_ = 0.0f;
 	PlayerRenderer->ChangeAnimation("Damaged_Left");
 }
 
@@ -715,7 +715,7 @@ void PlayerLink::DamagedUpStart()
 {
 	IsBlink_ = true;
 	CurBlinkTime_ = 0.0f;
-	CurVulnerableTime_ = 0.0f;
+	CurKnockbackTime_ = 0.0f;
 	PlayerRenderer->ChangeAnimation("Damaged_Up");
 }
 
@@ -723,18 +723,18 @@ void PlayerLink::DamagedDownStart()
 {
 	IsBlink_ = true;
 	CurBlinkTime_ = 0.0f;
-	CurVulnerableTime_ = 0.0f;
+	CurKnockbackTime_ = 0.0f;
 	PlayerRenderer->ChangeAnimation("Damaged_Down");
 }
 
 void PlayerLink::DamagedCheck()
 {
 	std::vector<GameEngineCollision*> ColList;
-	if (true == PlayerCollision_->CollisionResult("MonsterHitBox", ColList, CollisionType::Rect, CollisionType::Rect) && false == IsInvulnerable_)
+	if (true == PlayerCollision_->CollisionResult("MonsterHitBox", ColList, CollisionType::Rect, CollisionType::Rect) && false == IsKnockback_)
 	{
 		GetDamaged();
 		PlayerPrevState_ = PlayerCurState_;
-		IsInvulnerable_ = true;
+		IsKnockback_ = true;
 		IsBlink_ = true;
 		HitActor_ = ColList[0]->GetActor();
 		KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
