@@ -23,6 +23,5 @@ void ItemGreenRupee::Update()
 }
 void ItemGreenRupee::Render()
 {
-	DebugRectRender();
 
 }

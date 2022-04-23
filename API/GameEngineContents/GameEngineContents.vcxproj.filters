@@ -135,8 +135,8 @@
     <ClInclude Include="EnemyStalfos.h">
       <Filter>Play\Enemy\Yet</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <Filter>Play\Enemy</Filter>
+    <ClInclude Include="Map1FRoom1Pot0.h">
+      <Filter>Play\Map\Pot</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -276,8 +276,8 @@
     <ClCompile Include="EnemyStalfos.cpp">
       <Filter>Play\Enemy\Yet</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
-      <Filter>Play\Enemy</Filter>
+    <ClCompile Include="Map1FRoom1Pot0.cpp">
+      <Filter>Play\Map\Pot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -316,6 +316,9 @@
     </Filter>
     <Filter Include="Play\Enemy\Yet">
       <UniqueIdentifier>{42b96f0b-90a3-478b-92ed-f51892a2cffe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Map\Pot">
+      <UniqueIdentifier>{5f48e22a-393e-4a1d-b107-374f7a86179a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

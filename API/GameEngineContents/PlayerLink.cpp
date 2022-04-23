@@ -35,6 +35,7 @@
 //노란색 -> 문이동
 //빨간색 -> 닫힌 문 이동
 
+GameEngineImage* PlayerLink::MapColImage_ = nullptr;
 
 PlayerLink::PlayerLink()
 	:Speed_(350.0f),

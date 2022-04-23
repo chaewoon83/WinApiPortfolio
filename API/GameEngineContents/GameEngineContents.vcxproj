@@ -195,10 +195,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="EnemyManager.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="EnemyPopo.h">
       <SubType>
       </SubType>
@@ -246,6 +242,10 @@
     </ClInclude>
     <ClInclude Include="Map1FBridge.h" />
     <ClInclude Include="Map1FRoof.h" />
+    <ClInclude Include="Map1FRoom1Pot0.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="MapLevel.h">
       <SubType>
       </SubType>
@@ -376,10 +376,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="EnemyManager.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="EnemyPopo.cpp">
       <SubType>
       </SubType>
@@ -426,6 +422,10 @@
     </ClCompile>
     <ClCompile Include="Map1FBridge.cpp" />
     <ClCompile Include="Map1FRoof.cpp" />
+    <ClCompile Include="Map1FRoom1Pot0.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="MapLevel.cpp">
       <SubType>
       </SubType>

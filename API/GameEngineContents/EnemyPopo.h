@@ -4,10 +4,11 @@
 enum class PopoState
 {
 	Idle,
-	Damaged,
+	Knockbacked,
+	Death,
 	Max,
 };
-
+class GameEngineImage;
 class EnemyPopo : public GameEngineActor
 {
 public:
@@ -49,11 +50,13 @@ private:
 	float CurBlinkFreq_;
 
 	float4 KnockbackDir_;
+	float KnockBackSpeed_;
 	bool IsAlphaOn_;
 
 	void GetDamaged();
 	void BlinkUpdate();
-	void DamagedCheck();
+	void KnockbackedCheck();
+	bool PosAndColorCheck(int _Color, GameEngineImage* _Image);
 
 	/// ////////FSM
 private:
@@ -62,11 +65,13 @@ private:
 
 	PopoState PopoCurState_;
 
+	void DeathStart();
 	void IdleStart();
-	void DamagedStart();
+	void KnockbackedStart();
 
+	void DeathUpdate();
 	void IdleUpdate();
-	void DamagedUpdate();
+	void KnockbackedUpdate();
 
 
 };

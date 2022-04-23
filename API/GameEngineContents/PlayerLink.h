@@ -65,6 +65,7 @@ public:
 	{
 		BridgeActor_ = _BridgeActor;
 	}
+	static GameEngineImage* MapColImage_;
 
 protected:
 
@@ -76,7 +77,6 @@ private:
 
 	float Speed_;
 	float KnockBackSpeed_;
-	GameEngineImage* MapColImage_;
 	GameEngineImage* MapPasImage_;
 	GameEngineCollision* PlayerCollision_;
 	GameEngineCollision* SwordCollision_;
