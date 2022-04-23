@@ -150,6 +150,7 @@ void Zelda::TotalImageCut()
 	ImageCutter("Top_Door_Idle_Animation.bmp", 1, 3);
 	ImageCutter("Bot_Door_Animation.bmp", 1, 3);
 	ImageCutter("Bot_Door_Idle_Animation.bmp", 1, 3);
+	ImageCutter("Pot_Destroyed.bmp", 8, 1);
 
 	//Title
 	ImageCutter("trianglebmp.bmp", 5, 34);

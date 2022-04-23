@@ -1313,20 +1313,20 @@ void PlayerLink::Room3Update()
 	if (PosOrColorCheck(Blue, MapColImage_) && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
 
-		if (StairsState::Top == CurStairs_)
+		if (PlayerStairsState::Top == CurStairs_)
 		{
 			MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_B1F_ColMap.bmp");
-			CurStairs_ = StairsState::Bot;
+			CurStairs_ = PlayerStairsState::Bot;
 			IsCharacterAutoMove_ = true;
 			IsOnStairs_ = true;
 			BridgeActor_->On();
 			return;
 		}
 
-		if (StairsState::Bot == CurStairs_)
+		if (PlayerStairsState::Bot == CurStairs_)
 		{
 			MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_ColMap.bmp");
-			CurStairs_ = StairsState::Top;
+			CurStairs_ = PlayerStairsState::Top;
 			IsCharacterAutoMove_ = true;
 			IsOnStairs_ = true;
 			BridgeActor_->Off();

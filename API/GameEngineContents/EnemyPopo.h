@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include "GameEngineContentsEnum.h"
 // Ό³Έν :
 enum class PopoState
 {

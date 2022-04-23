@@ -4,6 +4,7 @@
 #include <GameEngine/GameEngineCollision.h>
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
+#include <GameEngine/GameEngineRenderer.h>
 #include "PlayerLink.h"
 
 //2536, 3428
@@ -17,11 +18,11 @@ Map1FRoom1Pot0::Map1FRoom1Pot0()
 	 PickUpCol_(nullptr),
 	 PotHitBox_(nullptr),
 	 MoveDir_(float4::ZERO),
-	 Speed_(1000.0f),
+	 Speed_(800.0f),
 	 YSpeed_(20.0f),
-	 AirTime_(0.4f),
-	 IsInAir_(false),
-	 IsCarried_(false)
+	 AirTime_(0.35f),
+	 CurAirTime_(0.0f),
+	 CurPotState_(PotState::Idle)
 {
 
 }
@@ -36,64 +37,62 @@ void Map1FRoom1Pot0::Start()
 	SetPosition({ 2561.0f, 3451.0f });
 	BlockCol_ = CreateCollision("Pot", { 48, 48 });
 	PickUpCol_ = CreateCollision("PotCarry", { 50, 50 });
+	Renderer_->CreateAnimation("Pot_Destroyed.bmp", "Pot_Destroyed", 0, 7, 0.05f, false);
 }
  
 void Map1FRoom1Pot0::Update()
 {
-	//hitbox created when thrown
-	if (true == IsCarried_ && GameEngineInput::GetInst()->IsDown("Interact") && true == CheckPickUpEnd())
+	PotStateUpdate();
+}
+void Map1FRoom1Pot0::Render()
+{
+
+}
+
+void Map1FRoom1Pot0::IdleStart()
+{
+
+}
+
+void Map1FRoom1Pot0::CarriedStart()
+{
+
+}
+
+void Map1FRoom1Pot0::InAirStart()
+{
+	if (nullptr == PotHitBox_)
 	{
-		if (nullptr == PotHitBox_)
-		{
-			PotHitBox_ = CreateCollision("PotHitBox", { 48, 48 });
-			IsInAir_ = true;
-			IsCarried_ = false;
-		}
-
-		if (PlayerState::CarryMoveRight == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState() ||
-			PlayerState::CarryIdleRight == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState())
-		{
-			MoveDir_ = float4::RIGHT;
-		}
-		if (PlayerState::CarryMoveLeft == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState() ||
-			PlayerState::CarryIdleLeft == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState())
-		{
-			MoveDir_ = float4::LEFT;
-		}
-		if (PlayerState::CarryMoveUp == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState() ||
-			PlayerState::CarryIdleUp == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState())
-		{
-			MoveDir_ = float4::UP;
-		}
-		if (PlayerState::CarryMoveDown == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState() ||
-			PlayerState::CarryIdleDown == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState())
-		{
-			MoveDir_ = float4::DOWN;
-		}
-
-		Death(AirTime_);
+		PotHitBox_ = CreateCollision("PotHitBox", { 48, 48 });
+		PotHitBox_2 = CreateCollision("PotHitBox2", { 48, 48 });
 	}
+}
 
-	if (nullptr != PotHitBox_ && true == IsInAir_)
-	{
-		YSpeed_ += 4.5f;
-		PlayerState ex = dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState();
-		SetMove(((MoveDir_ * Speed_) + float4{ 0, YSpeed_ })* GameEngineTime::GetDeltaTime());
-	}
+void Map1FRoom1Pot0::DeathStart()
+{
+	PotHitBox_->Death();
+	CurAirTime_ = 0.0f;
+	Renderer_->ChangeAnimation("Pot_Destroyed");
+}
 
-	if (PlayerLink::CarryActor_ == this && false == IsCarried_ && false == IsInAir_)
+void Map1FRoom1Pot0::IdleUpdate()
+{
+	if (PlayerLink::CarryActor_ == this)
 	{
-		IsCarried_ = true;
 		BlockCol_->Death();
 		PickUpCol_->Death();
+		PotStateChange(PotState::Carried);
+		return;
 	}
-		
-	if (true == IsCarried_)
+}
+
+void Map1FRoom1Pot0::CarriedUpdate()
+{
 	{
 		if (PlayerState::CarryMoveLeft == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerCurState() &&
 			1 == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetCurrentAnimationFrame_())
 		{
-			SetPosition(PlayerLink::MainPlayer_->GetPosition() + float4{ 2.0f, -53.0f + 4.0f});
+			SetPosition(PlayerLink::MainPlayer_->GetPosition() + float4{ 2.0f, -53.0f + 4.0f });
 		}
 		else if (PlayerState::CarryMoveRight == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerCurState() &&
 			1 == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetCurrentAnimationFrame_())
@@ -105,11 +104,118 @@ void Map1FRoom1Pot0::Update()
 			SetPosition(PlayerLink::MainPlayer_->GetPosition() + float4{ 0.0f, -53.0f });
 		}
 	}
+
+	if (GameEngineInput::GetInst()->IsDown("Interact") && true == CheckPickUpEnd())
+	{
+
+		if (PlayerState::CarryMoveRight == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState() ||
+			PlayerState::CarryIdleRight == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState())
+		{
+			MoveDir_ = float4::RIGHT;
+			PotStateChange(PotState::InAir);
+			return;
+		}
+		if (PlayerState::CarryMoveLeft == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState() ||
+			PlayerState::CarryIdleLeft == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState())
+		{
+			MoveDir_ = float4::LEFT;
+			PotStateChange(PotState::InAir);
+			return;
+		}
+		if (PlayerState::CarryMoveUp == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState() ||
+			PlayerState::CarryIdleUp == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState())
+		{
+			MoveDir_ = float4::UP;
+			PotStateChange(PotState::InAir);
+			return;
+		}
+		if (PlayerState::CarryMoveDown == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState() ||
+			PlayerState::CarryIdleDown == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState())
+		{
+			MoveDir_ = float4::DOWN;
+			PotStateChange(PotState::InAir);
+			return;
+		}
+
+	}
 }
-void Map1FRoom1Pot0::Render()
+
+void Map1FRoom1Pot0::InAirUpdate()
 {
+	CurAirTime_ += GameEngineTime::GetDeltaTime();
+	if (AirTime_ < CurAirTime_)
+	{
+		PotStateChange(PotState::Death);
+	}
+	YSpeed_ += 1000.0f * GameEngineTime::GetDeltaTime();
+	SetMove(((MoveDir_ * Speed_) + float4{ 0, YSpeed_ }) * GameEngineTime::GetDeltaTime());
+
+	std::vector<GameEngineCollision*> ColList;
+	if (true == PotHitBox_->CollisionResult("MonsterHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
+	{
+		PotStateChange(PotState::Death);
+	}
+}
+
+void Map1FRoom1Pot0::DeathUpdate()
+{
+	if (true == Renderer_->IsEndAnimation())
+	{
+		Death();
+	}
+}
+
+void Map1FRoom1Pot0::PotStateChange(PotState _State)
+{
+	if (CurPotState_ != _State)
+	{
+		switch (_State)
+		{
+		case PotState::Idle:
+			IdleStart();
+			break;
+		case PotState::Carried:
+			CarriedStart();
+			break;
+		case PotState::InAir:
+			InAirStart();
+			break;
+		case PotState::Death:
+			DeathStart();
+			break;
+		case PotState::Max:
+			break;
+		default:
+			break;
+		}
+		CurPotState_ = _State;
+	}
 
 }
+
+void Map1FRoom1Pot0::PotStateUpdate()
+{
+	switch (CurPotState_)
+	{
+	case PotState::Idle:
+		IdleUpdate();
+		break;
+	case PotState::Carried:
+		CarriedUpdate();
+		break;
+	case PotState::InAir:
+		InAirUpdate();
+		break;
+	case PotState::Death:
+		DeathUpdate();
+		break;
+	case PotState::Max:
+		break;
+	default:
+		break;
+	}
+}
+
 
 bool Map1FRoom1Pot0::CheckPickUpEnd()
 {

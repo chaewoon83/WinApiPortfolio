@@ -6,7 +6,6 @@
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngine/GameEngineImage.h>
 #include <GameEngineBase/GameEngineRandom.h>
-#include "GameEngineContentsEnum.h"
 #include "ItemGreenRupee.h"
 #include "ItemBlueRupee.h"
 
@@ -26,11 +25,11 @@ EnemyPopo::EnemyPopo()
 	 CurKnockbackTime_(0.0f),
 	 BlinkTime_(0.3f),
 	 CurBlinkTime_(0.0f),
-	 BlinkFreq_(0.03f),
+	 BlinkFreq_(0.02f),
 	 CurBlinkFreq_(0.0f),
 	 IsAlphaOn_(true),
 	 KnockbackDir_(float4::ZERO),
-	 KnockBackSpeed_(500.0f),
+	 KnockBackSpeed_(800.0f),
 	 PopoCurState_(PopoState::Idle)
 {
 }
@@ -84,6 +83,14 @@ void EnemyPopo::GetDamaged()
 			Hp_ -= 1;
 			IsInvincible_ = true;
 			IsBlink_ = true;
+		}
+
+		if (true == PopoCol_->CollisionResult("PotHitBox2", ColList, CollisionType::Rect, CollisionType::Rect))
+		{
+			Hp_ -= 1;
+			IsInvincible_ = true;
+			IsBlink_ = true;
+			ColList[0]->Death();
 		}
 
 		if (0 >= Hp_)
@@ -214,6 +221,15 @@ void EnemyPopo::KnockbackedCheck()
 	std::vector<GameEngineCollision*> ColList;
 
 	if (true == PopoCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect) && false == IsKnockback_)
+	{
+		PopoChangeState(PopoState::Knockbacked);
+		IsKnockback_ = true;
+		IsBlink_ = true;
+		HitActor_ = ColList[0]->GetActor();
+		KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
+		KnockbackDir_.Normal2D();
+	}
+	if (true == PopoCol_->CollisionResult("PotHitBox2", ColList, CollisionType::Rect, CollisionType::Rect) && false == IsKnockback_)
 	{
 		PopoChangeState(PopoState::Knockbacked);
 		IsKnockback_ = true;

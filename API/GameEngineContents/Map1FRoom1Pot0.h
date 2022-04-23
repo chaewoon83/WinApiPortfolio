@@ -1,6 +1,8 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include "GameEngineContentsEnum.h"
 // Ό³Έν :
+
 class Map1FRoom1Pot0 : public GameEngineActor
 {
 public:
@@ -25,16 +27,27 @@ private:
 	GameEngineCollision* BlockCol_;
 	GameEngineCollision* PickUpCol_;
 	GameEngineCollision* PotHitBox_;
-
+	GameEngineCollision* PotHitBox_2;
 	float4 MoveDir_;
 	float Speed_;
 	float YSpeed_;
 	float AirTime_;
+	float CurAirTime_;
 
-	bool IsCarried_;
-	bool IsInAir_;
 
-	int a = 0;
+	///FSM
+	PotState CurPotState_;
+	void PotStateUpdate();
+	void PotStateChange(PotState _State);
 
+	void IdleStart();
+	void CarriedStart();
+	void InAirStart();
+	void DeathStart();
+
+	void IdleUpdate();
+	void CarriedUpdate();
+	void InAirUpdate();
+	void DeathUpdate();
 };
 

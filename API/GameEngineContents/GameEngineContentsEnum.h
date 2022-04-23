@@ -69,9 +69,18 @@ enum class CameraState
 	Max
 };
 
-enum class StairsState
+enum class PlayerStairsState
 {
 	Top,
 	Bot,
+	Max
+};
+
+enum class PotState
+{
+	Idle,
+	Carried,
+	InAir,
+	Death,
 	Max
 };
