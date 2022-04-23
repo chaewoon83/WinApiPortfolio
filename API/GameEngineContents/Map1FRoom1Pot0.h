@@ -19,6 +19,22 @@ protected:
 	void Update() override;
 	void Render() override;
 private:
+	bool CheckPickUpEnd();
+
+	GameEngineRenderer* Renderer_;
+	GameEngineCollision* BlockCol_;
+	GameEngineCollision* PickUpCol_;
+	GameEngineCollision* PotHitBox_;
+
+	float4 MoveDir_;
+	float Speed_;
+	float YSpeed_;
+	float AirTime_;
+
+	bool IsCarried_;
+	bool IsInAir_;
+
+	int a = 0;
 
 };
 

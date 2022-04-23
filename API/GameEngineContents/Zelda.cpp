@@ -112,18 +112,34 @@ void Zelda::TotalImageCut()
 	ImageCutter("Link_Idle_Left.bmp", 2, 1);
 	ImageCutter("Link_Idle_Up.bmp", 2, 1);
 	ImageCutter("Link_Idle_Down.bmp", 2, 1);
+
 	ImageCutter("Link_Walk_Right.bmp", 6, 1);
 	ImageCutter("Link_Walk_Left.bmp", 6, 1);
 	ImageCutter("Link_Walk_Up.bmp", 8, 1);
 	ImageCutter("Link_Walk_Down.bmp", 8, 1);
+
 	ImageCutter("Link_Wield_Right.bmp", 5, 1);
 	ImageCutter("Link_Wield_Left.bmp", 5, 1);
 	ImageCutter("Link_Wield_Up.bmp", 5, 1);
 	ImageCutter("Link_Wield_Down.bmp", 6, 1);
+
 	ImageCutter("Link_Damaged_Right.bmp", 2, 1);
 	ImageCutter("Link_Damaged_Left.bmp", 2, 1);
 	ImageCutter("Link_Damaged_Up.bmp", 2, 1);
 	ImageCutter("Link_Damaged_Down.bmp", 2, 1);
+
+	ImageCutter("Link_Carry_Start_Right.bmp", 3, 1);
+	ImageCutter("Link_Carry_Start_Left.bmp", 3, 1);
+	ImageCutter("Link_Carry_Start_Up.bmp", 3, 1);
+	ImageCutter("Link_Carry_Start_Down.bmp", 3, 1);
+	ImageCutter("Link_Carry_Idle_Right.bmp", 2, 1);
+	ImageCutter("Link_Carry_Idle_Left.bmp", 2, 1);
+	ImageCutter("Link_Carry_Idle_Up.bmp", 2, 1);
+	ImageCutter("Link_Carry_Idle_Down.bmp", 2, 1);
+	ImageCutter("Link_Carry_Move_Right.bmp", 2, 1);
+	ImageCutter("Link_Carry_Move_Left.bmp", 2, 1);
+	ImageCutter("Link_Carry_Move_Up.bmp", 5, 1);
+	ImageCutter("Link_Carry_Move_Down.bmp", 5, 1);
 
 	//Map Object
 	ImageCutter("Right_Door_Animation.bmp", 3, 1);

@@ -1,48 +1,10 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include "GameEngineContentsEnum.h"
 // Ό³Έν :
 class GameEngineImage;
 class GmaeEngineCollision;
 class Map1FBridge;
-enum class PlayerState
-{
-	RightIdle,
-	LeftIdle,
-	UpIdle,
-	DownIdle,
-	MoveRight,
-	MoveLeft,
-	MoveUp,
-	MoveDown,
-	WieldRight,
-	WieldLeft,
-	WieldUp,
-	WieldDown,
-	DamagedRight,
-	DamagedLeft,
-	DamagedUp,
-	DamagedDown,
-	Max
-};
-
-enum class CameraState
-{
-	Room1,
-	Room2,
-	Room3,
-	Room4,
-	Room5,
-	Room6,
-	Room7,
-	Max
-};
-
-enum class StairsState
-{
-	Top,
-	Bot,
-	Max
-};
 
 
 
@@ -69,11 +31,14 @@ public:
 
 protected:
 
+public:
+	static GameEngineActor* MainPlayer_;
+	static GameEngineActor* CarryActor_;
 
 private:
 	GameEngineActor* HitActor_;
+	GameEngineRenderer* PlayerRenderer_;
 
-	GameEngineRenderer* PlayerRenderer;
 
 	float Speed_;
 	float KnockBackSpeed_;
@@ -82,6 +47,7 @@ private:
 	GameEngineCollision* SwordCollision_;
 	GameEngineCollision* SwitchCollision_;
 
+	static int CurrentAnimationFrame_;
 	float AnimationTimer_;
 	float AttackAnimationInterval_;
 	int AnimationIndex_;
@@ -111,9 +77,9 @@ private:
 	bool IsUpMoveKey();
 	bool IsDownMoveKey();
 	/// ////////////////////////////////////////////////////////////////////Player Movements
-public:
-	PlayerState PlayerCurState_;
-	PlayerState PlayerPrevState_;
+private:
+	static PlayerState PlayerCurState_;
+	static PlayerState PlayerPrevState_;
 
 	bool IsCharacterAutoMove_;
 	float4 AutoMoveDir_;
@@ -139,6 +105,9 @@ private:
 	void WieldLeftUpdate();
 	void WieldUpUpdate();
 	void WieldDownUpdate();
+	void CarryStartUpdate();
+	void CarryIdleUpdate();
+	void CarryMoveUpdate();
 
 	void IdleRightStart();
 	void IdleLeftStart();
@@ -156,6 +125,18 @@ private:
 	void DamagedLeftStart();
 	void DamagedUpStart();
 	void DamagedDownStart();
+	void CarryStartRightStart();
+	void CarryStartLeftStart();
+	void CarryStartUpStart();
+	void CarryStartDownStart();
+	void CarryIdleRightStart();
+	void CarryIdleLeftStart();
+	void CarryIdleUpStart();
+	void CarryIdleDownStart();
+	void CarryMoveRightStart();
+	void CarryMoveLeftStart();
+	void CarryMoveUpStart();
+	void CarryMoveDownStart();
 
 
 	/// ////////////////////////////////////////////////////////////////////Camera Movemnets
@@ -188,6 +169,7 @@ private:
 	bool IsGetDamaged_;
 	bool IsKnockback_;
 	bool IsBlink_;
+	bool IsCarry_;
 	float KnockbackTime_;
 	float CurKnockbackTime_;
 	float BlinkTime_;
@@ -197,5 +179,20 @@ private:
 	bool IsAlphaOn_;
 	float4 KnockbackDir_;
 	void GetDamaged();
+	void PotCarryCheck();
+	/////////////////////////////////////////////////////////////////////Getter
+public:
+	inline static PlayerState GetPlayerCurState()
+	{
+		return PlayerCurState_;
+	}
+	inline static PlayerState GetPlayerPrevState()
+	{
+		return PlayerPrevState_;
+	}
+	inline static int GetCurrentAnimationFrame_()
+	{
+		return CurrentAnimationFrame_;
+	}
 };
 

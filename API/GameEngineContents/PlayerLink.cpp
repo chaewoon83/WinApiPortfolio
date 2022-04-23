@@ -6,7 +6,6 @@
 #include <GameEngine/GameEngineImage.h>
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
-#include "GameEngineContentsEnum.h"
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngineBase/GameEngineDebug.h>
 #include <GameEngine/GameEngineLevel.h>
@@ -36,11 +35,17 @@
 //빨간색 -> 닫힌 문 이동
 
 GameEngineImage* PlayerLink::MapColImage_ = nullptr;
+GameEngineActor* PlayerLink::MainPlayer_ = nullptr;
+GameEngineActor* PlayerLink::CarryActor_ = nullptr;
+PlayerState PlayerLink::PlayerCurState_ = PlayerState::IdleDown;
+PlayerState PlayerLink::PlayerPrevState_ = PlayerState::Max;
+int PlayerLink::CurrentAnimationFrame_ = -1;
 
 PlayerLink::PlayerLink()
-	:Speed_(350.0f),
+	:BridgeActor_(nullptr),
+	 HitActor_(nullptr),
+	 Speed_(350.0f),
 	 KnockBackSpeed_(350.0f),
-	 PlayerCurState_(PlayerState::DownIdle),
 	 CameraState_(CameraState::Room1),
 	 IsCameraAutoMove_(false),
 	 IsCharacterAutoMove_(false),
@@ -55,6 +60,7 @@ PlayerLink::PlayerLink()
 	 IsGetDamaged_(false),
 	 IsKnockback_(false),
 	 IsBlink_(false),
+	 IsCarry_(false),
 	 KnockbackTime_(0.2f),
 	 CurKnockbackTime_(0.0f),
 	 BlinkTime_(1.5f),
@@ -82,33 +88,48 @@ void PlayerLink::Start()
 	//ExampleRenderer->SetAlpha(100);
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
 	//SetPosition(GameEngineWindow::GetScale().Half());
-	PlayerRenderer = CreateRenderer();
+	PlayerRenderer_ = CreateRenderer();
 	//PlayerRenderer->SetAlpha(50);
 	//true 면 루프 false 면 루프아님
 	//PlayerRenderer->SetPivot({ 0, -11 });
 
-	PlayerRenderer->CreateAnimation("Link_Idle_Right.bmp", "Idle_Right", 0, 1, 0.05f, false);
-	PlayerRenderer->CreateAnimation("Link_Idle_Left.bmp", "Idle_Left", 0, 1, 0.05f, false);
-	PlayerRenderer->CreateAnimation("Link_Idle_Up.bmp", "Idle_Up", 0, 1, 0.05f, false);
-	PlayerRenderer->CreateAnimation("Link_Idle_Down.bmp", "Idle_Down", 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimation("Link_Idle_Right.bmp", "Idle_Right", 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimation("Link_Idle_Left.bmp", "Idle_Left", 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimation("Link_Idle_Up.bmp", "Idle_Up", 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimation("Link_Idle_Down.bmp", "Idle_Down", 0, 1, 0.05f, false);
 
-	PlayerRenderer->CreateAnimation("Link_Walk_Right.bmp", "Walk_Right", 0, 5, 0.05f, true);
-	PlayerRenderer->CreateAnimation("Link_Walk_Left.bmp", "Walk_Left", 0, 5, 0.05f, true);
-	PlayerRenderer->CreateAnimation("Link_Walk_Up.bmp", "Walk_Up", 0, 7, 0.05f, true);
-	PlayerRenderer->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.05f, true);
+	PlayerRenderer_->CreateAnimation("Link_Walk_Right.bmp", "Walk_Right", 0, 5, 0.05f, true);
+	PlayerRenderer_->CreateAnimation("Link_Walk_Left.bmp", "Walk_Left", 0, 5, 0.05f, true);
+	PlayerRenderer_->CreateAnimation("Link_Walk_Up.bmp", "Walk_Up", 0, 7, 0.05f, true);
+	PlayerRenderer_->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.05f, true);
 
-	PlayerRenderer->CreateAnimation("Link_Wield_Right.bmp", "Wield_Right", 0, 4, AttackAnimationInterval_, true);
-	PlayerRenderer->CreateAnimation("Link_Wield_Left.bmp", "Wield_Left", 0, 4, AttackAnimationInterval_, true);
-	PlayerRenderer->CreateAnimation("Link_Wield_Up.bmp", "Wield_Up", 0, 4, AttackAnimationInterval_, true);
-	PlayerRenderer->CreateAnimation("Link_Wield_Down.bmp", "Wield_Down", 0, 5, AttackAnimationInterval_, true);
+	PlayerRenderer_->CreateAnimation("Link_Wield_Right.bmp", "Wield_Right", 0, 4, AttackAnimationInterval_, true);
+	PlayerRenderer_->CreateAnimation("Link_Wield_Left.bmp", "Wield_Left", 0, 4, AttackAnimationInterval_, true);
+	PlayerRenderer_->CreateAnimation("Link_Wield_Up.bmp", "Wield_Up", 0, 4, AttackAnimationInterval_, true);
+	PlayerRenderer_->CreateAnimation("Link_Wield_Down.bmp", "Wield_Down", 0, 5, AttackAnimationInterval_, true);
 
-	PlayerRenderer->CreateAnimation("Link_Damaged_Right.bmp", "Damaged_Right", 0, 1, 0.05f, false);
-	PlayerRenderer->CreateAnimation("Link_Damaged_Left.bmp", "Damaged_Left", 0, 1, 0.05f, false);
-	PlayerRenderer->CreateAnimation("Link_Damaged_Up.bmp", "Damaged_Up", 0, 1, 0.05f, false);
-	PlayerRenderer->CreateAnimation("Link_Damaged_Down.bmp", "Damaged_Down", 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimation("Link_Damaged_Right.bmp", "Damaged_Right", 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimation("Link_Damaged_Left.bmp", "Damaged_Left", 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimation("Link_Damaged_Up.bmp", "Damaged_Up", 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimation("Link_Damaged_Down.bmp", "Damaged_Down", 0, 1, 0.05f, false);
+
+	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Right.bmp", "Carry_Start_Right", 0, 2, 0.25f, true);
+	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Left.bmp", "Carry_Start_Left", 0, 2, 0.25f, true);
+	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Up.bmp", "Carry_Start_Up", 0, 2, 0.25f, true);
+	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Down.bmp", "Carry_Start_Down", 0, 2, 0.25f, true);
+
+	PlayerRenderer_->CreateAnimation("Link_Carry_Idle_Right.bmp", "Carry_Idle_Right", 0, 1, 0.25f, true);
+	PlayerRenderer_->CreateAnimation("Link_Carry_Idle_Left.bmp", "Carry_Idle_Left", 0, 1, 0.25f, true);
+	PlayerRenderer_->CreateAnimation("Link_Carry_Idle_Up.bmp", "Carry_Idle_Up", 0, 1, 0.25f, true);
+	PlayerRenderer_->CreateAnimation("Link_Carry_Idle_Down.bmp", "Carry_Idle_Down", 0, 1, 0.25f, true);
+
+	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Right.bmp", "Carry_Move_Right", 0, 1, 0.1f, true);
+	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Left.bmp", "Carry_Move_Left", 0, 1, 0.1f, true);
+	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Up.bmp", "Carry_Move_Up", 0, 4, 0.1f, true);
+	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Down.bmp", "Carry_Move_Down", 0, 4, 0.1f, true);
 
 
-	PlayerRenderer->ChangeAnimation("Idle_Down");
+	PlayerRenderer_->ChangeAnimation("Idle_Down");
 
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다
 	//CreateRenderer("LinkStandStill.bmp");
@@ -120,9 +141,8 @@ void PlayerLink::Start()
 		GameEngineInput::GetInst()->CreateKey("MoveLeft", 'A');
 		GameEngineInput::GetInst()->CreateKey("MoveUp", 'W');
 		GameEngineInput::GetInst()->CreateKey("MoveDown", 'S');
-		GameEngineInput::GetInst()->CreateKey("Fire", 'K');
-		GameEngineInput::GetInst()->CreateKey("Attack", VK_SPACE);
-		GameEngineInput::GetInst()->CreateKey("InterAct", VK_LSHIFT);
+		GameEngineInput::GetInst()->CreateKey("Attack", 'K');
+		GameEngineInput::GetInst()->CreateKey("InterAct", 'L');
 		GameEngineInput::GetInst()->CreateKey("Debug", '9');
 
 
@@ -152,8 +172,10 @@ void PlayerLink::Update()
 	{
 		GetLevel()->IsDebugModeSwitch();
 	}
-	CameraStateUpdate();
 	PlayerStateUpdate();
+	CameraStateUpdate();
+	//애니메이셔 프레임 받기
+	CurrentAnimationFrame_ = PlayerRenderer_->GetCurrentAnimationFrame();
 	BlinkUpdate();
 	
 	float4 Postion = GetPosition();
@@ -534,12 +556,12 @@ void PlayerLink::BlinkUpdate()
 			CurBlinkFreq_ = 0.0f;
 			if (false == IsAlphaOn_)
 			{
-				PlayerRenderer->SetAlpha(255);
+				PlayerRenderer_->SetAlpha(255);
 				IsAlphaOn_ = true;
 			}
 			else
 			{
-				PlayerRenderer->SetAlpha(0);
+				PlayerRenderer_->SetAlpha(0);
 				IsAlphaOn_ = false;
 			}
 		}
@@ -551,7 +573,7 @@ void PlayerLink::BlinkUpdate()
 			CurBlinkTime_ = 0.0f;
 			CurBlinkFreq_ = 0.0f;
 			IsAlphaOn_ = true;
-			PlayerRenderer->SetAlpha(255);
+			PlayerRenderer_->SetAlpha(255);
 		}
 	}
 
@@ -566,16 +588,16 @@ void PlayerLink::PlayerChangeState(PlayerState _State)
 	{
 		switch (_State)
 		{
-		case PlayerState::RightIdle:
+		case PlayerState::IdleRight:
 			IdleRightStart();
 			break;
-		case PlayerState::LeftIdle:
+		case PlayerState::IdleLeft:
 			IdleLeftStart();
 			break;
-		case PlayerState::UpIdle:
+		case PlayerState::IdleUp:
 			IdleUpStart();
 			break;
-		case PlayerState::DownIdle:
+		case PlayerState::IdleDown:
 			IdleDownStart();
 			break;
 		case PlayerState::MoveRight:
@@ -614,7 +636,42 @@ void PlayerLink::PlayerChangeState(PlayerState _State)
 		case PlayerState::DamagedDown:
 			DamagedDownStart();
 			break;
-
+		case PlayerState::CarryStartRight:
+			CarryStartRightStart();
+			break;
+		case PlayerState::CarryStartLeft:
+			CarryStartLeftStart();
+			break;
+		case PlayerState::CarryStartUp:
+			CarryStartUpStart();
+			break;
+		case PlayerState::CarryStartDown:
+			CarryStartDownStart();
+			break;
+		case PlayerState::CarryIdleRight:
+			CarryIdleRightStart();
+			break;
+		case PlayerState::CarryIdleLeft:
+			CarryIdleLeftStart();
+			break;
+		case PlayerState::CarryIdleUp:
+			CarryIdleUpStart();
+			break;
+		case PlayerState::CarryIdleDown:
+			CarryIdleDownStart();
+			break;
+		case PlayerState::CarryMoveRight:
+			CarryMoveRightStart();
+			break;
+		case PlayerState::CarryMoveLeft:
+			CarryMoveLeftStart();
+			break;
+		case PlayerState::CarryMoveUp:
+			CarryMoveUpStart();
+			break;
+		case PlayerState::CarryMoveDown:
+			CarryMoveDownStart();
+			break;
 		case PlayerState::Max:
 			break;
 		default:
@@ -629,10 +686,10 @@ void PlayerLink::PlayerStateUpdate()
 {
 	switch (PlayerCurState_)
 	{
-	case PlayerState::RightIdle:
-	case PlayerState::LeftIdle:
-	case PlayerState::UpIdle:
-	case PlayerState::DownIdle:
+	case PlayerState::IdleRight:
+	case PlayerState::IdleLeft:
+	case PlayerState::IdleUp:
+	case PlayerState::IdleDown:
 		IdleUpdate();
 		break;
 	case PlayerState::MoveRight:
@@ -652,6 +709,24 @@ void PlayerLink::PlayerStateUpdate()
 	case PlayerState::DamagedUp:
 	case PlayerState::DamagedDown:
 		DamagedUpdate();
+		break;
+	case PlayerState::CarryStartRight:
+	case PlayerState::CarryStartLeft:
+	case PlayerState::CarryStartUp:
+	case PlayerState::CarryStartDown:
+		CarryStartUpdate();
+		break;
+	case PlayerState::CarryIdleRight:
+	case PlayerState::CarryIdleLeft:
+	case PlayerState::CarryIdleUp:
+	case PlayerState::CarryIdleDown:
+		CarryIdleUpdate();
+		break;
+	case PlayerState::CarryMoveRight:
+	case PlayerState::CarryMoveLeft:
+	case PlayerState::CarryMoveUp:
+	case PlayerState::CarryMoveDown:
+		CarryMoveUpdate();
 		break;
 	case PlayerState::Max:
 		break;

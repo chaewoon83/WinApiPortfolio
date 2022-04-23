@@ -36,6 +36,7 @@ void PlayMap1F::Loading()
 	CreateActor<EnemyPopo>(static_cast<int>(PlayLevelOrder::MONSTER));
 
 	PlayerLink* Player = CreateActor<PlayerLink>(static_cast<int>(PlayLevelOrder::PLAYER));
+	PlayerLink::MainPlayer_ = Player;
 
 	CreateActor<Map1FRoom1Pot0>(static_cast<int>(PlayLevelOrder::MAPOBJECT));
 

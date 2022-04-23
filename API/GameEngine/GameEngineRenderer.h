@@ -207,7 +207,13 @@ private:
 		}
 	};
 
-
+	///////////////////////////////나만의 코드
+public:
+	int GetCurrentAnimationFrame()
+	{
+		return CurrentAnimation_->CurrentFrame_;
+	}
+	///////////////////////////////나만의 코드
 public:
 	void ChangeAnimation(const std::string& _Name);
 	void CreateAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex,
