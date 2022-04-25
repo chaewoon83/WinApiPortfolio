@@ -52,6 +52,10 @@ bool GameEngineCollision::CollisionCheck(const std::string& _TargetGroup,
 	CollisionType _This /*= CollisionType::Circle*/,
 	CollisionType _Target /*= CollisionType::Circle*/)
 {
+	if (false == IsUpdate() || true == IsDeath())
+	{
+		return false;
+	}
 	std::map<std::string, std::list<GameEngineCollision*>>::iterator FindTargetGroup = GetActor()->GetLevel()->AllCollision_.find(_TargetGroup);
 
 	if (FindTargetGroup == GetActor()->GetLevel()->AllCollision_.end())
@@ -88,6 +92,10 @@ bool GameEngineCollision::NextPostCollisionCheck(
 	CollisionType _Target /*= CollisionType::Circle*/
 )
 {
+	if (false == IsUpdate() || true == IsDeath())
+	{
+		return false;
+	}
 	std::map<std::string, std::list<GameEngineCollision*>>::iterator FindTargetGroup = GetActor()->GetLevel()->AllCollision_.find(_TargetGroup);
 
 	if (FindTargetGroup == GetActor()->GetLevel()->AllCollision_.end())
@@ -125,7 +133,10 @@ bool GameEngineCollision::NextPostCollisionCheck(
 
 void GameEngineCollision::DebugRender()
 {
-
+	if (false == IsUpdate() || true == IsDeath())
+	{
+		return;
+	}
 	float4 Pos = GetActor()->GetPosition();
 
 	if (true == IsCameraEffect_)
@@ -152,6 +163,11 @@ bool GameEngineCollision::CollisionResult(const std::string& _TargetGroup,
 	CollisionType _This /*= CollisionType::Circle*/,
 	CollisionType _Target /*= CollisionType::Circle*/)
 {
+	if (false == IsUpdate() || true == IsDeath())
+	{
+		return false;
+	}
+
 	size_t StartSize = _ColResult.size();
 
 	std::map<std::string, std::list<GameEngineCollision*>>::iterator FindTargetGroup = GetActor()->GetLevel()->AllCollision_.find(_TargetGroup);
