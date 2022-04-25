@@ -12,6 +12,7 @@
 #include "GameEngineContentsEnum.h"
 #include "Map1FBridge.h"
 
+
 void PlayerLink::IdleUpdate()
 {
 	if (true == IsUpMoveKey())
@@ -778,7 +779,7 @@ void PlayerLink::MoveFunction()
 				if (true == MoveRight)
 				{
 					if (false == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect) &&
-						false == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect) &&)
+						false == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 					{
 						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
 					}
@@ -1257,8 +1258,6 @@ void PlayerLink::PotCarryCheck()
 
 void PlayerLink::Room1Start()
 {
-	Map1F::Room1TopDoor0->ChangeAnimation("Close_Top");
-	Map1F::Room1Door0Col_ = CreateCollision("Block", { 128,96 }, { 3072, 3248 });
 	GameEngineTime::GetInst()->SetTimeScale(1, 1.0f);
 }
 
@@ -1321,6 +1320,8 @@ void PlayerLink::Room1_Trans_Update()
 
 void PlayerLink::Room2Start()
 {
+	Map1F::Room2TopDoor0->ChangeAnimation("Close_Top");
+	Map1F::Room2BotDoor0->ChangeAnimation("Close_Bot");
 	GameEngineTime::GetInst()->SetTimeScale(2, 1.0f);
 }
 

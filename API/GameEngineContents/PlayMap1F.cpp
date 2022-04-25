@@ -25,6 +25,8 @@
 
 #include "Map1FRoom1EnemyPopo1.h"
 
+#include "Room1TopDoor0.h"
+
 PlayMap1F::PlayMap1F()
 {
 }
@@ -47,6 +49,8 @@ void PlayMap1F::Loading()
 	GameEngineTime::GetInst()->SetTimeScale(6, 0.0f);
 	GameEngineTime::GetInst()->SetTimeScale(7, 0.0f);
 	CreateActor<Map1F>(static_cast<int>(PlayLevelOrder::BACKGROUND));
+
+	CreateActor<Room1TopDoor0>(static_cast<int>(PlayLevelOrder::BACKGROUND));
 
 	CreateActor<EnemyPopo>(static_cast<int>(PlayLevelOrder::MONSTER));
 

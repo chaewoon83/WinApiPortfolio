@@ -147,6 +147,9 @@
     <ClInclude Include="Map1FRoom1Pot2.h">
       <Filter>Play\Map\Objects\Pot</Filter>
     </ClInclude>
+    <ClInclude Include="Room1TopDoor0.h">
+      <Filter>Play\Map\Objects\Door</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -297,6 +300,9 @@
     <ClCompile Include="Map1FRoom1Pot2.cpp">
       <Filter>Play\Map\Objects\Pot</Filter>
     </ClCompile>
+    <ClCompile Include="Room1TopDoor0.cpp">
+      <Filter>Play\Map\Objects\Door</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -343,6 +349,9 @@
     </Filter>
     <Filter Include="Play\Enemy\EnemyPopo">
       <UniqueIdentifier>{e23f05f0-51ea-4690-97af-2439b3546ec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Map\Objects\Door">
+      <UniqueIdentifier>{a17a1f0b-13ec-47cd-8c40-db6a9b4e9069}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

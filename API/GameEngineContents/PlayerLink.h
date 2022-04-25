@@ -89,7 +89,6 @@ private:
 	static PlayerState PlayerPrevState_;
 
 	bool IsCharacterAutoMove_;
-	bool IsPlayerCanPassDoor_;
 	float4 AutoMoveDir_;
 
 	void PlayerAutoMove();

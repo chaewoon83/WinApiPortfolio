@@ -12,6 +12,7 @@
 #include <GameEngine/GameEngineCollision.h>
 
 #include "Map1F.h"
+#include "Room1TopDoor0.h"
 #include "Boomerang.h"
 
 //링크의 크기 == 64x96
@@ -52,7 +53,6 @@ PlayerLink::PlayerLink()
 
 	 IsCameraAutoMove_(false),
 	 IsCharacterAutoMove_(false),
-	 IsPlayerCanPassDoor_(false),
 	 AutoMoveDir_(float4::ZERO),
 	 CurStairs_(PlayerStairsState::Top),
 	 IsOnStairs_(false),
@@ -83,7 +83,7 @@ void PlayerLink::Start()
 {
 	//충돌
 	PlayerCollision_ = CreateCollision("PlayerHitBox", {64, 64});
-	PlayerMoveCollision_ = CreateCollision("PlayerHitBox", {64, 64}, {0, 12});
+	PlayerMoveCollision_ = CreateCollision("PlayerHitBox2", {64, 64}, {0, 12});
 	PlayerTopRightCollision_ = CreateCollision("PlayerTopRightHitBox", {20, 20 }, { 22, -10 });
 	PlayerTopLeftCollision_ = CreateCollision("PlayerTopLeftHitBox", { 20, 20 }, { -22, -10 });
 	PlayerBotRightCollision_ = CreateCollision("PlayerBotRightHitBox", { 20, 20 }, { 22, 34 });
@@ -205,16 +205,7 @@ void PlayerLink::Update()
 	//3016,3468 48x40
 	//3040,3488
 	//충돌 관련
-	{
-		std::vector<GameEngineCollision*> ColList;
 
-		if (true == PlayerCollision_->CollisionResult("Switch", ColList, CollisionType::Rect, CollisionType::Rect))
-		{
-			Map1F::Room1TopDoor0->ChangeAnimation("Open_Top");
-			IsPlayerCanPassDoor_;
-			ColList[0]->Death();
-		}
-	}
 
 }
 //렌더러가 다 돌고 액터들의 랜더함수를 호출한다

@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include "GameEngineContentsEnum.h"
 // Ό³Έν :
 class Map1F : public GameEngineActor
 {
@@ -14,10 +15,11 @@ public:
 	Map1F& operator=(const Map1F& _Other) = delete;
 	Map1F& operator=(Map1F&& _Other) noexcept = delete;
 
-	static GameEngineRenderer* Room1TopDoor0;
+	static GameEngineRenderer* Room1TopDoor0_;
 	static GameEngineRenderer* Room2TopDoor0;
 	static GameEngineRenderer* Room2BotDoor0;
 	static GameEngineRenderer* Room3RightKeyDoor0;
+	static GameEngineCollision* SwitchCol_;
 	static GameEngineCollision* Room1Door0Col_;
 
 protected:
@@ -29,6 +31,7 @@ private:
 	void DoorAnimationCreate();
 	void PlaceDoor();
 
-
+	bool IsRoom1TopDoor0On_;
+	CameraState CurRoomState_;
 };
 
