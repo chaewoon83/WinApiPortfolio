@@ -3,14 +3,15 @@
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngine/GameEngineImage.h>
+#include <GameEngine/GameEngineCollision.h>
+#include "PlayerLink.h"
 
-GameEngineRenderer* Map1F::TopDoor1 = nullptr;
-GameEngineRenderer* Map1F::TopDoor2 = nullptr;
-GameEngineRenderer* Map1F::TopDoor3 = nullptr;
-GameEngineRenderer* Map1F::BotDoor1 = nullptr;
-GameEngineRenderer* Map1F::RightDoor1 = nullptr;
+GameEngineRenderer* Map1F::Room1TopDoor0 = nullptr;
+GameEngineRenderer* Map1F::Room2TopDoor0 = nullptr;
+GameEngineRenderer* Map1F::Room2BotDoor0 = nullptr;
 
-Map1F::Map1F() 
+GameEngineCollision* Map1F::Room1Door0Col_ = nullptr;
+Map1F::Map1F()
 {
 }
 
@@ -37,12 +38,26 @@ void Map1F::Start()
 	DoorAnimationCreate();
 	PlaceDoor();
 
+	Room1Door0Col_ = CreateCollision("Block", { 128,96 }, { 3072, 3248 });
 	CreateCollision("Switch", { 48, 40 }, { 3040, 3451 });
 }
  
 void Map1F::Update()
 {
-
+	//if (CameraState::Room1 == PlayerLink::GetPlayerCurRoomState())
+	//{
+	//	if (nullptr == Room1Door0Col_)
+	//	{
+	//		Room1Door0Col_ = CreateCollision("Block", { 128,96 }, { 3072, 3248 });
+	//	}
+	//	else
+	//	{
+	//		if (false == Room1Door0Col_->IsDeath())
+	//		{
+	//			Room1Door0Col_ = CreateCollision("Block", { 128,96 }, { 3072, 3248 });
+	//		}
+	//	}
+	//}
 }
 void Map1F::Render()
 {
@@ -54,42 +69,33 @@ void Map1F::PlaceDoor()
 {
 	//3008+64, 3200+48 
 	//128,96
-	TopDoor1->SetPivot(float4{3072, 3216});
-	//CreateCollision("Door", { 128,96 }, { 3072, 3248 });
-	TopDoor2->SetPivot({ 0, -11 });
-	//CreateCollision("Door", { 128,96 }, { 3072, 2848 });
-	TopDoor3->SetPivot({ 0, -11 });
-	BotDoor1->SetPivot({ 0, -11 });
-	RightDoor1->SetPivot({ 0, -11 });
+	Room1TopDoor0->SetPivot(float4{3072, 3216});
+
+	Room2TopDoor0->SetPivot({ 0, -11 });
+	//CreateCollision("Block", { 128,96 }, { 3072, 2848 });
+	Room2BotDoor0->SetPivot({ 0, -11 });
 }
 
 void Map1F::DoorAnimationCreate()
 {
 
-	TopDoor1 = CreateRenderer();
-	TopDoor1->CreateAnimation("Top_Door_Idle_Animation.bmp", "Idle_Top", 0, 2, 1.0f, false);
-	TopDoor1->CreateAnimation("Top_Door_Animation.bmp", "Top", 0, 2, 0.07f, false);
-	TopDoor1->ChangeAnimation("Idle_Top");
+	Room1TopDoor0 = CreateRenderer();
+	Room1TopDoor0->CreateAnimation("Top_Door_Idle_Animation.bmp", "Idle_Top", 0, 2, 1.0f, false);
+	Room1TopDoor0->CreateAnimation("Top_Door_Open_Animation.bmp", "Open_Top", 0, 2, 0.07f, false);
+	Room1TopDoor0->CreateAnimation("Top_Door_Close_Animation.bmp", "Close_Top", 0, 2, 0.07f, false);
+	Room1TopDoor0->ChangeAnimation("Idle_Top");
 
-	TopDoor2 = CreateRenderer();
-	TopDoor2->CreateAnimation("Top_Door_Idle_Animation.bmp", "Idle_Top", 0, 2, 0.035f, false);
-	TopDoor2->CreateAnimation("Top_Door_Animation.bmp", "Top", 0, 2, 0.035f, false);
-	TopDoor2->ChangeAnimation("Idle_Top");
+	Room2TopDoor0 = CreateRenderer();
+	Room2TopDoor0->CreateAnimation("Top_Door_Idle_Animation.bmp", "Idle_Top", 0, 2, 0.035f, false);
+	Room2TopDoor0->CreateAnimation("Top_Door_Open_Animation.bmp", "Open_Top", 0, 2, 0.035f, false);
+	Room2TopDoor0->CreateAnimation("Top_Door_Close_Animation.bmp", "Close_Top", 0, 2, 0.035f, false);
+	Room2TopDoor0->ChangeAnimation("Idle_Top");
 
-	TopDoor3 = CreateRenderer();
-	TopDoor3->CreateAnimation("Top_Door_Idle_Animation.bmp", "Idle_Top", 0, 2, 0.035f, false);
-	TopDoor3->CreateAnimation("Top_Door_Animation.bmp", "Top", 0, 2, 0.035f, false);
-	TopDoor3->ChangeAnimation("Idle_Top");
-
-	BotDoor1 = CreateRenderer();
-	BotDoor1->CreateAnimation("Bot_Door_Idle_Animation.bmp", "Idle_Bot", 0, 2, 0.035f, false);
-	BotDoor1->CreateAnimation("Bot_Door_Animation.bmp", "Bot", 0, 2, 0.035f, false);
-	BotDoor1->ChangeAnimation("Idle_Bot");
-
-	RightDoor1 = CreateRenderer();
-	RightDoor1->CreateAnimation("Right_Door_Idle_Animation.bmp", "Idle_Right", 0, 2, 0.035f, false);
-	RightDoor1->CreateAnimation("Right_Door_Animation.bmp", "Down", 0, 2, 0.035f, false);
-	RightDoor1->ChangeAnimation("Idle_Right");
+	Room2BotDoor0 = CreateRenderer();
+	Room2BotDoor0->CreateAnimation("Bot_Door_Idle_Animation.bmp", "Idle_Bot", 0, 2, 0.035f, false);
+	Room2BotDoor0->CreateAnimation("Bot_Door_Open_Animation.bmp", "Open_Bot", 0, 2, 0.035f, false);
+	Room2BotDoor0->CreateAnimation("Bot_Door_Close_Animation.bmp", "Close_Bot", 0, 2, 0.035f, false);
+	Room2BotDoor0->ChangeAnimation("Idle_Bot");
 
 
 }

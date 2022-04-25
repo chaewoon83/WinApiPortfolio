@@ -142,13 +142,17 @@ void Zelda::TotalImageCut()
 	ImageCutter("Link_Carry_Move_Down.bmp", 5, 1);
 
 	//Map Object
-	ImageCutter("Right_Door_Animation.bmp", 3, 1);
+	ImageCutter("Right_Door_Open_Animation.bmp", 3, 1);
+	ImageCutter("Right_Door_Close_Animation.bmp", 3, 1);
 	ImageCutter("Right_Door_Idle_Animation.bmp", 3, 1);
-	ImageCutter("Left_Door_Animation.bmp", 3, 1);
+	ImageCutter("Left_Door_Open_Animation.bmp", 3, 1);
+	ImageCutter("Left_Door_Close_Animation.bmp", 3, 1);
 	ImageCutter("Left_Door_Idle_Animation.bmp", 3, 1);
-	ImageCutter("Top_Door_Animation.bmp", 1, 3);
+	ImageCutter("Top_Door_Open_Animation.bmp", 1, 3);
+	ImageCutter("Top_Door_Close_Animation.bmp", 1, 3);
 	ImageCutter("Top_Door_Idle_Animation.bmp", 1, 3);
-	ImageCutter("Bot_Door_Animation.bmp", 1, 3);
+	ImageCutter("Bot_Door_Open_Animation.bmp", 1, 3);
+	ImageCutter("Bot_Door_Close_Animation.bmp", 1, 3);
 	ImageCutter("Bot_Door_Idle_Animation.bmp", 1, 3);
 	ImageCutter("Pot_Destroyed.bmp", 8, 1);
 	ImageCutter("Pot.bmp", 1, 1);

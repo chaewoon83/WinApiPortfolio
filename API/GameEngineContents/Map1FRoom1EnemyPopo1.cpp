@@ -57,8 +57,8 @@ void Map1FRoom1EnemyPopo1::Start()
 {
 	SetPosition(PopoPos_);
 	PopoRenderer_ = CreateRenderer();
-	PopoRenderer_->CreateAnimation("EnemyPopo.bmp", "Idle", 0, 2, 0.15f, true);
-	PopoRenderer_->CreateAnimation("EnemyDeathEffect.bmp", "DeathEffect", 0, 6, 0.15f, false);
+	PopoRenderer_->CreateAnimationTimeKey("EnemyPopo.bmp", "Idle", 2, 0, 2, 0.15f, true);
+	PopoRenderer_->CreateAnimationTimeKey("EnemyDeathEffect.bmp", "DeathEffect", 2, 0, 6, 0.15f, false);
 	PopoRenderer_->ChangeAnimation("Idle");
 
 	//DeathEffectRenderer_ = CreateRenderer();
@@ -81,10 +81,10 @@ void Map1FRoom1EnemyPopo1::Render()
 
 void Map1FRoom1EnemyPopo1::GetDamaged()
 {
-	std::vector<GameEngineCollision*> ColList;
+
 	if (true == IsInvincible_)
 	{
-		CurInvincibleTime_ += GameEngineTime::GetDeltaTime();
+		CurInvincibleTime_ += GameEngineTime::GetDeltaTime(2);
 		if (InvincibleTime_ < CurInvincibleTime_)
 		{
 			IsInvincible_ = false;
@@ -93,30 +93,32 @@ void Map1FRoom1EnemyPopo1::GetDamaged()
 	}
 	if (false == IsInvincible_ && false == IsDeath_)
 	{
+		std::vector<GameEngineCollision*> ColList;
 		if (true == PopoCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect))
 		{
 			Hp_ -= 1;
 			IsInvincible_ = true;
 			IsBlink_ = true;
-			PopoChangeState(PopoState::Knockbacked);
 			IsKnockback_ = true;
 			IsBlink_ = true;
 			HitActor_ = ColList[0]->GetActor();
 			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 			KnockbackDir_.Normal2D();
+			PopoChangeState(PopoState::Knockbacked);
 		}
 
-		if (true == PopoCol_->CollisionResult("PotHitBox2", ColList, CollisionType::Rect, CollisionType::Rect))
+		if (true == PopoCol_->CollisionResult("PotHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
 		{
 			Hp_ -= 1;
 			IsInvincible_ = true;
-			PopoChangeState(PopoState::Knockbacked);
+
 			IsKnockback_ = true;
 			IsBlink_ = true;
 			HitActor_ = ColList[0]->GetActor();
 			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 			KnockbackDir_.Normal2D();
 			ColList[0]->Death();
+			PopoChangeState(PopoState::Knockbacked);
 		}
 
 		if (0 >= Hp_)
@@ -137,8 +139,8 @@ void Map1FRoom1EnemyPopo1::BlinkUpdate()
 
 	if (true == IsBlink_ && PopoState::Death != PopoCurState_ )
 	{
-		CurBlinkTime_ += GameEngineTime::GetDeltaTime();
-		CurBlinkFreq_ += GameEngineTime::GetDeltaTime();
+		CurBlinkTime_ += GameEngineTime::GetDeltaTime(2);
+		CurBlinkFreq_ += GameEngineTime::GetDeltaTime(2);
 		if (BlinkFreq_ < CurBlinkFreq_)
 		{
 			CurBlinkFreq_ = 0.0f;
@@ -195,7 +197,8 @@ void Map1FRoom1EnemyPopo1::DeathStart()
 void Map1FRoom1EnemyPopo1::IdleUpdate()
 {
 	GetDamaged();
-	CurRestTime_ += GameEngineTime::GetDeltaTime();
+	GameEngineTime* A =GameEngineTime::GetInst();
+	CurRestTime_ += GameEngineTime::GetDeltaTime(2);
 	if (MoveTimes_ == CurMoveTimes_)
 	{
 		CurMoveTimes_ = 0;
@@ -208,7 +211,7 @@ void Map1FRoom1EnemyPopo1::IdleUpdate()
 	}
 	if (RestTime_ < CurRestTime_)
 	{
-		CurMoveFreq_ += GameEngineTime::GetDeltaTime();
+		CurMoveFreq_ += GameEngineTime::GetDeltaTime(2);
 		if (MoveFreq_ < CurMoveFreq_)
 		{
 			CurMoveTimes_ += 1;
@@ -226,11 +229,11 @@ void Map1FRoom1EnemyPopo1::IdleUpdate()
 
 void Map1FRoom1EnemyPopo1::KnockbackedUpdate()
 {
-	CurKnockbackTime_ += GameEngineTime::GetDeltaTime();
+	CurKnockbackTime_ += GameEngineTime::GetDeltaTime(2);
 	int White = RGB(255, 255, 255);
 	if (true == PosAndColorCheck(White, PlayerLink::MapColImage_))
 	{
-		SetMove(KnockbackDir_ * KnockBackSpeed_ * GameEngineTime::GetDeltaTime());
+		SetMove(KnockbackDir_ * KnockBackSpeed_ * GameEngineTime::GetDeltaTime(2));
 	}
 	if (KnockbackTime_ < CurKnockbackTime_)
 	{

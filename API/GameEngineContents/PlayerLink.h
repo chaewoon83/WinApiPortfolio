@@ -44,6 +44,13 @@ private:
 	float KnockBackSpeed_;
 	GameEngineImage* MapPasImage_;
 	GameEngineCollision* PlayerCollision_;
+	GameEngineCollision* PlayerMoveCollision_;
+	GameEngineCollision* PlayerTopRightCollision_;
+	GameEngineCollision* PlayerTopLeftCollision_;
+	GameEngineCollision* PlayerBotRightCollision_;
+	GameEngineCollision* PlayerBotLeftCollision_;
+	GameEngineCollision* PlayerMiddleHorCollision_;
+	GameEngineCollision* PlayerMiddleVerCollision_;
 	GameEngineCollision* SwordCollision_;
 	GameEngineCollision* SwitchCollision_;
 
@@ -82,6 +89,7 @@ private:
 	static PlayerState PlayerPrevState_;
 
 	bool IsCharacterAutoMove_;
+	bool IsPlayerCanPassDoor_;
 	float4 AutoMoveDir_;
 
 	void PlayerAutoMove();
@@ -156,11 +164,20 @@ private:
 	void Room1Start();
 	void Room1Update();
 
+	void Room1_Trans_Start();
+	void Room1_Trans_Update();
+
 	void Room2Start();
 	void Room2Update();
 
+	void Room2_Trans_Start();
+	void Room2_Trans_Update();
+
 	void Room3Start();
 	void Room3Update();
+
+	void Room3_Trans_Start();
+	void Room3_Trans_Update();
 	/////////////////////////////////////////////////////////////////////Staris State
 private:
 	PlayerStairsState CurStairs_;
@@ -190,6 +207,10 @@ public:
 	inline static PlayerState GetPlayerPrevState()
 	{
 		return PlayerPrevState_;
+	}
+	inline static bool GetIsCarry()
+	{
+		return IsCarry_;
 	}
 	inline static CameraState GetPlayerCurRoomState()
 	{

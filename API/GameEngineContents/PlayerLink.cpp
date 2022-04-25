@@ -52,6 +52,7 @@ PlayerLink::PlayerLink()
 
 	 IsCameraAutoMove_(false),
 	 IsCharacterAutoMove_(false),
+	 IsPlayerCanPassDoor_(false),
 	 AutoMoveDir_(float4::ZERO),
 	 CurStairs_(PlayerStairsState::Top),
 	 IsOnStairs_(false),
@@ -82,7 +83,16 @@ void PlayerLink::Start()
 {
 	//충돌
 	PlayerCollision_ = CreateCollision("PlayerHitBox", {64, 64});
+	PlayerMoveCollision_ = CreateCollision("PlayerHitBox", {64, 64}, {0, 12});
+	PlayerTopRightCollision_ = CreateCollision("PlayerTopRightHitBox", {20, 20 }, { 22, -10 });
+	PlayerTopLeftCollision_ = CreateCollision("PlayerTopLeftHitBox", { 20, 20 }, { -22, -10 });
+	PlayerBotRightCollision_ = CreateCollision("PlayerBotRightHitBox", { 20, 20 }, { 22, 34 });
+	PlayerBotLeftCollision_ = CreateCollision("PlayerBotLeftHitBox", { 20, 20 }, { -22, 34 });
+	PlayerMiddleHorCollision_ = CreateCollision("PlayerBotLeftHitBox", { 64, 24 }, {0, 12});
+	PlayerMiddleVerCollision_ = CreateCollision("PlayerBotLeftHitBox", { 24, 64 }, {0, 12});
+	
 	//PlayerCollision_->Off();
+	//PlayerMoveCollision_->Off();
 
 	//GameEngineRenderer* ExampleRenderer;
 	//ExampleRenderer = CreateRenderer();
@@ -130,7 +140,7 @@ void PlayerLink::Start()
 	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Up.bmp", "Carry_Move_Up", 0, 4, 0.1f, true);
 	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Down.bmp", "Carry_Move_Down", 0, 4, 0.1f, true);
 
-
+	int a = PlayerRenderer_->GetOrder();
 	PlayerRenderer_->ChangeAnimation("Idle_Down");
 
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다
@@ -200,13 +210,9 @@ void PlayerLink::Update()
 
 		if (true == PlayerCollision_->CollisionResult("Switch", ColList, CollisionType::Rect, CollisionType::Rect))
 		{
-			for (size_t i = 0; i < ColList.size(); i++)
-			{
-				Map1F::TopDoor1->ChangeAnimation("Top");
-				ColList[i]->Death();
-			}
-
-			int a = 0;
+			Map1F::Room1TopDoor0->ChangeAnimation("Open_Top");
+			IsPlayerCanPassDoor_;
+			ColList[0]->Death();
 		}
 	}
 
@@ -313,11 +319,20 @@ void PlayerLink::CameraStateChange(CameraState _State)
 		case CameraState::Room1:
 			Room1Start();
 			break;
+		case CameraState::Room1_Trans:
+			Room1_Trans_Start();
+			break;
 		case CameraState::Room2:
 			Room2Start();
 			break;
+		case CameraState::Room2_Trans:
+			Room2_Trans_Start();
+			break;
 		case CameraState::Room3:
 			Room3Start();
+			break;
+		case CameraState::Room3_Trans:
+			Room3_Trans_Start();
 			break;
 		case CameraState::Max:
 			break;
@@ -335,11 +350,20 @@ void PlayerLink::CameraStateUpdate()
 	case CameraState::Room1:
 		Room1Update();
 		break;
+	case CameraState::Room1_Trans:
+		Room1_Trans_Update();
+		break;
 	case CameraState::Room2:
 		Room2Update();
 		break;
+	case CameraState::Room2_Trans:
+		Room2_Trans_Update();
+		break;
 	case CameraState::Room3:
 		Room3Update();
+		break;
+	case CameraState::Room3_Trans:
+		Room3_Trans_Update();
 		break;
 	case CameraState::Max:
 		break;

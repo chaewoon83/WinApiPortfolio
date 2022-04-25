@@ -17,7 +17,6 @@ Map1FRoom1Pot1::Map1FRoom1Pot1()
 	 BlockCol_(nullptr),
 	 PickUpCol_(nullptr),
 	 PotHitBox_(nullptr),
-	 PotHitBox2_(nullptr),
 	 PotPos_({ 3041.0f, 3451.0f }),
 	 MoveDir_(float4::ZERO),
 	 IsInRoom_(false),
@@ -39,11 +38,13 @@ void Map1FRoom1Pot1::Start()
 {
 	Renderer_ = CreateRenderer();
 	SetPosition(PotPos_);
-	BlockCol_ = CreateCollision("Pot", { 48, 48 });
+	BlockCol_ = CreateCollision("Block", { 48, 48 });
 	PickUpCol_ = CreateCollision("PotCarry", { 50, 50 });
-	Renderer_->CreateAnimation("Pot_Destroyed.bmp", "Pot_Destroyed", 0, 7, 0.05f, false);
-	Renderer_->CreateAnimation("Pot.bmp", "Pot", 0, 0, 0.05f, false);
+	Renderer_->CreateAnimationTimeKey("Pot_Destroyed.bmp", "Pot_Destroyed", 0, 0, 7, 0.05f, false);
+	Renderer_->CreateAnimationTimeKey("Pot.bmp", "Pot", 0, 0, 0, 0.05f, false);
 	Renderer_->ChangeAnimation("Pot");
+	Renderer_->SetOrder(1);
+
 }
  
 void Map1FRoom1Pot1::Update()
@@ -63,7 +64,7 @@ void Map1FRoom1Pot1::IdleStart()
 
 void Map1FRoom1Pot1::CarriedStart()
 {
-
+	Renderer_->SetOrder(3);
 }
 
 void Map1FRoom1Pot1::InAirStart()
@@ -71,18 +72,22 @@ void Map1FRoom1Pot1::InAirStart()
 	if (nullptr == PotHitBox_)
 	{
 		PotHitBox_ = CreateCollision("PotHitBox", { 48, 48 });
-		PotHitBox2_ = CreateCollision("PotHitBox2", { 48, 48 });
+		//PotHitBox2_ = CreateCollision("PotHitBox2", { 48, 48 });
 	}
 	CurYSpeed_ = YSpeed_;
 }
 
 void Map1FRoom1Pot1::DeathAnimationStart()
 {
-	if (false == PotHitBox2_->IsDeath())
+	//if (false == PotHitBox2_->IsDeath())
+	//{
+	//	PotHitBox2_->Death();
+	//}
+	if (false == PotHitBox_->IsDeath())
 	{
-		PotHitBox2_->Death();
+		PotHitBox_->Death();
 	}
-	PotHitBox_->Death();
+
 	PotHitBox_ = nullptr;
 	CurAirTime_ = 0.0f;
 	Renderer_->ChangeAnimationReset("Pot_Destroyed");
@@ -126,9 +131,9 @@ void Map1FRoom1Pot1::CarriedUpdate()
 		}
 	}
 
-	if (GameEngineInput::GetInst()->IsDown("Interact") && true == CheckPickUpEnd())
+	if (true == CheckPickUpEnd() && false == PlayerLink::GetIsCarry())
 	{
-
+		PlayerState A = dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState();
 		if (PlayerState::CarryMoveRight == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState() ||
 			PlayerState::CarryIdleRight == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerPrevState())
 		{
@@ -163,17 +168,17 @@ void Map1FRoom1Pot1::CarriedUpdate()
 
 void Map1FRoom1Pot1::InAirUpdate()
 {
-	CurAirTime_ += GameEngineTime::GetDeltaTime();
+	CurAirTime_ += GameEngineTime::GetDeltaTime(0);
 	if (AirTime_ < CurAirTime_)
 	{
 		PotStateChange(PotState::DeathAnimation);
 		return;
 	}
-	CurYSpeed_ += 1000.0f * GameEngineTime::GetDeltaTime();
-	SetMove(((MoveDir_ * Speed_) + float4{ 0, CurYSpeed_ }) * GameEngineTime::GetDeltaTime());
+	CurYSpeed_ += 1000.0f * GameEngineTime::GetDeltaTime(0);
+	SetMove(((MoveDir_ * Speed_) + float4{ 0, CurYSpeed_ }) * GameEngineTime::GetDeltaTime(0));
 
 	std::vector<GameEngineCollision*> ColList;
-	if (true == PotHitBox_->CollisionResult("MonsterHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
+	if (true == PotHitBox_->IsDeath())
 	{
 		PotStateChange(PotState::DeathAnimation);
 		return;
@@ -278,6 +283,7 @@ void Map1FRoom1Pot1::Reset()
 		BlockCol_ = CreateCollision("Pot", { 48, 48 });
 		PickUpCol_ = CreateCollision("PotCarry", { 50, 50 });
 		Renderer_->ChangeAnimation("Pot");
+		Renderer_->SetOrder(1);
 		PotStateChange(PotState::Idle);
 		Renderer_->On();
 	}

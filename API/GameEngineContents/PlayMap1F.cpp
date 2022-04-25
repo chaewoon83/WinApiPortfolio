@@ -36,6 +36,16 @@ PlayMap1F::~PlayMap1F()
 
 void PlayMap1F::Loading()
 {
+	// 0 은 플레이어
+	// 1 부터 Room1 Room2 ...
+	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(1, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(2, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(3, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(4, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(5, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(6, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(7, 0.0f);
 	CreateActor<Map1F>(static_cast<int>(PlayLevelOrder::BACKGROUND));
 
 	CreateActor<EnemyPopo>(static_cast<int>(PlayLevelOrder::MONSTER));

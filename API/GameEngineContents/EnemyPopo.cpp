@@ -80,10 +80,10 @@ void EnemyPopo::Render()
 
 void EnemyPopo::GetDamaged()
 {
-	std::vector<GameEngineCollision*> ColList;
+
 	if (true == IsInvincible_)
 	{
-		CurInvincibleTime_ += GameEngineTime::GetDeltaTime();
+		CurInvincibleTime_ += GameEngineTime::GetDeltaTime(0);
 		if (InvincibleTime_ < CurInvincibleTime_)
 		{
 			IsInvincible_ = false;
@@ -92,30 +92,32 @@ void EnemyPopo::GetDamaged()
 	}
 	if (false == IsInvincible_ && false == IsDeath_)
 	{
+		std::vector<GameEngineCollision*> ColList;
 		if (true == PopoCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect))
 		{
 			Hp_ -= 1;
 			IsInvincible_ = true;
 			IsBlink_ = true;
-			PopoChangeState(PopoState::Knockbacked);
 			IsKnockback_ = true;
 			IsBlink_ = true;
 			HitActor_ = ColList[0]->GetActor();
 			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 			KnockbackDir_.Normal2D();
+			PopoChangeState(PopoState::Knockbacked);
 		}
 
-		if (true == PopoCol_->CollisionResult("PotHitBox2", ColList, CollisionType::Rect, CollisionType::Rect))
+		if (true == PopoCol_->CollisionResult("PotHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
 		{
 			Hp_ -= 1;
 			IsInvincible_ = true;
-			PopoChangeState(PopoState::Knockbacked);
+
 			IsKnockback_ = true;
 			IsBlink_ = true;
 			HitActor_ = ColList[0]->GetActor();
 			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 			KnockbackDir_.Normal2D();
 			ColList[0]->Death();
+			PopoChangeState(PopoState::Knockbacked);
 		}
 
 		if (0 >= Hp_)
@@ -124,13 +126,11 @@ void EnemyPopo::GetDamaged()
 			IsDeath_ = true;
 
 			PopoCol_->Death();
-
 			return;
 		}
 	}
 
 }
-
 void EnemyPopo::BlinkUpdate()
 {
 

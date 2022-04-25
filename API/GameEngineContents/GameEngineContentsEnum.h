@@ -60,12 +60,19 @@ enum class PlayerState
 enum class CameraState
 {
 	Room1,
+	Room1_Trans,
 	Room2,
+	Room2_Trans,
 	Room3,
+	Room3_Trans,
 	Room4,
+	Room4_Trans,
 	Room5,
+	Room5_Trans,
 	Room6,
+	Room6_Trans,
 	Room7,
+	Room7_Trans,
 	Max
 };
 

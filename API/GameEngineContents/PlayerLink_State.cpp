@@ -8,6 +8,7 @@
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineLevel.h> // 레벨을 통해서
 #include <GameEngine/GameEngineCollision.h>
+#include "Map1F.h"
 #include "GameEngineContentsEnum.h"
 #include "Map1FBridge.h"
 
@@ -74,7 +75,7 @@ void PlayerLink::IdleUpdate()
 
 void PlayerLink::WieldUpdate()
 {
-	AnimationTimer_ += GameEngineTime::GetDeltaTime();
+	AnimationTimer_ += GameEngineTime::GetDeltaTime(0);
 	/////// Create Attack Collision
 	if (PlayerState::WieldRight == PlayerCurState_) 
 	{
@@ -536,11 +537,11 @@ void PlayerLink::WieldDownUpdate()
 
 void PlayerLink::DamagedUpdate()
 {
-	CurKnockbackTime_ += GameEngineTime::GetDeltaTime();
+	CurKnockbackTime_ += GameEngineTime::GetDeltaTime(0);
 	int Black = RGB(0, 0, 0);
 	if (true == PosAndColorCheck(Black, MapColImage_))
 	{
-		SetMove(KnockbackDir_ * KnockBackSpeed_ * GameEngineTime::GetDeltaTime());
+		SetMove(KnockbackDir_ * KnockBackSpeed_ * GameEngineTime::GetDeltaTime(0));
 	}
 	PlayerPrevState_;
 	if (KnockbackTime_ < CurKnockbackTime_)
@@ -700,34 +701,34 @@ void PlayerLink::MoveFunction()
 	bool MoveUp = false;
 	bool MoveDown = false;
 
-	//float DeltaTime = GameEngineTime::GetInst()->GetDeltaTime()
+	//float DeltaTime = GameEngineTime::GetInst()->GetDeltaTime(0)
 	//내가 키를 누르고있다면 움직이기
 	if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
 	{
 		MoveDir += float4::LEFT;
 		MoveLeft = true;
-		//SetMove(MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
+		//SetMove(MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_);
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
 	{
 		MoveDir += float4::RIGHT;
 		MoveRight = true;
-		//SetMove(MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
+		//SetMove(MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_);
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
 	{
 		MoveDir += float4::UP;
 		MoveUp = true;
-		//SetMove(MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
+		//SetMove(MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_);
 	}
 	if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
 	{
 		MoveDir += float4::DOWN;
 		MoveDown = true;
-		//SetMove(MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
+		//SetMove(MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_);
 	}
 
-	//SetMove(MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
+	//SetMove(MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_);
 	{
 		int Black = RGB(0, 0, 0);
 		float4 MyPos = GetPosition();
@@ -739,7 +740,7 @@ void PlayerLink::MoveFunction()
 		float4 MyPosLeft = MyPos + float4{ -32.0f, 0.0f };
 		float4 MyPosTop = MyPos + float4{ 0.0f, -21.0f };
 		float4 MyPosBot = MyPos + float4{ 0.0f, 43.0f };
-		float4 NextPos = GetPosition() + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
+		float4 NextPos = GetPosition() + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_);
 		float4 CheckPosTopRight = NextPos + float4{ 32.0f, -21.0f };
 		float4 CheckPosTopLeft = NextPos + float4{ -32.0f, -21.0f};
 		float4 CheckPosBotRight = NextPos + float4{ 32.0f, 43.0f };
@@ -767,18 +768,160 @@ void PlayerLink::MoveFunction()
 			Black != ColorTop &&
 			Black != ColorBot)
 		{
-			MoveDir.Normal2D();
-			SetMove(MoveDir * GameEngineTime::GetDeltaTime() * Speed_);
+			if (false == PlayerMoveCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+			{
+				MoveDir.Normal2D();
+				SetMove(MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_);
+			}
+			else
+			{
+				if (true == MoveRight)
+				{
+					if (false == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect) &&
+						false == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect) &&)
+					{
+						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
+					}
+
+					if (true == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					{
+						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						{
+							SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
+						}
+					}
+
+					if (true == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					{
+						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						{
+							SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * Speed_);
+						}
+					}
+				}
+
+				if (true == MoveLeft)
+				{
+					if (false == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect) &&
+						false == PlayerBotLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					{
+						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
+					}
+
+					if (true == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					{
+						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						{
+							SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
+						}
+					}
+
+					if (true == PlayerBotLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					{
+						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						{
+							SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * Speed_);
+						}
+					}
+				}
+				if (true == MoveUp)
+				{
+					if (false == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect) &&
+						false == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					{
+						SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * Speed_);
+					}
+
+					if (true == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					{
+						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						{
+							SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
+						}
+					}
+
+					if (true == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					{
+						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						{
+							SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
+						}
+					}
+				}
+				if (true == MoveDown)
+				{
+					if (false == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect) &&
+						false == PlayerBotLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					{
+						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
+					}
+
+					if (true == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					{
+						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						{
+							SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
+						}
+					}
+
+					if (true == PlayerBotLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					{
+						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						{
+							SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
+						}
+					}
+
+				}
+			}
 		}
 		else
 		{
+
+			if (true == MoveRight)
+			{
+				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosTop.y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosBotRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosBot.y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosRight.y }))
+				{
+					{
+						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
+					}
+				}
+
+				if (Black != MapColImage_->GetImagePixel(CheckPosRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosTopRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosTopLeft) &&
+					Black != MapColImage_->GetImagePixel(CheckPosLeft))
+				{
+					{
+						if (false == MoveUp)
+						{
+							SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * Speed_);
+						}
+					}
+
+				}
+
+				if (Black != MapColImage_->GetImagePixel(CheckPosRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosBotRight) &&
+					Black != MapColImage_->GetImagePixel(CheckPosTopLeft) &&
+					Black != MapColImage_->GetImagePixel(CheckPosBotLeft))
+				{
+					if (false == MoveDown)
+					{
+						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
+					}
+				}
+			}
+
 			if (true == MoveLeft)
 			{
-				if (Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosTopLeft.y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosBotLeft.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosBotLeft.y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosLeft.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosLeft.y }))
+				if (Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosTopLeft.y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosBotLeft.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosBotLeft.y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosLeft.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosLeft.y }))
 				{
-					SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * Speed_);
+					SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
 				}
 
 				if (Black != MapColImage_->GetImagePixel(CheckPosLeft) &&
@@ -788,7 +931,7 @@ void PlayerLink::MoveFunction()
 				{
 					if (false == MoveUp)
 					{
-						SetMove(float4::UP * GameEngineTime::GetDeltaTime() * Speed_);
+						SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * Speed_);
 					}
 				}
 				if (Black != MapColImage_->GetImagePixel(CheckPosLeft) &&
@@ -798,49 +941,18 @@ void PlayerLink::MoveFunction()
 				{
 					if (false == MoveDown)
 					{
-						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * Speed_);
-					}
-				}
-			}
-
-			if (true == MoveRight)
-			{
-				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosTop.y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosBotRight.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosBot.y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosRight.x + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).x, MyPosRight.y }))
-				{
-					SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * Speed_);
-				}
-
-				if (Black != MapColImage_->GetImagePixel(CheckPosRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosTopRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosTopLeft) &&
-					Black != MapColImage_->GetImagePixel(CheckPosBotLeft))
-				{
-					if (false == MoveUp)
-					{
-						SetMove(float4::UP * GameEngineTime::GetDeltaTime() * Speed_);
-					}
-				}
-				if (Black != MapColImage_->GetImagePixel(CheckPosRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosBotRight) &&
-					Black != MapColImage_->GetImagePixel(CheckPosTopLeft) &&
-					Black != MapColImage_->GetImagePixel(CheckPosBotLeft))
-				{
-					if (false == MoveDown)
-					{
-						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * Speed_);
+						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
 					}
 				}
 			}
 
 			if (true == MoveUp)
 			{
-				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosTop.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }))
+				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosTop.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).y }))
 				{
-					SetMove(float4::UP * GameEngineTime::GetDeltaTime() * Speed_);
+					SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * Speed_);
 				}
 
 				if (Black != MapColImage_->GetImagePixel(CheckPosTop) &&
@@ -850,7 +962,7 @@ void PlayerLink::MoveFunction()
 				{
 					if (false == MoveRight)
 					{
-						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * Speed_);
+						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
 					}
 				}
 
@@ -861,7 +973,7 @@ void PlayerLink::MoveFunction()
 				{
 					if (false == MoveLeft)
 					{
-						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * Speed_);
+						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
 					}
 				}
 			}
@@ -872,7 +984,7 @@ void PlayerLink::MoveFunction()
 					Black != MapColImage_->GetImagePixel({ MyPosBotLeft.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }) &&
 					Black != MapColImage_->GetImagePixel({ MyPosBot.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }))
 				{
-					SetMove(float4::DOWN * GameEngineTime::GetDeltaTime() * Speed_);
+					SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
 				}
 
 				if (Black != MapColImage_->GetImagePixel(CheckPosBot) &&
@@ -882,7 +994,7 @@ void PlayerLink::MoveFunction()
 				{
 					if (false == MoveRight)
 					{
-						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime() * Speed_);
+						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
 					}
 				}
 
@@ -893,7 +1005,7 @@ void PlayerLink::MoveFunction()
 				{
 					if (false == MoveLeft)
 					{
-						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime() * Speed_);
+						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
 					}
 				}
 
@@ -1145,24 +1257,13 @@ void PlayerLink::PotCarryCheck()
 
 void PlayerLink::Room1Start()
 {
-	RoomSize_[0] = { 2048, 4063 };
-	RoomSize_[1] = { 4095, 3088 };
-	IsCameraAutoMove_ = true;
-	IsCharacterAutoMove_ = true;
+	Map1F::Room1TopDoor0->ChangeAnimation("Close_Top");
+	Map1F::Room1Door0Col_ = CreateCollision("Block", { 128,96 }, { 3072, 3248 });
+	GameEngineTime::GetInst()->SetTimeScale(1, 1.0f);
 }
 
 void PlayerLink::Room1Update()
 {
-	/// ///////////////////////////////////////// Room Transition
-	if (true == IsCameraAutoMove_)
-	{
-		CameraAutoMove();
-	}
-
-	if (true == IsCharacterAutoMove_)
-	{
-		PlayerAutoMove();
-	}
 
 	/// ///////////////////////////////////////// Room Check
 	int Red = RGB(255, 0, 0);
@@ -1171,7 +1272,7 @@ void PlayerLink::Room1Update()
 	{
 		PrevCameraState_ = CameraState::Room1;
 		AutoMoveDir_ = float4::UP;
-		CameraStateChange(CameraState::Room2);
+		CameraStateChange(CameraState::Room2_Trans);
 		return;
 	}
 
@@ -1179,7 +1280,7 @@ void PlayerLink::Room1Update()
 	{
 		PrevCameraState_ = CameraState::Room1;
 		AutoMoveDir_ = float4::UP;
-		CameraStateChange(CameraState::Room2);
+		CameraStateChange(CameraState::Room2_Trans);
 		return;
 	}
 	/// ///////////////////////////////////////// CameraUpdate
@@ -1190,15 +1291,16 @@ void PlayerLink::Room1Update()
 
 }
 
-void PlayerLink::Room2Start()
+void PlayerLink::Room1_Trans_Start()
 {
+	GameEngineTime::GetInst()->SetTimeScale(2, 0.0f);
+	RoomSize_[0] = { 2048, 4063 };
+	RoomSize_[1] = { 4095, 3088 };
 	IsCameraAutoMove_ = true;
 	IsCharacterAutoMove_ = true;
-	RoomSize_[0] = { 2048, 2983 };
-	RoomSize_[1] = { 4095, 2019 };
 }
 
-void PlayerLink::Room2Update()
+void PlayerLink::Room1_Trans_Update()
 {
 	/// ///////////////////////////////////////// Room Transition
 	if (true == IsCameraAutoMove_)
@@ -1211,6 +1313,19 @@ void PlayerLink::Room2Update()
 		PlayerAutoMove();
 	}
 
+	if (false == IsCameraAutoMove_ && false == IsCharacterAutoMove_)
+	{
+		CameraStateChange(CameraState::Room1);
+	}
+}
+
+void PlayerLink::Room2Start()
+{
+	GameEngineTime::GetInst()->SetTimeScale(2, 1.0f);
+}
+
+void PlayerLink::Room2Update()
+{
 	/// ///////////////////////////////////////// Room Check
 	int Red = RGB(255, 0, 0);
 	int Yellow = RGB(255, 255, 0);
@@ -1219,7 +1334,7 @@ void PlayerLink::Room2Update()
 	{
 		PrevCameraState_ = CameraState::Room2;
 		AutoMoveDir_ = float4::DOWN;
-		CameraStateChange(CameraState::Room1);
+		CameraStateChange(CameraState::Room1_Trans);
 		return;
 	}
 
@@ -1227,7 +1342,7 @@ void PlayerLink::Room2Update()
 	{
 		PrevCameraState_ = CameraState::Room2;
 		AutoMoveDir_ = float4::DOWN;
-		CameraStateChange(CameraState::Room1);
+		CameraStateChange(CameraState::Room1_Trans);
 		return;
 	}
 
@@ -1235,7 +1350,7 @@ void PlayerLink::Room2Update()
 	{
 		PrevCameraState_ = CameraState::Room2;
 		AutoMoveDir_ = float4::UP;
-		CameraStateChange(CameraState::Room3);
+		CameraStateChange(CameraState::Room3_Trans);
 		return;
 	}
 
@@ -1247,12 +1362,39 @@ void PlayerLink::Room2Update()
 	}
 }
 
-void PlayerLink::Room3Start()
+void PlayerLink::Room2_Trans_Start()
 {
+	GameEngineTime::GetInst()->SetTimeScale(1, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(3, 0.0f);
 	IsCameraAutoMove_ = true;
 	IsCharacterAutoMove_ = true;
-	RoomSize_[0] = { 2048, 1955 };
-	RoomSize_[1] = { 4095, 0 };
+	RoomSize_[0] = { 2048, 2983 };
+	RoomSize_[1] = { 4095, 2019 };
+}
+
+void PlayerLink::Room2_Trans_Update()
+{
+	/// ///////////////////////////////////////// Room Transition
+	if (true == IsCameraAutoMove_)
+	{
+		CameraAutoMove();
+	}
+
+	if (true == IsCharacterAutoMove_)
+	{
+		PlayerAutoMove();
+	}
+
+	if (false == IsCameraAutoMove_ && false == IsCharacterAutoMove_)
+	{
+		CameraStateChange(CameraState::Room2);
+	}
+
+}
+
+void PlayerLink::Room3Start()
+{
+	GameEngineTime::GetInst()->SetTimeScale(3, 1.0f);
 }
 
 void PlayerLink::Room3Update()
@@ -1293,7 +1435,7 @@ void PlayerLink::Room3Update()
 	{
 		PrevCameraState_ = CameraState::Room3;
 		AutoMoveDir_ = float4::UP;
-		CameraStateChange(CameraState::Room7);
+		CameraStateChange(CameraState::Room7_Trans);
 		return;
 	}
 
@@ -1301,7 +1443,7 @@ void PlayerLink::Room3Update()
 	{
 		PrevCameraState_ = CameraState::Room3;
 		AutoMoveDir_ = float4::LEFT;
-		CameraStateChange(CameraState::Room4);
+		CameraStateChange(CameraState::Room4_Trans);
 		return;
 	}
 
@@ -1309,7 +1451,7 @@ void PlayerLink::Room3Update()
 	{
 		PrevCameraState_ = CameraState::Room3;
 		AutoMoveDir_ = float4::RIGHT;
-		CameraStateChange(CameraState::Room5);
+		CameraStateChange(CameraState::Room5_Trans);
 		return;
 	}
 
@@ -1317,7 +1459,7 @@ void PlayerLink::Room3Update()
 	{
 		PrevCameraState_ = CameraState::Room3;
 		AutoMoveDir_ = float4::DOWN;
-		CameraStateChange(CameraState::Room2);
+		CameraStateChange(CameraState::Room2_Trans);
 		return;
 	}
 
@@ -1344,6 +1486,36 @@ void PlayerLink::Room3Update()
 			return;
 		}
 	}
+}
+
+
+void PlayerLink::Room3_Trans_Start()
+{
+	GameEngineTime::GetInst()->SetTimeScale(2, 0.0f);
+	IsCameraAutoMove_ = true;
+	IsCharacterAutoMove_ = true;
+	RoomSize_[0] = { 2048, 1955 };
+	RoomSize_[1] = { 4095, 0 };
+}
+
+void PlayerLink::Room3_Trans_Update()
+{
+	/// ///////////////////////////////////////// Room Transition
+	if (true == IsCameraAutoMove_)
+	{
+		CameraAutoMove();
+	}
+
+	if (true == IsCharacterAutoMove_)
+	{
+		PlayerAutoMove();
+	}
+
+	if (false == IsCameraAutoMove_ && false == IsCharacterAutoMove_)
+	{
+		CameraStateChange(CameraState::Room3);
+	}
+
 }
 
 void PlayerLink::PlayerPrevStateCheck()

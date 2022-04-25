@@ -14,11 +14,11 @@ public:
 	Map1F& operator=(const Map1F& _Other) = delete;
 	Map1F& operator=(Map1F&& _Other) noexcept = delete;
 
-	static GameEngineRenderer* TopDoor1;
-	static GameEngineRenderer* TopDoor2;
-	static GameEngineRenderer* TopDoor3;
-	static GameEngineRenderer* BotDoor1;
-	static GameEngineRenderer* RightDoor1;
+	static GameEngineRenderer* Room1TopDoor0;
+	static GameEngineRenderer* Room2TopDoor0;
+	static GameEngineRenderer* Room2BotDoor0;
+	static GameEngineRenderer* Room3RightKeyDoor0;
+	static GameEngineCollision* Room1Door0Col_;
 
 protected:
 	void Start() override;
