@@ -161,6 +161,7 @@ void PlayerLink::CarryIdleUpdate()
 	/// ///////////////Throw
 	if (true == GameEngineInput::GetInst()->IsDown("Interact"))
 	{
+		IsCarry_ = false;
 		PlayerPrevState_ = PlayerCurState_;
 		if (PlayerState::CarryIdleRight == PlayerCurState_ && true == GameEngineInput::GetInst()->IsPress("MoveRight"))
 		{
@@ -243,6 +244,7 @@ void PlayerLink::CarryMoveUpdate()
 		//////////////////Throw
 		if (true == GameEngineInput::GetInst()->IsDown("Interact"))
 		{
+			IsCarry_ = false;
 			PlayerPrevState_ = PlayerCurState_;
 			if (PlayerState::CarryMoveRight == PlayerCurState_ && true == GameEngineInput::GetInst()->IsPress("MoveRight"))
 			{
@@ -1064,7 +1066,7 @@ void PlayerLink::CarryMoveDownStart()
 void PlayerLink::DamagedCheck()
 {
 	std::vector<GameEngineCollision*> ColList;
-	if (true == PlayerCollision_->CollisionResult("MonsterHitBox", ColList, CollisionType::Rect, CollisionType::Rect) && false == IsKnockback_)
+	if (true == PlayerCollision_->CollisionResult("MonsterHitBox", ColList, CollisionType::Rect, CollisionType::Rect) && false == IsKnockback_ && false == IsBlink_)
 	{
 		GetDamaged();
 		PlayerPrevState_ = PlayerCurState_;
@@ -1167,6 +1169,7 @@ void PlayerLink::Room1Update()
 	int Yellow = RGB(255, 255, 0);
 	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
+		PrevCameraState_ = CameraState::Room1;
 		AutoMoveDir_ = float4::UP;
 		CameraStateChange(CameraState::Room2);
 		return;
@@ -1174,6 +1177,7 @@ void PlayerLink::Room1Update()
 
 	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
+		PrevCameraState_ = CameraState::Room1;
 		AutoMoveDir_ = float4::UP;
 		CameraStateChange(CameraState::Room2);
 		return;
@@ -1213,6 +1217,7 @@ void PlayerLink::Room2Update()
 
 	if (true == PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
+		PrevCameraState_ = CameraState::Room2;
 		AutoMoveDir_ = float4::DOWN;
 		CameraStateChange(CameraState::Room1);
 		return;
@@ -1220,6 +1225,7 @@ void PlayerLink::Room2Update()
 
 	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
+		PrevCameraState_ = CameraState::Room2;
 		AutoMoveDir_ = float4::DOWN;
 		CameraStateChange(CameraState::Room1);
 		return;
@@ -1227,6 +1233,7 @@ void PlayerLink::Room2Update()
 
 	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
+		PrevCameraState_ = CameraState::Room2;
 		AutoMoveDir_ = float4::UP;
 		CameraStateChange(CameraState::Room3);
 		return;
@@ -1284,6 +1291,7 @@ void PlayerLink::Room3Update()
 
 	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
+		PrevCameraState_ = CameraState::Room3;
 		AutoMoveDir_ = float4::UP;
 		CameraStateChange(CameraState::Room7);
 		return;
@@ -1291,6 +1299,7 @@ void PlayerLink::Room3Update()
 
 	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveLeft == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
+		PrevCameraState_ = CameraState::Room3;
 		AutoMoveDir_ = float4::LEFT;
 		CameraStateChange(CameraState::Room4);
 		return;
@@ -1298,6 +1307,7 @@ void PlayerLink::Room3Update()
 
 	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveRight == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
+		PrevCameraState_ = CameraState::Room3;
 		AutoMoveDir_ = float4::RIGHT;
 		CameraStateChange(CameraState::Room5);
 		return;
@@ -1305,6 +1315,7 @@ void PlayerLink::Room3Update()
 
 	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
+		PrevCameraState_ = CameraState::Room3;
 		AutoMoveDir_ = float4::DOWN;
 		CameraStateChange(CameraState::Room2);
 		return;

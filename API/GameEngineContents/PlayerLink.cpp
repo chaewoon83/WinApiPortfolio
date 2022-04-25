@@ -39,6 +39,9 @@ GameEngineActor* PlayerLink::MainPlayer_ = nullptr;
 GameEngineActor* PlayerLink::CarryActor_ = nullptr;
 PlayerState PlayerLink::PlayerCurState_ = PlayerState::IdleDown;
 PlayerState PlayerLink::PlayerPrevState_ = PlayerState::Max;
+CameraState PlayerLink::CameraState_ = CameraState::Room1;
+CameraState PlayerLink::PrevCameraState_ = CameraState::Max;
+bool PlayerLink::IsCarry_ = false;
 int PlayerLink::CurrentAnimationFrame_ = -1;
 
 PlayerLink::PlayerLink()
@@ -46,7 +49,7 @@ PlayerLink::PlayerLink()
 	 HitActor_(nullptr),
 	 Speed_(350.0f),
 	 KnockBackSpeed_(350.0f),
-	 CameraState_(CameraState::Room1),
+
 	 IsCameraAutoMove_(false),
 	 IsCharacterAutoMove_(false),
 	 AutoMoveDir_(float4::ZERO),
@@ -60,7 +63,6 @@ PlayerLink::PlayerLink()
 	 IsGetDamaged_(false),
 	 IsKnockback_(false),
 	 IsBlink_(false),
-	 IsCarry_(false),
 	 KnockbackTime_(0.2f),
 	 CurKnockbackTime_(0.0f),
 	 BlinkTime_(1.5f),

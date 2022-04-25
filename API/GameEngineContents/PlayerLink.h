@@ -34,7 +34,7 @@ protected:
 public:
 	static GameEngineActor* MainPlayer_;
 	static GameEngineActor* CarryActor_;
-
+	static bool IsCarry_;
 private:
 	GameEngineActor* HitActor_;
 	GameEngineRenderer* PlayerRenderer_;
@@ -141,7 +141,8 @@ private:
 
 	/// ////////////////////////////////////////////////////////////////////Camera Movemnets
 private:
-	CameraState CameraState_;
+	static CameraState CameraState_;
+	static CameraState PrevCameraState_;
 	float4 RoomSize_[2];
 	bool IsCameraAutoMove_;
 
@@ -169,7 +170,6 @@ private:
 	bool IsGetDamaged_;
 	bool IsKnockback_;
 	bool IsBlink_;
-	bool IsCarry_;
 	float KnockbackTime_;
 	float CurKnockbackTime_;
 	float BlinkTime_;
@@ -178,6 +178,7 @@ private:
 	float CurBlinkFreq_;
 	bool IsAlphaOn_;
 	float4 KnockbackDir_;
+
 	void GetDamaged();
 	void PotCarryCheck();
 	/////////////////////////////////////////////////////////////////////Getter
@@ -189,6 +190,14 @@ public:
 	inline static PlayerState GetPlayerPrevState()
 	{
 		return PlayerPrevState_;
+	}
+	inline static CameraState GetPlayerCurRoomState()
+	{
+		return CameraState_;
+	}
+	inline static CameraState GetPlayerPrevRoomState()
+	{
+		return PrevCameraState_;
 	}
 	inline static int GetCurrentAnimationFrame_()
 	{

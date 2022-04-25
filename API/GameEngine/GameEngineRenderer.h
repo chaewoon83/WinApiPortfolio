@@ -216,6 +216,9 @@ public:
 	///////////////////////////////나만의 코드
 public:
 	void ChangeAnimation(const std::string& _Name);
+	///////////////////////////////나만의 코드
+	void ChangeAnimationReset(const std::string& _Name);
+	///////////////////////////////나만의 코드
 	void CreateAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex,
 		float _InterTime, bool _Loop = true);
 	void CreateFolderAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex, float _InterTime,

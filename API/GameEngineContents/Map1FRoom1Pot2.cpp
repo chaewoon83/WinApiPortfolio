@@ -1,4 +1,4 @@
-#include "Map1FRoom1Pot0.h"
+#include "Map1FRoom1Pot2.h"
 #include <windows.h>
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngine/GameEngineCollision.h>
@@ -7,17 +7,18 @@
 #include <GameEngine/GameEngineRenderer.h>
 #include "PlayerLink.h"
 
-//2536, 3428
+//3016, 3428
 //48, 48 (+1, -1)
 // ¿Þ¿À ´Þ¸±‹š (0,-6)
 
 
-Map1FRoom1Pot0::Map1FRoom1Pot0() 
+Map1FRoom1Pot2::Map1FRoom1Pot2() 
 	:Renderer_(nullptr),
 	 BlockCol_(nullptr),
 	 PickUpCol_(nullptr),
 	 PotHitBox_(nullptr),
-	 PotPos_({ 2561.0f, 3451.0f }),
+	 PotHitBox2_(nullptr),
+	 PotPos_({ 3585.0f, 3451.0f }),
 	 MoveDir_(float4::ZERO),
 	 IsInRoom_(false),
 	 Speed_(800.0f),
@@ -30,11 +31,11 @@ Map1FRoom1Pot0::Map1FRoom1Pot0()
 
 }
 
-Map1FRoom1Pot0::~Map1FRoom1Pot0() 
+Map1FRoom1Pot2::~Map1FRoom1Pot2() 
 {
 }
 
-void Map1FRoom1Pot0::Start()
+void Map1FRoom1Pot2::Start()
 {
 	Renderer_ = CreateRenderer();
 	SetPosition(PotPos_);
@@ -45,28 +46,29 @@ void Map1FRoom1Pot0::Start()
 	Renderer_->ChangeAnimation("Pot");
 }
  
-void Map1FRoom1Pot0::Update()
+void Map1FRoom1Pot2::Update()
 {
 	Reset();
 	PotStateUpdate();
 }
-void Map1FRoom1Pot0::Render()
+void Map1FRoom1Pot2::Render()
 {
 
 }
 
-void Map1FRoom1Pot0::IdleStart()
+void Map1FRoom1Pot2::IdleStart()
 {
 
 }
 
-void Map1FRoom1Pot0::CarriedStart()
+void Map1FRoom1Pot2::CarriedStart()
 {
 
 }
 
-void Map1FRoom1Pot0::InAirStart()
+void Map1FRoom1Pot2::InAirStart()
 {
+
 	if (nullptr == PotHitBox_)
 	{
 		PotHitBox_ = CreateCollision("PotHitBox", { 48, 48 });
@@ -75,7 +77,7 @@ void Map1FRoom1Pot0::InAirStart()
 	CurYSpeed_ = YSpeed_;
 }
 
-void Map1FRoom1Pot0::DeathAnimationStart()
+void Map1FRoom1Pot2::DeathAnimationStart()
 {
 	if (false == PotHitBox2_->IsDeath())
 	{
@@ -87,13 +89,13 @@ void Map1FRoom1Pot0::DeathAnimationStart()
 	Renderer_->ChangeAnimationReset("Pot_Destroyed");
 }
 
-void Map1FRoom1Pot0::DeathStart()
+void Map1FRoom1Pot2::DeathStart()
 {
 	IsInRoom_ = false;
 	Renderer_->Off();
 }
 
-void Map1FRoom1Pot0::IdleUpdate()
+void Map1FRoom1Pot2::IdleUpdate()
 {
 	if (PlayerLink::CarryActor_ == this)
 	{
@@ -106,7 +108,7 @@ void Map1FRoom1Pot0::IdleUpdate()
 	}
 }
 
-void Map1FRoom1Pot0::CarriedUpdate()
+void Map1FRoom1Pot2::CarriedUpdate()
 {
 	{
 		if (PlayerState::CarryMoveLeft == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerCurState() &&
@@ -160,7 +162,7 @@ void Map1FRoom1Pot0::CarriedUpdate()
 	}
 }
 
-void Map1FRoom1Pot0::InAirUpdate()
+void Map1FRoom1Pot2::InAirUpdate()
 {
 	CurAirTime_ += GameEngineTime::GetDeltaTime();
 	if (AirTime_ < CurAirTime_)
@@ -179,7 +181,7 @@ void Map1FRoom1Pot0::InAirUpdate()
 	}
 }
 
-void Map1FRoom1Pot0::DeathAnimationUpdate()
+void Map1FRoom1Pot2::DeathAnimationUpdate()
 {
 	if (true == Renderer_->IsEndAnimation())
 	{
@@ -189,12 +191,12 @@ void Map1FRoom1Pot0::DeathAnimationUpdate()
 	}
 }
 
-void Map1FRoom1Pot0::DeathUpdate()
+void Map1FRoom1Pot2::DeathUpdate()
 {
 
 }
 
-void Map1FRoom1Pot0::PotStateChange(PotState _State)
+void Map1FRoom1Pot2::PotStateChange(PotState _State)
 {
 	if (CurPotState_ != _State)
 	{
@@ -225,7 +227,7 @@ void Map1FRoom1Pot0::PotStateChange(PotState _State)
 
 }
 
-void Map1FRoom1Pot0::PotStateUpdate()
+void Map1FRoom1Pot2::PotStateUpdate()
 {
 	switch (CurPotState_)
 	{
@@ -252,7 +254,7 @@ void Map1FRoom1Pot0::PotStateUpdate()
 }
 
 
-bool Map1FRoom1Pot0::CheckPickUpEnd()
+bool Map1FRoom1Pot2::CheckPickUpEnd()
 {
 	if (PlayerState::CarryStartRight == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerCurState() ||
 		PlayerState::CarryStartLeft == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerCurState() ||
@@ -267,7 +269,7 @@ bool Map1FRoom1Pot0::CheckPickUpEnd()
 	}
 }
 
-void Map1FRoom1Pot0::Reset()
+void Map1FRoom1Pot2::Reset()
 {
 	if (CameraState::Room3 == PlayerLink::GetPlayerPrevRoomState() &&  false == IsInRoom_ && PotState::Death == CurPotState_)
 	{

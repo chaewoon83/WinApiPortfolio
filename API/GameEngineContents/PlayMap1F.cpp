@@ -18,7 +18,12 @@
 #include "Background.h"
 #include "TitleLevel.h"
 #include "EnemyPopo.h"
+
 #include "Map1FRoom1Pot0.h"
+#include "Map1FRoom1Pot1.h"
+#include "Map1FRoom1Pot2.h"
+
+#include "Map1FRoom1EnemyPopo1.h"
 
 PlayMap1F::PlayMap1F()
 {
@@ -35,10 +40,14 @@ void PlayMap1F::Loading()
 
 	CreateActor<EnemyPopo>(static_cast<int>(PlayLevelOrder::MONSTER));
 
+	CreateActor<Map1FRoom1EnemyPopo1>(static_cast<int>(PlayLevelOrder::MONSTER));
+
 	PlayerLink* Player = CreateActor<PlayerLink>(static_cast<int>(PlayLevelOrder::PLAYER));
 	PlayerLink::MainPlayer_ = Player;
 
 	CreateActor<Map1FRoom1Pot0>(static_cast<int>(PlayLevelOrder::MAPOBJECT));
+	CreateActor<Map1FRoom1Pot1>(static_cast<int>(PlayLevelOrder::MAPOBJECT));
+	CreateActor<Map1FRoom1Pot2>(static_cast<int>(PlayLevelOrder::MAPOBJECT));
 
 
 	CreateActor<Map1FRoof>(static_cast<int>(PlayLevelOrder::BACKGROUNDROOF));

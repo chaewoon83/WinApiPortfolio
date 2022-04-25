@@ -3,18 +3,18 @@
 #include "GameEngineContentsEnum.h"
 // Ό³Έν :
 class GameEngineImage;
-class EnemyPopo : public GameEngineActor
+class Map1FRoom1EnemyPopo1 : public GameEngineActor
 {
 public:
 	// constrcuter destructer
-	EnemyPopo();
-	~EnemyPopo();
+	Map1FRoom1EnemyPopo1();
+	~Map1FRoom1EnemyPopo1();
 
 	// delete Function
-	EnemyPopo(const EnemyPopo& _Other) = delete;
-	EnemyPopo(EnemyPopo&& _Other) noexcept = delete;
-	EnemyPopo& operator=(const EnemyPopo& _Other) = delete;
-	EnemyPopo& operator=(EnemyPopo&& _Other) noexcept = delete;
+	Map1FRoom1EnemyPopo1(const Map1FRoom1EnemyPopo1& _Other) = delete;
+	Map1FRoom1EnemyPopo1(Map1FRoom1EnemyPopo1&& _Other) noexcept = delete;
+	Map1FRoom1EnemyPopo1& operator=(const Map1FRoom1EnemyPopo1& _Other) = delete;
+	Map1FRoom1EnemyPopo1& operator=(Map1FRoom1EnemyPopo1&& _Other) noexcept = delete;
 
 protected:
 	void Start() override;
@@ -27,6 +27,8 @@ private:
 
 	GameEngineCollision* PopoCol_;
 	GameEngineActor* HitActor_;
+
+	float4 PopoPos_;
 
 	int Hp_;
 	float InvincibleTime_;

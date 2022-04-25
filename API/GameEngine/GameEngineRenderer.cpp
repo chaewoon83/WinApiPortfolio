@@ -152,6 +152,20 @@ void GameEngineRenderer::SetIndex(size_t _Index, float4 _Scale)
 
 
 //////////////////////////////////////////////////////////////////////////////////////////// Animation
+// 
+/////나만의 기능////////////////
+void GameEngineRenderer::ChangeAnimationReset(const std::string& _Name)
+{
+	std::map<std::string, FrameAnimation>::iterator FindIter = Animations_.find(_Name);
+	if (Animations_.end() == FindIter)
+	{
+		MsgBoxAssert("존재하지 않는 애니메이션으로 바꾸려 합니다");
+		return;
+	}
+	CurrentAnimation_ = &(FindIter->second); //FrameAnimation은 값형이다
+	CurrentAnimation_->Reset();
+}
+/////나만의 기능////////////////
 
 void GameEngineRenderer::ChangeAnimation(const std::string& _Name)
 {

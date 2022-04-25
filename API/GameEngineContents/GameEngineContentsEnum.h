@@ -81,6 +81,15 @@ enum class PotState
 	Idle,
 	Carried,
 	InAir,
+	DeathAnimation,
 	Death,
 	Max
+};
+
+enum class PopoState
+{
+	Idle,
+	Knockbacked,
+	Death,
+	Max,
 };
