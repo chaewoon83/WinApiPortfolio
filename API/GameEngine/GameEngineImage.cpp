@@ -219,6 +219,13 @@ void GameEngineImage::PlgCopy(GameEngineImage* _Other, const float4& _CopyPos,
 	const float4& _CopyScale,
 	const float4& _OtherPivot, const float4& _OtherScale, float _Angle, GameEngineImage* _Filter)
 {
+	//각도가 딱 180인경우 오류가 발생
+
+	if (_Angle == 180.0f)
+	{
+		_Angle = 180.00001f;
+	}
+
 	// 3개의 포인트를 넣어줘야 합니다.
 
 	POINT RotPoint[3];

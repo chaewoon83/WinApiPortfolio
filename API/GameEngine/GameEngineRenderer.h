@@ -64,6 +64,8 @@ public:
 
 	void SetIndex(size_t Index, float4 _Scale = { -1.0f, -1.0f });
 
+	void SetImageAnimationReset(const std::string& _Name);
+
 	inline void SetAlpha(unsigned int _Alpha)
 	{
 		Alpha_ = _Alpha;

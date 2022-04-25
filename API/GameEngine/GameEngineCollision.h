@@ -43,6 +43,17 @@ public:
 		return GameEngineRect(GetActor()->GetPosition() + Pivot_ + NextPos_, Scale_);
 	}
 
+	void CameraEffectOff()
+	{
+		IsCameraEffect_ = false;
+	}
+
+	void CameraEffectOn()
+	{
+		IsCameraEffect_ = true;
+	}
+
+
 	//충돌한 대상이 존재하다면 true리턴
 	bool CollisionCheck(const std::string& _TargetGroup, 
 		CollisionType _This = CollisionType::Circle, 
@@ -69,8 +80,10 @@ private:
 	float4 Pivot_;
 	//중심을 기준으로 한 크기
 	float4 Scale_;
-
+	//기본 0, NextPostCollisionCheck에서 쓰인다
 	float4 NextPos_;
+
+	bool IsCameraEffect_;
 
 	std::string CollisionName_;
 
