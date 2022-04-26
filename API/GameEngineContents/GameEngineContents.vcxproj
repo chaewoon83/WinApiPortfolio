@@ -242,7 +242,9 @@
     </ClInclude>
     <ClInclude Include="Map1FBridge.h" />
     <ClInclude Include="Map1FRoof.h" />
+    <ClInclude Include="Map1FRoom1EnemyPopo0.h" />
     <ClInclude Include="Map1FRoom1EnemyPopo1.h" />
+    <ClInclude Include="Map1FRoom1EnemyPopo2.h" />
     <ClInclude Include="Map1FRoom1Pot0.h">
       <SubType>
       </SubType>
@@ -266,10 +268,6 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayMapB1F.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
-    <ClInclude Include="Room1TopDoor0.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -429,7 +427,9 @@
     </ClCompile>
     <ClCompile Include="Map1FBridge.cpp" />
     <ClCompile Include="Map1FRoof.cpp" />
+    <ClCompile Include="Map1FRoom1EnemyPopo0.cpp" />
     <ClCompile Include="Map1FRoom1EnemyPopo1.cpp" />
+    <ClCompile Include="Map1FRoom1EnemyPopo2.cpp" />
     <ClCompile Include="Map1FRoom1Pot0.cpp">
       <SubType>
       </SubType>
@@ -454,10 +454,6 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayMapB1F.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
-    <ClCompile Include="Room1TopDoor0.cpp">
       <SubType>
       </SubType>
     </ClCompile>

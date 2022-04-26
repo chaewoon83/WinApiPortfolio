@@ -43,7 +43,7 @@ void Map1FRoom1Pot1::Start()
 	Renderer_->CreateAnimationTimeKey("Pot_Destroyed.bmp", "Pot_Destroyed", 0, 0, 7, 0.05f, false);
 	Renderer_->CreateAnimationTimeKey("Pot.bmp", "Pot", 0, 0, 0, 0.05f, false);
 	Renderer_->ChangeAnimation("Pot");
-	Renderer_->SetOrder(1);
+	Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 
 }
  
@@ -64,7 +64,7 @@ void Map1FRoom1Pot1::IdleStart()
 
 void Map1FRoom1Pot1::CarriedStart()
 {
-	Renderer_->SetOrder(3);
+	Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::ABOVEPLAYER));
 }
 
 void Map1FRoom1Pot1::InAirStart()
@@ -103,10 +103,8 @@ void Map1FRoom1Pot1::IdleUpdate()
 {
 	if (PlayerLink::CarryActor_ == this)
 	{
-		BlockCol_->Death();
-		PickUpCol_->Death();
-		BlockCol_ = nullptr;
-		PickUpCol_ = nullptr;
+		BlockCol_->Off();
+		PickUpCol_->Off();
 		PotStateChange(PotState::Carried);
 		return;
 	}
@@ -280,10 +278,10 @@ void Map1FRoom1Pot1::Reset()
 		IsInRoom_ = true;
 		CurYSpeed_ = 0;
 		SetPosition(PotPos_);
-		BlockCol_ = CreateCollision("Pot", { 48, 48 });
-		PickUpCol_ = CreateCollision("PotCarry", { 50, 50 });
+		BlockCol_->On();
+		PickUpCol_->On();
 		Renderer_->ChangeAnimation("Pot");
-		Renderer_->SetOrder(1);
+		Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 		PotStateChange(PotState::Idle);
 		Renderer_->On();
 	}

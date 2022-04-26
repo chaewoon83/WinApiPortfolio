@@ -40,10 +40,12 @@ void Map1FRoom1Pot0::Start()
 	SetPosition(PotPos_);
 	BlockCol_ = CreateCollision("Block", { 48, 48 });
 	PickUpCol_ = CreateCollision("PotCarry", { 50, 50 });
+	PotHitBox_ = CreateCollision("PotHitBox", { 48, 48 });
+	PotHitBox_->Off();
 	Renderer_->CreateAnimationTimeKey("Pot_Destroyed.bmp", "Pot_Destroyed", 0, 0, 7, 0.05f, false);
 	Renderer_->CreateAnimationTimeKey("Pot.bmp", "Pot", 0, 0, 0, 0.05f, false);
 	Renderer_->ChangeAnimation("Pot");
-	Renderer_->SetOrder(1);
+	Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 
 }
  
@@ -64,31 +66,25 @@ void Map1FRoom1Pot0::IdleStart()
 
 void Map1FRoom1Pot0::CarriedStart()
 {
-	Renderer_->SetOrder(3);
+	Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::ABOVEPLAYER));
 }
 
 void Map1FRoom1Pot0::InAirStart()
 {
-	if (nullptr == PotHitBox_)
+	if (false == PotHitBox_->IsUpdate())
 	{
-		PotHitBox_ = CreateCollision("PotHitBox", { 48, 48 });
-		//PotHitBox2_ = CreateCollision("PotHitBox2", { 48, 48 });
+		PotHitBox_->On();
 	}
 	CurYSpeed_ = YSpeed_;
 }
 
 void Map1FRoom1Pot0::DeathAnimationStart()
 {
-	//if (false == PotHitBox2_->IsDeath())
-	//{
-	//	PotHitBox2_->Death();
-	//}
-	if (false == PotHitBox_->IsDeath())
+	if (true == PotHitBox_->IsUpdate())
 	{
-		PotHitBox_->Death();
+		PotHitBox_->Off();
 	}
 
-	PotHitBox_ = nullptr;
 	CurAirTime_ = 0.0f;
 	Renderer_->ChangeAnimationReset("Pot_Destroyed");
 }
@@ -103,10 +99,8 @@ void Map1FRoom1Pot0::IdleUpdate()
 {
 	if (PlayerLink::CarryActor_ == this)
 	{
-		BlockCol_->Death();
-		PickUpCol_->Death();
-		BlockCol_ = nullptr;
-		PickUpCol_ = nullptr;
+		BlockCol_->Off();
+		PickUpCol_->Off();
 		PotStateChange(PotState::Carried);
 		return;
 	}
@@ -280,10 +274,10 @@ void Map1FRoom1Pot0::Reset()
 		IsInRoom_ = true;
 		CurYSpeed_ = 0;
 		SetPosition(PotPos_);
-		BlockCol_ = CreateCollision("Pot", { 48, 48 });
-		PickUpCol_ = CreateCollision("PotCarry", { 50, 50 });
+		BlockCol_->On();
+		PickUpCol_->On();
 		Renderer_->ChangeAnimation("Pot");
-		Renderer_->SetOrder(1);
+		Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 		PotStateChange(PotState::Idle);
 		Renderer_->On();
 	}

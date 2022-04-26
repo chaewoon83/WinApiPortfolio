@@ -147,8 +147,11 @@
     <ClInclude Include="Map1FRoom1Pot2.h">
       <Filter>Play\Map\Objects\Pot</Filter>
     </ClInclude>
-    <ClInclude Include="Room1TopDoor0.h">
-      <Filter>Play\Map\Objects\Door</Filter>
+    <ClInclude Include="Map1FRoom1EnemyPopo2.h">
+      <Filter>Play\Enemy\EnemyPopo</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom1EnemyPopo0.h">
+      <Filter>Play\Enemy\EnemyPopo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -300,8 +303,11 @@
     <ClCompile Include="Map1FRoom1Pot2.cpp">
       <Filter>Play\Map\Objects\Pot</Filter>
     </ClCompile>
-    <ClCompile Include="Room1TopDoor0.cpp">
-      <Filter>Play\Map\Objects\Door</Filter>
+    <ClCompile Include="Map1FRoom1EnemyPopo2.cpp">
+      <Filter>Play\Enemy\EnemyPopo</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom1EnemyPopo0.cpp">
+      <Filter>Play\Enemy\EnemyPopo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

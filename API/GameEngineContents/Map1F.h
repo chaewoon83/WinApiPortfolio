@@ -16,11 +16,17 @@ public:
 	Map1F& operator=(Map1F&& _Other) noexcept = delete;
 
 	static GameEngineRenderer* Room1TopDoor0_;
-	static GameEngineRenderer* Room2TopDoor0;
-	static GameEngineRenderer* Room2BotDoor0;
+	static GameEngineRenderer* Room2TopDoor0_;
+	static GameEngineRenderer* Room2BotDoor0_;
 	static GameEngineRenderer* Room3RightKeyDoor0;
-	static GameEngineCollision* SwitchCol_;
-	static GameEngineCollision* Room1Door0Col_;
+
+	static GameEngineCollision* Room1TopDoor0Col_;
+	static GameEngineCollision* Room2TopDoor0Col_;
+	static GameEngineCollision* Room2BotDoor0Col_;
+
+	static GameEngineCollision* Room1SwitchCol_;
+	//3012,2624 56,32 => 3040,2640
+	static GameEngineCollision* Room2SwitchCol_;
 
 protected:
 	void Start() override;
@@ -31,7 +37,17 @@ private:
 	void DoorAnimationCreate();
 	void PlaceDoor();
 
-	bool IsRoom1TopDoor0On_;
 	CameraState CurRoomState_;
+
+	//////////////////SwitchCheck
+	void Room1SwitchCheck();
+	bool IsRoom1TimeStop_;
+	bool IsRoom1PlayerOnSwitch_;
+	bool IsRoom1SwitchOn_;
+
+	void Room2SwitchCheck();
+	bool IsRoom2TimeStop_;
+	bool IsRoom2PlayerOnSwitch_;
+	bool IsRoom2SwitchOn_;
 };
 

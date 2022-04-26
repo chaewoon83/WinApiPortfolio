@@ -78,8 +78,9 @@ bool GameEngineCollision::CollisionCheck(const std::string& _TargetGroup,
 	{
 		if (false == (*StartIter)->IsUpdate() || true == (*StartIter)->IsDeath())
 		{
-			return false;
+			continue;
 		}
+
 		//나와 상대의 콜리전 타입을 비교한다
 		if (CollisionCheckArray[static_cast<int>(_This)][static_cast<int>(_Target)](this, *StartIter))
 		{
@@ -121,12 +122,11 @@ bool GameEngineCollision::NextPostCollisionCheck(
 	std::list<GameEngineCollision*>::iterator EndIter = TargetGroup.end();
 
 	NextPos_ = _NextPos;
-
 	for (; StartIter != EndIter; ++StartIter)
 	{
 		if (false == (*StartIter)->IsUpdate() || true == (*StartIter)->IsDeath())
 		{
-			return false;
+			continue;
 		}
 		if (CollisionCheckArray[static_cast<int>(_This)][static_cast<int>(_Target)](this, *StartIter))
 		{
@@ -135,7 +135,6 @@ bool GameEngineCollision::NextPostCollisionCheck(
 	}
 
 	NextPosReset();
-
 	return false;
 }
 
@@ -200,7 +199,7 @@ bool GameEngineCollision::CollisionResult(const std::string& _TargetGroup,
 	{
 		if (false == (*StartIter)->IsUpdate() || true == (*StartIter)->IsDeath())
 		{
-			return false;
+			continue;
 		}
 		//나와 상대의 콜리전 타입을 비교한다
 		if (CollisionCheckArray[static_cast<int>(_This)][static_cast<int>(_Target)](this, *StartIter))

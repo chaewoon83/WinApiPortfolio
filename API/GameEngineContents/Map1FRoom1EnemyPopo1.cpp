@@ -18,7 +18,7 @@
 Map1FRoom1EnemyPopo1::Map1FRoom1EnemyPopo1()
 	:PopoRenderer_(nullptr),
 	 PopoCol_(nullptr),
-	 PopoPos_({ 3104, 2503 }),
+	 PopoPos_({ 3040, 2439 }),
 	 IsInvincible_(false),
 	 IsDeath_(false),
 	 InvincibleTime_(0.3f),
@@ -117,7 +117,7 @@ void Map1FRoom1EnemyPopo1::GetDamaged()
 			HitActor_ = ColList[0]->GetActor();
 			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 			KnockbackDir_.Normal2D();
-			ColList[0]->Death();
+			ColList[0]->Off();
 			PopoChangeState(PopoState::Knockbacked);
 		}
 

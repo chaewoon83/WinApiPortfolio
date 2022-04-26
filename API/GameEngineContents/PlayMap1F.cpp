@@ -23,9 +23,10 @@
 #include "Map1FRoom1Pot1.h"
 #include "Map1FRoom1Pot2.h"
 
+#include "Map1FRoom1EnemyPopo0.h"
 #include "Map1FRoom1EnemyPopo1.h"
+#include "Map1FRoom1EnemyPopo2.h"
 
-#include "Room1TopDoor0.h"
 
 PlayMap1F::PlayMap1F()
 {
@@ -38,8 +39,9 @@ PlayMap1F::~PlayMap1F()
 
 void PlayMap1F::Loading()
 {
-	// 0 은 플레이어
+	// 0 은 플레이어 -1은 문
 	// 1 부터 Room1 Room2 ...
+	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(2, 0.0f);
@@ -50,18 +52,20 @@ void PlayMap1F::Loading()
 	GameEngineTime::GetInst()->SetTimeScale(7, 0.0f);
 	CreateActor<Map1F>(static_cast<int>(PlayLevelOrder::BACKGROUND));
 
-	CreateActor<Room1TopDoor0>(static_cast<int>(PlayLevelOrder::BACKGROUND));
+	//CreateActor<Room1TopDoor0>(static_cast<int>(PlayLevelOrder::BACKGROUND));
 
 	CreateActor<EnemyPopo>(static_cast<int>(PlayLevelOrder::MONSTER));
 
+	CreateActor<Map1FRoom1EnemyPopo0>(static_cast<int>(PlayLevelOrder::MONSTER));
 	CreateActor<Map1FRoom1EnemyPopo1>(static_cast<int>(PlayLevelOrder::MONSTER));
+	CreateActor<Map1FRoom1EnemyPopo2>(static_cast<int>(PlayLevelOrder::MONSTER));
 
 	PlayerLink* Player = CreateActor<PlayerLink>(static_cast<int>(PlayLevelOrder::PLAYER));
 	PlayerLink::MainPlayer_ = Player;
 
-	CreateActor<Map1FRoom1Pot0>(static_cast<int>(PlayLevelOrder::MAPOBJECT));
-	CreateActor<Map1FRoom1Pot1>(static_cast<int>(PlayLevelOrder::MAPOBJECT));
-	CreateActor<Map1FRoom1Pot2>(static_cast<int>(PlayLevelOrder::MAPOBJECT));
+	CreateActor<Map1FRoom1Pot0>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	CreateActor<Map1FRoom1Pot1>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	CreateActor<Map1FRoom1Pot2>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 
 
 	CreateActor<Map1FRoof>(static_cast<int>(PlayLevelOrder::BACKGROUNDROOF));

@@ -27,7 +27,6 @@ private:
 	GameEngineCollision* BlockCol_;
 	GameEngineCollision* PickUpCol_;
 	GameEngineCollision* PotHitBox_;
-	GameEngineCollision* PotHitBox2_;
 	float4 PotPos_;
 	float4 MoveDir_;
 	float Speed_;

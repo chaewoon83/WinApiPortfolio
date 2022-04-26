@@ -28,6 +28,7 @@ public:
 		BridgeActor_ = _BridgeActor;
 	}
 	static GameEngineImage* MapColImage_;
+	GameEngineImage* MapCarryColImage_;
 
 protected:
 
@@ -44,6 +45,7 @@ private:
 	float KnockBackSpeed_;
 	GameEngineImage* MapPasImage_;
 	GameEngineCollision* PlayerCollision_;
+	GameEngineCollision* PlayerLowerBodyCollision_;
 	GameEngineCollision* PlayerMoveCollision_;
 	GameEngineCollision* PlayerTopRightCollision_;
 	GameEngineCollision* PlayerTopLeftCollision_;
@@ -69,6 +71,7 @@ private:
 
 
 	void MoveFunction();
+	void MoveCarryFunction();
 	bool PosOrColorCheck(int _Color, GameEngineImage* _Image);
 	bool PosAndColorCheck(int _Color, GameEngineImage* _Image);
 	bool IsOnStairs_;
@@ -211,8 +214,7 @@ public:
 	{
 		return IsCarry_;
 	}
-	inline static CameraState GetPlayerCurRoomState()
-	{
+	inline static CameraState GetPlayerCurRoomState()	{
 		return CameraState_;
 	}
 	inline static CameraState GetPlayerPrevRoomState()
