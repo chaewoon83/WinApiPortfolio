@@ -76,6 +76,10 @@ bool GameEngineCollision::CollisionCheck(const std::string& _TargetGroup,
 
 	for (; StartIter != EndIter; ++StartIter)
 	{
+		if (false == (*StartIter)->IsUpdate() || true == (*StartIter)->IsDeath())
+		{
+			return false;
+		}
 		//나와 상대의 콜리전 타입을 비교한다
 		if (CollisionCheckArray[static_cast<int>(_This)][static_cast<int>(_Target)](this, *StartIter))
 		{
@@ -88,8 +92,8 @@ bool GameEngineCollision::CollisionCheck(const std::string& _TargetGroup,
 bool GameEngineCollision::NextPostCollisionCheck(
 	const std::string& _TargetGroup,
 	float4 _NextPos,
-	CollisionType _This /*= CollisionType::Circle*/,
-	CollisionType _Target /*= CollisionType::Circle*/
+	CollisionType _This /*= CollisionType::Rect*/,
+	CollisionType _Target /*= CollisionType::Rect*/
 )
 {
 	if (false == IsUpdate() || true == IsDeath())
@@ -120,6 +124,10 @@ bool GameEngineCollision::NextPostCollisionCheck(
 
 	for (; StartIter != EndIter; ++StartIter)
 	{
+		if (false == (*StartIter)->IsUpdate() || true == (*StartIter)->IsDeath())
+		{
+			return false;
+		}
 		if (CollisionCheckArray[static_cast<int>(_This)][static_cast<int>(_Target)](this, *StartIter))
 		{
 			return true;
@@ -160,8 +168,8 @@ void GameEngineCollision::DebugRender()
 
 bool GameEngineCollision::CollisionResult(const std::string& _TargetGroup,
 	std::vector<GameEngineCollision*>& _ColResult,
-	CollisionType _This /*= CollisionType::Circle*/,
-	CollisionType _Target /*= CollisionType::Circle*/)
+	CollisionType _This /*= CollisionType::Rect*/,
+	CollisionType _Target /*= CollisionType::Rect*/)
 {
 	if (false == IsUpdate() || true == IsDeath())
 	{
@@ -190,6 +198,10 @@ bool GameEngineCollision::CollisionResult(const std::string& _TargetGroup,
 
 	for (; StartIter != EndIter; ++StartIter)
 	{
+		if (false == (*StartIter)->IsUpdate() || true == (*StartIter)->IsDeath())
+		{
+			return false;
+		}
 		//나와 상대의 콜리전 타입을 비교한다
 		if (CollisionCheckArray[static_cast<int>(_This)][static_cast<int>(_Target)](this, *StartIter))
 		{

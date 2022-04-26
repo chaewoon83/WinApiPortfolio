@@ -64,20 +64,20 @@ public:
 
 	//충돌한 대상이 존재하다면 true리턴
 	bool CollisionCheck(const std::string& _TargetGroup, 
-		CollisionType _This = CollisionType::Circle, 
-		CollisionType _Target = CollisionType::Circle);
+		CollisionType _This = CollisionType::Rect,
+		CollisionType _Target = CollisionType::Rect);
 
 	bool NextPostCollisionCheck(
 		const std::string& _TargetGroup,
 		float4 NextPos,
-		CollisionType _This = CollisionType::Circle,
-		CollisionType _Target = CollisionType::Circle
+		CollisionType _This = CollisionType::Rect,
+		CollisionType _Target = CollisionType::Rect
 	);
 
 	bool CollisionResult(const std::string& _TargetGroup,
 		std::vector<GameEngineCollision*>& _ColResult,
-		CollisionType _This = CollisionType::Circle,
-		CollisionType _Target = CollisionType::Circle);
+		CollisionType _This = CollisionType::Rect,
+		CollisionType _Target = CollisionType::Rect);
 
 	void DebugRender();
 
