@@ -6,6 +6,7 @@
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngine/GameEngineImage.h>
 #include <GameEngineBase/GameEngineRandom.h>
+#include "GlobalRandom.h"
 #include "ItemGreenRupee.h"
 #include "ItemBlueRupee.h"
 
@@ -202,10 +203,9 @@ void Map1FRoom1EnemyPopo1::IdleUpdate()
 	if (MoveTimes_ == CurMoveTimes_)
 	{
 		CurMoveTimes_ = 0;
-		GameEngineRandom Random;
-		int RandomInt = Random.RandomInt(7, 9);
+		int RandomInt = GlobalRandom::RandomIntGenerate(7, 9);
 		MoveTimes_ = RandomInt;
-		RandomInt = Random.RandomInt(1, 8);
+		RandomInt = GlobalRandom::RandomIntGenerate(1, 8);
 		MoveDirCheck(RandomInt);
 		CurRestTime_ = 0;
 	}

@@ -25,7 +25,7 @@ public:
 	static GameEngineCollision* Room2BotDoor0Col_;
 
 	static GameEngineCollision* Room1SwitchCol_;
-	//3012,2624 56,32 => 3040,2640
+	//3012,2596 56,40 => 3040,2576
 	static GameEngineCollision* Room2SwitchCol_;
 
 protected:

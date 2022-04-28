@@ -208,6 +208,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="GameEngineContentsEnum.h" />
+    <ClInclude Include="GlobalRandom.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="ItemBlueRupee.h">
       <SubType>
       </SubType>
@@ -390,6 +394,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="EXMap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="GlobalRandom.cpp">
       <SubType>
       </SubType>
     </ClCompile>

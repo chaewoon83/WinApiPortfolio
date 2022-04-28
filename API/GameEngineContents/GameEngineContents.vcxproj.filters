@@ -153,6 +153,7 @@
     <ClInclude Include="Map1FRoom1EnemyPopo0.h">
       <Filter>Play\Enemy\EnemyPopo</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalRandom.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -309,6 +310,7 @@
     <ClCompile Include="Map1FRoom1EnemyPopo0.cpp">
       <Filter>Play\Enemy\EnemyPopo</Filter>
     </ClCompile>
+    <ClCompile Include="GlobalRandom.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">

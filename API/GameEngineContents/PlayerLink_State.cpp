@@ -586,6 +586,11 @@ void PlayerLink::MoveUpdate()
 		{
 			return;
 		}
+		PotCarryCheck();
+		if (true == IsCarry_)
+		{
+			return;
+		}
 		MoveFunction();
 
 		//Wield
@@ -693,11 +698,6 @@ void PlayerLink::MoveUpdate()
 				return;
 			}
 		}
-	}
-	PotCarryCheck();
-	if (true == IsCarry_)
-	{
-		return;
 	}
 }
 void PlayerLink::MoveFunction()

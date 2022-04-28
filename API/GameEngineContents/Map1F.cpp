@@ -54,7 +54,7 @@ void Map1F::Start()
 
 
 	Room1SwitchCol_ = CreateCollision("Switch", { 48, 40 }, { 3040, 3451 });
-	Room2SwitchCol_ = CreateCollision("Switch", { 56, 32 }, { 3040, 2640 });
+	Room2SwitchCol_ = CreateCollision("Switch", { 56, 40 }, { 3040, 2616 });
 }
 
 void Map1F::Update()
