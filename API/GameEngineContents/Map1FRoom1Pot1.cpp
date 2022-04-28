@@ -17,7 +17,7 @@ Map1FRoom1Pot1::Map1FRoom1Pot1()
 	 BlockCol_(nullptr),
 	 PickUpCol_(nullptr),
 	 PotHitBox_(nullptr),
-	 PotPos_({ 3041.0f, 3451.0f }),
+	 PotPos_({ 3041.0f, 3451.0f + 4128.0f }),
 	 MoveDir_(float4::ZERO),
 	 IsInRoom_(false),
 	 Speed_(800.0f),
@@ -273,7 +273,7 @@ bool Map1FRoom1Pot1::CheckPickUpEnd()
 
 void Map1FRoom1Pot1::Reset()
 {
-	if (CameraState::Room3 == PlayerLink::GetPlayerPrevRoomState() &&  false == IsInRoom_ && PotState::Death == CurPotState_)
+	if (CameraState::Room4 == PlayerLink::GetPlayerPrevRoomState() &&  false == IsInRoom_ && PotState::Death == CurPotState_)
 	{
 		IsInRoom_ = true;
 		CurYSpeed_ = 0;

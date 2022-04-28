@@ -35,17 +35,22 @@
 //빨간색 -> 닫힌 문 이동
 
 GameEngineImage* PlayerLink::MapColImage_ = nullptr;
+bool PlayerLink::IsMap1F_2 = false;
 GameEngineActor* PlayerLink::MainPlayer_ = nullptr;
 GameEngineActor* PlayerLink::CarryActor_ = nullptr;
 PlayerState PlayerLink::PlayerCurState_ = PlayerState::IdleDown;
 PlayerState PlayerLink::PlayerPrevState_ = PlayerState::Max;
 CameraState PlayerLink::CameraState_ = CameraState::Room1;
 CameraState PlayerLink::PrevCameraState_ = CameraState::Max;
+PlayerStairsState PlayerLink::CurStairs_ = PlayerStairsState::Top;
+bool PlayerLink::IsOnStairs_ = false;
 bool PlayerLink::IsCarry_ = false;
 int PlayerLink::CurrentAnimationFrame_ = -1;
 
 PlayerLink::PlayerLink()
-	:BridgeActor_(nullptr),
+	:MapColImage_1_(nullptr),
+	 MapColImage_2_(nullptr),
+	 BridgeActor_(nullptr),
 	 MapCarryColImage_(nullptr),
 	 PlayerLowerBodyCollision_(nullptr),
 	 HitActor_(nullptr),
@@ -54,8 +59,6 @@ PlayerLink::PlayerLink()
 	 IsCameraAutoMove_(false),
 	 IsCharacterAutoMove_(false),
 	 AutoMoveDir_(float4::ZERO),
-	 CurStairs_(PlayerStairsState::Top),
-	 IsOnStairs_(false),
 	 PlayerCollision_(nullptr),
 	 SwordCollision_(nullptr),
 	 AnimationTimer_(0.0f),
@@ -157,16 +160,22 @@ void PlayerLink::Start()
 		GameEngineInput::GetInst()->CreateKey("Attack", 'K');
 		GameEngineInput::GetInst()->CreateKey("InterAct", 'L');
 		GameEngineInput::GetInst()->CreateKey("Debug", '9');
-
-
-
 	}
-	MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_ColMap.bmp");
+	MapColImage_1_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_ColMap.bmp");
 
-	if (nullptr == MapColImage_)
+	if (nullptr == MapColImage_1_)
 	{
 		MsgBoxAssert("충돌용 맵을 찾지 못했습니다");
 	}
+
+	MapColImage_2_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_1F_ColMap.bmp");
+
+	if (nullptr == MapColImage_2_)
+	{
+		MsgBoxAssert("충돌용 맵을 찾지 못했습니다");
+	}
+
+	MapColImage_ = MapColImage_1_;
 
 	MapCarryColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_CarryColMap.bmp");
 
@@ -175,15 +184,23 @@ void PlayerLink::Start()
 		MsgBoxAssert("충돌용 맵을 찾지 못했습니다");
 	}
 
-	MapPasImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_PasMap.bmp");
+	MapPasImage_1 = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_PasMap.bmp");
 
-	if (nullptr == MapPasImage_)
+	if (nullptr == MapPasImage_1)
 	{
 		MsgBoxAssert("통로 맵을 찾지 못했습니다");
 	}
 
-	RoomSize_[0] = { 2048, 4063 };
-	RoomSize_[1] = { 4095, 3088 };
+	MapPasImage_2 = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_1F_PasMap.bmp");
+
+	if (nullptr == MapPasImage_2)
+	{
+		MsgBoxAssert("통로 맵을 찾지 못했습니다");
+	}
+	MapPasImage_ = MapPasImage_1;
+
+	RoomSize_[0] = { 2048, 4063 + 4128 };
+	RoomSize_[1] = { 4095, 3088 + 4128 };
 }
  
 void PlayerLink::Update()
@@ -192,28 +209,26 @@ void PlayerLink::Update()
 	{
 		GetLevel()->IsDebugModeSwitch();
 	}
+
+	if (4128 > GetPosition().iy() && false == IsMap1F_2)
+	{
+		IsMap1F_2 = true;
+		MapColImage_ = MapColImage_2_;
+		MapPasImage_ = MapPasImage_2;
+	}
+	if (4128 <= GetPosition().iy() && true == IsMap1F_2)
+	{
+		IsMap1F_2 = false;
+		MapColImage_ = MapColImage_1_;
+		MapPasImage_ = MapPasImage_1;
+	}
+
 	PlayerStateUpdate();
 	CameraStateUpdate();
 	//애니메이셔 프레임 받기
 	CurrentAnimationFrame_ = PlayerRenderer_->GetCurrentAnimationFrame();
 	BlinkUpdate();
 	
-	float4 Postion = GetPosition();
-
-	//장비 사용 관련
-
-	//{
-	//	if (true == GameEngineInput::GetInst()->IsDown("Fire"))
-	//	{
-	//		Boomerang* Ptr = GetLevel()->CreateActor<Boomerang>((int)PlayLevelOrder::PLAYER);
-	//		Ptr->SetPosition(GetPosition());
-	//	}
-	//}	
-	
-	//3016,3468 48x40
-	//3040,3488
-	//충돌 관련
-
 
 }
 //렌더러가 다 돌고 액터들의 랜더함수를 호출한다
@@ -327,11 +342,17 @@ void PlayerLink::CameraStateChange(CameraState _State)
 		case CameraState::Room2_Trans:
 			Room2_Trans_Start();
 			break;
-		case CameraState::Room3:
-			Room3Start();
+		case CameraState::Room4:
+			Room4Start();
 			break;
-		case CameraState::Room3_Trans:
-			Room3_Trans_Start();
+		case CameraState::Room4_Trans:
+			Room4_Trans_Start();
+			break;
+		case CameraState::Room10:
+			Room10Start();
+			break;
+		case CameraState::Room10_Trans:
+			Room10_Trans_Start();
 			break;
 		case CameraState::Max:
 			break;
@@ -358,11 +379,17 @@ void PlayerLink::CameraStateUpdate()
 	case CameraState::Room2_Trans:
 		Room2_Trans_Update();
 		break;
-	case CameraState::Room3:
-		Room3Update();
+	case CameraState::Room4:
+		Room4Update();
 		break;
-	case CameraState::Room3_Trans:
-		Room3_Trans_Update();
+	case CameraState::Room4_Trans:
+		Room4_Trans_Update();
+		break;
+	case CameraState::Room10:
+		Room10Update();
+		break;
+	case CameraState::Room10_Trans:
+		Room10_Trans_Update();
 		break;
 	case CameraState::Max:
 		break;
@@ -374,11 +401,16 @@ void PlayerLink::CameraStateUpdate()
 bool PlayerLink::PosOrColorCheck(int _Color, GameEngineImage* _Image)
 {
 	float4 MyPos = GetPosition();
+	float4 Map1f_2_Scale = float4{ 0, -4128 };
+	if (false == IsMap1F_2)
+	{
+		MyPos += Map1f_2_Scale;
+	}
 	float4 MyPosTopRight = MyPos + float4{ 32.0f, -21.0f };
 	float4 MyPosTopLeft = MyPos + float4{ -32.0f, -21.0f };
 	float4 MyPosBotRight = MyPos + float4{ 32.0f, 43.0f };
 	float4 MyPosBotLeft = MyPos + float4{ -32.0f, 43.0f };
-	float4 MyPosRight = MyPos + float4{ +32.0f,  0.0f };
+	float4 MyPosRight = MyPos + float4{ 32.0f, 0.0f };
 	float4 MyPosLeft = MyPos + float4{ -32.0f, 0.0f };
 	float4 MyPosTop = MyPos + float4{ 0.0f, -21.0f };
 	float4 MyPosBot = MyPos + float4{ 0.0f, 43.0f };
@@ -391,6 +423,9 @@ bool PlayerLink::PosOrColorCheck(int _Color, GameEngineImage* _Image)
 	int ColorLeft = _Image->GetImagePixel(MyPosLeft);
 	int ColorTop = _Image->GetImagePixel(MyPosTop);
 	int ColorBot = _Image->GetImagePixel(MyPosBot);
+
+
+
 	if (_Color == ColorTopRight ||
 		_Color == ColorTopLeft ||
 		_Color == ColorBotRight ||
@@ -408,11 +443,16 @@ bool PlayerLink::PosOrColorCheck(int _Color, GameEngineImage* _Image)
 bool PlayerLink::PosAndColorCheck(int _Color, GameEngineImage* _Image)
 {
 	float4 MyPos = GetPosition();
+	float4 Map1f_2_Scale = float4{ 0, -4128 };
+	if (false == IsMap1F_2)
+	{
+		MyPos += Map1f_2_Scale;
+	}
 	float4 MyPosTopRight = MyPos + float4{ 32.0f, -21.0f };
 	float4 MyPosTopLeft = MyPos + float4{ -32.0f, -21.0f };
 	float4 MyPosBotRight = MyPos + float4{ 32.0f, 43.0f };
 	float4 MyPosBotLeft = MyPos + float4{ -32.0f, 43.0f };
-	float4 MyPosRight = MyPos + float4{ +32.0f,  0.0f };
+	float4 MyPosRight = MyPos + float4{ 32.0f, 0.0f };
 	float4 MyPosLeft = MyPos + float4{ -32.0f, 0.0f };
 	float4 MyPosTop = MyPos + float4{ 0.0f, -21.0f };
 	float4 MyPosBot = MyPos + float4{ 0.0f, 43.0f };
@@ -425,6 +465,9 @@ bool PlayerLink::PosAndColorCheck(int _Color, GameEngineImage* _Image)
 	int ColorLeft = _Image->GetImagePixel(MyPosLeft);
 	int ColorTop = _Image->GetImagePixel(MyPosTop);
 	int ColorBot = _Image->GetImagePixel(MyPosBot);
+
+
+
 	if (_Color != ColorTopRight &&
 		_Color != ColorTopLeft &&
 		_Color != ColorBotRight &&

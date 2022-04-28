@@ -3,6 +3,7 @@
 enum class PlayLevelOrder
 {
 	BACKGROUND,
+	DEBUG,
 	MONSTER,
 	BELOWPLAYER,
 	PLAYER,
@@ -74,6 +75,20 @@ enum class CameraState
 	Room6_Trans,
 	Room7,
 	Room7_Trans,
+	Room8,
+	Room8_Trans,
+	Room9,
+	Room9_Trans,
+	Room10,
+	Room10_Trans,
+	Room11,
+	Room11_Trans,
+	Room12,
+	Room12_Trans,
+	Room13,
+	Room13_Trans,
+	Room14,
+	Room14_Trans,
 	Max
 };
 

@@ -49,9 +49,10 @@ public:
 	//void TransCopyCenterPivot(GameEngineImage* _Other, const float4& _CopyPos, const float4& _CopyPivot);
 	//void TransCopyBot(GameEngineImage* _Other, const float4& _CopyPos);
 	//void TransCopyBotPivot(GameEngineImage* _Other, const float4& _CopyPos, const float4& _CopyPivot);
-	void TransCopyCenterScaleAndPos(GameEngineImage* _Other, const float4& _CopyPos, const float4& _RenderPivot, const float4& _RenderScale, unsigned int _TransColor);
-	void TransCopyCenterScale(GameEngineImage* _Other, const float4& _CopyPos, const float4& _RenderScale, unsigned int _TransColor);
-	void TransCopyCenter(GameEngineImage* _Other, const float4& _CopyPos, unsigned int _TransColor);
+	// 
+	//void TransCopyCenterScaleAndPos(GameEngineImage* _Other, const float4& _CopyPos, const float4& _RenderPivot, const float4& _RenderScale, unsigned int _TransColor);
+	//void TransCopyCenterScale(GameEngineImage* _Other, const float4& _CopyPos, const float4& _RenderScale, unsigned int _TransColor);
+	//void TransCopyCenter(GameEngineImage* _Other, const float4& _CopyPos, unsigned int _TransColor);
 
 	void TransCopy(GameEngineImage* _Other, const float4& _CopyPos,
 		const float4& _CopyScale,
@@ -98,6 +99,17 @@ public:
 	{
 		return GetImagePixel(_Pos.ix(), _Pos.iy());
 	}
+
+	/// ///////////////////////////////나만의 코드
+
+	inline int GetImagePixelScale(const float4& _Pos, const float4& _Scale)
+	{
+		return GetImagePixel(_Pos.ix() + _Scale.ix(), _Pos.iy() + _Scale.iy());
+	}
+
+	int GetImagePixelScale(int _x, int _y, int _Scale_x, int _Scale_y);
+
+	/// ///////////////////////////////나만의 코드
 	int GetImagePixel(int _x, int _y);
 
 

@@ -28,7 +28,14 @@ public:
 		BridgeActor_ = _BridgeActor;
 	}
 	static GameEngineImage* MapColImage_;
+	GameEngineImage* MapColImage_1_;
+	GameEngineImage* MapColImage_2_;
+
 	GameEngineImage* MapCarryColImage_;
+
+private:
+	GameEngineImage* CheckColMap(float4& _Pos);
+	static bool IsMap1F_2;
 
 protected:
 
@@ -44,6 +51,8 @@ private:
 	float Speed_;
 	float KnockBackSpeed_;
 	GameEngineImage* MapPasImage_;
+	GameEngineImage* MapPasImage_1;
+	GameEngineImage* MapPasImage_2;
 	GameEngineCollision* PlayerCollision_;
 	GameEngineCollision* PlayerLowerBodyCollision_;
 	GameEngineCollision* PlayerMoveCollision_;
@@ -74,7 +83,7 @@ private:
 	void MoveCarryFunction();
 	bool PosOrColorCheck(int _Color, GameEngineImage* _Image);
 	bool PosAndColorCheck(int _Color, GameEngineImage* _Image);
-	bool IsOnStairs_;
+	static bool IsOnStairs_;
 	void CheckDirection();
 	void BlinkUpdate();
 
@@ -175,14 +184,22 @@ private:
 	void Room2_Trans_Start();
 	void Room2_Trans_Update();
 
-	void Room3Start();
-	void Room3Update();
+	void Room4Start();
+	void Room4Update();
 
-	void Room3_Trans_Start();
-	void Room3_Trans_Update();
+	void Room4_Trans_Start();
+	void Room4_Trans_Update();
+
+	void Room10Start();
+	void Room10Update();
+
+	void Room10_Trans_Start();
+	void Room10_Trans_Update();
+
+	void ResetTimeScale(int _x);
 	/////////////////////////////////////////////////////////////////////Staris State
 private:
-	PlayerStairsState CurStairs_;
+	static PlayerStairsState CurStairs_;
 
 	/////////////////////////////////////////////////////////////////////Combat
 	int Hp_;
@@ -224,6 +241,18 @@ public:
 	inline static int GetCurrentAnimationFrame_()
 	{
 		return CurrentAnimationFrame_;
+	}
+	inline static PlayerStairsState GetPlayerStairsState()
+	{
+		return CurStairs_;
+	}
+	inline static bool GetIsOnStairs()
+	{
+		return IsOnStairs_;
+	}
+	inline static bool GetIsMap1F_2()
+	{
+		return IsMap1F_2;
 	}
 };
 

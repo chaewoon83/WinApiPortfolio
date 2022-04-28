@@ -54,7 +54,7 @@ EnemyPopo::~EnemyPopo()
 
 void EnemyPopo::Start()
 {
-	SetPosition({3071,3550});
+	SetPosition({3071,3550 + 4128.0f });
 	PopoRenderer_ = CreateRenderer();
 	PopoRenderer_->CreateAnimation("EnemyPopo.bmp", "Idle", 0, 2, 0.15f, true);
 	PopoRenderer_->CreateAnimation("EnemyDeathEffect.bmp", "DeathEffect", 0, 6, 0.15f, false);
@@ -328,11 +328,16 @@ void EnemyPopo::PopoStateUpdate()
 bool EnemyPopo::PosAndColorCheck(int _Color, GameEngineImage* _Image)
 {
 	float4 MyPos = GetPosition();
+	float4 Map1f_2_Scale = float4{ 0, -4128 };
+	if (false == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetIsMap1F_2())
+	{
+		MyPos += Map1f_2_Scale;
+	}
 	float4 MyPosTopRight = MyPos + float4{ 32.0f, -32.0f };
-	float4 MyPosTopLeft = MyPos + float4{ 32.0f, -32.0f };
+	float4 MyPosTopLeft = MyPos + float4{ -32.0f, -32.0f };
 	float4 MyPosBotRight = MyPos + float4{ 32.0f, 32.0f };
 	float4 MyPosBotLeft = MyPos + float4{ -32.0f, 32.0f };
-	float4 MyPosRight = MyPos + float4{ +32.0f,  0.0f };
+	float4 MyPosRight = MyPos + float4{ 32.0f, 0.0f };
 	float4 MyPosLeft = MyPos + float4{ -32.0f, 0.0f };
 	float4 MyPosTop = MyPos + float4{ 0.0f, -32.0f };
 	float4 MyPosBot = MyPos + float4{ 0.0f, 32.0f };
@@ -345,6 +350,9 @@ bool EnemyPopo::PosAndColorCheck(int _Color, GameEngineImage* _Image)
 	int ColorLeft = _Image->GetImagePixel(MyPosLeft);
 	int ColorTop = _Image->GetImagePixel(MyPosTop);
 	int ColorBot = _Image->GetImagePixel(MyPosBot);
+
+
+
 	if (_Color == ColorTopRight &&
 		_Color == ColorTopLeft &&
 		_Color == ColorBotRight &&

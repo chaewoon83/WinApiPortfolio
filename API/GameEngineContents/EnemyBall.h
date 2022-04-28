@@ -1,5 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+
+class GameEngineRenderer;
 // Ό³Έν :
 class EnemyBall : public GameEngineActor
 {
@@ -19,6 +21,10 @@ protected:
 	void Update() override;
 	void Render() override;
 private:
+	float DeathTime_;
+	float CurDeathTime_;
+
+	GameEngineRenderer* Renderer_;
 
 };
 

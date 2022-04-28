@@ -8,7 +8,7 @@
 #include <GameEngine/GameEngineActor.h>
 #include <GameEngine/GameEngineLevel.h> // 레벨을 통해서
 #include <GameEngine/GameEngineCollision.h>
-#include "Map1F.h"
+#include "Map1F_2.h"
 #include "GameEngineContentsEnum.h"
 #include "Map1FBridge.h"
 
@@ -420,34 +420,34 @@ void PlayerLink::WieldLeftUpdate()
 
 	if (nullptr == SwordCollision_)
 	{
-		SwordCollision_ = CreateCollision("Sword", { -32, 48 }, { -16, -24 });
+		SwordCollision_ = CreateCollision("Sword", { 32, 48 }, { -16, -24 });
 		AnimationIndex_ = 0;
 	}
 
 	if (0 == AnimationIndex_ && AttackAnimationInterval_ < AnimationTimer_)
 	{
-		SwordCollision_->SetScale({ -72, 52 });
+		SwordCollision_->SetScale({ 72, 52 });
 		SwordCollision_->SetPivot({ -36, -26 });
 		AnimationIndex_ = 1;
 	}
 
 	if (1 == AnimationIndex_ && AttackAnimationInterval_ * 2 < AnimationTimer_)
 	{
-		SwordCollision_->SetScale({ -98, 26 });
+		SwordCollision_->SetScale({ 98, 26 });
 		SwordCollision_->SetPivot({ -49, 13 });
 		AnimationIndex_ = 2;
 	}
 
 	if (2 == AnimationIndex_ && AttackAnimationInterval_ * 3 < AnimationTimer_)
 	{
-		SwordCollision_->SetScale({ -82, 42 });
+		SwordCollision_->SetScale({ 82, 42 });
 		SwordCollision_->SetPivot({ -41, 21 });
 		AnimationIndex_ = 3;
 	}
 
 	if (3 == AnimationIndex_ && AttackAnimationInterval_ * 4 < AnimationTimer_)
 	{
-		SwordCollision_->SetScale({ -58, 82 });
+		SwordCollision_->SetScale({ 58, 82 });
 		SwordCollision_->SetPivot({ -29, 41 });
 		AnimationIndex_ = 4;
 	}
@@ -580,7 +580,6 @@ void PlayerLink::MoveUpdate()
 				PlayerChangeState(PlayerState::IdleDown);
 			}
 		}
-
 		DamagedCheck();
 		if (true == IsKnockback_)
 		{
@@ -741,17 +740,23 @@ void PlayerLink::MoveFunction()
 	{
 		int Black = RGB(0, 0, 0);
 		float4 MyPos = GetPosition();
+		float4 Map1f_2_Scale = float4{ 0, -4128 };
+		if (false == IsMap1F_2)
+		{
+			MyPos += Map1f_2_Scale;
+		}
 		float4 MyPosTopRight = MyPos + float4{ 32.0f, -21.0f };
 		float4 MyPosTopLeft = MyPos + float4{ -32.0f, -21.0f };
 		float4 MyPosBotRight = MyPos + float4{ 32.0f, 43.0f };
 		float4 MyPosBotLeft = MyPos + float4{ -32.0f, 43.0f };
-		float4 MyPosRight = MyPos + float4{ 32.0f, 0.0f};
+		float4 MyPosRight = MyPos + float4{ 32.0f, 0.0f };
 		float4 MyPosLeft = MyPos + float4{ -32.0f, 0.0f };
 		float4 MyPosTop = MyPos + float4{ 0.0f, -21.0f };
 		float4 MyPosBot = MyPos + float4{ 0.0f, 43.0f };
-		float4 NextPos = GetPosition() + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_);
+		float4 NextPos = MyPos + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_);
+		float4 NextRealPos = GetPosition() + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_);
 		float4 CheckPosTopRight = NextPos + float4{ 32.0f, -21.0f };
-		float4 CheckPosTopLeft = NextPos + float4{ -32.0f, -21.0f};
+		float4 CheckPosTopLeft = NextPos + float4{ -32.0f, -21.0f };
 		float4 CheckPosBotRight = NextPos + float4{ 32.0f, 43.0f };
 		float4 CheckPosBotLeft = NextPos + float4{ -32.0f, 43.0f };
 		float4 CheckPosRight = NextPos + float4{ 32.0f, 0.0f };
@@ -759,25 +764,36 @@ void PlayerLink::MoveFunction()
 		float4 CheckPosTop = NextPos + float4{ 0.0f, -21.0f };
 		float4 CheckPosBot = NextPos + float4{ 0.0f, 43.0f };
 
+		int ColorNextTopRight = CheckColMap(CheckPosTopRight)->GetImagePixel(CheckPosTopRight);
+		int ColorNextTopLeft = CheckColMap(CheckPosTopLeft)->GetImagePixel(CheckPosTopLeft);
+		int ColorNextBotRight = CheckColMap(CheckPosBotRight)->GetImagePixel(CheckPosBotRight);
+		int ColorNextBotLeft = CheckColMap(CheckPosBotLeft)->GetImagePixel(CheckPosBotLeft);
+		int ColorNextRight = CheckColMap(CheckPosRight)->GetImagePixel(CheckPosRight);
+		int ColorNextLeft = CheckColMap(CheckPosLeft)->GetImagePixel(CheckPosLeft);
+		int ColorNextTop = CheckColMap(CheckPosTop)->GetImagePixel(CheckPosTop);
+		int ColorNextBot = CheckColMap(CheckPosBot)->GetImagePixel(CheckPosBot);
 
-		int ColorTopRight = MapColImage_->GetImagePixel(CheckPosTopRight);
-		int ColorTopLeft = MapColImage_->GetImagePixel(CheckPosTopLeft);
-		int ColorBotRight = MapColImage_->GetImagePixel(CheckPosBotRight);
-		int ColorBotLeft = MapColImage_->GetImagePixel(CheckPosBotLeft);
-		int ColorRight = MapColImage_->GetImagePixel(CheckPosRight);
-		int ColorLeft = MapColImage_->GetImagePixel(CheckPosLeft);
-		int ColorTop = MapColImage_->GetImagePixel(CheckPosTop);
-		int ColorBot = MapColImage_->GetImagePixel(CheckPosBot);
-		if (Black != ColorTopRight &&
-			Black != ColorTopLeft &&
-			Black != ColorBotRight &&
-			Black != ColorBotLeft &&
-			Black != ColorRight &&
-			Black != ColorLeft &&
-			Black != ColorTop &&
-			Black != ColorBot)
+
+		//int ColorNextTopRight = MapColImage_->GetImagePixel(CheckPosTopRight);
+		//int ColorNextTopLeft = MapColImage_->GetImagePixel(CheckPosTopLeft);
+		//int ColorNextBotRight = MapColImage_->GetImagePixel(CheckPosBotRight);
+		//int ColorNextBotLeft = MapColImage_->GetImagePixel(CheckPosBotLeft);
+		//int ColorNextRight = MapColImage_->GetImagePixel(CheckPosRight);
+		//int ColorNextLeft = MapColImage_->GetImagePixel(CheckPosLeft);
+		//int ColorNextTop = MapColImage_->GetImagePixel(CheckPosTop);
+		//int ColorNextBot = MapColImage_->GetImagePixel(CheckPosBot);
+
+
+		if (Black != ColorNextTopRight &&
+			Black != ColorNextTopLeft &&
+			Black != ColorNextBotRight &&
+			Black != ColorNextBotLeft &&
+			Black != ColorNextRight &&
+			Black != ColorNextLeft &&
+			Black != ColorNextTop &&
+			Black != ColorNextBot)
 		{
-			if (false == PlayerMoveCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+			if (false == PlayerMoveCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 			{
 				MoveDir.Normal2D();
 				SetMove(MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_);
@@ -786,23 +802,23 @@ void PlayerLink::MoveFunction()
 			{
 				if (true == MoveRight)
 				{
-					if (false == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect) &&
-						false == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					if (false == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect) &&
+						false == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 					{
 						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
 					}
 
-					if (true == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					if (true == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 					{
-						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 						{
 							SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
 						}
 					}
 
-					if (true == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					if (true == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 					{
-						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 						{
 							SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * Speed_);
 						}
@@ -811,23 +827,23 @@ void PlayerLink::MoveFunction()
 
 				if (true == MoveLeft)
 				{
-					if (false == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect) &&
-						false == PlayerBotLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					if (false == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect) &&
+						false == PlayerBotLeftCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 					{
 						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
 					}
 
-					if (true == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					if (true == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 					{
-						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 						{
 							SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
 						}
 					}
 
-					if (true == PlayerBotLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					if (true == PlayerBotLeftCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 					{
-						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 						{
 							SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * Speed_);
 						}
@@ -835,23 +851,23 @@ void PlayerLink::MoveFunction()
 				}
 				if (true == MoveUp)
 				{
-					if (false == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect) &&
-						false == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					if (false == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect) &&
+						false == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 					{
 						SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * Speed_);
 					}
 
-					if (true == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					if (true == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 					{
-						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 						{
 							SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
 						}
 					}
 
-					if (true == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					if (true == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 					{
-						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 						{
 							SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
 						}
@@ -859,23 +875,23 @@ void PlayerLink::MoveFunction()
 				}
 				if (true == MoveDown)
 				{
-					if (false == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect) &&
-						false == PlayerBotLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					if (false == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect) &&
+						false == PlayerBotLeftCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 					{
 						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
 					}
 
-					if (true == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					if (true == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 					{
-						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 						{
 							SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
 						}
 					}
 
-					if (true == PlayerBotLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+					if (true == PlayerBotLeftCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 					{
-						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
+						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
 						{
 							SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
 						}
@@ -886,7 +902,6 @@ void PlayerLink::MoveFunction()
 		}
 		else
 		{
-
 			if (true == MoveRight)
 			{
 				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosTop.y }) &&
@@ -1017,12 +1032,11 @@ void PlayerLink::MoveFunction()
 						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
 					}
 				}
-
 			}
 		}
-
 	}
 }
+
 void PlayerLink::MoveCarryFunction()
 {
 	float4 CheckPos;
@@ -1510,7 +1524,52 @@ void PlayerLink::CarryMoveDownStart()
 void PlayerLink::DamagedCheck()
 {
 	std::vector<GameEngineCollision*> ColList;
-	if (true == PlayerCollision_->CollisionResult("MonsterHitBox", ColList, CollisionType::Rect, CollisionType::Rect) && false == IsKnockback_ && false == IsBlink_)
+	if (true == PlayerCollision_->CollisionResult("MonsterHitBox", ColList, CollisionType::Rect, CollisionType::Rect) && 
+		PlayerStairsState::Top == CurStairs_ &&
+		false == IsKnockback_ && 
+		false == IsBlink_)
+	{
+		GetDamaged();
+		PlayerPrevState_ = PlayerCurState_;
+		IsKnockback_ = true;
+		IsBlink_ = true;
+		HitActor_ = ColList[0]->GetActor();
+		KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
+		KnockbackDir_.Normal2D();
+		if (PlayerState::IdleRight == PlayerCurState_ ||
+			PlayerState::MoveRight == PlayerCurState_ ||
+			PlayerState::WieldRight == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::DamagedRight);
+			return;
+		}
+		if (PlayerState::IdleLeft == PlayerCurState_ ||
+			PlayerState::MoveLeft == PlayerCurState_ ||
+			PlayerState::WieldLeft == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::DamagedLeft);
+			return;
+		}
+		if (PlayerState::IdleUp == PlayerCurState_ ||
+			PlayerState::MoveUp == PlayerCurState_ ||
+			PlayerState::WieldUp == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::DamagedUp);
+			return;
+		}
+		if (PlayerState::IdleDown == PlayerCurState_ ||
+			PlayerState::MoveDown == PlayerCurState_ ||
+			PlayerState::WieldDown == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::DamagedDown);
+			return;
+		}
+	}
+
+	if (true == PlayerCollision_->CollisionResult("MonsterBotHitBox", ColList, CollisionType::Rect, CollisionType::Rect) &&
+		PlayerStairsState::Bot == CurStairs_ &&
+		false == IsKnockback_ &&
+		false == IsBlink_)
 	{
 		GetDamaged();
 		PlayerPrevState_ = PlayerCurState_;
@@ -1589,6 +1648,8 @@ void PlayerLink::PotCarryCheck()
 
 void PlayerLink::Room1Start()
 {
+	Map1F_2::Room1TopDoor0_->On();
+	Map1F_2::Room1TopDoor0_->ChangeAnimationReset("Close_Top");
 	GameEngineTime::GetInst()->SetTimeScale(1, 1.0f);
 }
 
@@ -1623,9 +1684,10 @@ void PlayerLink::Room1Update()
 
 void PlayerLink::Room1_Trans_Start()
 {
+	Map1F_2::Room1TopDoor0_->Off();
 	GameEngineTime::GetInst()->SetTimeScale(2, 0.0f);
-	RoomSize_[0] = { 2048, 4063 };
-	RoomSize_[1] = { 4095, 3088 };
+	RoomSize_[0] = { 2048, 4063 + 4128 };
+	RoomSize_[1] = { 4095, 3088 + 4128 };
 	IsCameraAutoMove_ = true;
 	IsCharacterAutoMove_ = true;
 }
@@ -1651,8 +1713,10 @@ void PlayerLink::Room1_Trans_Update()
 
 void PlayerLink::Room2Start()
 {
-	Map1F::Room2TopDoor0_->ChangeAnimation("Close_Top");
-	Map1F::Room2BotDoor0_->ChangeAnimation("Close_Bot");
+	Map1F_2::Room2TopDoor0_->On();
+	Map1F_2::Room2BotDoor0_->On();
+	Map1F_2::Room2TopDoor0_->ChangeAnimationReset("Close_Top");
+	Map1F_2::Room2BotDoor0_->ChangeAnimationReset("Close_Bot");
 	GameEngineTime::GetInst()->SetTimeScale(2, 1.0f);
 }
 
@@ -1682,7 +1746,7 @@ void PlayerLink::Room2Update()
 	{
 		PrevCameraState_ = CameraState::Room2;
 		AutoMoveDir_ = float4::UP;
-		CameraStateChange(CameraState::Room3_Trans);
+		CameraStateChange(CameraState::Room4_Trans);
 		return;
 	}
 
@@ -1696,12 +1760,14 @@ void PlayerLink::Room2Update()
 
 void PlayerLink::Room2_Trans_Start()
 {
+	Map1F_2::Room2TopDoor0_->Off();
+	Map1F_2::Room2BotDoor0_->Off();
 	GameEngineTime::GetInst()->SetTimeScale(1, 0.0f);
-	GameEngineTime::GetInst()->SetTimeScale(3, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(4, 0.0f);
 	IsCameraAutoMove_ = true;
 	IsCharacterAutoMove_ = true;
-	RoomSize_[0] = { 2048, 2983 };
-	RoomSize_[1] = { 4095, 2019 };
+	RoomSize_[0] = { 2048, 2983 + 4128 };
+	RoomSize_[1] = { 4095, 2019 + 4128 };
 }
 
 void PlayerLink::Room2_Trans_Update()
@@ -1724,12 +1790,15 @@ void PlayerLink::Room2_Trans_Update()
 
 }
 
-void PlayerLink::Room3Start()
+void PlayerLink::Room4Start()
 {
-	GameEngineTime::GetInst()->SetTimeScale(3, 1.0f);
+	ResetTimeScale(15);
+	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(4, 1.0f);
 }
 
-void PlayerLink::Room3Update()
+void PlayerLink::Room4Update()
 {
 	/// ///////////////////////////////////////// Room Transition
 	if (true == IsCameraAutoMove_)
@@ -1746,15 +1815,21 @@ void PlayerLink::Room3Update()
 	{
 		if (true == IsOnStairs_)
 		{
+			GameEngineTime::GetInst()->SetTimeScale(4, 0.0f);
 			PlayerAutoMove(150.0f);
 			return;
 		}
 
 		if (false == IsOnStairs_)
 		{
+			GameEngineTime::GetInst()->SetTimeScale(4, 0.0f);
 			PlayerAutoMove();
 			return;
 		}
+	}
+	else
+	{
+		GameEngineTime::GetInst()->SetTimeScale(4, 1.0f);
 	}
 	
 
@@ -1765,23 +1840,23 @@ void PlayerLink::Room3Update()
 
 	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
-		PrevCameraState_ = CameraState::Room3;
+		PrevCameraState_ = CameraState::Room4;
 		AutoMoveDir_ = float4::UP;
-		CameraStateChange(CameraState::Room7_Trans);
+		CameraStateChange(CameraState::Room10_Trans);
 		return;
 	}
 
 	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveLeft == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
-		PrevCameraState_ = CameraState::Room3;
+		PrevCameraState_ = CameraState::Room4;
 		AutoMoveDir_ = float4::LEFT;
-		CameraStateChange(CameraState::Room4_Trans);
+		CameraStateChange(CameraState::Room3_Trans);
 		return;
 	}
 
 	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveRight == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
-		PrevCameraState_ = CameraState::Room3;
+		PrevCameraState_ = CameraState::Room4;
 		AutoMoveDir_ = float4::RIGHT;
 		CameraStateChange(CameraState::Room5_Trans);
 		return;
@@ -1789,7 +1864,7 @@ void PlayerLink::Room3Update()
 
 	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
-		PrevCameraState_ = CameraState::Room3;
+		PrevCameraState_ = CameraState::Room4;
 		AutoMoveDir_ = float4::DOWN;
 		CameraStateChange(CameraState::Room2_Trans);
 		return;
@@ -1821,16 +1896,16 @@ void PlayerLink::Room3Update()
 }
 
 
-void PlayerLink::Room3_Trans_Start()
+void PlayerLink::Room4_Trans_Start()
 {
 	GameEngineTime::GetInst()->SetTimeScale(2, 0.0f);
 	IsCameraAutoMove_ = true;
 	IsCharacterAutoMove_ = true;
-	RoomSize_[0] = { 2048, 1955 };
-	RoomSize_[1] = { 4095, 0 };
+	RoomSize_[0] = { 2048, 1955 + 4128 };
+	RoomSize_[1] = { 4095, 0 + 4128 };
 }
 
-void PlayerLink::Room3_Trans_Update()
+void PlayerLink::Room4_Trans_Update()
 {
 	/// ///////////////////////////////////////// Room Transition
 	if (true == IsCameraAutoMove_)
@@ -1845,11 +1920,147 @@ void PlayerLink::Room3_Trans_Update()
 
 	if (false == IsCameraAutoMove_ && false == IsCharacterAutoMove_)
 	{
-		CameraStateChange(CameraState::Room3);
+		CameraStateChange(CameraState::Room4);
 	}
 
 }
 
+void PlayerLink::Room10Start()
+{
+	ResetTimeScale(15);
+	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(10, 1.0f);
+}
+
+void PlayerLink::Room10Update()
+{
+	/// ///////////////////////////////////////// Room Transition
+	if (true == IsCameraAutoMove_)
+	{
+		CameraAutoMove();
+	}
+
+	if (false == IsCameraAutoMove_)
+	{
+		CameraUpdate();
+	}
+
+	if (true == IsCharacterAutoMove_)
+	{
+		if (true == IsOnStairs_)
+		{
+			GameEngineTime::GetInst()->SetTimeScale(3, 0.0f);
+			PlayerAutoMove(150.0f);
+			return;
+		}
+
+		if (false == IsOnStairs_)
+		{
+			GameEngineTime::GetInst()->SetTimeScale(3, 0.0f);
+			PlayerAutoMove();
+			return;
+		}
+	}
+	else
+	{
+		GameEngineTime::GetInst()->SetTimeScale(3, 1.0f);
+	}
+
+
+	/// ///////////////////////////////////////// Room Check
+	int Red = RGB(255, 0, 0);
+	int Yellow = RGB(255, 255, 0);
+	int Blue = RGB(0, 0, 255);
+
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
+	{
+		PrevCameraState_ = CameraState::Room4;
+		AutoMoveDir_ = float4::UP;
+		CameraStateChange(CameraState::Room7_Trans);
+		return;
+	}
+
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveLeft == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
+	{
+		PrevCameraState_ = CameraState::Room4;
+		AutoMoveDir_ = float4::LEFT;
+		CameraStateChange(CameraState::Room4_Trans);
+		return;
+	}
+
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveRight == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
+	{
+		PrevCameraState_ = CameraState::Room4;
+		AutoMoveDir_ = float4::RIGHT;
+		CameraStateChange(CameraState::Room5_Trans);
+		return;
+	}
+
+	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
+	{
+		PrevCameraState_ = CameraState::Room4;
+		AutoMoveDir_ = float4::DOWN;
+		CameraStateChange(CameraState::Room2_Trans);
+		return;
+	}
+
+	if (PosOrColorCheck(Blue, MapColImage_) && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
+	{
+
+		if (PlayerStairsState::Top == CurStairs_)
+		{
+			MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_B1F_ColMap.bmp");
+			CurStairs_ = PlayerStairsState::Bot;
+			IsCharacterAutoMove_ = true;
+			IsOnStairs_ = true;
+			BridgeActor_->On();
+			return;
+		}
+
+		if (PlayerStairsState::Bot == CurStairs_)
+		{
+			MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_ColMap.bmp");
+			CurStairs_ = PlayerStairsState::Top;
+			IsCharacterAutoMove_ = true;
+			IsOnStairs_ = true;
+			BridgeActor_->Off();
+			return;
+		}
+	}
+}
+
+
+void PlayerLink::Room10_Trans_Start()
+{
+	ResetTimeScale(15);
+	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
+	IsCameraAutoMove_ = true;
+	IsCharacterAutoMove_ = true;
+	RoomSize_[0] = { 2048, 4035 };
+	RoomSize_[1] = { 4095, 2050 };
+}
+
+void PlayerLink::Room10_Trans_Update()
+{
+	/// ///////////////////////////////////////// Room Transition
+	if (true == IsCameraAutoMove_)
+	{
+		CameraAutoMove();
+	}
+
+	if (true == IsCharacterAutoMove_)
+	{
+		PlayerAutoMove();
+	}
+
+	if (false == IsCameraAutoMove_ && false == IsCharacterAutoMove_)
+	{
+		CameraStateChange(CameraState::Room10);
+	}
+
+}
 void PlayerLink::PlayerPrevStateCheck()
 {
 	if (PlayerState::MoveRight == PlayerPrevState_ &&
@@ -1925,4 +2136,29 @@ void PlayerLink::PlayerPrevStateCheck()
 		PlayerChangeState(PlayerState::IdleLeft);
 		return;
 	}
+}
+
+void PlayerLink::ResetTimeScale(int _x)
+{
+	for (size_t i = -1; i < _x + 1; i++)
+	{
+		GameEngineTime::GetInst()->SetTimeScale(_x, 0.0f);
+	}
+}
+
+GameEngineImage* PlayerLink::CheckColMap(float4& _Pos)
+{
+	if (0 > _Pos.y )
+	{
+		_Pos.y = -_Pos.y;
+		return MapColImage_2_;
+	}
+
+	if (4128 < _Pos.y )
+	{
+		_Pos.y = 4128 - _Pos.y;
+		return MapColImage_1_;
+	}
+
+	return MapColImage_;
 }

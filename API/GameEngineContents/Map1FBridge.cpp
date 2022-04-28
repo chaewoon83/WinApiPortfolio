@@ -26,7 +26,7 @@ void Map1FBridge::Start()
 	//렌더러는  0,0 을 기준으로 중앙에 배치된다 ( 그대로 쓰면 이미지 짤림 )
 	//이미지, Rect는 0, 0 을 기준으로 오른쪽 아래에 배치된다
 	ImagePos.x = (Renderer->GetImage()->GetScale().Half().x);
-	ImagePos.y = (Renderer->GetImage()->GetScale().Half().y);
+	ImagePos.y = (Renderer->GetImage()->GetScale().Half().y + 4129.0f);
 	Renderer->SetPivot(ImagePos);
 }
  

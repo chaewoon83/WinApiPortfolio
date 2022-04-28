@@ -163,6 +163,10 @@
       <SubType>
       </SubType>
     </ClInclude>
+    <ClInclude Include="Colmap.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="EndLevel.h">
       <SubType>
       </SubType>
@@ -245,6 +249,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Map1FBridge.h" />
+    <ClInclude Include="Map1FBridgeBackGround.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Map1FRoof.h" />
     <ClInclude Include="Map1FRoom1EnemyPopo0.h" />
     <ClInclude Include="Map1FRoom1EnemyPopo1.h" />
@@ -255,6 +263,7 @@
     </ClInclude>
     <ClInclude Include="Map1FRoom1Pot1.h" />
     <ClInclude Include="Map1FRoom1Pot2.h" />
+    <ClInclude Include="Map1F_2.h" />
     <ClInclude Include="MapLevel.h">
       <SubType>
       </SubType>
@@ -353,6 +362,10 @@
       <SubType>
       </SubType>
     </ClCompile>
+    <ClCompile Include="Colmap.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="EndLevel.cpp">
       <SubType>
       </SubType>
@@ -434,6 +447,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Map1FBridge.cpp" />
+    <ClCompile Include="Map1FBridgeBackGround.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Map1FRoof.cpp" />
     <ClCompile Include="Map1FRoom1EnemyPopo0.cpp" />
     <ClCompile Include="Map1FRoom1EnemyPopo1.cpp" />
@@ -444,6 +461,7 @@
     </ClCompile>
     <ClCompile Include="Map1FRoom1Pot1.cpp" />
     <ClCompile Include="Map1FRoom1Pot2.cpp" />
+    <ClCompile Include="Map1F_2.cpp" />
     <ClCompile Include="MapLevel.cpp">
       <SubType>
       </SubType>

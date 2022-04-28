@@ -21,6 +21,7 @@ protected:
 	void Update() override;
 
 private:
+	void ResetTimeScale();
 };
 
 

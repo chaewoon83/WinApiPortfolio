@@ -111,9 +111,6 @@
     <ClInclude Include="EnemyAntiFairy.h">
       <Filter>Play\Enemy\Yet</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBall.h">
-      <Filter>Play\Enemy\Yet</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyBlueStalfos.h">
       <Filter>Play\Enemy\Yet</Filter>
     </ClInclude>
@@ -121,9 +118,6 @@
       <Filter>Play\Enemy\Yet</Filter>
     </ClInclude>
     <ClInclude Include="EnemyDeathEffect.h">
-      <Filter>Play\Enemy\Yet</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyGargantuanBall.h">
       <Filter>Play\Enemy\Yet</Filter>
     </ClInclude>
     <ClInclude Include="EnemyGreenEyegore.h">
@@ -154,6 +148,21 @@
       <Filter>Play\Enemy\EnemyPopo</Filter>
     </ClInclude>
     <ClInclude Include="GlobalRandom.h" />
+    <ClInclude Include="EnemyBall.h">
+      <Filter>Play\Enemy\EnemyBall</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyGargantuanBall.h">
+      <Filter>Play\Enemy\EnemyBall</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FBridgeBackGround.h">
+      <Filter>Play\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1F_2.h">
+      <Filter>Play\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Colmap.h">
+      <Filter>Debug</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -265,9 +274,6 @@
     <ClCompile Include="EnemyAntiFairy.cpp">
       <Filter>Play\Enemy\Yet</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBall.cpp">
-      <Filter>Play\Enemy\Yet</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyBlueStalfos.cpp">
       <Filter>Play\Enemy\Yet</Filter>
     </ClCompile>
@@ -275,9 +281,6 @@
       <Filter>Play\Enemy\Yet</Filter>
     </ClCompile>
     <ClCompile Include="EnemyDeathEffect.cpp">
-      <Filter>Play\Enemy\Yet</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyGargantuanBall.cpp">
       <Filter>Play\Enemy\Yet</Filter>
     </ClCompile>
     <ClCompile Include="EnemyGreenEyegore.cpp">
@@ -311,6 +314,21 @@
       <Filter>Play\Enemy\EnemyPopo</Filter>
     </ClCompile>
     <ClCompile Include="GlobalRandom.cpp" />
+    <ClCompile Include="EnemyBall.cpp">
+      <Filter>Play\Enemy\EnemyBall</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGargantuanBall.cpp">
+      <Filter>Play\Enemy\EnemyBall</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FBridgeBackGround.cpp">
+      <Filter>Play\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1F_2.cpp">
+      <Filter>Play\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Colmap.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -360,6 +378,12 @@
     </Filter>
     <Filter Include="Play\Map\Objects\Door">
       <UniqueIdentifier>{a17a1f0b-13ec-47cd-8c40-db6a9b4e9069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Enemy\EnemyBall">
+      <UniqueIdentifier>{9d5436c9-bc65-4e33-84a6-1159bad52e1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{8ca7e6b4-9ee1-4ba7-b0ba-d1ab707b4b4a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
