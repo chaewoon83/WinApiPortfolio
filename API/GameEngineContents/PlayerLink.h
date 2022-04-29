@@ -32,9 +32,12 @@ public:
 	GameEngineImage* MapColImage_2_;
 
 	GameEngineImage* MapCarryColImage_;
+	GameEngineImage* MapCarryColImage_1_;
+	GameEngineImage* MapCarryColImage_2_;
 
 private:
 	GameEngineImage* CheckColMap(float4& _Pos);
+	GameEngineImage* CheckCarryColMap(float4& _Pos);
 	static bool IsMap1F_2;
 
 protected:

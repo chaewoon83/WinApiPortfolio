@@ -177,12 +177,20 @@ void PlayerLink::Start()
 
 	MapColImage_ = MapColImage_1_;
 
-	MapCarryColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_CarryColMap.bmp");
+	MapCarryColImage_1_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_CarryColMap.bmp");
 
-	if (nullptr == MapCarryColImage_)
+	if (nullptr == MapColImage_1_)
 	{
 		MsgBoxAssert("충돌용 맵을 찾지 못했습니다");
 	}
+	MapCarryColImage_2_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_CarryColMap.bmp");
+
+	if (nullptr == MapCarryColImage_2_)
+	{
+		MsgBoxAssert("충돌용 맵을 찾지 못했습니다");
+	}
+
+	MapCarryColImage_ = MapCarryColImage_1_;
 
 	MapPasImage_1 = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_PasMap.bmp");
 
@@ -215,12 +223,14 @@ void PlayerLink::Update()
 		IsMap1F_2 = true;
 		MapColImage_ = MapColImage_2_;
 		MapPasImage_ = MapPasImage_2;
+		MapCarryColImage_ = MapCarryColImage_2_;
 	}
 	if (4128 <= GetPosition().iy() && true == IsMap1F_2)
 	{
 		IsMap1F_2 = false;
 		MapColImage_ = MapColImage_1_;
 		MapPasImage_ = MapPasImage_1;
+		MapCarryColImage_ = MapCarryColImage_1_;
 	}
 
 	PlayerStateUpdate();

@@ -1079,6 +1079,11 @@ void PlayerLink::MoveCarryFunction()
 		int Black = RGB(0, 0, 0);
 		int White = RGB(255, 255, 255);
 		float4 MyPos = GetPosition();
+		float4 Map1f_2_Scale = float4{ 0, -4128 };
+		if (false == IsMap1F_2)
+		{
+			MyPos += Map1f_2_Scale;
+		}
 		float4 MyPosTopRight = MyPos + float4{ 32.0f, -21.0f };
 		float4 MyPosTopLeft = MyPos + float4{ -32.0f, -21.0f };
 		float4 MyPosBotRight = MyPos + float4{ 32.0f, 43.0f };
@@ -1098,22 +1103,23 @@ void PlayerLink::MoveCarryFunction()
 		float4 CheckPosBot = NextPos + float4{ 0.0f, 43.0f };
 
 
-		int ColorTopRight = MapCarryColImage_->GetImagePixel(CheckPosTopRight);
-		int ColorTopLeft = MapCarryColImage_->GetImagePixel(CheckPosTopLeft);
-		int ColorBotRight = MapCarryColImage_->GetImagePixel(CheckPosBotRight);
-		int ColorBotLeft = MapCarryColImage_->GetImagePixel(CheckPosBotLeft);
-		int ColorRight = MapCarryColImage_->GetImagePixel(CheckPosRight);
-		int ColorLeft = MapCarryColImage_->GetImagePixel(CheckPosLeft);
-		int ColorTop = MapCarryColImage_->GetImagePixel(CheckPosTop);
-		int ColorBot = MapCarryColImage_->GetImagePixel(CheckPosBot);
-		if (Black != ColorTopRight &&
-			Black != ColorTopLeft &&
-			Black != ColorBotRight &&
-			Black != ColorBotLeft &&
-			Black != ColorRight &&
-			Black != ColorLeft &&
-			Black != ColorTop &&
-			Black != ColorBot)
+		int ColorNextTopRight = CheckCarryColMap(CheckPosTopRight)->GetImagePixel(CheckPosTopRight);
+		int ColorNextTopLeft = CheckCarryColMap(CheckPosTopLeft)->GetImagePixel(CheckPosTopLeft);
+		int ColorNextBotRight = CheckCarryColMap(CheckPosBotRight)->GetImagePixel(CheckPosBotRight);
+		int ColorNextBotLeft = CheckCarryColMap(CheckPosBotLeft)->GetImagePixel(CheckPosBotLeft);
+		int ColorNextRight = CheckCarryColMap(CheckPosRight)->GetImagePixel(CheckPosRight);
+		int ColorNextLeft = CheckCarryColMap(CheckPosLeft)->GetImagePixel(CheckPosLeft);
+		int ColorNextTop = CheckCarryColMap(CheckPosTop)->GetImagePixel(CheckPosTop);
+		int ColorNextBot = CheckCarryColMap(CheckPosBot)->GetImagePixel(CheckPosBot);
+
+		if (Black != ColorNextTopRight &&
+			Black != ColorNextTopLeft &&
+			Black != ColorNextBotRight &&
+			Black != ColorNextBotLeft &&
+			Black != ColorNextRight &&
+			Black != ColorNextLeft &&
+			Black != ColorNextTop &&
+			Black != ColorNextBot)
 		{
 			if (false == PlayerMoveCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 			{
@@ -2161,4 +2167,21 @@ GameEngineImage* PlayerLink::CheckColMap(float4& _Pos)
 	}
 
 	return MapColImage_;
+}
+
+GameEngineImage* PlayerLink::CheckCarryColMap(float4& _Pos)
+{
+	if (0 > _Pos.y)
+	{
+		_Pos.y = -_Pos.y;
+		return MapCarryColImage_2_;
+	}
+
+	if (4128 < _Pos.y)
+	{
+		_Pos.y = 4128 - _Pos.y;
+		return MapCarryColImage_1_;
+	}
+
+	return MapCarryColImage_;
 }
