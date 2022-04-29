@@ -109,7 +109,7 @@ void Map1F_2::DoorAnimationCreate()
 	Room2TopDoor0_->CreateAnimationTimeKey("Top_Door_Idle_Animation.bmp", "Idle_Top", -1, 0, 2, 0.07f, false);
 	Room2TopDoor0_->CreateAnimationTimeKey("Top_Door_Open_Animation.bmp", "Open_Top", -1, 0, 2, 0.07f, false);
 	Room2TopDoor0_->CreateAnimationTimeKey("Top_Door_Close_Animation.bmp", "Close_Top", -1, 0, 2, 0.07f, false);
-	Room2TopDoor0_->ChangeAnimationReset("Open_Top");
+	Room2TopDoor0_->ChangeAnimationReset("Idle_Top");
 	Room2TopDoor0Col_ = CreateCollision("Block", { 192,96 }, float4{ 3072, 2194 + 4128 });
 
 
@@ -118,7 +118,7 @@ void Map1F_2::DoorAnimationCreate()
 	Room2BotDoor0_->CreateAnimationTimeKey("Bot_Door_Idle_Animation.bmp", "Idle_Bot", -1, 0, 2, 0.07f, false);
 	Room2BotDoor0_->CreateAnimationTimeKey("Bot_Door_Open_Animation.bmp", "Open_Bot", -1, 0, 2, 0.07f, false);
 	Room2BotDoor0_->CreateAnimationTimeKey("Bot_Door_Close_Animation.bmp", "Close_Bot", -1, 0, 2, 0.07f, false);
-	Room2BotDoor0_->ChangeAnimationReset("Open_Bot");
+	Room2BotDoor0_->ChangeAnimationReset("Idle_Bot");
 	Room2BotDoor0Col_ = CreateCollision("Block", { 192,96 }, float4{ 3072, 2928 + 4128 });
 
 	Room10RightDoor0_ = CreateRenderer();
@@ -126,7 +126,7 @@ void Map1F_2::DoorAnimationCreate()
 	Room10RightDoor0_->CreateAnimationTimeKey("Right_Door_Idle_Animation.bmp", "Idle_Right", -1, 0, 2, 0.07f, false);
 	Room10RightDoor0_->CreateAnimationTimeKey("Right_Door_Open_Animation.bmp", "Open_Right", -1, 0, 2, 0.07f, false);
 	Room10RightDoor0_->CreateAnimationTimeKey("Right_Door_Close_Animation.bmp", "Close_Right", -1, 0, 2, 0.07f, false);
-	Room10RightDoor0_->ChangeAnimationReset("Open_Right");
+	Room10RightDoor0_->ChangeAnimationReset("Idle_Right");
 	Room10RightDoor0Col_ = CreateCollision("Block", { 192,96 }, float4{ 2112 + 48, 3040 + 64 });
 	
 	Room10LeftDoor0_ = CreateRenderer();
@@ -134,7 +134,7 @@ void Map1F_2::DoorAnimationCreate()
 	Room10LeftDoor0_->CreateAnimationTimeKey("Left_Door_Idle_Animation.bmp", "Idle_Left", -1, 0, 2, 0.07f, false);
 	Room10LeftDoor0_->CreateAnimationTimeKey("Left_Door_Open_Animation.bmp", "Open_Left", -1, 0, 2, 0.07f, false);
 	Room10LeftDoor0_->CreateAnimationTimeKey("Left_Door_Close_Animation.bmp", "Close_Left", -1, 0, 2, 0.07f, false);
-	Room10LeftDoor0_->ChangeAnimationReset("Open_Left");
+	Room10LeftDoor0_->ChangeAnimationReset("Idle_Left");
 	Room10LeftDoor0Col_ = CreateCollision("Block", { 192,96 }, float4{ 3936 + 48, 3040 + 64 });
 }
 
