@@ -254,6 +254,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Map1FRoof.h" />
+    <ClInclude Include="Map1FRoom10Pot0.h" />
+    <ClInclude Include="Map1FRoom10Pot1.h" />
+    <ClInclude Include="Map1FRoom10Pot2.h" />
+    <ClInclude Include="Map1FRoom10Pot3.h" />
     <ClInclude Include="Map1FRoom1EnemyPopo0.h" />
     <ClInclude Include="Map1FRoom1EnemyPopo1.h" />
     <ClInclude Include="Map1FRoom1EnemyPopo2.h" />
@@ -452,6 +456,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Map1FRoof.cpp" />
+    <ClCompile Include="Map1FRoom10Pot0.cpp" />
+    <ClCompile Include="Map1FRoom10Pot1.cpp" />
+    <ClCompile Include="Map1FRoom10Pot2.cpp" />
+    <ClCompile Include="Map1FRoom10Pot3.cpp" />
     <ClCompile Include="Map1FRoom1EnemyPopo0.cpp" />
     <ClCompile Include="Map1FRoom1EnemyPopo1.cpp" />
     <ClCompile Include="Map1FRoom1EnemyPopo2.cpp" />

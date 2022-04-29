@@ -40,8 +40,11 @@ GameEngineActor* PlayerLink::MainPlayer_ = nullptr;
 GameEngineActor* PlayerLink::CarryActor_ = nullptr;
 PlayerState PlayerLink::PlayerCurState_ = PlayerState::IdleDown;
 PlayerState PlayerLink::PlayerPrevState_ = PlayerState::Max;
-CameraState PlayerLink::CameraState_ = CameraState::Room1;
-CameraState PlayerLink::PrevCameraState_ = CameraState::Max;
+//디버그용
+CameraState PlayerLink::CameraState_ = CameraState::Room10;
+CameraState PlayerLink::PrevCameraState_ = CameraState::Room9;
+//CameraState PlayerLink::CameraState_ = CameraState::Room1;
+//CameraState PlayerLink::PrevCameraState_ = CameraState::Max;
 PlayerStairsState PlayerLink::CurStairs_ = PlayerStairsState::Top;
 bool PlayerLink::IsOnStairs_ = false;
 bool PlayerLink::IsCarry_ = false;
@@ -84,6 +87,7 @@ PlayerLink::~PlayerLink()
 
 void PlayerLink::Start()
 {
+
 	//충돌
 	PlayerCollision_ = CreateCollision("PlayerHitBox", {64, 64});
 	PlayerLowerBodyCollision_ = CreateCollision("PlayerLowerBodyHitBox", {64, 20} , {0, 22});
@@ -129,10 +133,10 @@ void PlayerLink::Start()
 	PlayerRenderer_->CreateAnimation("Link_Damaged_Up.bmp", "Damaged_Up", 0, 1, 0.05f, false);
 	PlayerRenderer_->CreateAnimation("Link_Damaged_Down.bmp", "Damaged_Down", 0, 1, 0.05f, false);
 
-	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Right.bmp", "Carry_Start_Right", 0, 2, 0.2f, true);
-	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Left.bmp", "Carry_Start_Left", 0, 2, 0.2f, true);
-	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Up.bmp", "Carry_Start_Up", 0, 2, 0.2f, true);
-	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Down.bmp", "Carry_Start_Down", 0, 2, 0.2f, true);
+	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Right.bmp", "Carry_Start_Right", 0, 2, 0.2f, false);
+	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Left.bmp", "Carry_Start_Left", 0, 2, 0.2f, false);
+	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Up.bmp", "Carry_Start_Up", 0, 2, 0.2f, false);
+	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Down.bmp", "Carry_Start_Down", 0, 2, 0.2f, false);
 
 	PlayerRenderer_->CreateAnimation("Link_Carry_Idle_Right.bmp", "Carry_Idle_Right", 0, 1, 0.25f, true);
 	PlayerRenderer_->CreateAnimation("Link_Carry_Idle_Left.bmp", "Carry_Idle_Left", 0, 1, 0.25f, true);
@@ -183,7 +187,7 @@ void PlayerLink::Start()
 	{
 		MsgBoxAssert("충돌용 맵을 찾지 못했습니다");
 	}
-	MapCarryColImage_2_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_CarryColMap.bmp");
+	MapCarryColImage_2_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_1F_CarryColMap.bmp");
 
 	if (nullptr == MapCarryColImage_2_)
 	{
@@ -207,8 +211,11 @@ void PlayerLink::Start()
 	}
 	MapPasImage_ = MapPasImage_1;
 
-	RoomSize_[0] = { 2048, 4063 + 4128 };
-	RoomSize_[1] = { 4095, 3088 + 4128 };
+	RoomSize_[0] = { 2048, 4035 };
+	RoomSize_[1] = { 4095, 2050 };
+
+	//RoomSize_[0] = { 2048, 4063 + 4128 };
+	//RoomSize_[1] = { 4095, 3088 + 4128 };
 }
  
 void PlayerLink::Update()
@@ -364,6 +371,12 @@ void PlayerLink::CameraStateChange(CameraState _State)
 		case CameraState::Room10_Trans:
 			Room10_Trans_Start();
 			break;
+		case CameraState::Room9:
+			Room9Start();
+			break;
+		case CameraState::Room9_Trans:
+			Room9_Trans_Start();
+			break;
 		case CameraState::Max:
 			break;
 		default:
@@ -400,6 +413,12 @@ void PlayerLink::CameraStateUpdate()
 		break;
 	case CameraState::Room10_Trans:
 		Room10_Trans_Update();
+		break;
+	case CameraState::Room9:
+		Room9Update();
+		break;
+	case CameraState::Room9_Trans:
+		Room9_Trans_Update();
 		break;
 	case CameraState::Max:
 		break;
@@ -518,7 +537,7 @@ void PlayerLink::CameraAutoMove()
 		float Time = GameEngineTime::GetDeltaTime();
 
 
-		if (RoomSize_[1].x - GameEngineWindow::GetInst().GetScale().x > GetLevel()->GetCameraPos().y)
+		if (RoomSize_[1].x - GameEngineWindow::GetInst().GetScale().x > GetLevel()->GetCameraPos().x)
 		{
 			IsCameraAutoMove_ = false;
 		}

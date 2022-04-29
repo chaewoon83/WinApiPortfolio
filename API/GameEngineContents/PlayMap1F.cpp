@@ -25,6 +25,10 @@
 #include "Map1FRoom1Pot0.h"
 #include "Map1FRoom1Pot1.h"
 #include "Map1FRoom1Pot2.h"
+#include "Map1FRoom10Pot0.h"
+#include "Map1FRoom10Pot1.h"
+#include "Map1FRoom10Pot2.h"
+#include "Map1FRoom10Pot3.h"
 
 #include "Map1FRoom1EnemyPopo0.h"
 #include "Map1FRoom1EnemyPopo1.h"
@@ -67,6 +71,10 @@ void PlayMap1F::Loading()
 	CreateActor<Map1FRoom1Pot0>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 	CreateActor<Map1FRoom1Pot1>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 	CreateActor<Map1FRoom1Pot2>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	CreateActor<Map1FRoom10Pot0>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	CreateActor<Map1FRoom10Pot1>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	CreateActor<Map1FRoom10Pot2>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	CreateActor<Map1FRoom10Pot3>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 
 
 	CreateActor<Map1FRoof>(static_cast<int>(PlayLevelOrder::BACKGROUNDROOF));
@@ -83,7 +91,9 @@ void PlayMap1F::Loading()
 
 	//CreateActor<Colmap>(static_cast<int>(PlayLevelOrder::UI));
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
-	Player->SetPosition({3072.0f, 3800.0f + 4128.0f});
+	// Room10부터 시작
+	Player->SetPosition({ 3072.0f, 3800.0f });
+	//Player->SetPosition({3072.0f, 3800.0f + 4128.0f});
 	BridgeActor->Off();
 }
 

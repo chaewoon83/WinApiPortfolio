@@ -199,6 +199,12 @@ private:
 	void Room10_Trans_Start();
 	void Room10_Trans_Update();
 
+	void Room9Start();
+	void Room9Update();
+			 
+	void Room9_Trans_Start();
+	void Room9_Trans_Update();
+
 	void ResetTimeScale(int _x);
 	/////////////////////////////////////////////////////////////////////Staris State
 private:

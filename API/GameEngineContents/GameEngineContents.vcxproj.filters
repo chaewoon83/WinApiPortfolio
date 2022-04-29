@@ -163,6 +163,18 @@
     <ClInclude Include="Colmap.h">
       <Filter>Debug</Filter>
     </ClInclude>
+    <ClInclude Include="Map1FRoom10Pot0.h">
+      <Filter>Play\Map\Objects\Pot</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom10Pot1.h">
+      <Filter>Play\Map\Objects\Pot</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom10Pot3.h">
+      <Filter>Play\Map\Objects\Pot</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom10Pot2.h">
+      <Filter>Play\Map\Objects\Pot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -328,6 +340,18 @@
     </ClCompile>
     <ClCompile Include="Colmap.cpp">
       <Filter>Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom10Pot0.cpp">
+      <Filter>Play\Map\Objects\Pot</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom10Pot1.cpp">
+      <Filter>Play\Map\Objects\Pot</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom10Pot3.cpp">
+      <Filter>Play\Map\Objects\Pot</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom10Pot2.cpp">
+      <Filter>Play\Map\Objects\Pot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
