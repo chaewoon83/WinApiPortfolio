@@ -14,7 +14,7 @@ EnemyBlueStalfos::~EnemyBlueStalfos()
 void EnemyBlueStalfos::Start()
 {
 	SetPosition(GameEngineWindow::GetScale().Half());
-	SetScale({ 500,500 });
+	//SetScale({ 500,500 });
 }
  
 void EnemyBlueStalfos::Update()
@@ -23,6 +23,6 @@ void EnemyBlueStalfos::Update()
 }
 void EnemyBlueStalfos::Render()
 {
-	DebugRectRender();
+	//DebugRectRender();
 
 }

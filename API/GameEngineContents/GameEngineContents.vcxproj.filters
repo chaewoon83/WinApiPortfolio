@@ -111,9 +111,6 @@
     <ClInclude Include="EnemyAntiFairy.h">
       <Filter>Play\Enemy\Yet</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBlueStalfos.h">
-      <Filter>Play\Enemy\Yet</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyBubbleGroup.h">
       <Filter>Play\Enemy\Yet</Filter>
     </ClInclude>
@@ -174,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="Map1FRoom10Pot2.h">
       <Filter>Play\Map\Objects\Pot</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBlueStalfos.h">
+      <Filter>Play\Enemy\BlueStalfos</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -286,9 +286,6 @@
     <ClCompile Include="EnemyAntiFairy.cpp">
       <Filter>Play\Enemy\Yet</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBlueStalfos.cpp">
-      <Filter>Play\Enemy\Yet</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyBubbleGroup.cpp">
       <Filter>Play\Enemy\Yet</Filter>
     </ClCompile>
@@ -353,6 +350,12 @@
     <ClCompile Include="Map1FRoom10Pot2.cpp">
       <Filter>Play\Map\Objects\Pot</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerLink_Room_State.cpp">
+      <Filter>Play\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBlueStalfos.cpp">
+      <Filter>Play\Enemy\BlueStalfos</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -408,6 +411,9 @@
     </Filter>
     <Filter Include="Debug">
       <UniqueIdentifier>{8ca7e6b4-9ee1-4ba7-b0ba-d1ab707b4b4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Enemy\BlueStalfos">
+      <UniqueIdentifier>{fe7e71c9-f2f6-4944-ab24-1772aaba0d2b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
