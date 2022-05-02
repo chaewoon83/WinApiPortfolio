@@ -65,7 +65,7 @@ public:
 			Inst_ = nullptr;
 		}
 	}
-
+	void Reset();
 	void Update(float _DeltaTime);
 
 	float GetTime(const std::string& _Name);
