@@ -92,8 +92,8 @@ void PlayMap1F::Loading()
 	CreateActor<Colmap>(static_cast<int>(PlayLevelOrder::BACKGROUND));
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
 	// Room10부터 시작
-	Player->SetPosition({ 3072.0f, 3800.0f });
-	//Player->SetPosition({3072.0f, 3800.0f + 4128.0f});
+	//Player->SetPosition({ 3072.0f, 3800.0f });
+	Player->SetPosition({3072.0f, 3800.0f + 4128.0f});
 	BridgeActor->Off();
 }
 

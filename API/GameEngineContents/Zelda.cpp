@@ -166,4 +166,9 @@ void Zelda::TotalImageCut()
 	ImageCutter("EnemyBall.bmp", 2, 1); 
 	ImageCutter("EnemyGargantuanBall.bmp", 2, 1); 
 	ImageCutter("EnemyDeathEffect.bmp", 7, 1); 
+	ImageCutter("EnemyBlueStalfosRightBody.bmp", 2, 1);
+	ImageCutter("EnemyBlueStalfosLeftBody.bmp", 2, 1);
+	ImageCutter("EnemyBlueStalfosUpBody.bmp", 2, 1);
+	ImageCutter("EnemyBlueStalfosDownBody.bmp", 2, 1);
+
 }

@@ -26,9 +26,12 @@ private:
 	GameEngineRenderer* DeathEffectRenderer_;
 
 	GameEngineCollision* PopoCol_;
+	GameEngineCollision* PopoMoveCol_;
 	GameEngineActor* HitActor_;
 
 	float4 PopoPos_;
+
+	int TimeScale_;
 
 	int Hp_;
 	float InvincibleTime_;
@@ -52,6 +55,8 @@ private:
 	float CurBlinkTime_;
 	float BlinkFreq_;
 	float CurBlinkFreq_;
+	float TimeAfterDeath_;
+	float CurTimeAfterDeath_;
 
 	float4 MoveDir_;
 	float4 KnockbackDir_;
@@ -60,7 +65,6 @@ private:
 
 	void MoveDirCheck(int _RandomInt);
 	void GetDamaged();
-	void BlinkUpdate();
 	bool PosAndColorCheck(int _Color, GameEngineImage* _Image);
 
 	/// ////////FSM
@@ -73,6 +77,8 @@ private:
 	void DeathStart();
 	void IdleStart();
 	void KnockbackedStart();
+
+
 
 	void DeathUpdate();
 	void IdleUpdate();

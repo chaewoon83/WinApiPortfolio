@@ -116,3 +116,22 @@ enum class PopoState
 	Death,
 	Max,
 };
+
+enum class BlueStalfosState
+{
+	LookAroundRight,
+	LookAroundLeft,
+	LookAroundUp,
+	LookAroundDown,
+	WalkRight,
+	WalkLeft,
+	WalkUp,
+	WalkDown,
+	JumpRight,
+	JumpLeft,
+	JumpUp,
+	JumpDown,
+	Knockbacked,
+	Death,
+	Max,
+};

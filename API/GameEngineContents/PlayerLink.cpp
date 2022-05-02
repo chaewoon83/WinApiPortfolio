@@ -41,10 +41,10 @@ GameEngineActor* PlayerLink::CarryActor_ = nullptr;
 PlayerState PlayerLink::PlayerCurState_ = PlayerState::IdleDown;
 PlayerState PlayerLink::PlayerPrevState_ = PlayerState::Max;
 //디버그용
-CameraState PlayerLink::CameraState_ = CameraState::Room10;
-CameraState PlayerLink::PrevCameraState_ = CameraState::Room9;
-//CameraState PlayerLink::CameraState_ = CameraState::Room1;
-//CameraState PlayerLink::PrevCameraState_ = CameraState::Max;
+//CameraState PlayerLink::CameraState_ = CameraState::Room10;
+//CameraState PlayerLink::PrevCameraState_ = CameraState::Room9;
+CameraState PlayerLink::CameraState_ = CameraState::Room1;
+CameraState PlayerLink::PrevCameraState_ = CameraState::Max;
 PlayerStairsState PlayerLink::CurStairs_ = PlayerStairsState::Top;
 bool PlayerLink::IsOnStairs_ = false;
 bool PlayerLink::IsCarry_ = false;
@@ -211,11 +211,18 @@ void PlayerLink::Start()
 	}
 	MapPasImage_ = MapPasImage_1;
 
-	RoomSize_[0] = { 2048, 4035 };
-	RoomSize_[1] = { 4095, 2050 };
+	RoomSize_[0] = { 2048, 4063 + 4128 };
+	RoomSize_[1] = { 4095, 3088 + 4128 };
 
-	//RoomSize_[0] = { 2048, 4063 + 4128 };
-	//RoomSize_[1] = { 4095, 3088 + 4128 };
+	//{
+	//	SetPosition({ 3072.0f, 3800.0f });
+	//	RoomSize_[0] = { 2048, 4035 };
+	//	RoomSize_[1] = { 4095, 2050 };
+	//	CameraState_ = CameraState::Room10;
+	//	PrevCameraState_ = CameraState::Room9;
+	//}
+
+
 }
  
 void PlayerLink::Update()

@@ -6,6 +6,7 @@
 #include <GameEngine/GameEngineRenderer.h>
 #include <GameEngine/GameEngineImage.h>
 #include <GameEngineBase/GameEngineRandom.h>
+#include "EnemyGlobalFunction.h"
 #include "GlobalRandom.h"
 #include "ItemGreenRupee.h"
 #include "ItemBlueRupee.h"
@@ -19,7 +20,9 @@
 Map1FRoom1EnemyPopo0::Map1FRoom1EnemyPopo0()
 	:PopoRenderer_(nullptr),
 	 PopoCol_(nullptr),
+	 PopoMoveCol_(nullptr),
 	 PopoPos_({ 3104, 2503 + 4128 }),
+	 TimeScale_(2),
 	 IsInvincible_(false),
 	 IsDeath_(false),
 	 InvincibleTime_(0.3f),
@@ -34,12 +37,14 @@ Map1FRoom1EnemyPopo0::Map1FRoom1EnemyPopo0()
 	 CurMoveFreq_(0.0f),
 	 RestTime_(3.0f),
 	 CurRestTime_(0.0f),
-	 KnockbackTime_(0.2f),
+	 KnockbackTime_(0.15f),
 	 CurKnockbackTime_(0.0f),
 	 BlinkTime_(0.3f),
 	 CurBlinkTime_(0.0f),
 	 BlinkFreq_(0.02f),
 	 CurBlinkFreq_(0.0f),
+	 TimeAfterDeath_(2.0f),
+	 CurTimeAfterDeath_(0.0f),
 	 IsAlphaOn_(true),
 	 KnockbackDir_(float4::ZERO),
 	 MoveDir_(float4::ZERO),
@@ -58,21 +63,23 @@ void Map1FRoom1EnemyPopo0::Start()
 {
 	SetPosition(PopoPos_);
 	PopoRenderer_ = CreateRenderer();
-	PopoRenderer_->CreateAnimationTimeKey("EnemyPopo.bmp", "Idle", 2, 0, 2, 0.15f, true);
-	PopoRenderer_->CreateAnimationTimeKey("EnemyDeathEffect.bmp", "DeathEffect", 2, 0, 6, 0.15f, false);
+	PopoRenderer_->CreateAnimationTimeKey("EnemyPopo.bmp", "Idle", TimeScale_, 0, 2, 0.15f, true);
+	//죽는 애니메이션은 플레이어와 함께한다
+	PopoRenderer_->CreateAnimationTimeKey("EnemyDeathEffect.bmp", "DeathEffect", 0, 0, 6, 0.15f, false);
 	PopoRenderer_->ChangeAnimation("Idle");
 
 	//DeathEffectRenderer_ = CreateRenderer();
 	//DeathEffectRenderer_->CreateAnimation("EnemyDeathEffect.bmp", "DeathEffect", 0, 6, 0.15f, false);
 
 	PopoCol_ = CreateCollision("MonsterHitBox", { 64, 64 });
+	PopoMoveCol_ = CreateCollision("MonsterMoveBox", { 64, 64 });
 
 }
  
 void Map1FRoom1EnemyPopo0::Update()
 {
 	PopoStateUpdate();
-	BlinkUpdate();
+	EnemyGlobalFunction::PopoBlinkUpdate(TimeScale_, IsBlink_, IsAlphaOn_, BlinkTime_, CurBlinkTime_, BlinkFreq_, CurBlinkFreq_, PopoCurState_, PopoRenderer_);
 }
 
 void Map1FRoom1EnemyPopo0::Render()
@@ -85,7 +92,7 @@ void Map1FRoom1EnemyPopo0::GetDamaged()
 
 	if (true == IsInvincible_)
 	{
-		CurInvincibleTime_ += GameEngineTime::GetDeltaTime(2);
+		CurInvincibleTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
 		if (InvincibleTime_ < CurInvincibleTime_)
 		{
 			IsInvincible_ = false;
@@ -135,49 +142,6 @@ void Map1FRoom1EnemyPopo0::GetDamaged()
 
 }
 
-void Map1FRoom1EnemyPopo0::BlinkUpdate()
-{
-
-	if (true == IsBlink_ && PopoState::Death != PopoCurState_ )
-	{
-		CurBlinkTime_ += GameEngineTime::GetDeltaTime(2);
-		CurBlinkFreq_ += GameEngineTime::GetDeltaTime(2);
-		if (BlinkFreq_ < CurBlinkFreq_)
-		{
-			CurBlinkFreq_ = 0.0f;
-			if (false == IsAlphaOn_)
-			{
-				PopoRenderer_->SetAlpha(255);
-				IsAlphaOn_ = true;
-			}
-			else
-			{
-				PopoRenderer_->SetAlpha(0);
-				IsAlphaOn_ = false;
-			}
-		}
-
-		if (BlinkTime_ < CurBlinkTime_)
-		{
-
-			IsBlink_ = false;
-			CurBlinkTime_ = 0.0f;
-			CurBlinkFreq_ = 0.0f;
-			IsAlphaOn_ = true;
-			PopoRenderer_->SetAlpha(255);
-			return;
-		}
-	}
-	else
-	{
-		if (IsAlphaOn_ = false)
-		{
-			PopoRenderer_->SetAlpha(255);
-			IsAlphaOn_ = true;
-		}
-	}
-}
-
 void Map1FRoom1EnemyPopo0::IdleStart()
 {
 	//PopoRenderer_->ChangeAnimation("Idle");
@@ -190,6 +154,7 @@ void Map1FRoom1EnemyPopo0::KnockbackedStart()
 
 void Map1FRoom1EnemyPopo0::DeathStart()
 {
+	PopoMoveCol_->Death();
 	PopoRenderer_->SetAlpha(255);
 	PopoRenderer_->ChangeAnimation("DeathEffect");
 	//DeathEffectRenderer_->ChangeAnimation("DeathEffect");
@@ -199,7 +164,7 @@ void Map1FRoom1EnemyPopo0::IdleUpdate()
 {
 	GetDamaged();
 	GameEngineTime* A =GameEngineTime::GetInst();
-	CurRestTime_ += GameEngineTime::GetDeltaTime(2);
+	CurRestTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
 	if (MoveTimes_ == CurMoveTimes_)
 	{
 		CurMoveTimes_ = 0;
@@ -211,7 +176,7 @@ void Map1FRoom1EnemyPopo0::IdleUpdate()
 	}
 	if (RestTime_ < CurRestTime_)
 	{
-		CurMoveFreq_ += GameEngineTime::GetDeltaTime(2);
+		CurMoveFreq_ += GameEngineTime::GetDeltaTime(TimeScale_);
 		if (MoveFreq_ < CurMoveFreq_)
 		{
 			CurMoveTimes_ += 1;
@@ -224,16 +189,15 @@ void Map1FRoom1EnemyPopo0::IdleUpdate()
 			}
 		}
 	}
-
 }
 
 void Map1FRoom1EnemyPopo0::KnockbackedUpdate()
 {
-	CurKnockbackTime_ += GameEngineTime::GetDeltaTime(2);
+	CurKnockbackTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
 	int White = RGB(255, 255, 255);
 	if (true == PosAndColorCheck(White, PlayerLink::MapColImage_))
 	{
-		SetMove(KnockbackDir_ * KnockBackSpeed_ * GameEngineTime::GetDeltaTime(2));
+		EnemyGlobalFunction::MoveFunction(TimeScale_, KnockBackSpeed_, KnockbackDir_, PopoMoveCol_, this);
 	}
 	if (KnockbackTime_ < CurKnockbackTime_)
 	{
@@ -250,7 +214,6 @@ void Map1FRoom1EnemyPopo0::KnockbackedUpdate()
 		PopoChangeState(PopoState::Idle);
 		return;
 	}
-
 }
 
 void Map1FRoom1EnemyPopo0::DeathUpdate()
@@ -406,3 +369,5 @@ void Map1FRoom1EnemyPopo0::MoveDirCheck(int _RandomInt)
 		MoveDir_ = float4{ -1, 1 };
 	}
 }
+
+

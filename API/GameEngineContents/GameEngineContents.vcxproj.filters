@@ -175,6 +175,12 @@
     <ClInclude Include="EnemyBlueStalfos.h">
       <Filter>Play\Enemy\BlueStalfos</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyGlobalFunction.h">
+      <Filter>Play\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Test.h">
+      <Filter>Play\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -355,6 +361,12 @@
     </ClCompile>
     <ClCompile Include="EnemyBlueStalfos.cpp">
       <Filter>Play\Enemy\BlueStalfos</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyGlobalFunction.cpp">
+      <Filter>Play\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Test.cpp">
+      <Filter>Play\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
