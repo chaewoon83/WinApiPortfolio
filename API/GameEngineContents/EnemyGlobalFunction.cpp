@@ -7,6 +7,7 @@
 #include <GameEngine/GameEngineImage.h>
 #include <GameEngineBase/GameEngineRandom.h>
 #include <GameEngine/GameEngineActor.h>
+#include <GameEngineBase/GameEngineTime.h>
 #include "GlobalRandom.h"
 #include "ItemGreenRupee.h"
 #include "ItemBlueRupee.h"
@@ -146,7 +147,24 @@ void EnemyGlobalFunction::MoveDirBoolCheck(bool& _MoveRight, bool& _MoveLeft, bo
 
 }
 
-void EnemyGlobalFunction::KnockBackMoveFunction(int _TimeScale, float _Speed, float4 _MoveDir, GameEngineCollision* _Collision, GameEngineActor* _Actor)
+void EnemyGlobalFunction::Relocation(CameraState _PlayerRoom, int _MonsterRoom, bool& _IsRelocated, float4 _Pos, GameEngineActor* _Monster)
+{
+	if ((static_cast<int>(_PlayerRoom) + 2) != 2 * _MonsterRoom)
+	{
+		if (_IsRelocated == false)
+		{
+			_IsRelocated = true;
+			_Monster->SetPosition(_Pos);
+		}
+	}
+	if (GameEngineTime::GetInst()->GetTimeScale(_MonsterRoom) != 0.0f)
+	{
+		_IsRelocated = false;
+	}
+}
+
+void EnemyGlobalFunction::KnockBackMoveFunction(int _TimeScale, float _Speed, float4 _MoveDir, GameEngineCollision* _Collision, GameEngineActor* _Actor, 
+	float _x /*= 32.0f*/, float _y_1 /*= 32.0f*/, float _y_2 /*= 32.0f*/)
 {
 	float4 CheckPos;
 	//맵 이미지와 캐릭터의 이미지의 픽셀 위치를 동일하게 맞춰놔야한다
@@ -164,33 +182,33 @@ void EnemyGlobalFunction::KnockBackMoveFunction(int _TimeScale, float _Speed, fl
 		{
 			MyPos += Map1f_2_Scale;
 		}
-		float4 MyPosTopRight = MyPos + float4{ 32.0f, -32.0f };
-		float4 MyPosTopLeft = MyPos + float4{ -32.0f, -32.0f };
-		float4 MyPosBotRight = MyPos + float4{ 32.0f, 32.0f };
-		float4 MyPosBotLeft = MyPos + float4{ -32.0f, 32.0f };
-		float4 MyPosRight = MyPos + float4{ 32.0f, 0.0f };
-		float4 MyPosLeft = MyPos + float4{ -32.0f, 0.0f };
-		float4 MyPosTop = MyPos + float4{ 0.0f, -32.0f };
-		float4 MyPosBot = MyPos + float4{ 0.0f, 32.0f };
+		float4 MyPosTopRight = MyPos + float4{ _x, -_y_1 };
+		float4 MyPosTopLeft = MyPos + float4{ -_x, -_y_1 };
+		float4 MyPosBotRight = MyPos + float4{ _x, _y_2 };
+		float4 MyPosBotLeft = MyPos + float4{ -_x, _y_2 };
+		float4 MyPosRight = MyPos + float4{ _x, 0.0f };
+		float4 MyPosLeft = MyPos + float4{ -_x, 0.0f };
+		float4 MyPosTop = MyPos + float4{ 0.0f, -_y_1 };
+		float4 MyPosBot = MyPos + float4{ 0.0f, _y_2 };
 		float4 NextPos = MyPos + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed);
 		float4 NextRealPos = _Actor->GetPosition() + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed);
-		float4 CheckPosTopRight = NextPos + float4{ 32.0f, -32.0f };
-		float4 CheckPosTopLeft = NextPos + float4{ -32.0f, -32.0f };
-		float4 CheckPosBotRight = NextPos + float4{ 32.0f, 32.0f };
-		float4 CheckPosBotLeft = NextPos + float4{ -32.0f, 32.0f };
-		float4 CheckPosRight = NextPos + float4{ 32.0f, 0.0f };
-		float4 CheckPosLeft = NextPos + float4{ -32.0f, 0.0f };
-		float4 CheckPosTop = NextPos + float4{ 0.0f, -32.0f };
-		float4 CheckPosBot = NextPos + float4{ 0.0f, 32.0f };
+		float4 CheckPosTopRight = NextPos + float4{ _x, -_y_1 };
+		float4 CheckPosTopLeft = NextPos + float4{ -_x, -_y_1 };
+		float4 CheckPosBotRight = NextPos + float4{ _x, _y_2 };
+		float4 CheckPosBotLeft = NextPos + float4{ -_x, _y_2 };
+		float4 CheckPosRight = NextPos + float4{ _x, 0.0f };
+		float4 CheckPosLeft = NextPos + float4{ -_x, 0.0f };
+		float4 CheckPosTop = NextPos + float4{ 0.0f, -_y_1 };
+		float4 CheckPosBot = NextPos + float4{ 0.0f, _y_1 };
 
-		int ColorNextTopRight = PlayerLink::MapColImage_->GetImagePixel(CheckPosTopRight);
-		int ColorNextTopLeft = PlayerLink::MapColImage_->GetImagePixel(CheckPosTopLeft);
-		int ColorNextBotRight = PlayerLink::MapColImage_->GetImagePixel(CheckPosBotRight);
-		int ColorNextBotLeft = PlayerLink::MapColImage_->GetImagePixel(CheckPosBotLeft);
-		int ColorNextRight = PlayerLink::MapColImage_->GetImagePixel(CheckPosRight);
-		int ColorNextLeft = PlayerLink::MapColImage_->GetImagePixel(CheckPosLeft);
-		int ColorNextTop = PlayerLink::MapColImage_->GetImagePixel(CheckPosTop);
-		int ColorNextBot = PlayerLink::MapColImage_->GetImagePixel(CheckPosBot);
+		int ColorNextTopRight = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopRight);
+		int ColorNextTopLeft = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopLeft);
+		int ColorNextBotRight = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotRight);
+		int ColorNextBotLeft = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotLeft);
+		int ColorNextRight = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosRight);
+		int ColorNextLeft = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosLeft);
+		int ColorNextTop = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTop);
+		int ColorNextBot = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBot);
 
 
 		//int ColorNextTopRight = MapColImage_->GetImagePixel(CheckPosTopRight);
@@ -255,19 +273,19 @@ void EnemyGlobalFunction::KnockBackMoveFunction(int _TimeScale, float _Speed, fl
 		{
 			if (true == MoveRight)
 			{
-				if (Black != PlayerLink::MapColImage_->GetImagePixel({ MyPosTopRight.x + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).x, MyPosTop.y }) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel({ MyPosBotRight.x + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).x, MyPosBot.y }) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel({ MyPosRight.x + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).x, MyPosRight.y }))
+				if (Black != PlayerLink::MapCarryColImage_->GetImagePixel({ MyPosTopRight.x + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).x, MyPosTop.y }) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel({ MyPosBotRight.x + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).x, MyPosBot.y }) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel({ MyPosRight.x + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).x, MyPosRight.y }))
 				{
 					{
 						_Actor->SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed);
 					}
 				}
 
-				if (Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosRight) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosTopRight) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosTopLeft) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosLeft))
+				if (Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosRight) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopRight) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopLeft) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosLeft))
 				{
 					{
 						if (false == MoveUp)
@@ -278,10 +296,10 @@ void EnemyGlobalFunction::KnockBackMoveFunction(int _TimeScale, float _Speed, fl
 
 				}
 
-				if (Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosRight) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosBotRight) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosTopLeft) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosBotLeft))
+				if (Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosRight) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotRight) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopLeft) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotLeft))
 				{
 					if (false == MoveDown)
 					{
@@ -292,27 +310,27 @@ void EnemyGlobalFunction::KnockBackMoveFunction(int _TimeScale, float _Speed, fl
 
 			if (true == MoveLeft)
 			{
-				if (Black != PlayerLink::MapColImage_->GetImagePixel({ MyPosTopLeft.x + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).x, MyPosTopLeft.y }) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel({ MyPosBotLeft.x + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).x, MyPosBotLeft.y }) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel({ MyPosLeft.x + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).x, MyPosLeft.y }))
+				if (Black != PlayerLink::MapCarryColImage_->GetImagePixel({ MyPosTopLeft.x + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).x, MyPosTopLeft.y }) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel({ MyPosBotLeft.x + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).x, MyPosBotLeft.y }) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel({ MyPosLeft.x + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).x, MyPosLeft.y }))
 				{
 					_Actor->SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed);
 				}
 
-				if (Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosLeft) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosTopLeft) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosTopRight) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosBotRight))
+				if (Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosLeft) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopLeft) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopRight) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotRight))
 				{
 					if (false == MoveUp)
 					{
 						_Actor->SetMove(float4::UP * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed);
 					}
 				}
-				if (Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosLeft) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosBotLeft) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosTopRight) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosBotRight))
+				if (Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosLeft) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotLeft) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopRight) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotRight))
 				{
 					if (false == MoveDown)
 					{
@@ -323,17 +341,17 @@ void EnemyGlobalFunction::KnockBackMoveFunction(int _TimeScale, float _Speed, fl
 
 			if (true == MoveUp)
 			{
-				if (Black != PlayerLink::MapColImage_->GetImagePixel({ MyPosTopRight.x, MyPosTop.y + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).y }) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel({ MyPosTopLeft.x, MyPosTop.y + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).y }) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel({ MyPosTop.x, MyPosTop.y + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).y }))
+				if (Black != PlayerLink::MapCarryColImage_->GetImagePixel({ MyPosTopRight.x, MyPosTop.y + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).y }) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel({ MyPosTopLeft.x, MyPosTop.y + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).y }) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel({ MyPosTop.x, MyPosTop.y + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).y }))
 				{
 					_Actor->SetMove(float4::UP * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed);
 				}
 
-				if (Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosTop) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosTopRight) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosBotRight) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosBotLeft))
+				if (Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTop) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopRight) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotRight) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotLeft))
 				{
 					if (false == MoveRight)
 					{
@@ -341,10 +359,10 @@ void EnemyGlobalFunction::KnockBackMoveFunction(int _TimeScale, float _Speed, fl
 					}
 				}
 
-				if (Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosTop) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosTopLeft) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosBotRight) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosBotLeft))
+				if (Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTop) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopLeft) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotRight) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotLeft))
 				{
 					if (false == MoveLeft)
 					{
@@ -355,17 +373,17 @@ void EnemyGlobalFunction::KnockBackMoveFunction(int _TimeScale, float _Speed, fl
 
 			if (true == MoveDown)
 			{
-				if (Black != PlayerLink::MapColImage_->GetImagePixel({ MyPosBotRight.x, MyPosBot.y + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).y }) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel({ MyPosBotLeft.x, MyPosBot.y + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).y }) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel({ MyPosBot.x, MyPosBot.y + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).y }))
+				if (Black != PlayerLink::MapCarryColImage_->GetImagePixel({ MyPosBotRight.x, MyPosBot.y + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).y }) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel({ MyPosBotLeft.x, MyPosBot.y + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).y }) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel({ MyPosBot.x, MyPosBot.y + (_MoveDir * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed).y }))
 				{
 					_Actor->SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(_TimeScale) * _Speed);
 				}
 
-				if (Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosBot) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosBotRight) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosTopRight) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosTopLeft))
+				if (Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBot) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotRight) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopRight) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopLeft))
 				{
 					if (false == MoveRight)
 					{
@@ -373,10 +391,10 @@ void EnemyGlobalFunction::KnockBackMoveFunction(int _TimeScale, float _Speed, fl
 					}
 				}
 
-				if (Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosBot) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosBotLeft) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosTopRight) &&
-					Black != PlayerLink::MapColImage_->GetImagePixel(CheckPosTopLeft))
+				if (Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBot) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotLeft) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopRight) &&
+					Black != PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopLeft))
 				{
 					if (false == MoveLeft)
 					{

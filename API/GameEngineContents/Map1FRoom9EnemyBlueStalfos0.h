@@ -3,18 +3,18 @@
 #include "GameEngineContentsEnum.h"
 // Ό³Έν :
 class GameEngineImage;
-class EnemyBlueStalfos : public GameEngineActor
+class Map1FRoom9EnemyBlueStalfos0 : public GameEngineActor
 {
 public:
 	// constrcuter destructer
-	EnemyBlueStalfos();
-	~EnemyBlueStalfos();
+	Map1FRoom9EnemyBlueStalfos0();
+	~Map1FRoom9EnemyBlueStalfos0();
 
 	// delete Function
-	EnemyBlueStalfos(const EnemyBlueStalfos& _Other) = delete;
-	EnemyBlueStalfos(EnemyBlueStalfos&& _Other) noexcept = delete;
-	EnemyBlueStalfos& operator=(const EnemyBlueStalfos& _Other) = delete;
-	EnemyBlueStalfos& operator=(EnemyBlueStalfos&& _Other) noexcept = delete;
+	Map1FRoom9EnemyBlueStalfos0(const Map1FRoom9EnemyBlueStalfos0& _Other) = delete;
+	Map1FRoom9EnemyBlueStalfos0(Map1FRoom9EnemyBlueStalfos0&& _Other) noexcept = delete;
+	Map1FRoom9EnemyBlueStalfos0& operator=(const Map1FRoom9EnemyBlueStalfos0& _Other) = delete;
+	Map1FRoom9EnemyBlueStalfos0& operator=(Map1FRoom9EnemyBlueStalfos0&& _Other) noexcept = delete;
 
 protected:
 	void Start() override;
@@ -41,6 +41,7 @@ private:
 	float CurInvincibleTime_;
 	bool IsInvincible_;
 	bool IsDeath_;
+	bool IsRelocated_;
 
 	bool IsGetDamaged_;
 	bool IsKnockback_;

@@ -1,4 +1,4 @@
-#include "EnemyBlueStalfos.h"
+#include "Map1FRoom9EnemyBlueStalfos0.h"
 #include "PlayerLink.h"
 #include <windows.h>
 #include <GameEngineBase/GameEngineWindow.h>
@@ -17,15 +17,16 @@
 //2. 한 방향으로 7-10번씩 움직임
 
 
-EnemyBlueStalfos::EnemyBlueStalfos()
+Map1FRoom9EnemyBlueStalfos0::Map1FRoom9EnemyBlueStalfos0()
 	:BlueStalfosHeadRenderer_(nullptr),
 	 BlueStalfosBodyRenderer_(nullptr),
 	 BlueStalfosCol_(nullptr),
 	 BlueStalfosMoveCol_(nullptr),
-	 BlueStalfosPos_({ 3072.0f, 3800.0f - 100.0f }),
-	 TimeScale_(10),
+	 BlueStalfosPos_({ 1371, 2967 }),
+	 TimeScale_(9),
 	 IsInvincible_(false),
 	 IsDeath_(false),
+	 IsRelocated_(false),
 	 InvincibleTime_(0.3f),
 	 CurInvincibleTime_(0.0f),
 	 Hp_(2),
@@ -50,7 +51,7 @@ EnemyBlueStalfos::EnemyBlueStalfos()
 	 CurTimeAfterDeath_(0.0f),
 	 JumpTime_(0.5f),
 	 CurJumpTime_(0.0f),
-	 OriginalPivot_({-24,28}),
+	 OriginalPivot_({-12,28}),
 	 JumpHeight_(0.0f),
 	 JumpVerSpeed_(500.0f),
 	 CurJumpVerSpeed_(0.0f),
@@ -65,16 +66,22 @@ EnemyBlueStalfos::EnemyBlueStalfos()
 
 
 /// 10 times killed Popo, 2 times 1rupee, 1 time 5rupee;
-EnemyBlueStalfos::~EnemyBlueStalfos()
+Map1FRoom9EnemyBlueStalfos0::~Map1FRoom9EnemyBlueStalfos0()
 {
 }
 
-void EnemyBlueStalfos::Start()
+void Map1FRoom9EnemyBlueStalfos0::Start()
 {
 	SetPosition(BlueStalfosPos_);
 	BlueStalfosShadowRenderer_ = CreateRenderer("EnemyBlueStalfosShadow.bmp");
 	BlueStalfosShadowRenderer_->SetPivot({ 0, 48 });
 	BlueStalfosHeadRenderer_ = CreateRenderer();
+	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
+	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosRightHead.bmp", "Right", TimeScale_, 0, 0, 0.15f, false);
+	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosLeftHead.bmp", "Left", TimeScale_, 0, 0, 0.15f, false);
+	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosUpHead.bmp", "Up", TimeScale_, 0, 0, 0.15f, false);
+	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosDownHead.bmp", "Down", TimeScale_, 0, 0, 0.15f, false);
+	BlueStalfosHeadRenderer_->ChangeAnimation("Down");
 
 	BlueStalfosBodyRenderer_ = CreateRenderer();
 	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
@@ -83,12 +90,6 @@ void EnemyBlueStalfos::Start()
 	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosUpBody.bmp", "Up_Walk", TimeScale_, 0, 1, 0.15f, true);
 	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosDownBody.bmp", "Down_Walk", TimeScale_, 0, 1, 0.15f, true);
 
-	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
-	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosRightHead.bmp", "Right", TimeScale_, 0, 0, 0.15f, false);
-	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosLeftHead.bmp", "Left", TimeScale_, 0, 0, 0.15f, false);
-	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosUpHead.bmp", "Up", TimeScale_, 0, 0, 0.15f, false);
-	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosDownHead.bmp", "Down", TimeScale_, 0, 0, 0.15f, false);
-	BlueStalfosHeadRenderer_->ChangeAnimation("Down");
 
 
 	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosRightBodyIdle.bmp", "Right_Idle", TimeScale_, 0, 0, 0.3f, false);
@@ -139,101 +140,102 @@ void EnemyBlueStalfos::Start()
 	}
 }
 
-void EnemyBlueStalfos::Update()
+void Map1FRoom9EnemyBlueStalfos0::Update()
 {
 	BlueStalfosStateUpdate();
 	EnemyGlobalFunction::BlueStalfosBlinkUpdate(TimeScale_, IsBlink_, IsAlphaOn_, BlinkTime_, 
 		CurBlinkTime_, BlinkFreq_, CurBlinkFreq_, BlueStalfosCurState_, BlueStalfosHeadRenderer_, BlueStalfosBodyRenderer_);
+	EnemyGlobalFunction::Relocation(PlayerLink::GetPlayerCurRoomState(), TimeScale_, IsRelocated_, BlueStalfosPos_, this);
 }
 
-void EnemyBlueStalfos::Render()
+void Map1FRoom9EnemyBlueStalfos0::Render()
 {
 
 }
 
-void EnemyBlueStalfos::LookAroundRightStart()
+void Map1FRoom9EnemyBlueStalfos0::LookAroundRightStart()
 {
 	StopDirCheck();
 	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
 	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
 	BlueStalfosHeadRenderer_->ChangeAnimation("Right");
 }
-void EnemyBlueStalfos::LookAroundLeftStart()
+void Map1FRoom9EnemyBlueStalfos0::LookAroundLeftStart()
 {
 	StopDirCheck();
 	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
 	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
 	BlueStalfosHeadRenderer_->ChangeAnimation("Left");
 }
-void EnemyBlueStalfos::LookAroundUpStart()
+void Map1FRoom9EnemyBlueStalfos0::LookAroundUpStart()
 {
 	StopDirCheck();
 	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
 	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
 	BlueStalfosHeadRenderer_->ChangeAnimation("Up");
 }
-void EnemyBlueStalfos::LookAroundDownStart()
+void Map1FRoom9EnemyBlueStalfos0::LookAroundDownStart()
 {
 	StopDirCheck();
 	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
 	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
 	BlueStalfosHeadRenderer_->ChangeAnimation("Down");
 }
-void EnemyBlueStalfos::WalkRightStart()
+void Map1FRoom9EnemyBlueStalfos0::WalkRightStart()
 {
 	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
 	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
 	BlueStalfosBodyRenderer_->ChangeAnimation("Right_Walk");
 }
-void EnemyBlueStalfos::WalkLeftStart()
+void Map1FRoom9EnemyBlueStalfos0::WalkLeftStart()
 {
 	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
 	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
 	BlueStalfosBodyRenderer_->ChangeAnimation("Left_Walk");
 }
-void EnemyBlueStalfos::WalkUpStart()
+void Map1FRoom9EnemyBlueStalfos0::WalkUpStart()
 {
 	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
 	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
 	BlueStalfosBodyRenderer_->ChangeAnimation("Up_Walk");
 }
-void EnemyBlueStalfos::WalkDownStart()
+void Map1FRoom9EnemyBlueStalfos0::WalkDownStart()
 {
 	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
 	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
 	BlueStalfosBodyRenderer_->ChangeAnimation("Down_Walk");
 }
 
-void EnemyBlueStalfos::JumpRightStart()
+void Map1FRoom9EnemyBlueStalfos0::JumpRightStart()
 {
 	CurJumpVerSpeed_ = 0.0f;
 	BlueStalfosHeadRenderer_->ChangeAnimation("Left");
 	BlueStalfosBodyRenderer_->ChangeAnimation("Right_Jump");
 }
-void EnemyBlueStalfos::JumpLeftStart()
+void Map1FRoom9EnemyBlueStalfos0::JumpLeftStart()
 {
 	CurJumpVerSpeed_ = 0.0f;
 	BlueStalfosHeadRenderer_->ChangeAnimation("Right");
 	BlueStalfosBodyRenderer_->ChangeAnimation("Left_Jump");
 }
-void EnemyBlueStalfos::JumpUpStart()
+void Map1FRoom9EnemyBlueStalfos0::JumpUpStart()
 {
 	CurJumpVerSpeed_ = 0.0f;
 	BlueStalfosHeadRenderer_->ChangeAnimation("Down");
 	BlueStalfosBodyRenderer_->ChangeAnimation("Up_Jump");
 }
-void EnemyBlueStalfos::JumpDownStart()
+void Map1FRoom9EnemyBlueStalfos0::JumpDownStart()
 {
 	CurJumpVerSpeed_ = 0.0f;
 	BlueStalfosHeadRenderer_->ChangeAnimation("Up");
 	BlueStalfosBodyRenderer_->ChangeAnimation("Down_Jump");
 }
 
-void EnemyBlueStalfos::KnockbackedStart()
+void Map1FRoom9EnemyBlueStalfos0::KnockbackedStart()
 {
 }
 
-void EnemyBlueStalfos::DeathStart()
+void Map1FRoom9EnemyBlueStalfos0::DeathStart()
 {
 	BlueStalfosMoveCol_->Death();
 	BlueStalfosHeadRenderer_->SetAlpha(255);
@@ -243,7 +245,7 @@ void EnemyBlueStalfos::DeathStart()
 	//DeathEffectRenderer_->ChangeAnimation("DeathEffect");
 }
 
-void EnemyBlueStalfos::LookAroundUpdate()
+void Map1FRoom9EnemyBlueStalfos0::LookAroundUpdate()
 {
 	std::vector<GameEngineCollision*> ColList;
 	if (true == BlueStalfosJumpCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect) ||
@@ -283,7 +285,7 @@ void EnemyBlueStalfos::LookAroundUpdate()
 	}
 }
 
-void EnemyBlueStalfos::WalkUpdate()
+void Map1FRoom9EnemyBlueStalfos0::WalkUpdate()
 {
 	std::vector<GameEngineCollision*> ColList;
 	if (true == BlueStalfosJumpCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect) ||
@@ -327,12 +329,12 @@ void EnemyBlueStalfos::WalkUpdate()
 	}
 }
 
-void EnemyBlueStalfos::Action()
+void Map1FRoom9EnemyBlueStalfos0::Action()
 {
 
 }
 
-void EnemyBlueStalfos::JumpUpdate()
+void Map1FRoom9EnemyBlueStalfos0::JumpUpdate()
 {
 	CurJumpTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
 
@@ -378,7 +380,7 @@ void EnemyBlueStalfos::JumpUpdate()
 	}
 }
 
-void EnemyBlueStalfos::KnockbackedUpdate()
+void Map1FRoom9EnemyBlueStalfos0::KnockbackedUpdate()
 {
 	GetDamaged();
 	CurKnockbackTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
@@ -427,7 +429,7 @@ void EnemyBlueStalfos::KnockbackedUpdate()
 	}
 }
 
-void EnemyBlueStalfos::DeathUpdate()
+void Map1FRoom9EnemyBlueStalfos0::DeathUpdate()
 {
 	if (true == IsDeath_ && true == BlueStalfosHeadRenderer_->IsEndAnimation())
 	{
@@ -455,7 +457,7 @@ void EnemyBlueStalfos::DeathUpdate()
 	}
 }
 
-void EnemyBlueStalfos::BlueStalfosChangeState(BlueStalfosState _State)
+void Map1FRoom9EnemyBlueStalfos0::BlueStalfosChangeState(BlueStalfosState _State)
 {
 	if (BlueStalfosCurState_ != _State)
 	{
@@ -512,7 +514,7 @@ void EnemyBlueStalfos::BlueStalfosChangeState(BlueStalfosState _State)
 	BlueStalfosCurState_ = _State;
 }
 
-void EnemyBlueStalfos::BlueStalfosStateUpdate()
+void Map1FRoom9EnemyBlueStalfos0::BlueStalfosStateUpdate()
 {
 	switch (BlueStalfosCurState_)
 	{
@@ -548,7 +550,7 @@ void EnemyBlueStalfos::BlueStalfosStateUpdate()
 }
 
 
-void EnemyBlueStalfos::MoveDirCheck(int _RandomInt)
+void Map1FRoom9EnemyBlueStalfos0::MoveDirCheck(int _RandomInt)
 {
 	if (1 == _RandomInt)
 	{
@@ -568,7 +570,7 @@ void EnemyBlueStalfos::MoveDirCheck(int _RandomInt)
 	}
 }
 
-void EnemyBlueStalfos::StopDirCheck()
+void Map1FRoom9EnemyBlueStalfos0::StopDirCheck()
 {
 	if (BlueStalfosState::JumpRight == BlueStalfosPrevState_ ||
 		BlueStalfosState::WalkRight == BlueStalfosPrevState_)
@@ -592,11 +594,11 @@ void EnemyBlueStalfos::StopDirCheck()
 	}
 }
 
-void EnemyBlueStalfos::JumpCheck()
+void Map1FRoom9EnemyBlueStalfos0::JumpCheck()
 {
 }
 
-void EnemyBlueStalfos::GetDamaged()
+void Map1FRoom9EnemyBlueStalfos0::GetDamaged()
 {
 
 	if (true == IsInvincible_)
@@ -651,7 +653,7 @@ void EnemyBlueStalfos::GetDamaged()
 
 }
 
-void EnemyBlueStalfos::JumpDirCheck(float4 _Dir)
+void Map1FRoom9EnemyBlueStalfos0::JumpDirCheck(float4 _Dir)
 {
 	if (abs(_Dir.x) > abs(_Dir.y))
 	{
@@ -681,7 +683,7 @@ void EnemyBlueStalfos::JumpDirCheck(float4 _Dir)
 	}
 }
 
-bool EnemyBlueStalfos::PosAndColorCheck(int _Color, GameEngineImage* _Image)
+bool Map1FRoom9EnemyBlueStalfos0::PosAndColorCheck(int _Color, GameEngineImage* _Image)
 {
 	float4 MyPos = GetPosition();
 	float4 Map1f_2_Scale = float4{ 0, -4128 };
@@ -723,7 +725,7 @@ bool EnemyBlueStalfos::PosAndColorCheck(int _Color, GameEngineImage* _Image)
 	return false;
 }
 
-bool EnemyBlueStalfos::MoveFunction()
+bool Map1FRoom9EnemyBlueStalfos0::MoveFunction()
 {
 	float4 CheckPos;
 	//맵 이미지와 캐릭터의 이미지의 픽셀 위치를 동일하게 맞춰놔야한다

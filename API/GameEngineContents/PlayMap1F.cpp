@@ -35,6 +35,7 @@
 #include "Map1FRoom1EnemyPopo2.h"
 
 #include "EnemyBlueStalfos.h"
+#include "Map1FRoom9EnemyBlueStalfos0.h"
 
 #include "Colmap.h"
 
@@ -66,6 +67,7 @@ void PlayMap1F::Loading()
 	CreateActor<Map1FRoom1EnemyPopo2>(static_cast<int>(PlayLevelOrder::MONSTER));
 
 	CreateActor<EnemyBlueStalfos>(static_cast<int>(PlayLevelOrder::MONSTER));
+	CreateActor<Map1FRoom9EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER));
 
 	PlayerLink* Player = CreateActor<PlayerLink>(static_cast<int>(PlayLevelOrder::PLAYER));
 	PlayerLink::MainPlayer_ = Player;

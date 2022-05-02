@@ -31,7 +31,7 @@ public:
 	GameEngineImage* MapColImage_1_;
 	GameEngineImage* MapColImage_2_;
 
-	GameEngineImage* MapCarryColImage_;
+	static GameEngineImage* MapCarryColImage_;
 	GameEngineImage* MapCarryColImage_1_;
 	GameEngineImage* MapCarryColImage_2_;
 
@@ -204,8 +204,6 @@ private:
 			 
 	void Room9_Trans_Start();
 	void Room9_Trans_Update();
-
-	void ResetTimeScale(int _x);
 	/////////////////////////////////////////////////////////////////////Staris State
 private:
 	static PlayerStairsState CurStairs_;
@@ -263,5 +261,6 @@ public:
 	{
 		return IsMap1F_2;
 	}
+
 };
 

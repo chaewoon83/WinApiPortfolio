@@ -35,6 +35,7 @@
 //»¡°£»ö -> ´ÝÈù ¹® ÀÌµ¿
 
 GameEngineImage* PlayerLink::MapColImage_ = nullptr;
+GameEngineImage* PlayerLink::MapCarryColImage_ = nullptr;
 bool PlayerLink::IsMap1F_2 = false;
 GameEngineActor* PlayerLink::MainPlayer_ = nullptr;
 GameEngineActor* PlayerLink::CarryActor_ = nullptr;
@@ -54,7 +55,6 @@ PlayerLink::PlayerLink()
 	:MapColImage_1_(nullptr),
 	 MapColImage_2_(nullptr),
 	 BridgeActor_(nullptr),
-	 MapCarryColImage_(nullptr),
 	 PlayerLowerBodyCollision_(nullptr),
 	 HitActor_(nullptr),
 	 Speed_(350.0f),

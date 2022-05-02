@@ -160,7 +160,11 @@ void PlayerLink::Room2_Trans_Update()
 
 void PlayerLink::Room4Start()
 {
-	ResetTimeScale(15);
+	GameEngineTime::GetInst()->SetTimeScale(2, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(4, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(5, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(10, 0.0f);
+
 	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(4, 1.0f);
@@ -297,7 +301,6 @@ void PlayerLink::Room4_Trans_Update()
 
 void PlayerLink::Room10Start()
 {
-	ResetTimeScale(15);
 	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(10, 1.0f);
@@ -378,7 +381,11 @@ void PlayerLink::Room10Update()
 
 void PlayerLink::Room10_Trans_Start()
 {
-	ResetTimeScale(15);
+	GameEngineTime::GetInst()->SetTimeScale(4, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(9, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(11, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(14, 0.0f);
+
 	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 	IsCameraAutoMove_ = true;
@@ -411,7 +418,10 @@ void PlayerLink::Room10_Trans_Update()
 
 void PlayerLink::Room9Start()
 {
-	ResetTimeScale(15);
+	GameEngineTime::GetInst()->SetTimeScale(10, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(8, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(2, 0.0f);
+
 	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(9, 1.0f);
@@ -481,13 +491,13 @@ void PlayerLink::Room9Update()
 	//	return;
 	//}
 
-	//if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
-	//{
-	//	PrevCameraState_ = CameraState::Room9;
-	//	AutoMoveDir_ = float4::DOWN;
-	//	CameraStateChange(CameraState::Room2_Trans);
-	//	return;
-	//}
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveRight == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
+	{
+		PrevCameraState_ = CameraState::Room9;
+		AutoMoveDir_ = float4::RIGHT;
+		CameraStateChange(CameraState::Room10_Trans);
+		return;
+	}
 }
 
 
@@ -522,13 +532,5 @@ void PlayerLink::Room9_Trans_Update()
 	if (false == IsCameraAutoMove_ && false == IsCharacterAutoMove_)
 	{
 		CameraStateChange(CameraState::Room9);
-	}
-}
-
-void PlayerLink::ResetTimeScale(int _x)
-{
-	for (size_t i = -1; i < _x + 1; i++)
-	{
-		GameEngineTime::GetInst()->SetTimeScale(_x, 0.0f);
 	}
 }

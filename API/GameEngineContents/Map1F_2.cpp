@@ -349,4 +349,5 @@ void Map1F_2::Room10SwitchCheck()
 			Room10LeftDoor0Col_->On();
 		}
 	}
+
 }
