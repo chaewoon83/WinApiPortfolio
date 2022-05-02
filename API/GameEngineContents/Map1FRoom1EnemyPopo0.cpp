@@ -163,7 +163,6 @@ void Map1FRoom1EnemyPopo0::DeathStart()
 void Map1FRoom1EnemyPopo0::IdleUpdate()
 {
 	GetDamaged();
-	GameEngineTime* A =GameEngineTime::GetInst();
 	CurRestTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
 	if (MoveTimes_ == CurMoveTimes_)
 	{
@@ -197,7 +196,7 @@ void Map1FRoom1EnemyPopo0::KnockbackedUpdate()
 	int White = RGB(255, 255, 255);
 	if (true == PosAndColorCheck(White, PlayerLink::MapColImage_))
 	{
-		EnemyGlobalFunction::MoveFunction(TimeScale_, KnockBackSpeed_, KnockbackDir_, PopoMoveCol_, this);
+		EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, KnockBackSpeed_, KnockbackDir_, PopoMoveCol_, this);
 	}
 	if (KnockbackTime_ < CurKnockbackTime_)
 	{

@@ -1333,9 +1333,9 @@ void PlayerLink::MoveCarryFunction()
 
 			if (true == MoveDown)
 			{
-				if (Black != MapCarryColImage_->GetImagePixel({ MyPosBotRight.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }) &&
-					Black != MapCarryColImage_->GetImagePixel({ MyPosBotLeft.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }) &&
-					Black != MapCarryColImage_->GetImagePixel({ MyPosBot.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }))
+				if (Black != MapCarryColImage_->GetImagePixel({ MyPosBotRight.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).y }) &&
+					Black != MapCarryColImage_->GetImagePixel({ MyPosBotLeft.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).y }) &&
+					Black != MapCarryColImage_->GetImagePixel({ MyPosBot.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).y }))
 				{
 					SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
 				}

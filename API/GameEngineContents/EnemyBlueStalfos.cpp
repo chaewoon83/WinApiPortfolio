@@ -1,404 +1,827 @@
-//#include "EnemyBlueStalfos.h"
-//#include "PlayerLink.h"
-//#include <windows.h>
-//#include <GameEngineBase/GameEngineWindow.h>
-//#include <GameEngine/GameEngineCollision.h>
-//#include <GameEngine/GameEngineRenderer.h>
-//#include <GameEngine/GameEngineImage.h>
-//#include <GameEngineBase/GameEngineRandom.h>
-//#include "EnemyGlobalFunction.h"
-//#include "GlobalRandom.h"
-//#include "ItemGreenRupee.h"
-//#include "ItemBlueRupee.h"
-//
-//
-////TODO
-////1. 벽에 부딫혔을때 움찔움찔
-////2. 한 방향으로 7-10번씩 움직임
-//
-//
-//EnemyBlueStalfos::EnemyBlueStalfos()
-//	:BlueStalfosHeadRenderer_(nullptr),
-//	 BlueStalfosBodyRenderer_(nullptr),
-//	 BlueStalfosCol_(nullptr),
-//	 BlueStalfosMoveCol_(nullptr),
-//	 BlueStalfosPos_({ 3104, 2503 + 4128 }),
-//	 TimeScale_(10),
-//	 IsInvincible_(false),
-//	 IsDeath_(false),
-//	 InvincibleTime_(0.3f),
-//	 CurInvincibleTime_(0.0f),
-//	 Hp_(2),
-//	 IsGetDamaged_(false),
-//	 IsKnockback_(false),
-//	 IsBlink_(false),
-//	 MoveTimes_(0),
-//	 CurMoveTimes_(0),
-//	 MoveFreq_(0.25f),
-//	 CurMoveFreq_(0.0f),
-//	 RestTime_(3.0f),
-//	 CurRestTime_(0.0f),
-//	 KnockbackTime_(0.15f),
-//	 CurKnockbackTime_(0.0f),
-//	 BlinkTime_(0.3f),
-//	 CurBlinkTime_(0.0f),
-//	 BlinkFreq_(0.02f),
-//	 CurBlinkFreq_(0.0f),
-//	 TimeAfterDeath_(2.0f),
-//	 CurTimeAfterDeath_(0.0f),
-//	 IsAlphaOn_(true),
-//	 KnockbackDir_(float4::ZERO),
-//	 MoveDir_(float4::ZERO),
-//	 KnockBackSpeed_(800.0f),
-//	 BlueStalfosCurState_(BlueStalfosState::LookAroundDown)
-//{
-//}
-//
-//
-///// 10 times killed Popo, 2 times 1rupee, 1 time 5rupee;
-//EnemyBlueStalfos::~EnemyBlueStalfos()
-//{
-//}
-//
-//void EnemyBlueStalfos::Start()
-//{
-//	SetPosition(BlueStalfosPos_);
-//	BlueStalfosHeadRenderer_ = CreateRenderer();
-//	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
-//	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosRightHead.bmp.bmp", "Right_Head", TimeScale_, 0, 0, 0.15f, false);
-//	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosLeftHead.bmp.bmp", "Left_Head", TimeScale_, 0, 0, 0.15f, false);
-//	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosUpHead.bmp.bmp", "Up_Head", TimeScale_, 0, 0, 0.15f, false);
-//	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosDownHead.bmp.bmp", "Down_Head", TimeScale_, 0, 0, 0.15f, false);
-//	BlueStalfosHeadRenderer_->ChangeAnimation("Down_Head");;
-//	BlueStalfosBodyRenderer_ = CreateRenderer();
-//	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
-//	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosRightBody.bmp", "Right_Body", TimeScale_, 0, 1, 0.3f, true);
-//	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosLeftBody.bmp", "Left_Body", TimeScale_, 0, 1, 0.3f, true);
-//	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosUpBody.bmp", "Up_Body", TimeScale_, 0, 1, 0.3f, true);
-//	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosDownBody.bmp", "Down_Body", TimeScale_, 0, 1, 0.3f, true);
-//	BlueStalfosBodyRenderer_->ChangeAnimation("Down_Body");
-//	//죽는 애니메이션은 플레이어와 함께한다
-//	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyDeathEffect.bmp", "DeathEffect", 0, 0, 6, 0.15f, false);
-//	BlueStalfosHeadRenderer_->ChangeAnimation("Idle");
-//
-//	//DeathEffectRenderer_ = CreateRenderer();
-//	//DeathEffectRenderer_->CreateAnimation("EnemyDeathEffect.bmp", "DeathEffect", 0, 6, 0.15f, false);
-//
-//	BlueStalfosCol_ = CreateCollision("MonsterHitBox", { 48, 56 }, { 0, -28 });
-//	BlueStalfosMoveCol_ = CreateCollision("MonsterMoveBox", { 48, 56 }, { 0, -28 });
-//
-//}
-//
-//void EnemyBlueStalfos::Update()
-//{
-//	BlueStalfosStateUpdate();
-//	EnemyGlobalFunction::BlueStalfosBlinkUpdate(TimeScale_, IsBlink_, IsAlphaOn_, BlinkTime_, 
-//		CurBlinkTime_, BlinkFreq_, CurBlinkFreq_, BlueStalfosCurState_, BlueStalfosHeadRenderer_, BlueStalfosBodyRenderer_);
-//}
-//
-//void EnemyBlueStalfos::Render()
-//{
-//
-//}
-//
-//void EnemyBlueStalfos::GetDamaged()
-//{
-//
-//	if (true == IsInvincible_)
-//	{
-//		CurInvincibleTime_ += GameEngineTime::GetDeltaTime(2);
-//		if (InvincibleTime_ < CurInvincibleTime_)
-//		{
-//			IsInvincible_ = false;
-//			CurInvincibleTime_ = 0.0f;
-//		}
-//	}
-//	if (false == IsInvincible_ && false == IsDeath_)
-//	{
-//		std::vector<GameEngineCollision*> ColList;
-//		if (true == PopoCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect))
-//		{
-//			Hp_ -= 1;
-//			IsInvincible_ = true;
-//			IsBlink_ = true;
-//			IsKnockback_ = true;
-//			IsBlink_ = true;
-//			HitActor_ = ColList[0]->GetActor();
-//			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
-//			KnockbackDir_.Normal2D();
-//			BlueStalfosChangeState(PopoState::Knockbacked);
-//		}
-//
-//		if (true == PopoCol_->CollisionResult("PotHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
-//		{
-//			Hp_ -= 1;
-//			IsInvincible_ = true;
-//
-//			IsKnockback_ = true;
-//			IsBlink_ = true;
-//			HitActor_ = ColList[0]->GetActor();
-//			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
-//			KnockbackDir_.Normal2D();
-//			ColList[0]->Off();
-//			PopoChangeState(PopoState::Knockbacked);
-//		}
-//
-//		if (0 >= Hp_)
-//		{
-//			IsInvincible_ = true;
-//			IsDeath_ = true;
-//
-//			PopoCol_->Death();
-//
-//			return;
-//		}
-//	}
-//
-//}
-//
-//void EnemyBlueStalfos::IdleStart()
-//{
-//	//PopoRenderer_->ChangeAnimation("Idle");
-//	CurMoveFreq_ = MoveFreq_;
-//}
-//
-//void EnemyBlueStalfos::KnockbackedStart()
-//{
-//}
-//
-//void EnemyBlueStalfos::DeathStart()
-//{
-//	PopoMoveCol_->Death();
-//	PopoRenderer_->SetAlpha(255);
-//	PopoRenderer_->ChangeAnimation("DeathEffect");
-//	//DeathEffectRenderer_->ChangeAnimation("DeathEffect");
-//}
-//
-//void EnemyBlueStalfos::IdleUpdate()
-//{
-//	GetDamaged();
-//	GameEngineTime* A = GameEngineTime::GetInst();
-//	CurRestTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
-//	if (MoveTimes_ == CurMoveTimes_)
-//	{
-//		CurMoveTimes_ = 0;
-//		int RandomInt = GlobalRandom::RandomIntGenerate(7, 9);
-//		MoveTimes_ = RandomInt;
-//		RandomInt = GlobalRandom::RandomIntGenerate(1, 8);
-//		MoveDirCheck(RandomInt);
-//		CurRestTime_ = 0;
-//	}
-//	if (RestTime_ < CurRestTime_)
-//	{
-//		CurMoveFreq_ += GameEngineTime::GetDeltaTime(TimeScale_);
-//		if (MoveFreq_ < CurMoveFreq_)
-//		{
-//			CurMoveTimes_ += 1;
-//			CurMoveFreq_ = 0.0f;
-//			float4 NextPosition = GetPosition() + (MoveDir_ * 10);
-//			int White = RGB(255, 255, 255);
-//			if (true == PosAndColorCheck(White, PlayerLink::MapColImage_))
-//			{
-//				SetPosition(GetPosition() + (MoveDir_ * 10));
-//			}
-//		}
-//	}
-//}
-//
-//void EnemyBlueStalfos::KnockbackedUpdate()
-//{
-//	CurKnockbackTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
-//	int White = RGB(255, 255, 255);
-//	if (true == PosAndColorCheck(White, PlayerLink::MapColImage_))
-//	{
-//		EnemyGlobalFunction::MoveFunction(TimeScale_, KnockBackSpeed_, KnockbackDir_, PopoMoveCol_, this);
-//	}
-//	if (KnockbackTime_ < CurKnockbackTime_)
-//	{
-//		IsKnockback_ = false;
-//	}
-//	if (true == IsDeath_ && true == IsInvincible_ && KnockbackTime_ * 0.3f < CurKnockbackTime_)
-//	{
-//		PopoChangeState(PopoState::Death);
-//		return;
-//	}
-//	if (false == IsKnockback_)
-//	{
-//		CurKnockbackTime_ = 0.0f;
-//		PopoChangeState(PopoState::Idle);
-//		return;
-//	}
-//}
-//
-//void EnemyBlueStalfos::DeathUpdate()
-//{
-//	if (true == IsDeath_ && true == PopoRenderer_->IsEndAnimation())
-//	{
-//		GameEngineRandom Random;
-//		//Max 10
-//		int RandomInt = Random.RandomInt(1, 10);
-//		//if (2 >= RandomInt)
-//		//{
-//		//	ItemGreenRupee* Ptr = GetLevel()->CreateActor<ItemGreenRupee>((int)PlayLevelOrder::PLAYER);
-//		//	Ptr->SetPosition(GetPosition());
-//		//}
-//
-//		//if (2 <= RandomInt && 3 >= RandomInt)
-//		//{
-//		//	ItemGreenRupee* Ptr = GetLevel()->CreateActor<ItemGreenRupee>((int)PlayLevelOrder::PLAYER);
-//		//	Ptr->SetPosition(GetPosition());
-//		//}
-//
-//		{
-//			ItemBlueRupee* Ptr = GetLevel()->CreateActor<ItemBlueRupee>((int)PlayLevelOrder::PLAYER);
-//			Ptr->SetPosition(GetPosition());
-//		}
-//
-//		Death();
-//	}
-//}
-//
-//
-//
-//
-//void EnemyBlueStalfos::BlueStalfosChangeState(BlueStalfosState _State)
-//{
-//	if (BlueStalfosCurState_ != _State)
-//	{
-//		switch (_State)
-//		{
-//		case BlueStalfosState::Idle:
-//			IdleStart();
-//			break;
-//		case BlueStalfosState::LookAround:
-//			LookAroundStart();
-//			break;
-//		case BlueStalfosState::Walk:
-//			WalkStart();
-//			break;
-//		case BlueStalfosState::Jump:
-//			JumpStart();
-//			break;
-//		case BlueStalfosState::Knockbacked:
-//			KnockbackedStart();
-//			break;
-//		case BlueStalfosState::Death:
-//			DeathStart();
-//			break;
-//		case BlueStalfosState::Max:
-//			break;
-//		default:
-//			break;
-//		}
-//	}
-//	BlueStalfosCurState_ = _State;
-//}
-//
-//void EnemyBlueStalfos::BlueStalfosStateUpdate()
-//{
-//	switch (BlueStalfosCurState_)
-//	{
-//	case BlueStalfosState::Idle:
-//		IdleUpdate();
-//		break;
-//	case BlueStalfosState::LookAround:
-//		LookAroundUpdate();
-//		break;
-//	case BlueStalfosState::Walk:
-//		WalkUpdate();
-//		break;
-//	case BlueStalfosState::Jump:
-//		JumpUpdate();
-//		break;
-//	case BlueStalfosState::Knockbacked:
-//		KnockbackedUpdate();
-//		break;
-//	case BlueStalfosState::Death:
-//		DeathUpdate();
-//		break;
-//	case BlueStalfosState::Max:
-//		break;
-//	default:
-//		break;
-//	}
-//}
-//
-//bool EnemyBlueStalfos::PosAndColorCheck(int _Color, GameEngineImage* _Image)
-//{
-//	float4 MyPos = GetPosition();
-//	float4 Map1f_2_Scale = float4{ 0, -4128 };
-//	if (false == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetIsMap1F_2())
-//	{
-//		MyPos += Map1f_2_Scale;
-//	}
-//	float4 MyPosTopRight = MyPos + float4{ 32.0f, -32.0f };
-//	float4 MyPosTopLeft = MyPos + float4{ -32.0f, -32.0f };
-//	float4 MyPosBotRight = MyPos + float4{ 32.0f, 32.0f };
-//	float4 MyPosBotLeft = MyPos + float4{ -32.0f, 32.0f };
-//	float4 MyPosRight = MyPos + float4{ 32.0f, 0.0f };
-//	float4 MyPosLeft = MyPos + float4{ -32.0f, 0.0f };
-//	float4 MyPosTop = MyPos + float4{ 0.0f, -32.0f };
-//	float4 MyPosBot = MyPos + float4{ 0.0f, 32.0f };
-//
-//	int ColorTopRight = _Image->GetImagePixel(MyPosTopRight);
-//	int ColorTopLeft = _Image->GetImagePixel(MyPosTopLeft);
-//	int ColorBotRight = _Image->GetImagePixel(MyPosBotRight);
-//	int ColorBotLeft = _Image->GetImagePixel(MyPosBotLeft);
-//	int ColorRight = _Image->GetImagePixel(MyPosRight);
-//	int ColorLeft = _Image->GetImagePixel(MyPosLeft);
-//	int ColorTop = _Image->GetImagePixel(MyPosTop);
-//	int ColorBot = _Image->GetImagePixel(MyPosBot);
-//
-//
-//
-//	if (_Color == ColorTopRight &&
-//		_Color == ColorTopLeft &&
-//		_Color == ColorBotRight &&
-//		_Color == ColorBotLeft &&
-//		_Color == ColorRight &&
-//		_Color == ColorLeft &&
-//		_Color == ColorBot &&
-//		_Color == ColorTop)
-//	{
-//		return true;
-//	}
-//	return false;
-//}
-//
-//void EnemyBlueStalfos::MoveDirCheck(int _RandomInt)
-//{
-//	if (1 == _RandomInt)
-//	{
-//		MoveDir_ = float4{ 0, 1 };
-//	}
-//	if (2 == _RandomInt)
-//	{
-//		MoveDir_ = float4{ 1, 1 };
-//	}
-//	if (3 == _RandomInt)
-//	{
-//		MoveDir_ = float4{ 1, 0 };
-//	}
-//	if (4 == _RandomInt)
-//	{
-//		MoveDir_ = float4{ 1, -1 };
-//	}
-//	if (5 == _RandomInt)
-//	{
-//		MoveDir_ = float4{ 0, -1 };
-//	}
-//	if (6 == _RandomInt)
-//	{
-//		MoveDir_ = float4{ -1, -1 };
-//	}
-//	if (7 == _RandomInt)
-//	{
-//		MoveDir_ = float4{ -1,0 };
-//	}
-//	if (8 == _RandomInt)
-//	{
-//		MoveDir_ = float4{ -1, 1 };
-//	}
-//}
-//
-//
+#include "EnemyBlueStalfos.h"
+#include "PlayerLink.h"
+#include <windows.h>
+#include <GameEngineBase/GameEngineWindow.h>
+#include <GameEngine/GameEngineCollision.h>
+#include <GameEngine/GameEngineRenderer.h>
+#include <GameEngine/GameEngineImage.h>
+#include <GameEngineBase/GameEngineRandom.h>
+#include "EnemyGlobalFunction.h"
+#include "GlobalRandom.h"
+#include "ItemGreenRupee.h"
+#include "ItemBlueRupee.h"
+
+
+//TODO
+//1. 벽에 부딫혔을때 움찔움찔
+//2. 한 방향으로 7-10번씩 움직임
+
+
+EnemyBlueStalfos::EnemyBlueStalfos()
+	:BlueStalfosHeadRenderer_(nullptr),
+	 BlueStalfosBodyRenderer_(nullptr),
+	 BlueStalfosCol_(nullptr),
+	 BlueStalfosMoveCol_(nullptr),
+	 BlueStalfosPos_({ 3072.0f, 3800.0f -100.0f}),
+	 TimeScale_(10),
+	 IsInvincible_(false),
+	 IsDeath_(false),
+	 InvincibleTime_(0.3f),
+	 CurInvincibleTime_(0.0f),
+	 Hp_(2),
+	 IsGetDamaged_(false),
+	 IsKnockback_(false),
+	 IsBlink_(false),
+	 Speed_(300.0f),
+	 JumpSpeed_(500.0f),
+	 MoveTime_(0.5f),
+	 CurMoveTime_(0.0f),
+	 WaitTime_(0.5f),
+	 CurWaitTime_(0.0f),
+	 RestTime_(3.0f),
+	 CurRestTime_(0.0f),
+	 KnockbackTime_(0.15f),
+	 CurKnockbackTime_(0.0f),
+	 BlinkTime_(0.3f),
+	 CurBlinkTime_(0.0f),
+	 BlinkFreq_(0.02f),
+	 CurBlinkFreq_(0.0f),
+	 TimeAfterDeath_(2.0f),
+	 CurTimeAfterDeath_(0.0f),
+	 JumpTime_(0.5f),
+	 CurJumpTime_(0.0f),
+	 IsAlphaOn_(true),
+	 KnockbackDir_(float4::ZERO),
+	 MoveDir_(float4::ZERO),
+	 KnockBackSpeed_(800.0f),
+	 BlueStalfosCurState_(BlueStalfosState::LookAroundDown),
+	 BlueStalfosPrevState_(BlueStalfosState::Max)
+{
+}
+
+
+/// 10 times killed Popo, 2 times 1rupee, 1 time 5rupee;
+EnemyBlueStalfos::~EnemyBlueStalfos()
+{
+}
+
+void EnemyBlueStalfos::Start()
+{
+	SetPosition(BlueStalfosPos_);
+	BlueStalfosShadowRenderer_ = CreateRenderer("EnemyBlueStalfosShadow.bmp");
+	BlueStalfosShadowRenderer_->SetPivot({ 0, 48 });
+	BlueStalfosHeadRenderer_ = CreateRenderer();
+
+	BlueStalfosBodyRenderer_ = CreateRenderer();
+	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosRightBody.bmp", "Right_Walk", TimeScale_, 0, 1, 0.15f, true);
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosLeftBody.bmp", "Left_Walk", TimeScale_, 0, 1, 0.15f, true);
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosUpBody.bmp", "Up_Walk", TimeScale_, 0, 1, 0.15f, true);
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosDownBody.bmp", "Down_Walk", TimeScale_, 0, 1, 0.15f, true);
+
+	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
+	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosRightHead.bmp", "Right", TimeScale_, 0, 0, 0.15f, false);
+	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosLeftHead.bmp", "Left", TimeScale_, 0, 0, 0.15f, false);
+	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosUpHead.bmp", "Up", TimeScale_, 0, 0, 0.15f, false);
+	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosDownHead.bmp", "Down", TimeScale_, 0, 0, 0.15f, false);
+	BlueStalfosHeadRenderer_->ChangeAnimation("Down");
+
+
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosRightBodyIdle.bmp", "Right_Idle", TimeScale_, 0, 0, 0.3f, false);
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosLeftBodyIdle.bmp", "Left_Idle", TimeScale_, 0, 0, 0.3f, false);
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosUpBodyIdle.bmp", "Up_Idle", TimeScale_, 0, 0, 0.3f, false);
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosDownBodyIdle.bmp", "Down_Idle", TimeScale_, 0, 0, 0.3f, false);
+
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosJumpRightBody.bmp", "Right_Jump", TimeScale_, 0, 0, 0.3f, false);
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosJumpLeftBody.bmp", "Left_Jump", TimeScale_, 0, 0, 0.3f, false);
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosJumpUpBody.bmp", "Up_Jump", TimeScale_, 0, 0, 0.3f, false);
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosJumpDownBody.bmp", "Down_Jump", TimeScale_, 0, 0, 0.3f, false);
+	BlueStalfosBodyRenderer_->ChangeAnimation("Down_Idle");
+	//죽는 애니메이션은 플레이어와 함께한다
+	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyDeathEffect.bmp", "DeathEffect", 0, 0, 6, 0.15f, false);
+	BlueStalfosHeadRenderer_->ChangeAnimation("Down");
+
+
+	//DeathEffectRenderer_ = CreateRenderer();
+	//DeathEffectRenderer_->CreateAnimation("EnemyDeathEffect.bmp", "DeathEffect", 0, 6, 0.15f, false);
+
+	BlueStalfosCol_ = CreateCollision("MonsterHitBox", { 48, 56 }, { 0, -28 });
+	BlueStalfosMoveCol_ = CreateCollision("MonsterMoveBox", { 48, 56 }, { 0, -28 });
+	BlueStalfosJumpCol_ = CreateCollision("BlueStalfosJumpBox", { 72, 80 }, { 0, -28 });
+
+	{
+		int RandomInt = GlobalRandom::RandomIntGenerate(1, 4);
+		MoveDirCheck(RandomInt);
+		if (1 == RandomInt)
+		{
+			BlueStalfosChangeState(BlueStalfosState::LookAroundRight);
+			return;
+		}
+		if (2 == RandomInt)
+		{
+			BlueStalfosChangeState(BlueStalfosState::LookAroundLeft);
+			return;
+		}
+		if (3 == RandomInt)
+		{
+			BlueStalfosChangeState(BlueStalfosState::LookAroundUp);
+			return;
+		}
+		if (4 == RandomInt)
+		{
+			BlueStalfosChangeState(BlueStalfosState::LookAroundDown);
+			return;
+		}
+	}
+}
+
+void EnemyBlueStalfos::Update()
+{
+	BlueStalfosStateUpdate();
+	EnemyGlobalFunction::BlueStalfosBlinkUpdate(TimeScale_, IsBlink_, IsAlphaOn_, BlinkTime_, 
+		CurBlinkTime_, BlinkFreq_, CurBlinkFreq_, BlueStalfosCurState_, BlueStalfosHeadRenderer_, BlueStalfosBodyRenderer_);
+}
+
+void EnemyBlueStalfos::Render()
+{
+
+}
+
+void EnemyBlueStalfos::LookAroundRightStart()
+{
+	StopDirCheck();
+	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
+	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
+	BlueStalfosHeadRenderer_->ChangeAnimation("Right");
+}
+void EnemyBlueStalfos::LookAroundLeftStart()
+{
+	StopDirCheck();
+	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
+	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
+	BlueStalfosHeadRenderer_->ChangeAnimation("Left");
+}
+void EnemyBlueStalfos::LookAroundUpStart()
+{
+	StopDirCheck();
+	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
+	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
+	BlueStalfosHeadRenderer_->ChangeAnimation("Up");
+}
+void EnemyBlueStalfos::LookAroundDownStart()
+{
+	StopDirCheck();
+	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
+	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
+	BlueStalfosHeadRenderer_->ChangeAnimation("Down");
+}
+void EnemyBlueStalfos::WalkRightStart()
+{
+	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
+	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
+	BlueStalfosBodyRenderer_->ChangeAnimation("Right_Walk");
+}
+void EnemyBlueStalfos::WalkLeftStart()
+{
+	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
+	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
+	BlueStalfosBodyRenderer_->ChangeAnimation("Left_Walk");
+}
+void EnemyBlueStalfos::WalkUpStart()
+{
+	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
+	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
+	BlueStalfosBodyRenderer_->ChangeAnimation("Up_Walk");
+}
+void EnemyBlueStalfos::WalkDownStart()
+{
+	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
+	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
+	BlueStalfosBodyRenderer_->ChangeAnimation("Down_Walk");
+}
+
+void EnemyBlueStalfos::JumpRightStart()
+{
+	BlueStalfosHeadRenderer_->SetPivot({ 0, -52 });
+	BlueStalfosBodyRenderer_->SetPivot({ 0, -14 });
+	BlueStalfosBodyRenderer_->ChangeAnimation("Right_Jump");
+}
+void EnemyBlueStalfos::JumpLeftStart()
+{
+	BlueStalfosHeadRenderer_->SetPivot({ 0, -52 });
+	BlueStalfosBodyRenderer_->SetPivot({ 0, -14 });
+	BlueStalfosBodyRenderer_->ChangeAnimation("Left_Jump");
+}
+void EnemyBlueStalfos::JumpUpStart()
+{
+	BlueStalfosHeadRenderer_->SetPivot({ 0, -52 });
+	BlueStalfosBodyRenderer_->SetPivot({ 0, -14 });
+	BlueStalfosBodyRenderer_->ChangeAnimation("Up_Jump");
+
+}
+void EnemyBlueStalfos::JumpDownStart()
+{
+	BlueStalfosHeadRenderer_->SetPivot({ 0, -52 });
+	BlueStalfosBodyRenderer_->SetPivot({ 0, -14 });
+	BlueStalfosBodyRenderer_->ChangeAnimation("Down_Jump");
+
+}
+
+void EnemyBlueStalfos::KnockbackedStart()
+{
+}
+
+void EnemyBlueStalfos::DeathStart()
+{
+	BlueStalfosMoveCol_->Death();
+	BlueStalfosHeadRenderer_->SetAlpha(255);
+	BlueStalfosBodyRenderer_->SetAlpha(255);
+	BlueStalfosHeadRenderer_->ChangeAnimation("DeathEffect");
+	BlueStalfosBodyRenderer_->Death();
+	//DeathEffectRenderer_->ChangeAnimation("DeathEffect");
+}
+
+void EnemyBlueStalfos::LookAroundUpdate()
+{
+	std::vector<GameEngineCollision*> ColList;
+	if (true == BlueStalfosJumpCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect) ||
+		true == BlueStalfosJumpCol_->CollisionResult("PotHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
+	{
+		HitActor_ = ColList[0]->GetActor();
+		KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
+		KnockbackDir_.Normal2D();
+		JumpDirCheck(KnockbackDir_);
+		return;
+	}
+
+	CurWaitTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
+	if (WaitTime_ < CurWaitTime_)
+	{
+		CurWaitTime_ = 0.0f;
+		if (BlueStalfosState::LookAroundRight == BlueStalfosCurState_)
+		{
+			BlueStalfosChangeState(BlueStalfosState::WalkRight);
+			return;
+		}
+		if (BlueStalfosState::LookAroundLeft == BlueStalfosCurState_)
+		{
+			BlueStalfosChangeState(BlueStalfosState::WalkLeft);
+			return;
+		}
+		if (BlueStalfosState::LookAroundUp == BlueStalfosCurState_)
+		{
+			BlueStalfosChangeState(BlueStalfosState::WalkUp);
+			return;
+		}
+		if (BlueStalfosState::LookAroundDown == BlueStalfosCurState_)
+		{
+			BlueStalfosChangeState(BlueStalfosState::WalkDown);
+			return;
+		}
+	}
+}
+
+void EnemyBlueStalfos::WalkUpdate()
+{
+	std::vector<GameEngineCollision*> ColList;
+	if (true == BlueStalfosJumpCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect) ||
+		true == BlueStalfosJumpCol_->CollisionResult("PotHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
+	{
+		HitActor_ = ColList[0]->GetActor();
+		KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
+		KnockbackDir_.Normal2D();
+		JumpDirCheck(KnockbackDir_);
+		return;
+	}
+
+	CurMoveTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
+
+	if (MoveTime_ < CurMoveTime_ || false == MoveFunction())
+	{
+		BlueStalfosPrevState_ = BlueStalfosCurState_;
+		CurMoveTime_ = 0.0f;
+		int RandomInt = GlobalRandom::RandomIntGenerate(1, 4);
+		MoveDirCheck(RandomInt);
+		if (1 == RandomInt)
+		{
+			BlueStalfosChangeState(BlueStalfosState::LookAroundRight);
+			return;
+		}
+		if (2 == RandomInt)
+		{
+			BlueStalfosChangeState(BlueStalfosState::LookAroundLeft);
+			return;
+		}
+		if (3 == RandomInt)
+		{
+			BlueStalfosChangeState(BlueStalfosState::LookAroundUp);
+			return;
+		}
+		if (4 == RandomInt)
+		{
+			BlueStalfosChangeState(BlueStalfosState::LookAroundDown);
+			return;
+		}
+	}
+}
+
+void EnemyBlueStalfos::JumpUpdate()
+{
+	CurJumpTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
+
+	if (0.0f< CurJumpTime_ || 0.3f * JumpTime_ < CurJumpTime_)
+	{
+		BlueStalfosHeadRenderer_->SetPivot({ 0, -28 - ((42.0f / 0.3f) * GameEngineTime::GetDeltaTime(TimeScale_))});
+		BlueStalfosBodyRenderer_->SetPivot({ 0, 24 - ((50.0f / 0.3f) * GameEngineTime::GetDeltaTime(TimeScale_)) });
+	}
+
+	if (0.7f < CurJumpTime_ || 1.0f * JumpTime_ < CurJumpTime_)
+	{
+		float4 a = BlueStalfosHeadRenderer_->GetPivot();
+		float4 b = BlueStalfosBodyRenderer_->GetPivot();
+		BlueStalfosHeadRenderer_->SetPivot({ 0, -52 + ((93.0f) * CurJumpTime_) });
+		BlueStalfosBodyRenderer_->SetPivot({ 0, -14 + ((93.0f) * CurJumpTime_) });
+	}
+
+	EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, JumpSpeed_, KnockbackDir_, BlueStalfosMoveCol_, this);
+
+	if (0.0f * JumpTime_ > CurJumpTime_ || 0.8f * JumpTime_ < CurJumpTime_)
+	{
+		GetDamaged();
+	}
+
+	if (JumpTime_ < CurJumpTime_)
+	{
+		CurJumpTime_ = 0.0f;
+		int RandomInt = GlobalRandom::RandomIntGenerate(1, 4);
+		MoveDirCheck(RandomInt);
+		if (1 == RandomInt)
+		{
+			BlueStalfosChangeState(BlueStalfosState::LookAroundRight);
+			return;
+		}
+		if (2 == RandomInt)
+		{
+			BlueStalfosChangeState(BlueStalfosState::LookAroundLeft);
+			return;
+		}
+		if (3 == RandomInt)
+		{
+			BlueStalfosChangeState(BlueStalfosState::LookAroundUp);
+			return;
+		}
+		if (4 == RandomInt)
+		{
+			BlueStalfosChangeState(BlueStalfosState::LookAroundDown);
+			return;
+		}
+	}
+}
+
+void EnemyBlueStalfos::KnockbackedUpdate()
+{
+	GetDamaged();
+	CurKnockbackTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
+	int White = RGB(255, 255, 255);
+
+	if (true == PosAndColorCheck(White, PlayerLink::MapColImage_))
+	{
+		EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, KnockBackSpeed_, KnockbackDir_, BlueStalfosMoveCol_, this);
+	}
+	if (KnockbackTime_ < CurKnockbackTime_)
+	{
+		IsKnockback_ = false;
+	}
+	if (true == IsDeath_ && true == IsInvincible_ && KnockbackTime_ * 0.3f < CurKnockbackTime_)
+	{
+		BlueStalfosChangeState(BlueStalfosState::Death);
+		return;
+	}
+	if (false == IsKnockback_)
+	{
+		CurKnockbackTime_ = 0.0f;
+		{
+			int RandomInt = GlobalRandom::RandomIntGenerate(1, 4);
+			MoveDirCheck(RandomInt);
+			if (1 == RandomInt)
+			{
+				BlueStalfosChangeState(BlueStalfosState::LookAroundRight);
+				return;
+			}
+			if (2 == RandomInt)
+			{
+				BlueStalfosChangeState(BlueStalfosState::LookAroundLeft);
+				return;
+			}
+			if (3 == RandomInt)
+			{
+				BlueStalfosChangeState(BlueStalfosState::LookAroundUp);
+				return;
+			}
+			if (4 == RandomInt)
+			{
+				BlueStalfosChangeState(BlueStalfosState::LookAroundDown);
+				return;
+			}
+		}
+	}
+}
+
+void EnemyBlueStalfos::DeathUpdate()
+{
+	if (true == IsDeath_ && true == BlueStalfosHeadRenderer_->IsEndAnimation())
+	{
+		GameEngineRandom Random;
+		//Max 10
+		int RandomInt = Random.RandomInt(1, 10);
+		//if (2 >= RandomInt)
+		//{
+		//	ItemGreenRupee* Ptr = GetLevel()->CreateActor<ItemGreenRupee>((int)PlayLevelOrder::PLAYER);
+		//	Ptr->SetPosition(GetPosition());
+		//}
+
+		//if (2 <= RandomInt && 3 >= RandomInt)
+		//{
+		//	ItemGreenRupee* Ptr = GetLevel()->CreateActor<ItemGreenRupee>((int)PlayLevelOrder::PLAYER);
+		//	Ptr->SetPosition(GetPosition());
+		//}
+
+		{
+			ItemBlueRupee* Ptr = GetLevel()->CreateActor<ItemBlueRupee>((int)PlayLevelOrder::PLAYER);
+			Ptr->SetPosition(GetPosition());
+		}
+
+		Death();
+	}
+}
+
+void EnemyBlueStalfos::BlueStalfosChangeState(BlueStalfosState _State)
+{
+	if (BlueStalfosCurState_ != _State)
+	{
+		switch (_State)
+		{
+		case BlueStalfosState::LookAroundRight:
+			LookAroundRightStart();
+			break;
+		case BlueStalfosState::LookAroundLeft:
+			LookAroundLeftStart();
+			break;
+		case BlueStalfosState::LookAroundUp:
+			LookAroundUpStart();
+			break;
+		case BlueStalfosState::LookAroundDown:
+			LookAroundDownStart();
+			break;
+		case BlueStalfosState::WalkRight:
+			WalkRightStart();
+			break;
+		case BlueStalfosState::WalkLeft:
+			WalkLeftStart();
+			break;
+		case BlueStalfosState::WalkUp:
+			WalkUpStart();
+			break;
+		case BlueStalfosState::WalkDown:
+			WalkDownStart();
+			break;
+		case BlueStalfosState::JumpRight:
+			JumpRightStart();
+			break;
+		case BlueStalfosState::JumpLeft:
+			JumpLeftStart();
+			break;
+		case BlueStalfosState::JumpUp:
+			JumpUpStart();
+			break;
+		case BlueStalfosState::JumpDown:
+			JumpDownStart();
+			break;
+		case BlueStalfosState::Knockbacked:
+			KnockbackedStart();
+			break;
+		case BlueStalfosState::Death:
+			DeathStart();
+			break;
+		case BlueStalfosState::Max:
+			break;
+		default:
+			break;
+		}
+	}
+	BlueStalfosCurState_ = _State;
+}
+
+void EnemyBlueStalfos::BlueStalfosStateUpdate()
+{
+	switch (BlueStalfosCurState_)
+	{
+	case BlueStalfosState::LookAroundRight:
+	case BlueStalfosState::LookAroundLeft:
+	case BlueStalfosState::LookAroundUp:
+	case BlueStalfosState::LookAroundDown:
+		LookAroundUpdate();
+		break;
+	case BlueStalfosState::WalkRight:
+	case BlueStalfosState::WalkLeft:
+	case BlueStalfosState::WalkUp:
+	case BlueStalfosState::WalkDown:
+		WalkUpdate();
+		break;
+	case BlueStalfosState::JumpRight:
+	case BlueStalfosState::JumpLeft:
+	case BlueStalfosState::JumpUp:
+	case BlueStalfosState::JumpDown:
+		JumpUpdate();
+		break;
+	case BlueStalfosState::Knockbacked:
+		KnockbackedUpdate();
+		break;
+	case BlueStalfosState::Death:
+		DeathUpdate();
+		break;
+	case BlueStalfosState::Max:
+		break;
+	default:
+		break;
+	}
+}
+
+
+void EnemyBlueStalfos::MoveDirCheck(int _RandomInt)
+{
+	if (1 == _RandomInt)
+	{
+		MoveDir_ = float4{ 1, 0 };
+	}
+	if (2 == _RandomInt)
+	{
+		MoveDir_ = float4{ -1, 0 };
+	}
+	if (3 == _RandomInt)
+	{
+		MoveDir_ = float4{ 0, -1 };
+	}
+	if (4 == _RandomInt)
+	{
+		MoveDir_ = float4{ 0, 1 };
+	}
+}
+
+void EnemyBlueStalfos::StopDirCheck()
+{
+	if (BlueStalfosState::JumpRight == BlueStalfosPrevState_ ||
+		BlueStalfosState::WalkRight == BlueStalfosPrevState_)
+	{
+		BlueStalfosBodyRenderer_->ChangeAnimation("Right_Idle");
+	}
+	if (BlueStalfosState::JumpLeft == BlueStalfosPrevState_ ||
+		BlueStalfosState::WalkLeft == BlueStalfosPrevState_)
+	{
+		BlueStalfosBodyRenderer_->ChangeAnimation("Left_Idle");
+	}
+	if (BlueStalfosState::JumpUp== BlueStalfosPrevState_ ||
+		BlueStalfosState::WalkUp == BlueStalfosPrevState_)
+	{
+		BlueStalfosBodyRenderer_->ChangeAnimation("Up_Idle");
+	}
+	if (BlueStalfosState::JumpDown == BlueStalfosPrevState_ ||
+		BlueStalfosState::WalkDown == BlueStalfosPrevState_)
+	{
+		BlueStalfosBodyRenderer_->ChangeAnimation("Down_Idle");
+	}
+}
+
+void EnemyBlueStalfos::JumpCheck()
+{
+}
+
+void EnemyBlueStalfos::GetDamaged()
+{
+
+	if (true == IsInvincible_)
+	{
+		CurInvincibleTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
+		if (InvincibleTime_ < CurInvincibleTime_)
+		{
+			IsInvincible_ = false;
+			CurInvincibleTime_ = 0.0f;
+		}
+	}
+	if (false == IsInvincible_ && false == IsDeath_)
+	{
+		std::vector<GameEngineCollision*> ColList;
+		if (true == BlueStalfosCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect))
+		{
+			Hp_ -= 1;
+			IsInvincible_ = true;
+			IsBlink_ = true;
+			IsKnockback_ = true;
+			IsBlink_ = true;
+			HitActor_ = ColList[0]->GetActor();
+			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
+			KnockbackDir_.Normal2D();
+			BlueStalfosChangeState(BlueStalfosState::Knockbacked);
+		}
+
+		if (true == BlueStalfosCol_->CollisionResult("PotHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
+		{
+			Hp_ -= 1;
+			IsInvincible_ = true;
+
+			IsKnockback_ = true;
+			IsBlink_ = true;
+			HitActor_ = ColList[0]->GetActor();
+			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
+			KnockbackDir_.Normal2D();
+			ColList[0]->Off();
+			BlueStalfosChangeState(BlueStalfosState::Knockbacked);
+		}
+
+		if (0 >= Hp_)
+		{
+			IsInvincible_ = true;
+			IsDeath_ = true;
+
+			BlueStalfosCol_->Death();
+
+			return;
+		}
+	}
+
+}
+
+void EnemyBlueStalfos::JumpDirCheck(float4 _Dir)
+{
+	if (abs(_Dir.x) > abs(_Dir.y))
+	{
+		if (0.0f < _Dir.x)
+		{
+			BlueStalfosChangeState(BlueStalfosState::JumpRight);
+			return;
+		}
+		else
+		{
+			BlueStalfosChangeState(BlueStalfosState::JumpLeft);
+			return;
+		}
+	}
+	else
+	{
+		if (0.0f < _Dir.y)
+		{
+			BlueStalfosChangeState(BlueStalfosState::JumpDown);
+			return;
+		}
+		else
+		{
+			BlueStalfosChangeState(BlueStalfosState::JumpUp);
+			return;
+		}
+	}
+}
+
+bool EnemyBlueStalfos::PosAndColorCheck(int _Color, GameEngineImage* _Image)
+{
+	float4 MyPos = GetPosition();
+	float4 Map1f_2_Scale = float4{ 0, -4128 };
+	if (false == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetIsMap1F_2())
+	{
+		MyPos += Map1f_2_Scale;
+	}
+	float4 MyPosTopRight = MyPos + float4{ 32.0f, -32.0f };
+	float4 MyPosTopLeft = MyPos + float4{ -32.0f, -32.0f };
+	float4 MyPosBotRight = MyPos + float4{ 32.0f, 32.0f };
+	float4 MyPosBotLeft = MyPos + float4{ -32.0f, 32.0f };
+	float4 MyPosRight = MyPos + float4{ 32.0f, 0.0f };
+	float4 MyPosLeft = MyPos + float4{ -32.0f, 0.0f };
+	float4 MyPosTop = MyPos + float4{ 0.0f, -32.0f };
+	float4 MyPosBot = MyPos + float4{ 0.0f, 32.0f };
+
+	int ColorTopRight = _Image->GetImagePixel(MyPosTopRight);
+	int ColorTopLeft = _Image->GetImagePixel(MyPosTopLeft);
+	int ColorBotRight = _Image->GetImagePixel(MyPosBotRight);
+	int ColorBotLeft = _Image->GetImagePixel(MyPosBotLeft);
+	int ColorRight = _Image->GetImagePixel(MyPosRight);
+	int ColorLeft = _Image->GetImagePixel(MyPosLeft);
+	int ColorTop = _Image->GetImagePixel(MyPosTop);
+	int ColorBot = _Image->GetImagePixel(MyPosBot);
+
+
+
+	if (_Color == ColorTopRight &&
+		_Color == ColorTopLeft &&
+		_Color == ColorBotRight &&
+		_Color == ColorBotLeft &&
+		_Color == ColorRight &&
+		_Color == ColorLeft &&
+		_Color == ColorBot &&
+		_Color == ColorTop)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool EnemyBlueStalfos::MoveFunction()
+{
+	float4 CheckPos;
+	//맵 이미지와 캐릭터의 이미지의 픽셀 위치를 동일하게 맞춰놔야한다
+	bool MoveLeft = false;
+	bool MoveRight = false;
+	bool MoveUp = false;
+	bool MoveDown = false;
+	EnemyGlobalFunction::MoveDirBoolCheck(MoveRight, MoveLeft, MoveUp, MoveDown, MoveDir_);
+	float4 Map1f_2_Scale = float4{ 0, -4128 };
+	//SetMove(MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_);
+	{
+		int Black = RGB(0, 0, 0);
+		float4 MyPos = GetPosition();
+		if (false == PlayerLink::GetIsMap1F_2())
+		{
+			MyPos += Map1f_2_Scale;
+		}
+		float4 MyPosTopRight = MyPos + float4{ 32.0f, -32.0f };
+		float4 MyPosTopLeft = MyPos + float4{ -32.0f, -32.0f };
+		float4 MyPosBotRight = MyPos + float4{ 32.0f, 32.0f };
+		float4 MyPosBotLeft = MyPos + float4{ -32.0f, 32.0f };
+		float4 MyPosRight = MyPos + float4{ 32.0f, 0.0f };
+		float4 MyPosLeft = MyPos + float4{ -32.0f, 0.0f };
+		float4 MyPosTop = MyPos + float4{ 0.0f, -32.0f };
+		float4 MyPosBot = MyPos + float4{ 0.0f, 32.0f };
+		float4 NextPos = MyPos + (MoveDir_ * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
+		float4 NextRealPos = MyPos + (MoveDir_ * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
+		float4 CheckPosTopRight = NextPos + float4{ 32.0f, -32.0f };
+		float4 CheckPosTopLeft = NextPos + float4{ -32.0f, -32.0f };
+		float4 CheckPosBotRight = NextPos + float4{ 32.0f, 32.0f };
+		float4 CheckPosBotLeft = NextPos + float4{ -32.0f, 32.0f };
+		float4 CheckPosRight = NextPos + float4{ 32.0f, 0.0f };
+		float4 CheckPosLeft = NextPos + float4{ -32.0f, 0.0f };
+		float4 CheckPosTop = NextPos + float4{ 0.0f, -32.0f };
+		float4 CheckPosBot = NextPos + float4{ 0.0f, 32.0f };
+
+		int ColorNextTopRight = PlayerLink::MapColImage_->GetImagePixel(CheckPosTopRight);
+		int ColorNextTopLeft = PlayerLink::MapColImage_->GetImagePixel(CheckPosTopLeft);
+		int ColorNextBotRight = PlayerLink::MapColImage_->GetImagePixel(CheckPosBotRight);
+		int ColorNextBotLeft = PlayerLink::MapColImage_->GetImagePixel(CheckPosBotLeft);
+		int ColorNextRight = PlayerLink::MapColImage_->GetImagePixel(CheckPosRight);
+		int ColorNextLeft = PlayerLink::MapColImage_->GetImagePixel(CheckPosLeft);
+		int ColorNextTop = PlayerLink::MapColImage_->GetImagePixel(CheckPosTop);
+		int ColorNextBot = PlayerLink::MapColImage_->GetImagePixel(CheckPosBot);
+
+		if (Black != ColorNextTopRight &&
+			Black != ColorNextTopLeft &&
+			Black != ColorNextBotRight &&
+			Black != ColorNextBotLeft &&
+			Black != ColorNextRight &&
+			Black != ColorNextLeft &&
+			Black != ColorNextTop &&
+			Black != ColorNextBot)
+		{
+			if (false == BlueStalfosCol_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
+			{
+				SetMove(MoveDir_ * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
+				return true;
+			}
+			else
+			{
+				if (true == MoveRight)
+				{
+					if (false == BlueStalfosCol_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
+					{
+						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
+					}
+				}
+
+				if (true == MoveLeft)
+				{
+					if (false == BlueStalfosCol_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
+					{
+						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
+					}
+				}
+				if (true == MoveUp)
+				{
+					if (false == BlueStalfosCol_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
+					{
+						SetMove(float4::UP * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
+					}
+
+				}
+				if (true == MoveDown)
+				{
+					if (false == BlueStalfosCol_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
+					{
+						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
+					}
+
+				}
+				return true;
+			}
+		}
+
+		return false;
+	}
+}
+
+

@@ -214,13 +214,14 @@ void PlayerLink::Start()
 	RoomSize_[0] = { 2048, 4063 + 4128 };
 	RoomSize_[1] = { 4095, 3088 + 4128 };
 
-	//{
-	//	SetPosition({ 3072.0f, 3800.0f });
-	//	RoomSize_[0] = { 2048, 4035 };
-	//	RoomSize_[1] = { 4095, 2050 };
-	//	CameraState_ = CameraState::Room10;
-	//	PrevCameraState_ = CameraState::Room9;
-	//}
+	{
+		//SetPosition({ 3072.0f, 3800.0f });
+		GetLevel()->SetCameraPos({ 3072.0f, 3800.0f });
+		RoomSize_[0] = { 2048, 4035 };
+		RoomSize_[1] = { 4095, 2050 };
+		CameraState_ = CameraState::Room10;
+		PrevCameraState_ = CameraState::Room9;
+	}
 
 
 }
