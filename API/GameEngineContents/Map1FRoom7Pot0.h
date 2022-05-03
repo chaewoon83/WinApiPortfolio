@@ -3,18 +3,18 @@
 #include "GameEngineContentsEnum.h"
 // Ό³Έν :
 
-class Map1FRoom10Pot3 : public GameEngineActor
+class Map1FRoom7Pot0 : public GameEngineActor
 {
 public:
 	// constrcuter destructer
-	Map1FRoom10Pot3();
-	~Map1FRoom10Pot3();
+	Map1FRoom7Pot0();
+	~Map1FRoom7Pot0();
 
 	// delete Function
-	Map1FRoom10Pot3(const Map1FRoom10Pot3& _Other) = delete;
-	Map1FRoom10Pot3(Map1FRoom10Pot3&& _Other) noexcept = delete;
-	Map1FRoom10Pot3& operator=(const Map1FRoom10Pot3& _Other) = delete;
-	Map1FRoom10Pot3& operator=(Map1FRoom10Pot3&& _Other) noexcept = delete;
+	Map1FRoom7Pot0(const Map1FRoom7Pot0& _Other) = delete;
+	Map1FRoom7Pot0(Map1FRoom7Pot0&& _Other) noexcept = delete;
+	Map1FRoom7Pot0& operator=(const Map1FRoom7Pot0& _Other) = delete;
+	Map1FRoom7Pot0& operator=(Map1FRoom7Pot0&& _Other) noexcept = delete;
 
 protected:
 	void Start() override;

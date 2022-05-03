@@ -1,4 +1,4 @@
-#include "Map1FRoom10Pot3.h"
+#include "Map1FRoom7Pot0.h"
 #include <windows.h>
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngine/GameEngineCollision.h>
@@ -12,12 +12,12 @@
 // ¿Þ¿À ´Þ¸±‹š (0,-6)
 
 
-Map1FRoom10Pot3::Map1FRoom10Pot3() 
+Map1FRoom7Pot0::Map1FRoom7Pot0() 
 	:Renderer_(nullptr),
 	 BlockCol_(nullptr),
 	 PickUpCol_(nullptr),
 	 PotHitBox_(nullptr),
-	 PotPos_({ 3848.0f + 24.0f, 3268.0f + 24.0f }),
+	 PotPos_({ 169.0f + 24.0f, 3300.0f + 24.0f }),
 	 MoveDir_(float4::ZERO),
 	 IsInRoom_(false),
 	 Speed_(800.0f),
@@ -30,11 +30,11 @@ Map1FRoom10Pot3::Map1FRoom10Pot3()
 
 }
 
-Map1FRoom10Pot3::~Map1FRoom10Pot3() 
+Map1FRoom7Pot0::~Map1FRoom7Pot0() 
 {
 }
 
-void Map1FRoom10Pot3::Start()
+void Map1FRoom7Pot0::Start()
 {
 	Renderer_ = CreateRenderer();
 	SetPosition(PotPos_);
@@ -49,27 +49,27 @@ void Map1FRoom10Pot3::Start()
 
 }
  
-void Map1FRoom10Pot3::Update()
+void Map1FRoom7Pot0::Update()
 {
 	Reset();
 	PotStateUpdate();
 }
-void Map1FRoom10Pot3::Render()
+void Map1FRoom7Pot0::Render()
 {
 
 }
 
-void Map1FRoom10Pot3::IdleStart()
+void Map1FRoom7Pot0::IdleStart()
 {
 
 }
 
-void Map1FRoom10Pot3::CarriedStart()
+void Map1FRoom7Pot0::CarriedStart()
 {
 	Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::ABOVEPLAYER));
 }
 
-void Map1FRoom10Pot3::InAirStart()
+void Map1FRoom7Pot0::InAirStart()
 {
 	if (false == PotHitBox_->IsUpdate())
 	{
@@ -78,7 +78,7 @@ void Map1FRoom10Pot3::InAirStart()
 	CurYSpeed_ = YSpeed_;
 }
 
-void Map1FRoom10Pot3::DeathAnimationStart()
+void Map1FRoom7Pot0::DeathAnimationStart()
 {
 	if (true == PotHitBox_->IsUpdate())
 	{
@@ -89,13 +89,13 @@ void Map1FRoom10Pot3::DeathAnimationStart()
 	Renderer_->ChangeAnimationReset("Pot_Destroyed");
 }
 
-void Map1FRoom10Pot3::DeathStart()
+void Map1FRoom7Pot0::DeathStart()
 {
 	IsInRoom_ = false;
 	Renderer_->Off();
 }
 
-void Map1FRoom10Pot3::IdleUpdate()
+void Map1FRoom7Pot0::IdleUpdate()
 {
 	if (PlayerLink::CarryActor_ == this)
 	{
@@ -106,7 +106,7 @@ void Map1FRoom10Pot3::IdleUpdate()
 	}
 }
 
-void Map1FRoom10Pot3::CarriedUpdate()
+void Map1FRoom7Pot0::CarriedUpdate()
 {
 	{
 		if (PlayerState::CarryMoveLeft == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerCurState() &&
@@ -160,7 +160,7 @@ void Map1FRoom10Pot3::CarriedUpdate()
 	}
 }
 
-void Map1FRoom10Pot3::InAirUpdate()
+void Map1FRoom7Pot0::InAirUpdate()
 {
 	CurAirTime_ += GameEngineTime::GetDeltaTime(0);
 	if (AirTime_ < CurAirTime_)
@@ -179,7 +179,7 @@ void Map1FRoom10Pot3::InAirUpdate()
 	}
 }
 
-void Map1FRoom10Pot3::DeathAnimationUpdate()
+void Map1FRoom7Pot0::DeathAnimationUpdate()
 {
 	if (true == Renderer_->IsEndAnimation())
 	{
@@ -189,12 +189,12 @@ void Map1FRoom10Pot3::DeathAnimationUpdate()
 	}
 }
 
-void Map1FRoom10Pot3::DeathUpdate()
+void Map1FRoom7Pot0::DeathUpdate()
 {
 
 }
 
-void Map1FRoom10Pot3::PotStateChange(PotState _State)
+void Map1FRoom7Pot0::PotStateChange(PotState _State)
 {
 	if (CurPotState_ != _State)
 	{
@@ -225,7 +225,7 @@ void Map1FRoom10Pot3::PotStateChange(PotState _State)
 
 }
 
-void Map1FRoom10Pot3::PotStateUpdate()
+void Map1FRoom7Pot0::PotStateUpdate()
 {
 	switch (CurPotState_)
 	{
@@ -252,7 +252,7 @@ void Map1FRoom10Pot3::PotStateUpdate()
 }
 
 
-bool Map1FRoom10Pot3::CheckPickUpEnd()
+bool Map1FRoom7Pot0::CheckPickUpEnd()
 {
 	if (PlayerState::CarryStartRight == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerCurState() ||
 		PlayerState::CarryStartLeft == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerCurState() ||
@@ -267,18 +267,25 @@ bool Map1FRoom10Pot3::CheckPickUpEnd()
 	}
 }
 
-void Map1FRoom10Pot3::Reset()
+void Map1FRoom7Pot0::Reset()
 {
-	if (CameraState::Room4 == PlayerLink::GetPlayerPrevRoomState() &&  false == IsInRoom_ && PotState::Death == CurPotState_)
+	if (CameraState::Room4 == PlayerLink::GetPlayerPrevRoomState() ||
+		CameraState::Room7 == PlayerLink::GetPlayerPrevRoomState() ||
+		CameraState::Room8 == PlayerLink::GetPlayerPrevRoomState() ||
+		CameraState::Room12 == PlayerLink::GetPlayerPrevRoomState() ||
+		CameraState::Room13 == PlayerLink::GetPlayerPrevRoomState())
 	{
-		IsInRoom_ = true;
-		CurYSpeed_ = 0;
-		SetPosition(PotPos_);
-		BlockCol_->On();
-		PickUpCol_->On();
-		Renderer_->ChangeAnimation("Pot");
-		Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
-		PotStateChange(PotState::Idle);
-		Renderer_->On();
+		if (false == IsInRoom_ && PotState::Death == CurPotState_)
+		{
+			IsInRoom_ = true;
+			CurYSpeed_ = 0;
+			SetPosition(PotPos_);
+			BlockCol_->On();
+			PickUpCol_->On();
+			Renderer_->ChangeAnimation("Pot");
+			Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+			PotStateChange(PotState::Idle);
+			Renderer_->On();
+		}
 	}
 }
