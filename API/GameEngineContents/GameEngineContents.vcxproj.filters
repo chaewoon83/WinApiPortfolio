@@ -120,20 +120,11 @@
     <ClInclude Include="EnemyStalfos.h">
       <Filter>Play\Enemy\Yet</Filter>
     </ClInclude>
-    <ClInclude Include="Map1FRoom1Pot0.h">
-      <Filter>Play\Map\Objects\Pot</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyPopo.h">
       <Filter>Play\Enemy\Popo</Filter>
     </ClInclude>
     <ClInclude Include="Map1FRoom1EnemyPopo1.h">
       <Filter>Play\Enemy\Popo</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom1Pot1.h">
-      <Filter>Play\Map\Objects\Pot</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom1Pot2.h">
-      <Filter>Play\Map\Objects\Pot</Filter>
     </ClInclude>
     <ClInclude Include="Map1FRoom1EnemyPopo2.h">
       <Filter>Play\Enemy\Popo</Filter>
@@ -157,18 +148,6 @@
     <ClInclude Include="Colmap.h">
       <Filter>Debug</Filter>
     </ClInclude>
-    <ClInclude Include="Map1FRoom10Pot0.h">
-      <Filter>Play\Map\Objects\Pot</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom10Pot1.h">
-      <Filter>Play\Map\Objects\Pot</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom10Pot3.h">
-      <Filter>Play\Map\Objects\Pot</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom10Pot2.h">
-      <Filter>Play\Map\Objects\Pot</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyBlueStalfos.h">
       <Filter>Play\Enemy\BlueStalfos</Filter>
     </ClInclude>
@@ -178,35 +157,74 @@
     <ClInclude Include="Test.h">
       <Filter>Play\Enemy</Filter>
     </ClInclude>
-    <ClInclude Include="Map1FRoom9EnemyBlueStalfos0.h">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyAntiFairy.h">
       <Filter>Play\Enemy\AntiFairy</Filter>
     </ClInclude>
-    <ClInclude Include="Map1FRoom9EnemyBlueStalfos1.h">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
+    <ClInclude Include="Map1FRoom8TreasureBox.h">
+      <Filter>Play\Map\Objects\TreasureBox</Filter>
     </ClInclude>
-    <ClInclude Include="Map1FRoom9EnemyBlueStalfos2.h">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
+    <ClInclude Include="Map1FRoom1Pot0.h">
+      <Filter>Play\Map\Objects\Pot\Room1</Filter>
     </ClInclude>
-    <ClInclude Include="Map1FRoom9EnemyBlueStalfos3.h">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
+    <ClInclude Include="Map1FRoom1Pot1.h">
+      <Filter>Play\Map\Objects\Pot\Room1</Filter>
     </ClInclude>
-    <ClInclude Include="Map1FRoom7EnemyBlueStalfos0.h">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom7EnemyBlueStalfos1.h">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom7EnemyBlueStalfos2.h">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom7EnemyBlueStalfos3.h">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
+    <ClInclude Include="Map1FRoom1Pot2.h">
+      <Filter>Play\Map\Objects\Pot\Room1</Filter>
     </ClInclude>
     <ClInclude Include="Map1FRoom7Pot0.h">
-      <Filter>Play\Map\Objects\Pot</Filter>
+      <Filter>Play\Map\Objects\Pot\Room7</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom7Pot1.h">
+      <Filter>Play\Map\Objects\Pot\Room7</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom7Pot2.h">
+      <Filter>Play\Map\Objects\Pot\Room7</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom7Pot3.h">
+      <Filter>Play\Map\Objects\Pot\Room7</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom7Pot4.h">
+      <Filter>Play\Map\Objects\Pot\Room7</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom10Pot0.h">
+      <Filter>Play\Map\Objects\Pot\Room10</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom10Pot1.h">
+      <Filter>Play\Map\Objects\Pot\Room10</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom10Pot2.h">
+      <Filter>Play\Map\Objects\Pot\Room10</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom10Pot3.h">
+      <Filter>Play\Map\Objects\Pot\Room10</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom7EnemyBlueStalfos0.h">
+      <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom7EnemyBlueStalfos1.h">
+      <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom7EnemyBlueStalfos2.h">
+      <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom7EnemyBlueStalfos3.h">
+      <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom9EnemyBlueStalfos0.h">
+      <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom9EnemyBlueStalfos1.h">
+      <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom9EnemyBlueStalfos2.h">
+      <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom9EnemyBlueStalfos3.h">
+      <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom10EnemyBlueStalfos0.h">
+      <Filter>Play\Enemy\BlueStalfos\Room10</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -328,9 +346,6 @@
     <ClCompile Include="EnemyStalfos.cpp">
       <Filter>Play\Enemy\Yet</Filter>
     </ClCompile>
-    <ClCompile Include="Map1FRoom1Pot0.cpp">
-      <Filter>Play\Map\Objects\Pot</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerLink_State.cpp">
       <Filter>Play\Player</Filter>
     </ClCompile>
@@ -339,12 +354,6 @@
     </ClCompile>
     <ClCompile Include="Map1FRoom1EnemyPopo1.cpp">
       <Filter>Play\Enemy\Popo</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom1Pot1.cpp">
-      <Filter>Play\Map\Objects\Pot</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom1Pot2.cpp">
-      <Filter>Play\Map\Objects\Pot</Filter>
     </ClCompile>
     <ClCompile Include="Map1FRoom1EnemyPopo2.cpp">
       <Filter>Play\Enemy\Popo</Filter>
@@ -368,18 +377,6 @@
     <ClCompile Include="Colmap.cpp">
       <Filter>Debug</Filter>
     </ClCompile>
-    <ClCompile Include="Map1FRoom10Pot0.cpp">
-      <Filter>Play\Map\Objects\Pot</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom10Pot1.cpp">
-      <Filter>Play\Map\Objects\Pot</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom10Pot3.cpp">
-      <Filter>Play\Map\Objects\Pot</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom10Pot2.cpp">
-      <Filter>Play\Map\Objects\Pot</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerLink_Room_State.cpp">
       <Filter>Play\Player</Filter>
     </ClCompile>
@@ -392,35 +389,74 @@
     <ClCompile Include="Test.cpp">
       <Filter>Play\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Map1FRoom9EnemyBlueStalfos0.cpp">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyAntiFairy.cpp">
       <Filter>Play\Enemy\AntiFairy</Filter>
     </ClCompile>
-    <ClCompile Include="Map1FRoom9EnemyBlueStalfos1.cpp">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
+    <ClCompile Include="Map1FRoom8TreasureBox.cpp">
+      <Filter>Play\Map\Objects\TreasureBox</Filter>
     </ClCompile>
-    <ClCompile Include="Map1FRoom9EnemyBlueStalfos3.cpp">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
+    <ClCompile Include="Map1FRoom1Pot0.cpp">
+      <Filter>Play\Map\Objects\Pot\Room1</Filter>
     </ClCompile>
-    <ClCompile Include="Map1FRoom9EnemyBlueStalfos2.cpp">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
+    <ClCompile Include="Map1FRoom1Pot1.cpp">
+      <Filter>Play\Map\Objects\Pot\Room1</Filter>
     </ClCompile>
-    <ClCompile Include="Map1FRoom7EnemyBlueStalfos0.cpp">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom7EnemyBlueStalfos1.cpp">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom7EnemyBlueStalfos3.cpp">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom7EnemyBlueStalfos2.cpp">
-      <Filter>Play\Enemy\BlueStalfos</Filter>
+    <ClCompile Include="Map1FRoom1Pot2.cpp">
+      <Filter>Play\Map\Objects\Pot\Room1</Filter>
     </ClCompile>
     <ClCompile Include="Map1FRoom7Pot0.cpp">
-      <Filter>Play\Map\Objects\Pot</Filter>
+      <Filter>Play\Map\Objects\Pot\Room7</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom7Pot1.cpp">
+      <Filter>Play\Map\Objects\Pot\Room7</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom7Pot2.cpp">
+      <Filter>Play\Map\Objects\Pot\Room7</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom7Pot3.cpp">
+      <Filter>Play\Map\Objects\Pot\Room7</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom7Pot4.cpp">
+      <Filter>Play\Map\Objects\Pot\Room7</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom10Pot0.cpp">
+      <Filter>Play\Map\Objects\Pot\Room10</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom10Pot1.cpp">
+      <Filter>Play\Map\Objects\Pot\Room10</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom10Pot2.cpp">
+      <Filter>Play\Map\Objects\Pot\Room10</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom10Pot3.cpp">
+      <Filter>Play\Map\Objects\Pot\Room10</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom7EnemyBlueStalfos0.cpp">
+      <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom7EnemyBlueStalfos1.cpp">
+      <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom7EnemyBlueStalfos2.cpp">
+      <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom7EnemyBlueStalfos3.cpp">
+      <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom9EnemyBlueStalfos0.cpp">
+      <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom9EnemyBlueStalfos1.cpp">
+      <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom9EnemyBlueStalfos2.cpp">
+      <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom9EnemyBlueStalfos3.cpp">
+      <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom10EnemyBlueStalfos0.cpp">
+      <Filter>Play\Enemy\BlueStalfos\Room10</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -483,6 +519,27 @@
     </Filter>
     <Filter Include="Play\Enemy\Ball">
       <UniqueIdentifier>{9d5436c9-bc65-4e33-84a6-1159bad52e1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Map\Objects\TreasureBox">
+      <UniqueIdentifier>{545b43c3-cf28-4c03-a876-a556ca80dcdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Map\Objects\Pot\Room1">
+      <UniqueIdentifier>{3a9de4a2-2c1b-4763-a7bb-1579a6154959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Map\Objects\Pot\Room7">
+      <UniqueIdentifier>{24f02d0c-72cc-49a0-bb45-499564e798f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Map\Objects\Pot\Room10">
+      <UniqueIdentifier>{273d4946-c654-4ea5-a23f-ba6373266e49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Enemy\BlueStalfos\Room7">
+      <UniqueIdentifier>{56d5fe44-a203-4d93-ba43-39c0da925c36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Enemy\BlueStalfos\Room9">
+      <UniqueIdentifier>{83a0d53c-14d6-4dca-8ee1-b5bd344e8f62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Enemy\BlueStalfos\Room10">
+      <UniqueIdentifier>{f5449de4-4497-4f8b-a271-243fd3e9d67a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
