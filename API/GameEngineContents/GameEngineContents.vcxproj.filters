@@ -205,6 +205,9 @@
     <ClInclude Include="Map1FRoom7EnemyBlueStalfos3.h">
       <Filter>Play\Enemy\BlueStalfos</Filter>
     </ClInclude>
+    <ClInclude Include="Map1FRoom7Pot0.h">
+      <Filter>Play\Map\Objects\Pot</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -415,6 +418,9 @@
     </ClCompile>
     <ClCompile Include="Map1FRoom7EnemyBlueStalfos2.cpp">
       <Filter>Play\Enemy\BlueStalfos</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom7Pot0.cpp">
+      <Filter>Play\Map\Objects\Pot</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

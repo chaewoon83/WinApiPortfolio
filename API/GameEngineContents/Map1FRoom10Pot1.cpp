@@ -269,16 +269,23 @@ bool Map1FRoom10Pot1::CheckPickUpEnd()
 
 void Map1FRoom10Pot1::Reset()
 {
-	if (CameraState::Room4 == PlayerLink::GetPlayerPrevRoomState() &&  false == IsInRoom_ && PotState::Death == CurPotState_)
+	if (CameraState::Room4 == PlayerLink::GetPlayerPrevRoomState() ||
+		CameraState::Room7 == PlayerLink::GetPlayerPrevRoomState() ||
+		CameraState::Room8 == PlayerLink::GetPlayerPrevRoomState() ||
+		CameraState::Room12 == PlayerLink::GetPlayerPrevRoomState() ||
+		CameraState::Room13 == PlayerLink::GetPlayerPrevRoomState())
 	{
-		IsInRoom_ = true;
-		CurYSpeed_ = 0;
-		SetPosition(PotPos_);
-		BlockCol_->On();
-		PickUpCol_->On();
-		Renderer_->ChangeAnimation("Pot");
-		Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
-		PotStateChange(PotState::Idle);
-		Renderer_->On();
+		if (false == IsInRoom_ && PotState::Death == CurPotState_)
+		{
+			IsInRoom_ = true;
+			CurYSpeed_ = 0;
+			SetPosition(PotPos_);
+			BlockCol_->On();
+			PickUpCol_->On();
+			Renderer_->ChangeAnimation("Pot");
+			Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+			PotStateChange(PotState::Idle);
+			Renderer_->On();
+		}
 	}
 }

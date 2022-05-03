@@ -275,6 +275,7 @@
     <ClInclude Include="Map1FRoom7EnemyBlueStalfos1.h" />
     <ClInclude Include="Map1FRoom7EnemyBlueStalfos2.h" />
     <ClInclude Include="Map1FRoom7EnemyBlueStalfos3.h" />
+    <ClInclude Include="Map1FRoom7Pot0.h" />
     <ClInclude Include="Map1FRoom9EnemyBlueStalfos0.h" />
     <ClInclude Include="Map1FRoom9EnemyBlueStalfos1.h" />
     <ClInclude Include="Map1FRoom9EnemyBlueStalfos2.h" />
@@ -493,6 +494,7 @@
     <ClCompile Include="Map1FRoom7EnemyBlueStalfos1.cpp" />
     <ClCompile Include="Map1FRoom7EnemyBlueStalfos2.cpp" />
     <ClCompile Include="Map1FRoom7EnemyBlueStalfos3.cpp" />
+    <ClCompile Include="Map1FRoom7Pot0.cpp" />
     <ClCompile Include="Map1FRoom9EnemyBlueStalfos0.cpp" />
     <ClCompile Include="Map1FRoom9EnemyBlueStalfos1.cpp" />
     <ClCompile Include="Map1FRoom9EnemyBlueStalfos2.cpp" />
