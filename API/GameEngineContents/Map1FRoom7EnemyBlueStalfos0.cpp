@@ -251,14 +251,21 @@ void Map1FRoom7EnemyBlueStalfos0::DeathStart()
 
 void Map1FRoom7EnemyBlueStalfos0::LookAroundUpdate()
 {
+
 	std::vector<GameEngineCollision*> ColList;
-	if (true == BlueStalfosJumpCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect) ||
-		true == BlueStalfosJumpCol_->CollisionResult("PotHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
+	if (true == BlueStalfosJumpCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect))
 	{
 		HitActor_ = ColList[0]->GetActor();
 		KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 		KnockbackDir_.Normal2D();
 		JumpDirCheck(KnockbackDir_);
+		return;
+	}
+
+	GetDamagedByPot();
+	if (true == IsDeath_)
+	{
+		BlueStalfosChangeState(BlueStalfosState::Death);
 		return;
 	}
 
@@ -292,13 +299,19 @@ void Map1FRoom7EnemyBlueStalfos0::LookAroundUpdate()
 void Map1FRoom7EnemyBlueStalfos0::WalkUpdate()
 {
 	std::vector<GameEngineCollision*> ColList;
-	if (true == BlueStalfosJumpCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect) ||
-		true == BlueStalfosJumpCol_->CollisionResult("PotHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
+	if (true == BlueStalfosJumpCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect))
 	{
 		HitActor_ = ColList[0]->GetActor();
 		KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 		KnockbackDir_.Normal2D();
 		JumpDirCheck(KnockbackDir_);
+		return;
+	}
+
+	GetDamagedByPot();
+	if (true == IsDeath_)
+	{
+		BlueStalfosChangeState(BlueStalfosState::Death);
 		return;
 	}
 
@@ -348,10 +361,10 @@ void Map1FRoom7EnemyBlueStalfos0::JumpUpdate()
 	BlueStalfosBodyRenderer_->SetPivot({ 0, OriginalPivot_.y - JumpHeight_ });
 
 
-	EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, JumpSpeed_, KnockbackDir_, BlueStalfosMoveCol_, this, 32.0f, 14.0f, 64.0f);
+	EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, JumpSpeed_, KnockbackDir_, BlueStalfosMoveCol_, this, PlayerLink::MapCarryColImage_2_, 32.0f, 14.0f, 64.0f);
 	if (0.1f * JumpTime_ < CurJumpTime_ && 0.3f * JumpTime_ > CurJumpTime_)
 	{
-		GetDamaged();
+		GetDamagedBySword();
 		if (true == IsKnockback_)
 		{
 			return;
@@ -360,7 +373,7 @@ void Map1FRoom7EnemyBlueStalfos0::JumpUpdate()
 
 	if (0.7f * JumpTime_ < CurJumpTime_)
 	{
-		GetDamaged();
+		GetDamagedBySword();
 		if (true == IsKnockback_)
 		{
 			return;
@@ -399,13 +412,13 @@ void Map1FRoom7EnemyBlueStalfos0::JumpUpdate()
 
 void Map1FRoom7EnemyBlueStalfos0::KnockbackedUpdate()
 {
-	GetDamaged();
+	GetDamagedBySword();
 	CurKnockbackTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
 	int White = RGB(255, 255, 255);
 
-	if (true == PosAndColorCheck(White, PlayerLink::MapColImage_))
+	if (true == PosAndColorCheck(White, PlayerLink::MapCarryColImage_2_))
 	{
-		EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, KnockBackSpeed_, KnockbackDir_, BlueStalfosMoveCol_, this, 32.0f, 14.0f, 64.0f);
+		EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, KnockBackSpeed_, KnockbackDir_, BlueStalfosMoveCol_, this, PlayerLink::MapCarryColImage_2_, 32.0f, 14.0f, 64.0f);
 	}
 	if (KnockbackTime_ < CurKnockbackTime_)
 	{
@@ -615,7 +628,7 @@ void Map1FRoom7EnemyBlueStalfos0::JumpCheck()
 {
 }
 
-void Map1FRoom7EnemyBlueStalfos0::GetDamaged()
+void Map1FRoom7EnemyBlueStalfos0::GetDamagedBySword()
 {
 
 	if (true == IsInvincible_)
@@ -642,6 +655,34 @@ void Map1FRoom7EnemyBlueStalfos0::GetDamaged()
 			KnockbackDir_.Normal2D();
 			BlueStalfosChangeState(BlueStalfosState::Knockbacked);
 		}
+		if (0 >= Hp_)
+		{
+			IsInvincible_ = true;
+			IsDeath_ = true;
+
+			BlueStalfosCol_->Death();
+
+			return;
+		}
+	}
+
+}
+
+void Map1FRoom7EnemyBlueStalfos0::GetDamagedByPot()
+{
+
+	if (true == IsInvincible_)
+	{
+		CurInvincibleTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
+		if (InvincibleTime_ < CurInvincibleTime_)
+		{
+			IsInvincible_ = false;
+			CurInvincibleTime_ = 0.0f;
+		}
+	}
+	if (false == IsInvincible_ && false == IsDeath_)
+	{
+		std::vector<GameEngineCollision*> ColList;
 
 		if (true == BlueStalfosCol_->CollisionResult("PotHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
 		{
@@ -653,19 +694,19 @@ void Map1FRoom7EnemyBlueStalfos0::GetDamaged()
 			HitActor_ = ColList[0]->GetActor();
 			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 			KnockbackDir_.Normal2D();
-			ColList[0]->Off();
-			BlueStalfosChangeState(BlueStalfosState::Knockbacked);
+			ColList[0]->Death();
+			if (0 >= Hp_)
+			{
+				IsInvincible_ = true;
+				IsDeath_ = true;
+
+				BlueStalfosCol_->Death();
+
+				return;
+			}
 		}
 
-		if (0 >= Hp_)
-		{
-			IsInvincible_ = true;
-			IsDeath_ = true;
 
-			BlueStalfosCol_->Death();
-
-			return;
-		}
 	}
 
 }
@@ -779,14 +820,14 @@ bool Map1FRoom7EnemyBlueStalfos0::MoveFunction()
 		float4 CheckPosTop = NextPos + float4{ 0.0f, -14.0f };
 		float4 CheckPosBot = NextPos + float4{ 0.0f, 64.0f };
 
-		int ColorNextTopRight = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopRight);
-		int ColorNextTopLeft = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopLeft);
-		int ColorNextBotRight = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotRight);
-		int ColorNextBotLeft = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotLeft);
-		int ColorNextRight = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosRight);
-		int ColorNextLeft = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosLeft);
-		int ColorNextTop = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTop);
-		int ColorNextBot = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBot);
+		int ColorNextTopRight = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosTopRight);
+		int ColorNextTopLeft = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosTopLeft);
+		int ColorNextBotRight = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosBotRight);
+		int ColorNextBotLeft = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosBotLeft);
+		int ColorNextRight = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosRight);
+		int ColorNextLeft = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosLeft);
+		int ColorNextTop = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosTop);
+		int ColorNextBot = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosBot);
 
 		if (Black != ColorNextTopRight &&
 			Black != ColorNextTopLeft &&

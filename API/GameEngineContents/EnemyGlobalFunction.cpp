@@ -163,7 +163,7 @@ void EnemyGlobalFunction::Relocation(CameraState _PlayerRoom, int _MonsterRoom, 
 	}
 }
 
-void EnemyGlobalFunction::KnockBackMoveFunction(int _TimeScale, float _Speed, float4 _MoveDir, GameEngineCollision* _Collision, GameEngineActor* _Actor, 
+void EnemyGlobalFunction::KnockBackMoveFunction(int _TimeScale, float _Speed, float4 _MoveDir, GameEngineCollision* _Collision, GameEngineActor* _Actor, GameEngineImage* _Image,
 	float _x /*= 32.0f*/, float _y_1 /*= 32.0f*/, float _y_2 /*= 32.0f*/)
 {
 	float4 CheckPos;
@@ -201,14 +201,14 @@ void EnemyGlobalFunction::KnockBackMoveFunction(int _TimeScale, float _Speed, fl
 		float4 CheckPosTop = NextPos + float4{ 0.0f, -_y_1 };
 		float4 CheckPosBot = NextPos + float4{ 0.0f, _y_1 };
 
-		int ColorNextTopRight = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopRight);
-		int ColorNextTopLeft = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopLeft);
-		int ColorNextBotRight = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotRight);
-		int ColorNextBotLeft = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotLeft);
-		int ColorNextRight = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosRight);
-		int ColorNextLeft = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosLeft);
-		int ColorNextTop = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTop);
-		int ColorNextBot = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBot);
+		int ColorNextTopRight = _Image->GetImagePixel(CheckPosTopRight);
+		int ColorNextTopLeft = _Image->GetImagePixel(CheckPosTopLeft);
+		int ColorNextBotRight = _Image->GetImagePixel(CheckPosBotRight);
+		int ColorNextBotLeft = _Image->GetImagePixel(CheckPosBotLeft);
+		int ColorNextRight = _Image->GetImagePixel(CheckPosRight);
+		int ColorNextLeft = _Image->GetImagePixel(CheckPosLeft);
+		int ColorNextTop = _Image->GetImagePixel(CheckPosTop);
+		int ColorNextBot = _Image->GetImagePixel(CheckPosBot);
 
 
 		//int ColorNextTopRight = MapColImage_->GetImagePixel(CheckPosTopRight);

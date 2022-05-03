@@ -233,6 +233,11 @@ void PlayerLink::CarryIdleUpdate()
 
 
 	DamagedCheck();
+	if (true == IsKnockback_)
+	{
+
+		return;
+	}
 
 	/// ///////////////Throw
 	if (true == GameEngineInput::GetInst()->IsDown("Interact"))
@@ -317,6 +322,16 @@ void PlayerLink::CarryMoveUpdate()
 		}
 
 
+		MoveCarryFunction();
+
+		DamagedCheck();
+		if (true == IsKnockback_)
+		{
+
+			return;
+		}
+
+
 		//////////////////Throw
 		if (true == GameEngineInput::GetInst()->IsDown("Interact"))
 		{
@@ -365,10 +380,6 @@ void PlayerLink::CarryMoveUpdate()
 			}
 		}
 
-
-		DamagedCheck();
-
-		MoveCarryFunction();
 
 		/// ///////////////////////////////////////////////////////////Right
 		if (false == GameEngineInput::GetInst()->IsPress("MoveUp") &&
@@ -1602,40 +1613,49 @@ void PlayerLink::DamagedCheck()
 		PlayerPrevState_ = PlayerCurState_;
 		IsKnockback_ = true;
 		IsBlink_ = true;
+		IsCarry_ = false;
 		HitActor_ = ColList[0]->GetActor();
 		KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 		KnockbackDir_.Normal2D();
 		if (PlayerState::IdleRight == PlayerCurState_ ||
 			PlayerState::MoveRight == PlayerCurState_ ||
-			PlayerState::WieldRight == PlayerCurState_)
+			PlayerState::WieldRight == PlayerCurState_ ||
+			PlayerState::CarryIdleRight == PlayerPrevState_ ||
+			PlayerState::CarryMoveRight == PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedRight);
 			return;
 		}
 		if (PlayerState::IdleLeft == PlayerCurState_ ||
 			PlayerState::MoveLeft == PlayerCurState_ ||
-			PlayerState::WieldLeft == PlayerCurState_)
+			PlayerState::WieldLeft == PlayerCurState_ ||
+			PlayerState::CarryIdleLeft == PlayerPrevState_ ||
+			PlayerState::CarryMoveLeft == PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedLeft);
 			return;
 		}
 		if (PlayerState::IdleUp == PlayerCurState_ ||
 			PlayerState::MoveUp == PlayerCurState_ ||
-			PlayerState::WieldUp == PlayerCurState_)
+			PlayerState::WieldUp == PlayerCurState_ ||
+			PlayerState::CarryIdleUp == PlayerPrevState_ ||
+			PlayerState::CarryMoveUp == PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedUp);
 			return;
 		}
 		if (PlayerState::IdleDown == PlayerCurState_ ||
 			PlayerState::MoveDown == PlayerCurState_ ||
-			PlayerState::WieldDown == PlayerCurState_)
+			PlayerState::WieldDown == PlayerCurState_ ||
+			PlayerState::CarryIdleDown == PlayerPrevState_ ||
+			PlayerState::CarryMoveDown == PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedDown);
 			return;
 		}
 	}
 
-	if (true == PlayerCollision_->CollisionResult("MonsterBotHitBox", ColList, CollisionType::Rect, CollisionType::Rect) &&
+	if (true == PlayerCollision_->CollisionResult("MonsterB1FHitBox", ColList, CollisionType::Rect, CollisionType::Rect) &&
 		PlayerStairsState::Bot == CurStairs_ &&
 		false == IsKnockback_ &&
 		false == IsBlink_)
@@ -1644,33 +1664,42 @@ void PlayerLink::DamagedCheck()
 		PlayerPrevState_ = PlayerCurState_;
 		IsKnockback_ = true;
 		IsBlink_ = true;
+		IsCarry_ = false;
 		HitActor_ = ColList[0]->GetActor();
 		KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 		KnockbackDir_.Normal2D();
 		if (PlayerState::IdleRight == PlayerCurState_ ||
 			PlayerState::MoveRight == PlayerCurState_ ||
-			PlayerState::WieldRight == PlayerCurState_)
+			PlayerState::WieldRight == PlayerCurState_ ||
+			PlayerState::CarryIdleRight == PlayerPrevState_ ||
+			PlayerState::CarryMoveRight == PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedRight);
 			return;
 		}
 		if (PlayerState::IdleLeft == PlayerCurState_ ||
 			PlayerState::MoveLeft == PlayerCurState_ ||
-			PlayerState::WieldLeft == PlayerCurState_)
+			PlayerState::WieldLeft == PlayerCurState_ ||
+			PlayerState::CarryIdleLeft == PlayerPrevState_ ||
+			PlayerState::CarryMoveLeft == PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedLeft);
 			return;
 		}
 		if (PlayerState::IdleUp == PlayerCurState_ ||
 			PlayerState::MoveUp == PlayerCurState_ ||
-			PlayerState::WieldUp == PlayerCurState_)
+			PlayerState::WieldUp == PlayerCurState_ ||
+			PlayerState::CarryIdleUp == PlayerPrevState_ ||
+			PlayerState::CarryMoveUp == PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedUp);
 			return;
 		}
 		if (PlayerState::IdleDown == PlayerCurState_ ||
 			PlayerState::MoveDown == PlayerCurState_ ||
-			PlayerState::WieldDown == PlayerCurState_)
+			PlayerState::WieldDown == PlayerCurState_ ||
+			PlayerState::CarryIdleDown == PlayerPrevState_ ||
+			PlayerState::CarryMoveDown == PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedDown);
 			return;
@@ -1720,7 +1749,7 @@ void PlayerLink::TreasureBoxCheck()
 		true == GameEngineInput::GetInst()->IsDown("Interact") && false == IsInItemCutScene_)
 	{
 		IsInItemCutScene_ = true;
-		Map1F_2::Room8TreasureBoxRenderer_->Death();
+		Map1F_2::Room8TreasureBox_->Death();
 		Map1F_2::Room8TreasureBoxCol_->Death();
 		GameEngineTime::GetInst()->SetTimeScale(0, 0.0f);
 		GameEngineTime::GetInst()->SetTimeScale(static_cast<int>((static_cast<int>(CameraState_) + 2)) / 2, 0.0f);
@@ -1794,28 +1823,36 @@ void PlayerLink::PlayerPrevStateCheck()
 
 	if (PlayerState::IdleUp == PlayerPrevState_ ||
 		PlayerState::MoveUp == PlayerPrevState_ ||
-		PlayerState::WieldUp == PlayerPrevState_)
+		PlayerState::WieldUp == PlayerPrevState_ ||
+		PlayerState::CarryIdleUp == PlayerPrevState_ ||
+		PlayerState::CarryMoveUp == PlayerPrevState_)
 	{
 		PlayerChangeState(PlayerState::IdleUp);
 		return;
 	}
 	if (PlayerState::IdleDown == PlayerPrevState_ ||
 		PlayerState::MoveDown == PlayerPrevState_ ||
-		PlayerState::WieldDown == PlayerPrevState_)
+		PlayerState::WieldDown == PlayerPrevState_ ||
+		PlayerState::CarryIdleDown == PlayerPrevState_ ||
+		PlayerState::CarryMoveDown == PlayerPrevState_)
 	{
 		PlayerChangeState(PlayerState::IdleDown);
 		return;
 	}
 	if (PlayerState::IdleRight == PlayerPrevState_ ||
 		PlayerState::MoveRight == PlayerPrevState_ ||
-		PlayerState::WieldRight == PlayerPrevState_)
+		PlayerState::WieldRight == PlayerPrevState_ ||
+		PlayerState::CarryIdleRight == PlayerPrevState_ ||
+		PlayerState::CarryMoveRight == PlayerPrevState_)
 	{
 		PlayerChangeState(PlayerState::IdleRight);
 		return;
 	}
 	if (PlayerState::IdleLeft == PlayerPrevState_ ||
 		PlayerState::MoveLeft == PlayerPrevState_ ||
-		PlayerState::WieldLeft == PlayerPrevState_)
+		PlayerState::WieldLeft == PlayerPrevState_ ||
+		PlayerState::CarryIdleLeft == PlayerPrevState_ ||
+		PlayerState::CarryMoveLeft == PlayerPrevState_)
 	{
 		PlayerChangeState(PlayerState::IdleLeft);
 		return;

@@ -86,7 +86,8 @@ private:
 	void StopDirCheck();
 	void JumpDirCheck(float4 _Dir);
 	void JumpCheck();
-	void GetDamaged();
+	void GetDamagedBySword();
+	void GetDamagedByPot();
 	void Action();
 	bool MoveFunction();
 	bool PosAndColorCheck(int _Color, GameEngineImage* _Image);

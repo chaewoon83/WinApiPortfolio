@@ -36,6 +36,9 @@
 
 GameEngineImage* PlayerLink::MapColImage_ = nullptr;
 GameEngineImage* PlayerLink::MapCarryColImage_ = nullptr;
+GameEngineImage* PlayerLink::MapCarryColImage_1_ = nullptr;
+GameEngineImage* PlayerLink::MapCarryColImage_2_ = nullptr;
+GameEngineImage* PlayerLink::MapCarryColImage_2_B1F_ = nullptr;
 bool PlayerLink::IsMap1F_2 = false;
 bool PlayerLink::IsOnB1F = false;
 GameEngineActor* PlayerLink::MainPlayer_ = nullptr;
@@ -198,6 +201,13 @@ void PlayerLink::Start()
 		MsgBoxAssert("충돌용 맵을 찾지 못했습니다");
 	}
 	MapCarryColImage_2_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_1F_CarryColMap.bmp");
+
+	if (nullptr == MapCarryColImage_2_)
+	{
+		MsgBoxAssert("충돌용 맵을 찾지 못했습니다");
+	}
+
+	MapCarryColImage_2_B1F_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_B1F_CarryColMap.bmp");
 
 	if (nullptr == MapCarryColImage_2_)
 	{

@@ -32,8 +32,9 @@ public:
 	GameEngineImage* MapColImage_2_;
 
 	static GameEngineImage* MapCarryColImage_;
-	GameEngineImage* MapCarryColImage_1_;
-	GameEngineImage* MapCarryColImage_2_;
+	static GameEngineImage* MapCarryColImage_1_;
+	static GameEngineImage* MapCarryColImage_2_;
+	static GameEngineImage* MapCarryColImage_2_B1F_;
 
 private:
 	GameEngineImage* CheckColMap(float4& _Pos);
@@ -227,9 +228,9 @@ private:
 	int Hp_;
 	bool IsGetDamaged_;
 	bool IsKnockback_;
-	bool IsBlink_;
 	float KnockbackTime_;
 	float CurKnockbackTime_;
+	bool IsBlink_;
 	float BlinkTime_;
 	float CurBlinkTime_;
 	float BlinkFreq_;

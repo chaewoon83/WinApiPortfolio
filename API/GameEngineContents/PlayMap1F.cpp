@@ -29,6 +29,11 @@
 #include "Map1FRoom10Pot1.h"
 #include "Map1FRoom10Pot2.h"
 #include "Map1FRoom10Pot3.h"
+#include "Map1FRoom7Pot0.h"
+#include "Map1FRoom7Pot1.h"
+#include "Map1FRoom7Pot2.h"
+#include "Map1FRoom7Pot3.h"
+#include "Map1FRoom7Pot4.h"
 
 #include "Map1FRoom1EnemyPopo0.h"
 #include "Map1FRoom1EnemyPopo1.h"
@@ -39,6 +44,7 @@
 #include "Map1FRoom9EnemyBlueStalfos1.h"
 #include "Map1FRoom9EnemyBlueStalfos2.h"
 #include "Map1FRoom9EnemyBlueStalfos3.h"
+#include "Map1FRoom10EnemyBlueStalfos0.h"
 
 #include "EnemyAntiFairy.h"
 
@@ -79,6 +85,7 @@ void PlayMap1F::Loading()
 	CreateActor<Map1FRoom9EnemyBlueStalfos1>(static_cast<int>(PlayLevelOrder::MONSTER));
 	CreateActor<Map1FRoom9EnemyBlueStalfos2>(static_cast<int>(PlayLevelOrder::MONSTER));
 	CreateActor<Map1FRoom9EnemyBlueStalfos3>(static_cast<int>(PlayLevelOrder::MONSTER));
+	CreateActor<Map1FRoom10EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER));
 
 	//CreateActor<EnemyAntiFairy>(static_cast<int>(PlayLevelOrder::MONSTER));
 
@@ -91,11 +98,16 @@ void PlayMap1F::Loading()
 	CreateActor<Map1FRoom10Pot1>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 	CreateActor<Map1FRoom10Pot2>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 	CreateActor<Map1FRoom10Pot3>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	CreateActor<Map1FRoom7Pot0>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	CreateActor<Map1FRoom7Pot1>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	CreateActor<Map1FRoom7Pot2>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	CreateActor<Map1FRoom7Pot3>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	CreateActor<Map1FRoom7Pot4>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 
 
 	CreateActor<Map1FRoof>(static_cast<int>(PlayLevelOrder::BACKGROUNDROOF));
 
-	Map1FBridge* BridgeActor = CreateActor<Map1FBridge>(static_cast<int>(PlayLevelOrder::BACKGROUNDROOF));
+	Map1FBridge* BridgeActor = CreateActor<Map1FBridge>(static_cast<int>(PlayLevelOrder::B1FBACKGROUNDROOF));
 	Player->SetBridgeActor(BridgeActor);
 
 

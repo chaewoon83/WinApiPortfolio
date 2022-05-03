@@ -22,7 +22,7 @@ Map1FRoom9EnemyBlueStalfos0::Map1FRoom9EnemyBlueStalfos0()
 	 BlueStalfosBodyRenderer_(nullptr),
 	 BlueStalfosCol_(nullptr),
 	 BlueStalfosMoveCol_(nullptr),
-	 BlueStalfosPos_({ 1439, 2980 }),
+	 BlueStalfosPos_({ 1439, 2880 }),
 	 TimeScale_(9),
 	 IsInvincible_(false),
 	 IsDeath_(false),
@@ -252,15 +252,19 @@ void Map1FRoom9EnemyBlueStalfos0::DeathStart()
 void Map1FRoom9EnemyBlueStalfos0::LookAroundUpdate()
 {
 	std::vector<GameEngineCollision*> ColList;
-	if (true == BlueStalfosJumpCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect) ||
-		true == BlueStalfosJumpCol_->CollisionResult("PotHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
+	if (PlayerStairsState::Top == PlayerLink::GetPlayerStairsState())
 	{
-		HitActor_ = ColList[0]->GetActor();
-		KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
-		KnockbackDir_.Normal2D();
-		JumpDirCheck(KnockbackDir_);
-		return;
+		if (true == BlueStalfosJumpCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect) ||
+			true == BlueStalfosJumpCol_->CollisionResult("PotHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
+		{
+			HitActor_ = ColList[0]->GetActor();
+			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
+			KnockbackDir_.Normal2D();
+			JumpDirCheck(KnockbackDir_);
+			return;
+		}
 	}
+
 
 	CurWaitTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
 	if (WaitTime_ < CurWaitTime_)
@@ -292,15 +296,19 @@ void Map1FRoom9EnemyBlueStalfos0::LookAroundUpdate()
 void Map1FRoom9EnemyBlueStalfos0::WalkUpdate()
 {
 	std::vector<GameEngineCollision*> ColList;
-	if (true == BlueStalfosJumpCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect) ||
-		true == BlueStalfosJumpCol_->CollisionResult("PotHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
+	if (PlayerStairsState::Top == PlayerLink::GetPlayerStairsState())
 	{
-		HitActor_ = ColList[0]->GetActor();
-		KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
-		KnockbackDir_.Normal2D();
-		JumpDirCheck(KnockbackDir_);
-		return;
+		if (true == BlueStalfosJumpCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect) ||
+			true == BlueStalfosJumpCol_->CollisionResult("PotHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
+		{
+			HitActor_ = ColList[0]->GetActor();
+			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
+			KnockbackDir_.Normal2D();
+			JumpDirCheck(KnockbackDir_);
+			return;
+		}
 	}
+
 
 	CurMoveTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
 
@@ -348,7 +356,7 @@ void Map1FRoom9EnemyBlueStalfos0::JumpUpdate()
 	BlueStalfosBodyRenderer_->SetPivot({ 0, OriginalPivot_.y - JumpHeight_ });
 
 
-	EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, JumpSpeed_, KnockbackDir_, BlueStalfosMoveCol_, this, 32.0f, 14.0f, 64.0f);
+	EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, JumpSpeed_, KnockbackDir_, BlueStalfosMoveCol_, this, PlayerLink::MapCarryColImage_2_, 32.0f, 14.0f, 64.0f);
 
 	if (0.1f * JumpTime_ < CurJumpTime_ && 0.3f * JumpTime_ > CurJumpTime_)
 	{
@@ -404,9 +412,9 @@ void Map1FRoom9EnemyBlueStalfos0::KnockbackedUpdate()
 	CurKnockbackTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
 	int White = RGB(255, 255, 255);
 
-	if (true == PosAndColorCheck(White, PlayerLink::MapColImage_))
+	if (true == PosAndColorCheck(White, PlayerLink::MapCarryColImage_2_))
 	{
-		EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, KnockBackSpeed_, KnockbackDir_, BlueStalfosMoveCol_, this, 32.0f, 14.0f, 64.0f);
+		EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, KnockBackSpeed_, KnockbackDir_, BlueStalfosMoveCol_, this, PlayerLink::MapCarryColImage_2_, 32.0f, 14.0f, 64.0f);
 	}
 	if (KnockbackTime_ < CurKnockbackTime_)
 	{
@@ -628,7 +636,7 @@ void Map1FRoom9EnemyBlueStalfos0::GetDamaged()
 			CurInvincibleTime_ = 0.0f;
 		}
 	}
-	if (false == IsInvincible_ && false == IsDeath_)
+	if (false == IsInvincible_ && false == IsDeath_ && PlayerStairsState::Top == PlayerLink::GetPlayerStairsState())
 	{
 		std::vector<GameEngineCollision*> ColList;
 		if (true == BlueStalfosCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect))
@@ -654,7 +662,7 @@ void Map1FRoom9EnemyBlueStalfos0::GetDamaged()
 			HitActor_ = ColList[0]->GetActor();
 			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 			KnockbackDir_.Normal2D();
-			ColList[0]->Off();
+			ColList[0]->Death();
 			BlueStalfosChangeState(BlueStalfosState::Knockbacked);
 		}
 
@@ -780,14 +788,14 @@ bool Map1FRoom9EnemyBlueStalfos0::MoveFunction()
 		float4 CheckPosTop = NextPos + float4{ 0.0f, -14.0f };
 		float4 CheckPosBot = NextPos + float4{ 0.0f, 64.0f };
 
-		int ColorNextTopRight = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopRight);
-		int ColorNextTopLeft = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTopLeft);
-		int ColorNextBotRight = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotRight);
-		int ColorNextBotLeft = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBotLeft);
-		int ColorNextRight = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosRight);
-		int ColorNextLeft = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosLeft);
-		int ColorNextTop = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosTop);
-		int ColorNextBot = PlayerLink::MapCarryColImage_->GetImagePixel(CheckPosBot);
+		int ColorNextTopRight = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosTopRight);
+		int ColorNextTopLeft = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosTopLeft);
+		int ColorNextBotRight = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosBotRight);
+		int ColorNextBotLeft = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosBotLeft);
+		int ColorNextRight = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosRight);
+		int ColorNextLeft = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosLeft);
+		int ColorNextTop = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosTop);
+		int ColorNextBot = PlayerLink::MapCarryColImage_2_->GetImagePixel(CheckPosBot);
 
 		if (Black != ColorNextTopRight &&
 			Black != ColorNextTopLeft &&

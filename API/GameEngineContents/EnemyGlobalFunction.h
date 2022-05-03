@@ -21,7 +21,7 @@ public:
 	EnemyGlobalFunction& operator=(EnemyGlobalFunction&& _Other) noexcept = delete;
 
 	static void KnockBackMoveFunction(int _TimeScale, float _Speed, float4 _MoveDir, GameEngineCollision* _Collision, GameEngineActor* _Actor, 
-		float _x = 32.0f, float _y_1 = 32.0f, float _y_2 = 32.0f);
+		 GameEngineImage* _Imagefloat, float _x = 32.0f, float _y_1 = 32.0f, float _y_2 = 32.0f);
 	static void PopoBlinkUpdate(int _TimeScale, bool& _IsBlink, bool& _IsAlphaOn,
 		float _BlinkTime, float& _CurBlinkTime, float _BlinkFreq, float& _CurBlinkFreq,
 		PopoState _PopoCurState, GameEngineRenderer* _Renderer);

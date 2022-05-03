@@ -258,6 +258,7 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Map1FRoof.h" />
+    <ClInclude Include="Map1FRoom10EnemyBlueStalfos0.h" />
     <ClInclude Include="Map1FRoom10Pot0.h" />
     <ClInclude Include="Map1FRoom10Pot1.h" />
     <ClInclude Include="Map1FRoom10Pot2.h" />
@@ -276,6 +277,11 @@
     <ClInclude Include="Map1FRoom7EnemyBlueStalfos2.h" />
     <ClInclude Include="Map1FRoom7EnemyBlueStalfos3.h" />
     <ClInclude Include="Map1FRoom7Pot0.h" />
+    <ClInclude Include="Map1FRoom7Pot1.h" />
+    <ClInclude Include="Map1FRoom7Pot2.h" />
+    <ClInclude Include="Map1FRoom7Pot3.h" />
+    <ClInclude Include="Map1FRoom7Pot4.h" />
+    <ClInclude Include="Map1FRoom8TreasureBox.h" />
     <ClInclude Include="Map1FRoom9EnemyBlueStalfos0.h" />
     <ClInclude Include="Map1FRoom9EnemyBlueStalfos1.h" />
     <ClInclude Include="Map1FRoom9EnemyBlueStalfos2.h" />
@@ -477,6 +483,7 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Map1FRoof.cpp" />
+    <ClCompile Include="Map1FRoom10EnemyBlueStalfos0.cpp" />
     <ClCompile Include="Map1FRoom10Pot0.cpp" />
     <ClCompile Include="Map1FRoom10Pot1.cpp" />
     <ClCompile Include="Map1FRoom10Pot2.cpp" />
@@ -495,6 +502,11 @@
     <ClCompile Include="Map1FRoom7EnemyBlueStalfos2.cpp" />
     <ClCompile Include="Map1FRoom7EnemyBlueStalfos3.cpp" />
     <ClCompile Include="Map1FRoom7Pot0.cpp" />
+    <ClCompile Include="Map1FRoom7Pot1.cpp" />
+    <ClCompile Include="Map1FRoom7Pot2.cpp" />
+    <ClCompile Include="Map1FRoom7Pot3.cpp" />
+    <ClCompile Include="Map1FRoom7Pot4.cpp" />
+    <ClCompile Include="Map1FRoom8TreasureBox.cpp" />
     <ClCompile Include="Map1FRoom9EnemyBlueStalfos0.cpp" />
     <ClCompile Include="Map1FRoom9EnemyBlueStalfos1.cpp" />
     <ClCompile Include="Map1FRoom9EnemyBlueStalfos2.cpp" />

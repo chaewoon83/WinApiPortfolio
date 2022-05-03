@@ -125,7 +125,7 @@ void Map1FRoom1EnemyPopo1::GetDamaged()
 			HitActor_ = ColList[0]->GetActor();
 			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 			KnockbackDir_.Normal2D();
-			ColList[0]->Off();
+			ColList[0]->Death();
 			PopoChangeState(PopoState::Knockbacked);
 		}
 
@@ -196,7 +196,7 @@ void Map1FRoom1EnemyPopo1::KnockbackedUpdate()
 	int White = RGB(255, 255, 255);
 	if (true == PosAndColorCheck(White, PlayerLink::MapColImage_))
 	{
-		EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, KnockBackSpeed_, KnockbackDir_, PopoMoveCol_, this);
+		EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, KnockBackSpeed_, KnockbackDir_, PopoMoveCol_, this, PlayerLink::MapCarryColImage_1_);
 	}
 	if (KnockbackTime_ < CurKnockbackTime_)
 	{

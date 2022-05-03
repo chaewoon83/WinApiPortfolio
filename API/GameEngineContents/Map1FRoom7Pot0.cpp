@@ -17,7 +17,7 @@ Map1FRoom7Pot0::Map1FRoom7Pot0()
 	 BlockCol_(nullptr),
 	 PickUpCol_(nullptr),
 	 PotHitBox_(nullptr),
-	 PotPos_({ 169.0f + 24.0f, 3300.0f + 24.0f }),
+	 PotPos_({ 168.0f + 24.0f, 3300.0f + 24.0f }),
 	 MoveDir_(float4::ZERO),
 	 IsInRoom_(false),
 	 Speed_(800.0f),
@@ -269,11 +269,7 @@ bool Map1FRoom7Pot0::CheckPickUpEnd()
 
 void Map1FRoom7Pot0::Reset()
 {
-	if (CameraState::Room4 == PlayerLink::GetPlayerPrevRoomState() ||
-		CameraState::Room7 == PlayerLink::GetPlayerPrevRoomState() ||
-		CameraState::Room8 == PlayerLink::GetPlayerPrevRoomState() ||
-		CameraState::Room12 == PlayerLink::GetPlayerPrevRoomState() ||
-		CameraState::Room13 == PlayerLink::GetPlayerPrevRoomState())
+	if (CameraState::Room10 == PlayerLink::GetPlayerPrevRoomState())
 	{
 		if (false == IsInRoom_ && PotState::Death == CurPotState_)
 		{

@@ -12,6 +12,8 @@
 #include "EnemyBall.h"
 #include "EnemyGargantuanBall.h"
 
+#include "Map1FRoom8TreasureBox.h"
+
 #include "Map1FRoom7EnemyBlueStalfos0.h"
 #include "Map1FRoom7EnemyBlueStalfos1.h"
 #include "Map1FRoom7EnemyBlueStalfos2.h"
@@ -39,7 +41,7 @@ GameEngineCollision* Map1F_2::Room2SwitchCol_ = nullptr;
 GameEngineCollision* Map1F_2::Room10SwitchCol_1_ = nullptr;
 GameEngineCollision* Map1F_2::Room10SwitchCol_2_ = nullptr;
 
-GameEngineRenderer* Map1F_2::Room8TreasureBoxRenderer_ = nullptr;
+GameEngineActor* Map1F_2::Room8TreasureBox_ = nullptr;
 GameEngineRenderer* Map1F_2::Room8ItemRenderer_ = nullptr;
 
 
@@ -100,8 +102,8 @@ void Map1F_2::Start()
 	Room10SwitchCol_1_ = CreateCollision("Switch", { 56, 40 }, { 2244 + 28, 3332 + 20});
 	Room10SwitchCol_2_ = CreateCollision("Switch", { 56, 40 }, { 3844 + 28, 2616 + 20 });
 	Room8TreasureBoxCol_ = CreateCollision("TreasureBox", { 16, 1 }, { 440 + 8, 2400 });
-	Room8TreasureBoxRenderer_ = CreateRenderer("TreasureBox.bmp"); //64*64 size
-	Room8TreasureBoxRenderer_->SetPivot({416 + 32, 2336 + 32});
+
+	Room8TreasureBox_ = GetLevel()->CreateActor<Map1FRoom8TreasureBox>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 
 }
 

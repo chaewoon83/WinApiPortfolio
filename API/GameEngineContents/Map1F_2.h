@@ -33,7 +33,7 @@ public:
 	static GameEngineCollision* Room7TopDoor0Col_;
 	static GameEngineCollision* Room8TreasureBoxCol_;
 
-	static GameEngineRenderer* Room8TreasureBoxRenderer_;
+	static GameEngineActor* Room8TreasureBox_;
 	static GameEngineRenderer* Room8ItemRenderer_;
 
 

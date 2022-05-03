@@ -342,7 +342,7 @@ void EnemyBlueStalfos::JumpUpdate()
 	BlueStalfosBodyRenderer_->SetPivot({ 0, OriginalPivot_.y - JumpHeight_ });
 
 
-	EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, JumpSpeed_, KnockbackDir_, BlueStalfosMoveCol_, this, 32.0f, 14.0f, 64.0f);
+	EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, JumpSpeed_, KnockbackDir_, BlueStalfosMoveCol_, this, PlayerLink::MapCarryColImage_2_, 32.0f, 14.0f, 64.0f);
 
 	if (0.8f * JumpTime_ < CurJumpTime_)
 	{
@@ -386,7 +386,7 @@ void EnemyBlueStalfos::KnockbackedUpdate()
 
 	if (true == PosAndColorCheck(White, PlayerLink::MapColImage_))
 	{
-		EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, KnockBackSpeed_, KnockbackDir_, BlueStalfosMoveCol_, this, 32.0f, 14.0f, 64.0f);
+		EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, KnockBackSpeed_, KnockbackDir_, BlueStalfosMoveCol_, this, PlayerLink::MapCarryColImage_2_, 32.0f, 14.0f, 64.0f);
 	}
 	if (KnockbackTime_ < CurKnockbackTime_)
 	{

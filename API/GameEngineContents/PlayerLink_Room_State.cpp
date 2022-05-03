@@ -252,6 +252,7 @@ void PlayerLink::Room4Update()
 			IsCharacterAutoMove_ = true;
 			IsOnStairs_ = true;
 			BridgeActor_->On();
+			PlayerRenderer_->SetOrder(static_cast<int>(PlayLevelOrder::B1FPLAYER));
 			return;
 		}
 
@@ -262,6 +263,7 @@ void PlayerLink::Room4Update()
 			IsCharacterAutoMove_ = true;
 			IsOnStairs_ = true;
 			BridgeActor_->Off();
+			PlayerRenderer_->SetOrder(static_cast<int>(PlayLevelOrder::PLAYER));
 			return;
 		}
 	}
@@ -702,6 +704,7 @@ void PlayerLink::Room8Update()
 			IsCharacterAutoMove_ = true;
 			IsOnStairs_ = true;
 			BridgeActor_->On();
+			PlayerRenderer_->SetOrder(static_cast<int>(PlayLevelOrder::B1FPLAYER));
 			return;
 		}
 
@@ -713,6 +716,7 @@ void PlayerLink::Room8Update()
 			IsCharacterAutoMove_ = true;
 			IsOnStairs_ = true;
 			BridgeActor_->Off();
+			PlayerRenderer_->SetOrder(static_cast<int>(PlayLevelOrder::PLAYER));
 			return;
 		}
 	}
