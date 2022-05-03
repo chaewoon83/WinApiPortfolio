@@ -3,6 +3,7 @@
 #include <map>
 #include <list>
 #include <vector>
+#include <set>
 #include <GameEngineBase/GameEngineMath.h>
 
 class GameEngineActor;
@@ -95,6 +96,13 @@ public:
 
 	void RegistActor(const std::string& _Name, GameEngineActor* _Actor);
 
+	// 이 오더는 sort를 하겠다.
+	void YSortOn(int _SortOrder)
+	{
+		IsYSort_.insert(_SortOrder);
+	}
+
+
 protected:
 	//시점함수
 	//다른곳에서 Loading 실행을 막기 위하여 protected 로 건다.
@@ -128,6 +136,8 @@ private:
 
 private:
 	std::map<int, std::list<GameEngineRenderer*>> AllRenderer_;
+
+	std::set<int> IsYSort_;
 
 	void AddRenderer(GameEngineRenderer* _Renderer);
 

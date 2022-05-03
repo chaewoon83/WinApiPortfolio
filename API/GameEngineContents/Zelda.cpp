@@ -162,10 +162,18 @@ void Zelda::TotalImageCut()
 	ImageCutter("TitleTwinkle.bmp", 11, 1);
 
 	//Enemy
+	ImageCutter("EnemyDeathEffect.bmp", 7, 1);
+
+	ImageCutter("EnemySummonEffect.bmp", 2, 1);
+
 	ImageCutter("EnemyPopo.bmp", 3, 1);
+
 	ImageCutter("EnemyBall.bmp", 2, 1); 
 	ImageCutter("EnemyGargantuanBall.bmp", 2, 1); 
-	ImageCutter("EnemyDeathEffect.bmp", 7, 1); 
+
+	ImageCutter("EnemyAntiFairy.bmp", 5, 1);
+
+
 	ImageCutter("EnemyBlueStalfosRightHead.bmp", 1, 1);
 	ImageCutter("EnemyBlueStalfosLeftHead.bmp", 1, 1);
 	ImageCutter("EnemyBlueStalfosUpHead.bmp", 1, 1);
@@ -178,7 +186,6 @@ void Zelda::TotalImageCut()
 	ImageCutter("EnemyBlueStalfosLeftBodyIdle.bmp", 1, 1);
 	ImageCutter("EnemyBlueStalfosUpBodyIdle.bmp", 1, 1);
 	ImageCutter("EnemyBlueStalfosDownBodyIdle.bmp", 1, 1);
-
 	ImageCutter("EnemyBlueStalfosJumpRightBody.bmp", 1, 1);
 	ImageCutter("EnemyBlueStalfosJumpLeftBody.bmp", 1, 1);
 	ImageCutter("EnemyBlueStalfosJumpUpBody.bmp", 1, 1);

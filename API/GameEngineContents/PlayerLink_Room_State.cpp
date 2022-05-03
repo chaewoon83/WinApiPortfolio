@@ -337,7 +337,7 @@ void PlayerLink::Room10Update()
 	}
 	else
 	{
-		GameEngineTime::GetInst()->SetTimeScale(3, 1.0f);
+		GameEngineTime::GetInst()->SetTimeScale(10, 1.0f);
 	}
 
 
@@ -346,13 +346,6 @@ void PlayerLink::Room10Update()
 	int Yellow = RGB(255, 255, 0);
 	int Blue = RGB(0, 0, 255);
 
-	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
-	{
-		PrevCameraState_ = CameraState::Room10;
-		AutoMoveDir_ = float4::UP;
-		CameraStateChange(CameraState::Room14_Trans);
-		return;
-	}
 
 	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveLeft == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
@@ -475,21 +468,21 @@ void PlayerLink::Room9Update()
 	//	return;
 	//}
 
-	//if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveLeft == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
-	//{
-	//	PrevCameraState_ = CameraState::Room9;
-	//	AutoMoveDir_ = float4::LEFT;
-	//	CameraStateChange(CameraState::Room11_Trans);
-	//	return;
-	//}
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveLeft == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_ && PlayerStairsState::Top == CurStairs_)
+	{
+		PrevCameraState_ = CameraState::Room7;
+		AutoMoveDir_ = float4::LEFT;
+		CameraStateChange(CameraState::Room7_Trans);
+		return;
+	}
 
-	//if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveRight == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
-	//{
-	//	PrevCameraState_ = CameraState::Room9;
-	//	AutoMoveDir_ = float4::RIGHT;
-	//	CameraStateChange(CameraState::Room9_Trans);
-	//	return;
-	//}
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveLeft == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_ && PlayerStairsState::Bot == CurStairs_)
+	{
+		PrevCameraState_ = CameraState::Room8;
+		AutoMoveDir_ = float4::LEFT;
+		CameraStateChange(CameraState::Room8_Trans);
+		return;
+	}
 
 	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveRight == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
 	{
@@ -513,7 +506,7 @@ void PlayerLink::Room9_Trans_Start()
 	IsCameraAutoMove_ = true;
 	IsCharacterAutoMove_ = true;
 	RoomSize_[0] = { 1022, 4035 };
-	RoomSize_[1] = { 2045, 2178 };
+	RoomSize_[1] = { 2045, 2048 };
 }
 
 void PlayerLink::Room9_Trans_Update()
@@ -532,5 +525,339 @@ void PlayerLink::Room9_Trans_Update()
 	if (false == IsCameraAutoMove_ && false == IsCharacterAutoMove_)
 	{
 		CameraStateChange(CameraState::Room9);
+	}
+}
+
+
+////////////////////////////////////////////////////// Room7
+void PlayerLink::Room7Start()
+{
+
+	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(7, 1.0f);
+}
+void PlayerLink::Room7Update()
+{
+	/// ///////////////////////////////////////// Room Transition
+	if (true == IsCameraAutoMove_)
+	{
+		CameraAutoMove();
+	}
+
+	if (false == IsCameraAutoMove_)
+	{
+		CameraUpdate();
+	}
+
+	if (true == IsCharacterAutoMove_)
+	{
+		if (true == IsOnStairs_)
+		{
+			GameEngineTime::GetInst()->SetTimeScale(9, 0.0f);
+			PlayerAutoMove(150.0f);
+			return;
+		}
+
+		if (false == IsOnStairs_)
+		{
+			GameEngineTime::GetInst()->SetTimeScale(9, 0.0f);
+			PlayerAutoMove();
+			return;
+		}
+	}
+	else
+	{
+		GameEngineTime::GetInst()->SetTimeScale(9, 1.0f);
+	}
+
+
+	/// ///////////////////////////////////////// Room Check
+	int Red = RGB(255, 0, 0);
+	int Yellow = RGB(255, 255, 0);
+	int Blue = RGB(0, 0, 255);
+
+	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
+	{
+		PrevCameraState_ = CameraState::Room7;
+		AutoMoveDir_ = float4::UP;
+		CameraStateChange(CameraState::Room8_Trans);
+		return;
+	}
+
+	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveRight == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
+	{
+		PrevCameraState_ = CameraState::Room7;
+		AutoMoveDir_ = float4::RIGHT;
+		CameraStateChange(CameraState::Room9_Trans);
+		return;
+	}
+}
+
+
+void PlayerLink::Room7_Trans_Start()
+{
+	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
+
+	GameEngineTime::GetInst()->SetTimeScale(9, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(8, 0.0f);
+	IsCameraAutoMove_ = true;
+	IsCharacterAutoMove_ = true;
+	RoomSize_[0] = { 0, 4035 };
+	RoomSize_[1] = { 1021, 3076 };
+}
+
+void PlayerLink::Room7_Trans_Update()
+{
+	/// ///////////////////////////////////////// Room Transition
+	if (true == IsCameraAutoMove_)
+	{
+		CameraAutoMove();
+	}
+
+	if (true == IsCharacterAutoMove_)
+	{
+		PlayerAutoMove();
+	}
+
+	if (false == IsCameraAutoMove_ && false == IsCharacterAutoMove_)
+	{
+		CameraStateChange(CameraState::Room7);
+	}
+}
+
+////////////////////////////////////////////////////// Room8
+void PlayerLink::Room8Start()
+{
+
+	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(8, 1.0f);
+}
+void PlayerLink::Room8Update()
+{
+	/// ///////////////////////////////////////// Room Transition
+	if (true == IsCameraAutoMove_)
+	{
+		CameraAutoMove();
+	}
+
+	if (false == IsCameraAutoMove_)
+	{
+		CameraUpdate();
+	}
+
+	if (true == IsCharacterAutoMove_)
+	{
+		if (true == IsOnStairs_)
+		{
+			GameEngineTime::GetInst()->SetTimeScale(8, 0.0f);
+			PlayerAutoMove(150.0f);
+			return;
+		}
+
+		if (false == IsOnStairs_)
+		{
+			GameEngineTime::GetInst()->SetTimeScale(8, 0.0f);
+			PlayerAutoMove();
+			return;
+		}
+	}
+	else
+	{
+		GameEngineTime::GetInst()->SetTimeScale(8, 1.0f);
+	}
+
+
+	/// ///////////////////////////////////////// Room Check
+	int Red = RGB(255, 0, 0);
+	int Yellow = RGB(255, 255, 0);
+	int Blue = RGB(0, 0, 255);
+
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveRight == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_ && PlayerStairsState::Bot == CurStairs_)
+	{
+		PrevCameraState_ = CameraState::Room8;
+		AutoMoveDir_ = float4::RIGHT;
+		CameraStateChange(CameraState::Room9_Trans);
+		return;
+	}
+
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_ /*&& PlayerStairsState::Top == CurStairs_*/)
+	{
+		PrevCameraState_ = CameraState::Room8;
+		AutoMoveDir_ = float4::DOWN;
+		CameraStateChange(CameraState::Room7_Trans);
+		return;
+	}
+
+	if (PosOrColorCheck(Blue, MapColImage_) && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
+	{
+		
+		if (PlayerStairsState::Top == CurStairs_)
+		{
+			MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_B1F_ColMap.bmp");
+			MapPasImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_B1F_PasMap.bmp");
+			CurStairs_ = PlayerStairsState::Bot;
+			IsCharacterAutoMove_ = true;
+			IsOnStairs_ = true;
+			BridgeActor_->On();
+			return;
+		}
+
+		if (PlayerStairsState::Bot == CurStairs_)
+		{
+			MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_1F_ColMap.bmp");
+			MapPasImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_1F_PasMap.bmp");
+			CurStairs_ = PlayerStairsState::Top;
+			IsCharacterAutoMove_ = true;
+			IsOnStairs_ = true;
+			BridgeActor_->Off();
+			return;
+		}
+	}
+}
+
+
+void PlayerLink::Room8_Trans_Start()
+{
+	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
+
+	GameEngineTime::GetInst()->SetTimeScale(9, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(7, 0.0f);
+	IsCameraAutoMove_ = true;
+	IsCharacterAutoMove_ = true;
+	RoomSize_[0] = { 0, 3041 };
+	RoomSize_[1] = { 1021, 2048 };
+}
+
+void PlayerLink::Room8_Trans_Update()
+{
+	/// ///////////////////////////////////////// Room Transition
+	if (true == IsCameraAutoMove_)
+	{
+		CameraAutoMove();
+	}
+
+	if (true == IsCharacterAutoMove_)
+	{
+		PlayerAutoMove();
+	}
+
+	if (false == IsCameraAutoMove_ && false == IsCharacterAutoMove_)
+	{
+		CameraStateChange(CameraState::Room8);
+	}
+}
+
+
+void PlayerLink::CameraStateChange(CameraState _State)
+{
+	if (CameraState_ != _State)
+	{
+		switch (_State)
+		{
+		case CameraState::Room1:
+			Room1Start();
+			break;
+		case CameraState::Room1_Trans:
+			Room1_Trans_Start();
+			break;
+		case CameraState::Room2:
+			Room2Start();
+			break;
+		case CameraState::Room2_Trans:
+			Room2_Trans_Start();
+			break;
+		case CameraState::Room4:
+			Room4Start();
+			break;
+		case CameraState::Room4_Trans:
+			Room4_Trans_Start();
+			break;
+		case CameraState::Room10:
+			Room10Start();
+			break;
+		case CameraState::Room10_Trans:
+			Room10_Trans_Start();
+			break;
+		case CameraState::Room9:
+			Room9Start();
+			break;
+		case CameraState::Room9_Trans:
+			Room9_Trans_Start();
+			break;
+		case CameraState::Room7:
+			Room7Start();
+			break;
+		case CameraState::Room7_Trans:
+			Room7_Trans_Start();
+			break;
+		case CameraState::Room8:
+			Room8Start();
+			break;
+		case CameraState::Room8_Trans:
+			Room8_Trans_Start();
+			break;
+		case CameraState::Max:
+			break;
+		default:
+			break;
+		}
+	}
+	CameraState_ = _State;
+}
+
+void PlayerLink::CameraStateUpdate()
+{
+	switch (CameraState_)
+	{
+	case CameraState::Room1:
+		Room1Update();
+		break;
+	case CameraState::Room1_Trans:
+		Room1_Trans_Update();
+		break;
+	case CameraState::Room2:
+		Room2Update();
+		break;
+	case CameraState::Room2_Trans:
+		Room2_Trans_Update();
+		break;
+	case CameraState::Room4:
+		Room4Update();
+		break;
+	case CameraState::Room4_Trans:
+		Room4_Trans_Update();
+		break;
+	case CameraState::Room10:
+		Room10Update();
+		break;
+	case CameraState::Room10_Trans:
+		Room10_Trans_Update();
+		break;
+	case CameraState::Room9:
+		Room9Update();
+		break;
+	case CameraState::Room9_Trans:
+		Room9_Trans_Update();
+		break;
+	case CameraState::Room7:
+		Room7Update();
+		break;
+	case CameraState::Room7_Trans:
+		Room7_Trans_Update();
+		break;
+	case CameraState::Room8:
+		Room8Update();
+		break;
+	case CameraState::Room8_Trans:
+		Room8_Trans_Update();
+		break;
+	case CameraState::Max:
+		break;
+	default:
+		break;
 	}
 }

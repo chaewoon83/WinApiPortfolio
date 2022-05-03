@@ -17,6 +17,7 @@ GameEngineRenderer::GameEngineRenderer()
 	, IsCameraEffect_(true)
 	, Alpha_(255)
 	, RotZ_(0.0f)
+	, SortingPivot(float4::ZERO)
 {
 }
 

@@ -39,6 +39,7 @@ private:
 	GameEngineImage* CheckColMap(float4& _Pos);
 	GameEngineImage* CheckCarryColMap(float4& _Pos);
 	static bool IsMap1F_2;
+	static bool IsOnB1F;
 
 protected:
 
@@ -58,6 +59,7 @@ private:
 	GameEngineImage* MapPasImage_2;
 	GameEngineCollision* PlayerCollision_;
 	GameEngineCollision* PlayerLowerBodyCollision_;
+	GameEngineCollision* PlayerHigherBodyCollision_;
 	GameEngineCollision* PlayerMoveCollision_;
 	GameEngineCollision* PlayerTopRightCollision_;
 	GameEngineCollision* PlayerTopLeftCollision_;
@@ -82,7 +84,8 @@ private:
 private:
 
 
-	void MoveFunction();
+	void MoveFunction(float _Speed = 350.0f);
+	void KnockBackMoveFunction(float _Speed = 350.0f);
 	void MoveCarryFunction();
 	bool PosOrColorCheck(int _Color, GameEngineImage* _Image);
 	bool PosAndColorCheck(int _Color, GameEngineImage* _Image);
@@ -204,6 +207,18 @@ private:
 			 
 	void Room9_Trans_Start();
 	void Room9_Trans_Update();
+
+	void Room7Start();
+	void Room7Update();
+
+	void Room7_Trans_Start();
+	void Room7_Trans_Update();
+
+	void Room8Start();
+	void Room8Update();
+
+	void Room8_Trans_Start();
+	void Room8_Trans_Update();
 	/////////////////////////////////////////////////////////////////////Staris State
 private:
 	static PlayerStairsState CurStairs_;
@@ -222,6 +237,11 @@ private:
 	bool IsAlphaOn_;
 	float4 KnockbackDir_;
 
+	static float ItemMoveTime_;
+	static float CurItemMoveTime_;
+	static bool IsInItemCutScene_;
+
+	void TreasureBoxCheck();
 	void GetDamaged();
 	void PotCarryCheck();
 	/////////////////////////////////////////////////////////////////////Getter
@@ -262,5 +282,18 @@ public:
 		return IsMap1F_2;
 	}
 
+	inline static bool GetIsInItemCutScene()
+	{
+		return IsInItemCutScene_;
+	}
+
+	inline static float GetItemMoveTime()
+	{
+		return CurItemMoveTime_;
+	}
+	inline static float GetCurItemMoveTime()
+	{
+		return IsInItemCutScene_;
+	}
 };
 

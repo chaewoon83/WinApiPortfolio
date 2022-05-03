@@ -37,6 +37,7 @@
 GameEngineImage* PlayerLink::MapColImage_ = nullptr;
 GameEngineImage* PlayerLink::MapCarryColImage_ = nullptr;
 bool PlayerLink::IsMap1F_2 = false;
+bool PlayerLink::IsOnB1F = false;
 GameEngineActor* PlayerLink::MainPlayer_ = nullptr;
 GameEngineActor* PlayerLink::CarryActor_ = nullptr;
 PlayerState PlayerLink::PlayerCurState_ = PlayerState::IdleDown;
@@ -49,35 +50,40 @@ CameraState PlayerLink::PrevCameraState_ = CameraState::Max;
 PlayerStairsState PlayerLink::CurStairs_ = PlayerStairsState::Top;
 bool PlayerLink::IsOnStairs_ = false;
 bool PlayerLink::IsCarry_ = false;
+bool PlayerLink::IsInItemCutScene_ = false;
+
+float PlayerLink::ItemMoveTime_ = 1.0f;
+float PlayerLink::CurItemMoveTime_ = 0.0f;
+
 int PlayerLink::CurrentAnimationFrame_ = -1;
 
 PlayerLink::PlayerLink()
-	:MapColImage_1_(nullptr),
-	 MapColImage_2_(nullptr),
-	 BridgeActor_(nullptr),
-	 PlayerLowerBodyCollision_(nullptr),
-	 HitActor_(nullptr),
-	 Speed_(350.0f),
-	 KnockBackSpeed_(350.0f),
-	 IsCameraAutoMove_(false),
-	 IsCharacterAutoMove_(false),
-	 AutoMoveDir_(float4::ZERO),
-	 PlayerCollision_(nullptr),
-	 SwordCollision_(nullptr),
-	 AnimationTimer_(0.0f),
-	 AnimationIndex_(0),
-	 AttackAnimationInterval_(0.04f),
-	 IsGetDamaged_(false),
-	 IsKnockback_(false),
-	 IsBlink_(false),
-	 KnockbackTime_(0.2f),
-	 CurKnockbackTime_(0.0f),
-	 BlinkTime_(1.5f),
-	 CurBlinkTime_(0.0f),
-	 BlinkFreq_(0.01f),
-	 CurBlinkFreq_(0.0f),
-	 IsAlphaOn_(true),
-	 Hp_(10)
+	:MapColImage_1_(nullptr)
+	, MapColImage_2_(nullptr)
+	, BridgeActor_(nullptr)
+	, PlayerLowerBodyCollision_(nullptr)
+	, HitActor_(nullptr)
+	, Speed_(350.0f)
+	, KnockBackSpeed_(350.0f)
+	, IsCameraAutoMove_(false)
+	, IsCharacterAutoMove_(false)
+	, AutoMoveDir_(float4::ZERO)
+	, PlayerCollision_(nullptr)
+	, SwordCollision_(nullptr)
+	, AnimationTimer_(0.0f)
+	, AnimationIndex_(0)
+	, AttackAnimationInterval_(0.04f)
+	, IsGetDamaged_(false)
+	, IsKnockback_(false)
+	, IsBlink_(false)
+	, KnockbackTime_(0.2f)
+	, CurKnockbackTime_(0.0f)
+	, BlinkTime_(1.5f)
+	, CurBlinkTime_(0.0f)
+	, BlinkFreq_(0.01f)
+	, CurBlinkFreq_(0.0f)
+	, IsAlphaOn_(true)
+	, Hp_(10)
 {
 }
 
@@ -91,6 +97,7 @@ void PlayerLink::Start()
 	//Ãæµ¹
 	PlayerCollision_ = CreateCollision("PlayerHitBox", {64, 64});
 	PlayerLowerBodyCollision_ = CreateCollision("PlayerLowerBodyHitBox", {64, 20} , {0, 22});
+	PlayerHigherBodyCollision_ = CreateCollision("PlayerHigherBodyHitBox", { 64, 20 }, { 0, -22 });
 	PlayerMoveCollision_ = CreateCollision("PlayerHitBox2", {64, 64}, {0, 12});
 	PlayerTopRightCollision_ = CreateCollision("PlayerTopRightHitBox", {20, 20 }, { 22, -10 });
 	PlayerTopLeftCollision_ = CreateCollision("PlayerTopLeftHitBox", { 20, 20 }, { -22, -10 });
@@ -98,6 +105,9 @@ void PlayerLink::Start()
 	PlayerBotLeftCollision_ = CreateCollision("PlayerBotLeftHitBox", { 20, 20 }, { -22, 34 });
 	PlayerMiddleHorCollision_ = CreateCollision("PlayerBotLeftHitBox", { 64, 24 }, {0, 12});
 	PlayerMiddleVerCollision_ = CreateCollision("PlayerBotLeftHitBox", { 24, 64 }, {0, 12});
+
+	SwordCollision_ = CreateCollision("Sword", { 0, 0 });
+	SwordCollision_->Off();
 	
 	//PlayerCollision_->Off();
 	//PlayerMoveCollision_->Off();
@@ -217,10 +227,10 @@ void PlayerLink::Start()
 	{
 		//SetPosition({ 3072.0f, 3800.0f });
 		GetLevel()->SetCameraPos({ 3072.0f, 3800.0f });
-		RoomSize_[0] = { 2048, 4035 };
-		RoomSize_[1] = { 4095, 2050 };
-		CameraState_ = CameraState::Room10;
-		PrevCameraState_ = CameraState::Room9;
+		RoomSize_[0] = { 0, 3041 };
+		RoomSize_[1] = { 1021, 2048 };
+		CameraState_ = CameraState::Room8;
+		PrevCameraState_ = CameraState::Room7;
 	}
 
 
@@ -236,16 +246,29 @@ void PlayerLink::Update()
 	if (4128 > GetPosition().iy() && false == IsMap1F_2)
 	{
 		IsMap1F_2 = true;
-		MapColImage_ = MapColImage_2_;
 		MapPasImage_ = MapPasImage_2;
 		MapCarryColImage_ = MapCarryColImage_2_;
+		if (/*false == IsOnB1F && */PlayerStairsState::Top == CurStairs_)
+		{
+			//IsOnB1F = true;
+			MapColImage_ = MapColImage_2_;
+		}
+
+		//if (true == IsOnB1F && PlayerStairsState::Top == CurStairs_)
+		//{
+		//	IsOnB1F = false;
+		//	MapColImage_ = MapColImage_2_;
+		//}
 	}
 	if (4128 <= GetPosition().iy() && true == IsMap1F_2)
 	{
 		IsMap1F_2 = false;
-		MapColImage_ = MapColImage_1_;
 		MapPasImage_ = MapPasImage_1;
 		MapCarryColImage_ = MapCarryColImage_1_;
+		if (PlayerStairsState::Top == CurStairs_)
+		{
+			MapColImage_ = MapColImage_1_;
+		}
 	}
 
 	PlayerStateUpdate();
@@ -319,6 +342,7 @@ void PlayerLink::CameraUpdate()
 {
 	{
 		GetLevel()->SetCameraPos(GetPosition() - GameEngineWindow::GetInst().GetScale().Half());
+		float4 A = GetPosition();
 		float4 CurCameraPos = GetLevel()->GetCameraPos();
 
 		if (RoomSize_[0].x > CurCameraPos.x)
@@ -346,92 +370,6 @@ void PlayerLink::CameraUpdate()
 			CurCameraPos.y = RoomSize_[1].y;
 			GetLevel()->SetCameraPos(CurCameraPos);
 		}
-	}
-}
-
-void PlayerLink::CameraStateChange(CameraState _State)
-{
-	if (CameraState_ != _State)
-	{
-		switch (_State)
-		{
-		case CameraState::Room1:
-			Room1Start();
-			break;
-		case CameraState::Room1_Trans:
-			Room1_Trans_Start();
-			break;
-		case CameraState::Room2:
-			Room2Start();
-			break;
-		case CameraState::Room2_Trans:
-			Room2_Trans_Start();
-			break;
-		case CameraState::Room4:
-			Room4Start();
-			break;
-		case CameraState::Room4_Trans:
-			Room4_Trans_Start();
-			break;
-		case CameraState::Room10:
-			Room10Start();
-			break;
-		case CameraState::Room10_Trans:
-			Room10_Trans_Start();
-			break;
-		case CameraState::Room9:
-			Room9Start();
-			break;
-		case CameraState::Room9_Trans:
-			Room9_Trans_Start();
-			break;
-		case CameraState::Max:
-			break;
-		default:
-			break;
-		}
-	}
-	CameraState_ = _State;
-}
-
-void PlayerLink::CameraStateUpdate()
-{
-	switch (CameraState_)
-	{
-	case CameraState::Room1:
-		Room1Update();
-		break;
-	case CameraState::Room1_Trans:
-		Room1_Trans_Update();
-		break;
-	case CameraState::Room2:
-		Room2Update();
-		break;
-	case CameraState::Room2_Trans:
-		Room2_Trans_Update();
-		break;
-	case CameraState::Room4:
-		Room4Update();
-		break;
-	case CameraState::Room4_Trans:
-		Room4_Trans_Update();
-		break;
-	case CameraState::Room10:
-		Room10Update();
-		break;
-	case CameraState::Room10_Trans:
-		Room10_Trans_Update();
-		break;
-	case CameraState::Room9:
-		Room9Update();
-		break;
-	case CameraState::Room9_Trans:
-		Room9_Trans_Update();
-		break;
-	case CameraState::Max:
-		break;
-	default:
-		break;
 	}
 }
 
@@ -729,6 +667,18 @@ void PlayerLink::PlayerChangeState(PlayerState _State)
 		case PlayerState::WieldDown:
 			WieldDownStart();
 			break;
+		case PlayerState::WieldRight_1:
+			WieldRightStart();
+			break;
+		case PlayerState::WieldLeft_1:
+			WieldLeftStart();
+			break;
+		case PlayerState::WieldUp_1:
+			WieldUpStart();
+			break;
+		case PlayerState::WieldDown_1:
+			WieldDownStart();
+			break;
 		case PlayerState::DamagedRight:
 			DamagedRightStart();
 			break;
@@ -807,6 +757,10 @@ void PlayerLink::PlayerStateUpdate()
 	case PlayerState::WieldLeft:
 	case PlayerState::WieldUp:
 	case PlayerState::WieldDown:
+	case PlayerState::WieldRight_1:
+	case PlayerState::WieldLeft_1:
+	case PlayerState::WieldUp_1:
+	case PlayerState::WieldDown_1:
 		WieldUpdate();
 		break;
 	case PlayerState::DamagedRight:

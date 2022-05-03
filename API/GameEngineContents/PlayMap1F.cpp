@@ -36,6 +36,11 @@
 
 #include "EnemyBlueStalfos.h"
 #include "Map1FRoom9EnemyBlueStalfos0.h"
+#include "Map1FRoom9EnemyBlueStalfos1.h"
+#include "Map1FRoom9EnemyBlueStalfos2.h"
+#include "Map1FRoom9EnemyBlueStalfos3.h"
+
+#include "EnemyAntiFairy.h"
 
 #include "Colmap.h"
 
@@ -55,6 +60,9 @@ void PlayMap1F::Loading()
 	// 1 부터 Room1 Room2 ...
 	ResetTimeScale();
 
+	PlayerLink* Player = CreateActor<PlayerLink>(static_cast<int>(PlayLevelOrder::PLAYER));
+	PlayerLink::MainPlayer_ = Player;
+
 	CreateActor<Map1F>(static_cast<int>(PlayLevelOrder::BACKGROUND));
 	CreateActor<Map1F_2>(static_cast<int>(PlayLevelOrder::BACKGROUND));
 
@@ -66,11 +74,13 @@ void PlayMap1F::Loading()
 	CreateActor<Map1FRoom1EnemyPopo1>(static_cast<int>(PlayLevelOrder::MONSTER));
 	CreateActor<Map1FRoom1EnemyPopo2>(static_cast<int>(PlayLevelOrder::MONSTER));
 
-	CreateActor<EnemyBlueStalfos>(static_cast<int>(PlayLevelOrder::MONSTER));
+	//CreateActor<EnemyBlueStalfos>(static_cast<int>(PlayLevelOrder::MONSTER));
 	CreateActor<Map1FRoom9EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER));
+	CreateActor<Map1FRoom9EnemyBlueStalfos1>(static_cast<int>(PlayLevelOrder::MONSTER));
+	CreateActor<Map1FRoom9EnemyBlueStalfos2>(static_cast<int>(PlayLevelOrder::MONSTER));
+	CreateActor<Map1FRoom9EnemyBlueStalfos3>(static_cast<int>(PlayLevelOrder::MONSTER));
 
-	PlayerLink* Player = CreateActor<PlayerLink>(static_cast<int>(PlayLevelOrder::PLAYER));
-	PlayerLink::MainPlayer_ = Player;
+	//CreateActor<EnemyAntiFairy>(static_cast<int>(PlayLevelOrder::MONSTER));
 
 	CreateActor<Map1FBridgeBackGround>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 
@@ -97,8 +107,11 @@ void PlayMap1F::Loading()
 
 	CreateActor<Colmap>(static_cast<int>(PlayLevelOrder::BACKGROUND));
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
+	// Room7 부터 시작
+	Player->SetPosition({ 512.0f, 2768.0f });
 	// Room10부터 시작
-	Player->SetPosition({ 3072.0f, 3800.0f });
+	//Player->SetPosition({ 3072.0f, 3800.0f });
+	// 정상 시작
 	//Player->SetPosition({3072.0f, 3800.0f + 4128.0f});
 	BridgeActor->Off();
 }

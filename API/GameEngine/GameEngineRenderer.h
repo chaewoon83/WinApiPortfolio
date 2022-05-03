@@ -46,10 +46,21 @@ public:
 		RenderPivot_ = _Pos;
 	}
 
-	inline float4 GetPivot()
+	inline float4 GetImagePivot()
 	{
 		return RenderPivot_;
 	}
+
+	inline float4 GetImageScale()
+	{
+		return RenderImageScale_;
+	}
+
+	inline float4 GetSortingPivot()
+	{
+		return GetActor()->GetPosition() + RenderPivot_ + SortingPivot;
+	}
+
 
 	inline void SetTransColor(unsigned int _Color)
 	{
@@ -124,6 +135,9 @@ private:
 	float4 RenderImagePivot_;
 	//자르는 이미지의 크기
 	float4 RenderImageScale_;
+
+	float4 SortingPivot;	// 복사받으려는 이미지 한칸의 크기
+
 	//투명화할 색깔
 	unsigned int TransColor_;
 	//이미지의 알파값
@@ -220,6 +234,10 @@ public:
 	void ChangeAnimation(const std::string& _Name);
 	///////////////////////////////나만의 코드
 	void ChangeAnimationReset(const std::string& _Name);
+	int GetAnimationIndex()
+	{
+		return CurrentAnimation_->CurrentFrame_;
+	}
 	///////////////////////////////나만의 코드
 	void CreateAnimation(const std::string& _Image, const std::string& _Name, int _StartIndex, int _EndIndex,
 		float _InterTime, bool _Loop = true);

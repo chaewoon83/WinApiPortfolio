@@ -22,7 +22,7 @@ Map1FRoom9EnemyBlueStalfos0::Map1FRoom9EnemyBlueStalfos0()
 	 BlueStalfosBodyRenderer_(nullptr),
 	 BlueStalfosCol_(nullptr),
 	 BlueStalfosMoveCol_(nullptr),
-	 BlueStalfosPos_({ 1371, 2967 }),
+	 BlueStalfosPos_({ 1439, 2980 }),
 	 TimeScale_(9),
 	 IsInvincible_(false),
 	 IsDeath_(false),
@@ -75,6 +75,14 @@ void Map1FRoom9EnemyBlueStalfos0::Start()
 	SetPosition(BlueStalfosPos_);
 	BlueStalfosShadowRenderer_ = CreateRenderer("EnemyBlueStalfosShadow.bmp");
 	BlueStalfosShadowRenderer_->SetPivot({ 0, 48 });
+
+	BlueStalfosBodyRenderer_ = CreateRenderer();
+	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosRightBody.bmp", "Right_Walk", TimeScale_, 0, 1, 0.15f, true);
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosLeftBody.bmp", "Left_Walk", TimeScale_, 0, 1, 0.15f, true);
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosUpBody.bmp", "Up_Walk", TimeScale_, 0, 1, 0.15f, true);
+	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosDownBody.bmp", "Down_Walk", TimeScale_, 0, 1, 0.15f, true);
+
 	BlueStalfosHeadRenderer_ = CreateRenderer();
 	BlueStalfosHeadRenderer_->SetPivot({ 0, -28 });
 	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosRightHead.bmp", "Right", TimeScale_, 0, 0, 0.15f, false);
@@ -83,12 +91,7 @@ void Map1FRoom9EnemyBlueStalfos0::Start()
 	BlueStalfosHeadRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosDownHead.bmp", "Down", TimeScale_, 0, 0, 0.15f, false);
 	BlueStalfosHeadRenderer_->ChangeAnimation("Down");
 
-	BlueStalfosBodyRenderer_ = CreateRenderer();
-	BlueStalfosBodyRenderer_->SetPivot({ 0, 24 });
-	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosRightBody.bmp", "Right_Walk", TimeScale_, 0, 1, 0.15f, true);
-	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosLeftBody.bmp", "Left_Walk", TimeScale_, 0, 1, 0.15f, true);
-	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosUpBody.bmp", "Up_Walk", TimeScale_, 0, 1, 0.15f, true);
-	BlueStalfosBodyRenderer_->CreateAnimationTimeKey("EnemyBlueStalfosDownBody.bmp", "Down_Walk", TimeScale_, 0, 1, 0.15f, true);
+
 
 
 
@@ -242,6 +245,7 @@ void Map1FRoom9EnemyBlueStalfos0::DeathStart()
 	BlueStalfosBodyRenderer_->SetAlpha(255);
 	BlueStalfosHeadRenderer_->ChangeAnimation("DeathEffect");
 	BlueStalfosBodyRenderer_->Death();
+	BlueStalfosShadowRenderer_->Death();
 	//DeathEffectRenderer_->ChangeAnimation("DeathEffect");
 }
 
@@ -338,7 +342,7 @@ void Map1FRoom9EnemyBlueStalfos0::JumpUpdate()
 {
 	CurJumpTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
 
-	JumpHeight_ = 500.0f * CurJumpTime_ - 2000.0f * 0.5f * pow(CurJumpTime_, 2);
+	JumpHeight_ = 500.0f * CurJumpTime_ - 2000.0f * 0.5f * static_cast<float>(pow(CurJumpTime_, 2));
 
 	BlueStalfosHeadRenderer_->SetPivot({ 0, OriginalPivot_.x - JumpHeight_ });
 	BlueStalfosBodyRenderer_->SetPivot({ 0, OriginalPivot_.y - JumpHeight_ });
@@ -346,10 +350,24 @@ void Map1FRoom9EnemyBlueStalfos0::JumpUpdate()
 
 	EnemyGlobalFunction::KnockBackMoveFunction(TimeScale_, JumpSpeed_, KnockbackDir_, BlueStalfosMoveCol_, this, 32.0f, 14.0f, 64.0f);
 
-	if (0.8f * JumpTime_ < CurJumpTime_)
+	if (0.1f * JumpTime_ < CurJumpTime_ && 0.3f * JumpTime_ > CurJumpTime_)
 	{
 		GetDamaged();
+		if (true == IsKnockback_)
+		{
+			return;
+		}
 	}
+
+	if (0.7f * JumpTime_ < CurJumpTime_)
+	{
+		GetDamaged();
+		if (true == IsKnockback_)
+		{
+			return;
+		}
+	}
+
 
 	if (JumpTime_ < CurJumpTime_)
 	{
