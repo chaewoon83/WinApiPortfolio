@@ -278,6 +278,10 @@ private:
 
 	/////////////////////////////////////////////////////////////////////ItemCollect
 	static int PlayerRupee_;
+	static int PlayerBomb_;
+	static int PlayerArrow_;
+	static int PlayerKey_;
+	static bool IsHaveBigKey_;
 
 	void ItemCollectUpdate();
 	/////////////////////////////////////////////////////////////////////Getter
@@ -340,6 +344,22 @@ public:
 	inline static int GetPlayerRupee()
 	{
 		return PlayerRupee_;
+	}
+	inline static int GetPlayerBomb()
+	{
+		return PlayerBomb_;
+	}
+	inline static int GetPlayerArrow()
+	{
+		return PlayerArrow_;
+	}
+	inline static int GetPlayerKey()
+	{
+		return PlayerKey_;
+	}
+	inline static bool GetPlayerIsHaveBigKey()
+	{
+		return IsHaveBigKey_;
 	}
 };
 

@@ -249,6 +249,13 @@ void EnemyGlobalFunction::ItemGenMonster(int _ItemNum, GameEngineActor* _Actor)
 		return;
 	}
 
+	if (5 == _ItemNum)
+	{
+		ItemRecoveryHeart* Ptr = _Actor->GetLevel()->CreateActor<ItemRecoveryHeart>((int)PlayLevelOrder::BELOWPLAYER);
+		Ptr->SetPosition(_Actor->GetPosition());
+		return;
+	}
+
 }
 
 

@@ -62,6 +62,10 @@ int PlayerLink::CurrentAnimationFrame_ = -1;
 
 int PlayerLink::Hp_ = 20;
 int PlayerLink::PlayerRupee_ = 0;
+int PlayerLink::PlayerBomb_ = 0;
+int PlayerLink::PlayerArrow_ = 0;
+int PlayerLink::PlayerKey_ = 0;
+bool PlayerLink::IsHaveBigKey_ = false;
 
 PlayerLink::PlayerLink()
 	:MapColImage_1_(nullptr)
@@ -353,6 +357,24 @@ void PlayerLink::ItemCollectUpdate()
 		{
 			Hp_ = CurHp;
 		}
+		ColList[0]->GetActor()->Death();
+	}
+
+	if (true == PlayerCollision_->CollisionResult("Arrow5", ColList))
+	{
+		PlayerArrow_ += 5;
+		ColList[0]->GetActor()->Death();
+	}
+
+	if (true == PlayerCollision_->CollisionResult("Key", ColList))
+	{
+		PlayerKey_ += 1;
+		ColList[0]->GetActor()->Death();
+	}
+
+	if (true == PlayerCollision_->CollisionResult("BigKey", ColList))
+	{
+		IsHaveBigKey_ = true;
 		ColList[0]->GetActor()->Death();
 	}
 }

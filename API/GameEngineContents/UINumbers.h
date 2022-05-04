@@ -22,8 +22,21 @@ protected:
 private:
 	GameEngineRenderer* UIRupee0_;
 	GameEngineRenderer* UIRupee1_;
+	GameEngineRenderer* UIRupee2_;
+
+	GameEngineRenderer* UIBomb0_;
+	GameEngineRenderer* UIBomb1_;
+
+	GameEngineRenderer* UIArrow0_;
+	GameEngineRenderer* UIArrow1_;
+
+	GameEngineRenderer* UIKey_;
+	
 
 	float4 Padding_;
 	void CreateAnimationNumer(GameEngineRenderer*& _Renderer);
+	void UpdateRupeeNumber();
+	void UpdateArrowNumber();
+	void UpdateKeyNumber();
 };
 

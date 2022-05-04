@@ -51,13 +51,13 @@ void ItemKey::Update()
 		ItemRenderer_->SetPivot({ 0 , -RespawnPivot_ });
 		ShadowRenderer_ = CreateRenderer("ItemShadow.bmp");
 		ShadowRenderer_->SetPivot({ 0, 30 });
-		ItemCollision_ = CreateCollision("RedRupee", { 32,56 }, { 0, RespawnPivot_ });
+		ItemCollision_ = CreateCollision("Key", { 32,56 }, { 0, RespawnPivot_ });
 	}
 	else
 	{
 		if (OriginalPos_.CompareInt2D(float4::ZERO))
 		{
-			MsgBoxAssert("GreenRupee를 설정하는데 오류가 발생했습니다");
+			MsgBoxAssert("Key를 설정하는데 오류가 발생했습니다");
 			return;
 		}
 		CurLiveTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
