@@ -29,6 +29,7 @@
 #include "Map1FRoom10Pot1.h"
 #include "Map1FRoom10Pot2.h"
 #include "Map1FRoom10Pot3.h"
+#include "Map1FRoom10Pot0B1F.h"
 #include "Map1FRoom7Pot0.h"
 #include "Map1FRoom7Pot1.h"
 #include "Map1FRoom7Pot2.h"
@@ -47,6 +48,8 @@
 #include "Map1FRoom10EnemyBlueStalfos0.h"
 
 #include "EnemyAntiFairy.h"
+
+#include "BlackScreen.h"
 
 #include "Colmap.h"
 
@@ -85,8 +88,10 @@ void PlayMap1F::Loading()
 	CreateActor<Map1FRoom9EnemyBlueStalfos1>(static_cast<int>(PlayLevelOrder::MONSTER));
 	CreateActor<Map1FRoom9EnemyBlueStalfos2>(static_cast<int>(PlayLevelOrder::MONSTER));
 	CreateActor<Map1FRoom9EnemyBlueStalfos3>(static_cast<int>(PlayLevelOrder::MONSTER));
-	CreateActor<Map1FRoom10EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER));
-
+	Map1FRoom10EnemyBlueStalfos0 * Room10Stalfos0 = CreateActor<Map1FRoom10EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::B1FMONSTER));
+	Room10Stalfos0->SetBlueStalfosPos({ 2719, 3181 });
+	Map1FRoom10EnemyBlueStalfos0* Room10Stalfos1 = CreateActor<Map1FRoom10EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::B1FMONSTER));
+	Room10Stalfos1->SetBlueStalfosPos({ 3423, 3181 });
 	//CreateActor<EnemyAntiFairy>(static_cast<int>(PlayLevelOrder::MONSTER));
 
 	CreateActor<Map1FBridgeBackGround>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
@@ -98,6 +103,10 @@ void PlayMap1F::Loading()
 	CreateActor<Map1FRoom10Pot1>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 	CreateActor<Map1FRoom10Pot2>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 	CreateActor<Map1FRoom10Pot3>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	CreateActor<Map1FRoom10Pot0B1F>(static_cast<int>(PlayLevelOrder::B1FBELOWPLAYER)) -> SetPotPos({2312 + 24, 2788 + 24});
+	CreateActor<Map1FRoom10Pot0B1F>(static_cast<int>(PlayLevelOrder::B1FBELOWPLAYER)) -> SetPotPos({2312 + 24, 2852 + 24});
+	CreateActor<Map1FRoom10Pot0B1F>(static_cast<int>(PlayLevelOrder::B1FBELOWPLAYER)) -> SetPotPos({3784 + 24, 2788 + 24});
+	CreateActor<Map1FRoom10Pot0B1F>(static_cast<int>(PlayLevelOrder::B1FBELOWPLAYER)) -> SetPotPos({3784 + 24, 2852 + 24});
 	CreateActor<Map1FRoom7Pot0>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 	CreateActor<Map1FRoom7Pot1>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 	CreateActor<Map1FRoom7Pot2>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
@@ -110,6 +119,7 @@ void PlayMap1F::Loading()
 	Map1FBridge* BridgeActor = CreateActor<Map1FBridge>(static_cast<int>(PlayLevelOrder::B1FBACKGROUNDROOF));
 	Player->SetBridgeActor(BridgeActor);
 
+	CreateActor<BlackScreen>(static_cast<int>(PlayLevelOrder::BLACKBACKGROUND));
 
 	CreateActor<UILayout>(static_cast<int>(PlayLevelOrder::UILAYOUT));
 	CreateActor<UIMagicMeter>(static_cast<int>(PlayLevelOrder::UI));
@@ -119,8 +129,10 @@ void PlayMap1F::Loading()
 
 	CreateActor<Colmap>(static_cast<int>(PlayLevelOrder::BACKGROUND));
 	//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
+	// Room11부터 시작
+	Player->SetPosition({4607, 3792});
 	// Room7 부터 시작
-	Player->SetPosition({ 512.0f, 2768.0f });
+	//Player->SetPosition({ 512.0f, 2768.0f });
 	// Room10부터 시작
 	//Player->SetPosition({ 3072.0f, 3800.0f });
 	// 정상 시작

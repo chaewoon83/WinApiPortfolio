@@ -52,8 +52,9 @@ private:
 	GameEngineActor* HitActor_;
 	GameEngineRenderer* PlayerRenderer_;
 
-
-	float Speed_;
+	void SpeedCheck(float4 _Pos);
+	float CurSpeed_;
+	float OriginalSpeed_;
 	float KnockBackSpeed_;
 	GameEngineImage* MapPasImage_;
 	GameEngineImage* MapPasImage_1;
@@ -220,6 +221,27 @@ private:
 
 	void Room8_Trans_Start();
 	void Room8_Trans_Update();
+
+	void Room11Start();
+	void Room11Update();
+
+	void Room11_Trans_Start();
+	void Room11_Trans_Update();
+
+	void Room5Start();
+	void Room5Update();
+
+	void Room5_Trans_Start();
+	void Room5_Trans_Update();
+
+
+
+	bool IsBlackScreenOn_;
+	bool IsLightBalckScreenOn_;
+	int BlackScreenAlpha_;
+	float BlackScreenTime_;
+	void ScreenTurnBlack(GameEngineRenderer* _Renderer, bool& _IsIamgeOn);
+	void ScreenTurnBright(GameEngineRenderer* _Renderer, bool& _IsIamgeOn);
 	/////////////////////////////////////////////////////////////////////Staris State
 private:
 	static PlayerStairsState CurStairs_;

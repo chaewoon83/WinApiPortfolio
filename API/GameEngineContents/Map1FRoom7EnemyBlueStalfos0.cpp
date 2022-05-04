@@ -115,7 +115,7 @@ void Map1FRoom7EnemyBlueStalfos0::Start()
 
 	BlueStalfosCol_ = CreateCollision("MonsterHitBox", { 48, 56 }, { 0, -14 });
 	BlueStalfosMoveCol_ = CreateCollision("MonsterMoveBox", { 64, 78}, { 0, 0 });
-	BlueStalfosJumpCol_ = CreateCollision("BlueStalfosJumpBox", { 72, 78 }, { 0, 0 });
+	BlueStalfosJumpCol_ = CreateCollision("BlueStalfosJumpBox", { 150, 150 }, { 0, 0 });
 
 	{
 		int RandomInt = GlobalRandom::RandomIntGenerate(1, 4);

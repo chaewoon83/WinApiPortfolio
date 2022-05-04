@@ -66,7 +66,8 @@ PlayerLink::PlayerLink()
 	, BridgeActor_(nullptr)
 	, PlayerLowerBodyCollision_(nullptr)
 	, HitActor_(nullptr)
-	, Speed_(350.0f)
+	, CurSpeed_(350.0f)
+	, OriginalSpeed_(350.0f)
 	, KnockBackSpeed_(350.0f)
 	, IsCameraAutoMove_(false)
 	, IsCharacterAutoMove_(false)
@@ -87,6 +88,10 @@ PlayerLink::PlayerLink()
 	, CurBlinkFreq_(0.0f)
 	, IsAlphaOn_(true)
 	, Hp_(10)
+	, IsBlackScreenOn_(false)
+	, IsLightBalckScreenOn_(false)
+	, BlackScreenAlpha_(0)
+	, BlackScreenTime_(0.0f)
 {
 }
 
@@ -236,11 +241,12 @@ void PlayerLink::Start()
 
 	{
 		//SetPosition({ 3072.0f, 3800.0f });
-		GetLevel()->SetCameraPos({ 3072.0f, 3800.0f });
-		RoomSize_[0] = { 0, 3041 };
-		RoomSize_[1] = { 1021, 2048 };
-		CameraState_ = CameraState::Room8;
-		PrevCameraState_ = CameraState::Room7;
+		//SetPosition({4607, 3792});
+		GetLevel()->SetCameraPos({ 4607, 3792 });
+		RoomSize_[0] = { 4096, 4035 };
+		RoomSize_[1] = { 5117, 2048 };
+		CameraState_ = CameraState::Room11;
+		PrevCameraState_ = CameraState::Room10;
 	}
 
 
@@ -280,7 +286,7 @@ void PlayerLink::Update()
 			MapColImage_ = MapColImage_1_;
 		}
 	}
-
+	SpeedCheck(GetPosition());
 	PlayerStateUpdate();
 	CameraStateUpdate();
 	//애니메이셔 프레임 받기
@@ -348,11 +354,23 @@ bool PlayerLink::IsDownMoveKey()
 	return false;
 }
 
+void PlayerLink::SpeedCheck(float4 _Pos)
+{
+	int Purple = RGB(255, 0, 255);
+	if (Purple == MapColImage_->GetImagePixel(_Pos))
+	{
+		CurSpeed_ = OriginalSpeed_ * 0.5f;
+	}
+	else
+	{
+		CurSpeed_ = OriginalSpeed_;
+	}
+}
+
 void PlayerLink::CameraUpdate()
 {
 	{
 		GetLevel()->SetCameraPos(GetPosition() - GameEngineWindow::GetInst().GetScale().Half());
-		float4 A = GetPosition();
 		float4 CurCameraPos = GetLevel()->GetCameraPos();
 
 		if (RoomSize_[0].x > CurCameraPos.x)
@@ -368,7 +386,7 @@ void PlayerLink::CameraUpdate()
 			GetLevel()->SetCameraPos(CurCameraPos);
 		}
 
-
+		float A = GameEngineWindow::GetInst().GetScale().x;
 		if (RoomSize_[1].x - GameEngineWindow::GetInst().GetScale().x < CurCameraPos.x)
 		{
 			CurCameraPos.x = RoomSize_[1].x - GameEngineWindow::GetScale().x;
@@ -473,9 +491,9 @@ void PlayerLink::CameraAutoMove()
 	{
 		float4 CurCameraPos = GetLevel()->GetCameraPos();
 
-		GetLevel()->SetCameraPos(CurCameraPos + AutoMoveDir_ * GameEngineTime::GetDeltaTime() * 800);
+		GetLevel()->SetCameraPos(CurCameraPos + AutoMoveDir_ * GameEngineTime::GetDeltaTime(0) * 800);
 
-		float Time = GameEngineTime::GetDeltaTime();
+		float Time = GameEngineTime::GetDeltaTime(0);
 
 
 		if (RoomSize_[0].x < GetLevel()->GetCameraPos().x)
@@ -488,9 +506,9 @@ void PlayerLink::CameraAutoMove()
 	{
 		float4 CurCameraPos = GetLevel()->GetCameraPos();
 
-		GetLevel()->SetCameraPos(CurCameraPos + AutoMoveDir_ * GameEngineTime::GetDeltaTime() * 800);
+		GetLevel()->SetCameraPos(CurCameraPos + AutoMoveDir_ * GameEngineTime::GetDeltaTime(0) * 800);
 
-		float Time = GameEngineTime::GetDeltaTime();
+		float Time = GameEngineTime::GetDeltaTime(0);
 
 
 		if (RoomSize_[1].x - GameEngineWindow::GetInst().GetScale().x > GetLevel()->GetCameraPos().x)
@@ -502,9 +520,9 @@ void PlayerLink::CameraAutoMove()
 	{
 		float4 CurCameraPos = GetLevel()->GetCameraPos();
 
-		GetLevel()->SetCameraPos(CurCameraPos + AutoMoveDir_ * GameEngineTime::GetDeltaTime() * 800);
+		GetLevel()->SetCameraPos(CurCameraPos + AutoMoveDir_ * GameEngineTime::GetDeltaTime(0) * 800);
 
-		float Time = GameEngineTime::GetDeltaTime();
+		float Time = GameEngineTime::GetDeltaTime(0);
 
 
 		if (RoomSize_[0].y - GameEngineWindow::GetInst().GetScale().y > GetLevel()->GetCameraPos().y)
@@ -517,9 +535,9 @@ void PlayerLink::CameraAutoMove()
 	{
 		float4 CurCameraPos = GetLevel()->GetCameraPos();
 
-		GetLevel()->SetCameraPos(CurCameraPos + AutoMoveDir_ * GameEngineTime::GetDeltaTime() * 800);
+		GetLevel()->SetCameraPos(CurCameraPos + AutoMoveDir_ * GameEngineTime::GetDeltaTime(0) * 800);
 
-		float Time = GameEngineTime::GetDeltaTime();
+		float Time = GameEngineTime::GetDeltaTime(0);
 
 
 		if (RoomSize_[1].y < GetLevel()->GetCameraPos().y)
@@ -551,7 +569,7 @@ void PlayerLink::PlayerSetIdle()
 void PlayerLink::PlayerAutoMove()
 {
 	CheckDirection();
-	SetMove(AutoMoveDir_ * GameEngineTime::GetDeltaTime() * Speed_);
+	SetMove(AutoMoveDir_ * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 	int Red = RGB(255, 0, 0);
 	if (PosAndColorCheck(Red, MapPasImage_))
 	{
@@ -562,7 +580,7 @@ void PlayerLink::PlayerAutoMove()
 void PlayerLink::PlayerAutoMove(float _Speed)
 {
 	CheckDirection();
-	SetMove(AutoMoveDir_ * GameEngineTime::GetDeltaTime() * _Speed);
+	SetMove(AutoMoveDir_ * GameEngineTime::GetDeltaTime(0) * _Speed);
 	int Red = RGB(255, 0, 0);
 	if (PosAndColorCheck(Red, MapPasImage_))
 	{
@@ -602,8 +620,8 @@ void PlayerLink::BlinkUpdate()
 
 	if (true == IsBlink_)
 	{
-		CurBlinkTime_  += GameEngineTime::GetDeltaTime();
-		CurBlinkFreq_ += GameEngineTime::GetDeltaTime();
+		CurBlinkTime_  += GameEngineTime::GetDeltaTime(0);
+		CurBlinkFreq_ += GameEngineTime::GetDeltaTime(0);
 		if (BlinkFreq_ < CurBlinkFreq_)
 		{
 			CurBlinkFreq_ = 0.0f;

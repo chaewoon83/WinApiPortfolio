@@ -652,7 +652,7 @@ void PlayerLink::MoveUpdate()
 		{
 			return;
 		}
-		MoveFunction();
+		MoveFunction(CurSpeed_);
 
 		//Wield
 		if (true == GameEngineInput::GetInst()->IsDown("Attack"))
@@ -966,9 +966,9 @@ void PlayerLink::MoveFunction(float _Speed)
 		{
 			if (true == MoveRight)
 			{
-				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosTop.y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosBotRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosBot.y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosRight.y }))
+				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosTop.y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosBotRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosBot.y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosRight.y }))
 				{
 					{
 						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * _Speed);
@@ -1003,9 +1003,9 @@ void PlayerLink::MoveFunction(float _Speed)
 
 			if (true == MoveLeft)
 			{
-				if (Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosTopLeft.y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosBotLeft.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosBotLeft.y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosLeft.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosLeft.y }))
+				if (Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosTopLeft.y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosBotLeft.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosBotLeft.y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosLeft.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosLeft.y }))
 				{
 					SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * _Speed);
 				}
@@ -1034,9 +1034,9 @@ void PlayerLink::MoveFunction(float _Speed)
 
 			if (true == MoveUp)
 			{
-				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosTop.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).y }))
+				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosTop.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).y }))
 				{
 					SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * _Speed);
 				}
@@ -1066,9 +1066,9 @@ void PlayerLink::MoveFunction(float _Speed)
 
 			if (true == MoveDown)
 			{
-				if (Black != MapColImage_->GetImagePixel({ MyPosBotRight.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosBotLeft.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosBot.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime() * Speed_).y }))
+				if (Black != MapColImage_->GetImagePixel({ MyPosBotRight.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime() * CurSpeed_).y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosBotLeft.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime() * CurSpeed_).y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosBot.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime() * CurSpeed_).y }))
 				{
 					SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * _Speed);
 				}
@@ -1154,7 +1154,7 @@ void PlayerLink::MoveCarryFunction()
 		float4 MyPosLeft = MyPos + float4{ -32.0f, 0.0f };
 		float4 MyPosTop = MyPos + float4{ 0.0f, -21.0f };
 		float4 MyPosBot = MyPos + float4{ 0.0f, 43.0f };
-		float4 NextPos = GetPosition() + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_);
+		float4 NextPos = GetPosition() + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 		float4 CheckPosTopRight = NextPos + float4{ 32.0f, -21.0f };
 		float4 CheckPosTopLeft = NextPos + float4{ -32.0f, -21.0f };
 		float4 CheckPosBotRight = NextPos + float4{ 32.0f, 43.0f };
@@ -1186,7 +1186,7 @@ void PlayerLink::MoveCarryFunction()
 			if (false == PlayerMoveCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 			{
 				MoveDir.Normal2D();
-				SetMove(MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_);
+				SetMove(MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 			}
 			else
 			{
@@ -1195,14 +1195,14 @@ void PlayerLink::MoveCarryFunction()
 					if (false == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect) &&
 						false == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 					{
-						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
+						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 					}
 
 					if (true == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 					{
 						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 						{
-							SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
+							SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 						}
 					}
 
@@ -1210,7 +1210,7 @@ void PlayerLink::MoveCarryFunction()
 					{
 						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 						{
-							SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * Speed_);
+							SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 						}
 					}
 				}
@@ -1220,14 +1220,14 @@ void PlayerLink::MoveCarryFunction()
 					if (false == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect) &&
 						false == PlayerBotLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 					{
-						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
+						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 					}
 
 					if (true == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 					{
 						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 						{
-							SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
+							SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 						}
 					}
 
@@ -1235,7 +1235,7 @@ void PlayerLink::MoveCarryFunction()
 					{
 						if (false == PlayerMiddleHorCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 						{
-							SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * Speed_);
+							SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 						}
 					}
 				}
@@ -1244,14 +1244,14 @@ void PlayerLink::MoveCarryFunction()
 					if (false == PlayerTopRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect) &&
 						false == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 					{
-						SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * Speed_);
+						SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 					}
 
 					if (true == PlayerTopLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 					{
 						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 						{
-							SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
+							SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 						}
 					}
 
@@ -1259,7 +1259,7 @@ void PlayerLink::MoveCarryFunction()
 					{
 						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 						{
-							SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
+							SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 						}
 					}
 				}
@@ -1268,14 +1268,14 @@ void PlayerLink::MoveCarryFunction()
 					if (false == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect) &&
 						false == PlayerBotLeftCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 					{
-						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
+						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 					}
 
 					if (true == PlayerBotRightCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 					{
 						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 						{
-							SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
+							SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 						}
 					}
 
@@ -1283,7 +1283,7 @@ void PlayerLink::MoveCarryFunction()
 					{
 						if (false == PlayerMiddleVerCollision_->NextPostCollisionCheck("Block", NextPos, CollisionType::Rect, CollisionType::Rect))
 						{
-							SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
+							SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 						}
 					}
 
@@ -1295,12 +1295,12 @@ void PlayerLink::MoveCarryFunction()
 
 			if (true == MoveRight)
 			{
-				if (Black != MapCarryColImage_->GetImagePixel({ MyPosTopRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosTop.y }) &&
-					Black != MapCarryColImage_->GetImagePixel({ MyPosBotRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosBot.y }) &&
-					Black != MapCarryColImage_->GetImagePixel({ MyPosRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosRight.y }))
+				if (Black != MapCarryColImage_->GetImagePixel({ MyPosTopRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosTop.y }) &&
+					Black != MapCarryColImage_->GetImagePixel({ MyPosBotRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosBot.y }) &&
+					Black != MapCarryColImage_->GetImagePixel({ MyPosRight.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosRight.y }))
 				{
 					{
-						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
+						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 					}
 				}
 
@@ -1312,7 +1312,7 @@ void PlayerLink::MoveCarryFunction()
 					{
 						if (false == MoveUp)
 						{
-							SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * Speed_);
+							SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 						}
 					}
 
@@ -1325,18 +1325,18 @@ void PlayerLink::MoveCarryFunction()
 				{
 					if (false == MoveDown)
 					{
-						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
+						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 					}
 				}
 			}
 
 			if (true == MoveLeft)
 			{
-				if (Black != MapCarryColImage_->GetImagePixel({ MyPosTopLeft.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosTopLeft.y }) &&
-					Black != MapCarryColImage_->GetImagePixel({ MyPosBotLeft.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosBotLeft.y }) &&
-					Black != MapCarryColImage_->GetImagePixel({ MyPosLeft.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosLeft.y }))
+				if (Black != MapCarryColImage_->GetImagePixel({ MyPosTopLeft.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosTopLeft.y }) &&
+					Black != MapCarryColImage_->GetImagePixel({ MyPosBotLeft.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosBotLeft.y }) &&
+					Black != MapCarryColImage_->GetImagePixel({ MyPosLeft.x + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosLeft.y }))
 				{
-					SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
+					SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 				}
 
 				if (Black != MapCarryColImage_->GetImagePixel(CheckPosLeft) &&
@@ -1346,7 +1346,7 @@ void PlayerLink::MoveCarryFunction()
 				{
 					if (false == MoveUp)
 					{
-						SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * Speed_);
+						SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 					}
 				}
 				if (Black != MapCarryColImage_->GetImagePixel(CheckPosLeft) &&
@@ -1356,18 +1356,18 @@ void PlayerLink::MoveCarryFunction()
 				{
 					if (false == MoveDown)
 					{
-						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
+						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 					}
 				}
 			}
 
 			if (true == MoveUp)
 			{
-				if (Black != MapCarryColImage_->GetImagePixel({ MyPosTopRight.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).y }) &&
-					Black != MapCarryColImage_->GetImagePixel({ MyPosTopLeft.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).y }) &&
-					Black != MapCarryColImage_->GetImagePixel({ MyPosTop.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).y }))
+				if (Black != MapCarryColImage_->GetImagePixel({ MyPosTopRight.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).y }) &&
+					Black != MapCarryColImage_->GetImagePixel({ MyPosTopLeft.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).y }) &&
+					Black != MapCarryColImage_->GetImagePixel({ MyPosTop.x, MyPosTop.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).y }))
 				{
-					SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * Speed_);
+					SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 				}
 
 				if (Black != MapCarryColImage_->GetImagePixel(CheckPosTop) &&
@@ -1377,7 +1377,7 @@ void PlayerLink::MoveCarryFunction()
 				{
 					if (false == MoveRight)
 					{
-						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
+						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 					}
 				}
 
@@ -1388,18 +1388,18 @@ void PlayerLink::MoveCarryFunction()
 				{
 					if (false == MoveLeft)
 					{
-						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
+						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 					}
 				}
 			}
 
 			if (true == MoveDown)
 			{
-				if (Black != MapCarryColImage_->GetImagePixel({ MyPosBotRight.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).y }) &&
-					Black != MapCarryColImage_->GetImagePixel({ MyPosBotLeft.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).y }) &&
-					Black != MapCarryColImage_->GetImagePixel({ MyPosBot.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_).y }))
+				if (Black != MapCarryColImage_->GetImagePixel({ MyPosBotRight.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).y }) &&
+					Black != MapCarryColImage_->GetImagePixel({ MyPosBotLeft.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).y }) &&
+					Black != MapCarryColImage_->GetImagePixel({ MyPosBot.x, MyPosBot.y + (MoveDir * GameEngineTime::GetDeltaTime(0) * CurSpeed_).y }))
 				{
-					SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * Speed_);
+					SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 				}
 
 				if (Black != MapCarryColImage_->GetImagePixel(CheckPosBot) &&
@@ -1409,7 +1409,7 @@ void PlayerLink::MoveCarryFunction()
 				{
 					if (false == MoveRight)
 					{
-						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * Speed_);
+						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 					}
 				}
 
@@ -1420,7 +1420,7 @@ void PlayerLink::MoveCarryFunction()
 				{
 					if (false == MoveLeft)
 					{
-						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * Speed_);
+						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * CurSpeed_);
 					}
 				}
 
@@ -2071,9 +2071,9 @@ void PlayerLink::KnockBackMoveFunction(float _Speed)
 		{
 			if (true == MoveRight)
 			{
-				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosTop.y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosBotRight.x + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosBot.y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosRight.x + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosRight.y }))
+				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosTop.y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosBotRight.x + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosBot.y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosRight.x + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosRight.y }))
 				{
 					{
 						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(0) * _Speed);
@@ -2108,9 +2108,9 @@ void PlayerLink::KnockBackMoveFunction(float _Speed)
 
 			if (true == MoveLeft)
 			{
-				if (Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosTopLeft.y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosBotLeft.x + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosBotLeft.y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosLeft.x + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * Speed_).x, MyPosLeft.y }))
+				if (Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosTopLeft.y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosBotLeft.x + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosBotLeft.y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosLeft.x + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * CurSpeed_).x, MyPosLeft.y }))
 				{
 					SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(0) * _Speed);
 				}
@@ -2139,9 +2139,9 @@ void PlayerLink::KnockBackMoveFunction(float _Speed)
 
 			if (true == MoveUp)
 			{
-				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x, MyPosTop.y + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * Speed_).y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x, MyPosTop.y + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * Speed_).y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosTop.x, MyPosTop.y + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * Speed_).y }))
+				if (Black != MapColImage_->GetImagePixel({ MyPosTopRight.x, MyPosTop.y + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * CurSpeed_).y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosTopLeft.x, MyPosTop.y + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * CurSpeed_).y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosTop.x, MyPosTop.y + (KnockbackDir_ * GameEngineTime::GetDeltaTime(0) * CurSpeed_).y }))
 				{
 					SetMove(float4::UP * GameEngineTime::GetDeltaTime(0) * _Speed);
 				}
@@ -2171,9 +2171,9 @@ void PlayerLink::KnockBackMoveFunction(float _Speed)
 
 			if (true == MoveDown)
 			{
-				if (Black != MapColImage_->GetImagePixel({ MyPosBotRight.x, MyPosBot.y + (KnockbackDir_ * GameEngineTime::GetDeltaTime() * Speed_).y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosBotLeft.x, MyPosBot.y + (KnockbackDir_ * GameEngineTime::GetDeltaTime() * Speed_).y }) &&
-					Black != MapColImage_->GetImagePixel({ MyPosBot.x, MyPosBot.y + (KnockbackDir_ * GameEngineTime::GetDeltaTime() * Speed_).y }))
+				if (Black != MapColImage_->GetImagePixel({ MyPosBotRight.x, MyPosBot.y + (KnockbackDir_ * GameEngineTime::GetDeltaTime() * CurSpeed_).y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosBotLeft.x, MyPosBot.y + (KnockbackDir_ * GameEngineTime::GetDeltaTime() * CurSpeed_).y }) &&
+					Black != MapColImage_->GetImagePixel({ MyPosBot.x, MyPosBot.y + (KnockbackDir_ * GameEngineTime::GetDeltaTime() * CurSpeed_).y }))
 				{
 					SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(0) * _Speed);
 				}

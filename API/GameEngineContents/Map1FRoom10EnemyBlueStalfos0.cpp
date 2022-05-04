@@ -72,7 +72,7 @@ Map1FRoom10EnemyBlueStalfos0::~Map1FRoom10EnemyBlueStalfos0()
 
 void Map1FRoom10EnemyBlueStalfos0::Start()
 {
-	SetPosition(BlueStalfosPos_);
+	//SetPosition(BlueStalfosPos_);
 	BlueStalfosShadowRenderer_ = CreateRenderer("EnemyBlueStalfosShadow.bmp");
 	BlueStalfosShadowRenderer_->SetPivot({ 0, 48 });
 
@@ -115,7 +115,8 @@ void Map1FRoom10EnemyBlueStalfos0::Start()
 
 	BlueStalfosCol_ = CreateCollision("MonsterB1FHitBox", { 48, 56 }, { 0, -14 });
 	BlueStalfosMoveCol_ = CreateCollision("MonsterMoveBox", { 64, 78}, { 0, 0 });
-	BlueStalfosJumpCol_ = CreateCollision("BlueStalfosJumpBox", { 72, 78 }, { 0, 0 });
+	BlueStalfosJumpCol_ = CreateCollision("BlueStalfosJumpBox", { 150, 150 }, { 0, 0 });
+	//BlueStalfosJumpCol_ = CreateCollision("BlueStalfosJumpBox", { 72, 78 }, { 0, 0 });
 
 	{
 		int RandomInt = GlobalRandom::RandomIntGenerate(1, 4);
@@ -654,7 +655,7 @@ void Map1FRoom10EnemyBlueStalfos0::GetDamaged()
 
 		if (true == BlueStalfosCol_->CollisionResult("PotHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
 		{
-			Hp_ -= 1;
+			Hp_ -= 2;
 			IsInvincible_ = true;
 
 			IsKnockback_ = true;

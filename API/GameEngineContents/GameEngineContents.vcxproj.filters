@@ -226,6 +226,12 @@
     <ClInclude Include="Map1FRoom10EnemyBlueStalfos0.h">
       <Filter>Play\Enemy\BlueStalfos\Room10</Filter>
     </ClInclude>
+    <ClInclude Include="Map1FRoom10Pot0B1F.h">
+      <Filter>Play\Map\Objects\Pot\Room10</Filter>
+    </ClInclude>
+    <ClInclude Include="BlackScreen.h">
+      <Filter>Play\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -457,6 +463,12 @@
     </ClCompile>
     <ClCompile Include="Map1FRoom10EnemyBlueStalfos0.cpp">
       <Filter>Play\Enemy\BlueStalfos\Room10</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom10Pot0B1F.cpp">
+      <Filter>Play\Map\Objects\Pot\Room10</Filter>
+    </ClCompile>
+    <ClCompile Include="BlackScreen.cpp">
+      <Filter>Play\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

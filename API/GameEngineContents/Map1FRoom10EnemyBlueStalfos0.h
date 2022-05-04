@@ -16,6 +16,11 @@ public:
 	Map1FRoom10EnemyBlueStalfos0& operator=(const Map1FRoom10EnemyBlueStalfos0& _Other) = delete;
 	Map1FRoom10EnemyBlueStalfos0& operator=(Map1FRoom10EnemyBlueStalfos0&& _Other) noexcept = delete;
 
+	void SetBlueStalfosPos(float4 _Pos)
+	{
+		BlueStalfosPos_ = _Pos;
+		SetPosition(BlueStalfosPos_);
+	}
 protected:
 	void Start() override;
 	void Update() override;
@@ -86,6 +91,7 @@ private:
 	bool MoveFunction();
 	bool PosAndColorCheck(int _Color, GameEngineImage* _Image);
 
+
 	/// ////////FSM
 private:
 	void BlueStalfosChangeState(BlueStalfosState _State);
@@ -114,6 +120,7 @@ private:
 	void JumpUpdate();
 	void KnockbackedUpdate();
 	void DeathUpdate();
+
 
 };
 
