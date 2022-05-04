@@ -5,6 +5,7 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngine/GameEngineRenderer.h>
+#include "EnemyGlobalFunction.h"
 #include "PlayerLink.h"
 
 //2536, 3428
@@ -25,6 +26,7 @@ Map1FRoom1Pot0::Map1FRoom1Pot0()
 	 CurYSpeed_(20.0f),
 	 AirTime_(0.35f),
 	 CurAirTime_(0.0f),
+	 ItemIndex_(0),
 	 CurPotState_(PotState::Idle)
 {
 
@@ -101,6 +103,7 @@ void Map1FRoom1Pot0::IdleUpdate()
 	{
 		BlockCol_->Off();
 		PickUpCol_->Off();
+		EnemyGlobalFunction::ItemGenPot(ItemIndex_, this);
 		PotStateChange(PotState::Carried);
 		return;
 	}
@@ -269,8 +272,9 @@ bool Map1FRoom1Pot0::CheckPickUpEnd()
 
 void Map1FRoom1Pot0::Reset()
 {
-	if (CameraState::Room4 == PlayerLink::GetPlayerPrevRoomState() &&  false == IsInRoom_ && PotState::Death == CurPotState_)
+	if (CameraState::Room4 == PlayerLink::GetPlayerCurRoomState() &&  false == IsInRoom_ && PotState::Death == CurPotState_)
 	{
+		ItemIndex_ = 0;
 		IsInRoom_ = true;
 		CurYSpeed_ = 0;
 		SetPosition(PotPos_);

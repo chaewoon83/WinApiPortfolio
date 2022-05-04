@@ -25,6 +25,7 @@ Map1FRoom10Pot0::Map1FRoom10Pot0()
 	 CurYSpeed_(20.0f),
 	 AirTime_(0.35f),
 	 CurAirTime_(0.0f),
+	 ItemIndex_(0),
 	 CurPotState_(PotState::Idle)
 {
 
@@ -269,14 +270,15 @@ bool Map1FRoom10Pot0::CheckPickUpEnd()
 
 void Map1FRoom10Pot0::Reset()
 {
-	if (CameraState::Room4 == PlayerLink::GetPlayerPrevRoomState() ||
-		CameraState::Room7 == PlayerLink::GetPlayerPrevRoomState() ||
-		CameraState::Room8 == PlayerLink::GetPlayerPrevRoomState() ||
-		CameraState::Room12 == PlayerLink::GetPlayerPrevRoomState() ||
-		CameraState::Room13 == PlayerLink::GetPlayerPrevRoomState())
+	if (CameraState::Room4 == PlayerLink::GetPlayerCurRoomState() ||
+		CameraState::Room7 == PlayerLink::GetPlayerCurRoomState() ||
+		CameraState::Room8 == PlayerLink::GetPlayerCurRoomState() ||
+		CameraState::Room12 == PlayerLink::GetPlayerCurRoomState() ||
+		CameraState::Room13 == PlayerLink::GetPlayerCurRoomState())
 	{
 		if (false == IsInRoom_ && PotState::Death == CurPotState_)
 		{
+			ItemIndex_ = 0;
 			IsInRoom_ = true;
 			CurYSpeed_ = 0;
 			SetPosition(PotPos_);

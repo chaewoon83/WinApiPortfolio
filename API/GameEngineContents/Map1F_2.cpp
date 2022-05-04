@@ -15,9 +15,6 @@
 #include "Map1FRoom8TreasureBox.h"
 
 #include "Map1FRoom7EnemyBlueStalfos0.h"
-#include "Map1FRoom7EnemyBlueStalfos1.h"
-#include "Map1FRoom7EnemyBlueStalfos2.h"
-#include "Map1FRoom7EnemyBlueStalfos3.h"
 
 GameEngineRenderer* Map1F_2::Room1TopDoor0_ = nullptr;
 GameEngineRenderer* Map1F_2::Room2TopDoor0_ = nullptr;

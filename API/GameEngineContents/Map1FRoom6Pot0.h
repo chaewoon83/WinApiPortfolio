@@ -22,6 +22,10 @@ public:
 		SetPosition(PotPos_);
 	}
 
+	void SetItemIndex(int _ItemIndex)
+	{
+		ItemIndex_ = _ItemIndex;
+	}
 protected:
 	void Start() override;
 	void Update() override;
@@ -42,6 +46,8 @@ private:
 	float CurAirTime_;
 
 	bool IsInRoom_;
+
+	int ItemIndex_;
 
 	void Reset();
 

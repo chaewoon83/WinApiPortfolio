@@ -142,37 +142,10 @@
     <ClInclude Include="Map1FRoom1Pot0.h">
       <Filter>Play\Map\Objects\Pot\Room1</Filter>
     </ClInclude>
-    <ClInclude Include="Map1FRoom1Pot1.h">
-      <Filter>Play\Map\Objects\Pot\Room1</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom1Pot2.h">
-      <Filter>Play\Map\Objects\Pot\Room1</Filter>
-    </ClInclude>
     <ClInclude Include="Map1FRoom7Pot0.h">
       <Filter>Play\Map\Objects\Pot\Room7</Filter>
     </ClInclude>
-    <ClInclude Include="Map1FRoom7Pot1.h">
-      <Filter>Play\Map\Objects\Pot\Room7</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom7Pot2.h">
-      <Filter>Play\Map\Objects\Pot\Room7</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom7Pot3.h">
-      <Filter>Play\Map\Objects\Pot\Room7</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom7Pot4.h">
-      <Filter>Play\Map\Objects\Pot\Room7</Filter>
-    </ClInclude>
     <ClInclude Include="Map1FRoom10Pot0.h">
-      <Filter>Play\Map\Objects\Pot\Room10</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom10Pot1.h">
-      <Filter>Play\Map\Objects\Pot\Room10</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom10Pot2.h">
-      <Filter>Play\Map\Objects\Pot\Room10</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom10Pot3.h">
       <Filter>Play\Map\Objects\Pot\Room10</Filter>
     </ClInclude>
     <ClInclude Include="Map1FRoom7EnemyBlueStalfos0.h">
@@ -213,6 +186,12 @@
     </ClInclude>
     <ClInclude Include="Map1FRoom2EnemyPopo0.h">
       <Filter>Play\Enemy\Popo</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemBigKey.h">
+      <Filter>Play\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemKey.h">
+      <Filter>Play\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -365,37 +344,10 @@
     <ClCompile Include="Map1FRoom1Pot0.cpp">
       <Filter>Play\Map\Objects\Pot\Room1</Filter>
     </ClCompile>
-    <ClCompile Include="Map1FRoom1Pot1.cpp">
-      <Filter>Play\Map\Objects\Pot\Room1</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom1Pot2.cpp">
-      <Filter>Play\Map\Objects\Pot\Room1</Filter>
-    </ClCompile>
     <ClCompile Include="Map1FRoom7Pot0.cpp">
       <Filter>Play\Map\Objects\Pot\Room7</Filter>
     </ClCompile>
-    <ClCompile Include="Map1FRoom7Pot1.cpp">
-      <Filter>Play\Map\Objects\Pot\Room7</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom7Pot2.cpp">
-      <Filter>Play\Map\Objects\Pot\Room7</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom7Pot3.cpp">
-      <Filter>Play\Map\Objects\Pot\Room7</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom7Pot4.cpp">
-      <Filter>Play\Map\Objects\Pot\Room7</Filter>
-    </ClCompile>
     <ClCompile Include="Map1FRoom10Pot0.cpp">
-      <Filter>Play\Map\Objects\Pot\Room10</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom10Pot1.cpp">
-      <Filter>Play\Map\Objects\Pot\Room10</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom10Pot2.cpp">
-      <Filter>Play\Map\Objects\Pot\Room10</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom10Pot3.cpp">
       <Filter>Play\Map\Objects\Pot\Room10</Filter>
     </ClCompile>
     <ClCompile Include="Map1FRoom7EnemyBlueStalfos0.cpp">
@@ -433,6 +385,12 @@
     </ClCompile>
     <ClCompile Include="Map1FRoom2EnemyPopo0.cpp">
       <Filter>Play\Enemy\Popo</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemKey.cpp">
+      <Filter>Play\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemBigKey.cpp">
+      <Filter>Play\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -525,6 +483,9 @@
     </Filter>
     <Filter Include="Play\Item\Rupee">
       <UniqueIdentifier>{4bdd4a78-267f-44c1-9696-faba6d5f9204}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Map\Objects\Pot\Room4">
+      <UniqueIdentifier>{7a480eae-8b29-4ffe-a0a3-d6dbcb922c2c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

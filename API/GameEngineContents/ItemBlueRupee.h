@@ -21,7 +21,6 @@ public:
 	{
 		OriginalPos_ = _Pos;
 		SetPosition(OriginalPos_);
-		IsRendererSet_ = true;
 	}
 
 	void SetRespawnPivot(float _Pivot)

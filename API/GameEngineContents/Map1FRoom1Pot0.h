@@ -16,6 +16,15 @@ public:
 	Map1FRoom1Pot0& operator=(const Map1FRoom1Pot0& _Other) = delete;
 	Map1FRoom1Pot0& operator=(Map1FRoom1Pot0&& _Other) noexcept = delete;
 
+	void SetPotPos(float4 _Pos)
+	{
+		PotPos_ = _Pos;
+		SetPosition(PotPos_);
+	}
+	void SetItemIndex(int _ItemIndex)
+	{
+		ItemIndex_ = _ItemIndex;
+	}
 protected:
 	void Start() override;
 	void Update() override;
@@ -36,6 +45,8 @@ private:
 	float CurAirTime_;
 
 	bool IsInRoom_;
+
+	int ItemIndex_;
 
 	void Reset();
 

@@ -23,7 +23,7 @@ void EnemyGargantuanBall::Start()
 	Renderer_ = CreateRenderer();
 	Renderer_->CreateAnimationTimeKey("EnemyGargantuanBall.bmp", "Idle", 4, 0, 1, 0.04f, true);
 	Renderer_->ChangeAnimation("Idle");
-	Collision_ = CreateCollision("MonsterBotHitBox", { 124, 124 });
+	Collision_ = CreateCollision("MonsterB1FHitBox", { 124, 124 });
 }
  
 void EnemyGargantuanBall::Update()

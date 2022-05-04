@@ -21,7 +21,7 @@ void EnemyBall::Start()
 	Renderer_ = CreateRenderer();
 	Renderer_->CreateAnimationTimeKey("EnemyBall.bmp", "Idle", 4, 0, 1, 0.04f, true);
 	Renderer_->ChangeAnimation("Idle");
-	CreateCollision("MonsterBotHitBox", { 60, 60 });
+	CreateCollision("MonsterB1FHitBox", { 60, 60 });
 }
  
 void EnemyBall::Update()
