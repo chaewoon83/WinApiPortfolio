@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+#include <vector>
 // Ό³Έν :
 class UIHeart : public GameEngineActor
 {
@@ -19,6 +20,6 @@ protected:
 	void Update() override;
 	void Render() override;
 private:
-	std::list<GameEngineRenderer*> AllHearts;
+	std::vector<GameEngineRenderer*> AllHearts;
 };
 

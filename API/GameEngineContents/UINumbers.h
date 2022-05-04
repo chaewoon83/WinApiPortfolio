@@ -1,5 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+class GameEngineRenderer;
 // Ό³Έν :
 class UINumbers : public GameEngineActor
 {
@@ -19,6 +20,10 @@ protected:
 	void Update() override;
 	void Render() override;
 private:
+	GameEngineRenderer* UIRupee0_;
+	GameEngineRenderer* UIRupee1_;
 
+	float4 Padding_;
+	void CreateAnimationNumer(GameEngineRenderer*& _Renderer);
 };
 

@@ -115,7 +115,6 @@ private:
 	void PlayerAutoMove(float _Speed);
 
 	bool IsPlayerMoveState();
-	void PlayerSetIdle();
 	void PlayerPrevStateCheck();
 
 	void PlayerChangeState(PlayerState _State);
@@ -255,7 +254,8 @@ private:
 	static PlayerStairsState CurStairs_;
 
 	/////////////////////////////////////////////////////////////////////Combat
-	int Hp_;
+	int MaxHp_;
+	static int Hp_;
 	bool IsGetDamaged_;
 	bool IsKnockback_;
 	float KnockbackTime_;
@@ -275,6 +275,11 @@ private:
 	void TreasureBoxCheck();
 	void GetDamaged();
 	void PotCarryCheck();
+
+	/////////////////////////////////////////////////////////////////////ItemCollect
+	static int PlayerRupee_;
+
+	void ItemCollectUpdate();
 	/////////////////////////////////////////////////////////////////////Getter
 public:
 	inline static PlayerState GetPlayerCurState()
@@ -325,6 +330,16 @@ public:
 	inline static float GetCurItemMoveTime()
 	{
 		return IsInItemCutScene_;
+	}
+
+	inline static int GetPlayerHp()
+	{
+		return Hp_;
+	}
+
+	inline static int GetPlayerRupee()
+	{
+		return PlayerRupee_;
 	}
 };
 

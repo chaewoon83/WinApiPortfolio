@@ -60,6 +60,9 @@ float PlayerLink::CurItemMoveTime_ = 0.0f;
 
 int PlayerLink::CurrentAnimationFrame_ = -1;
 
+int PlayerLink::Hp_ = 20;
+int PlayerLink::PlayerRupee_ = 0;
+
 PlayerLink::PlayerLink()
 	:MapColImage_1_(nullptr)
 	, MapColImage_2_(nullptr)
@@ -87,7 +90,7 @@ PlayerLink::PlayerLink()
 	, BlinkFreq_(0.01f)
 	, CurBlinkFreq_(0.0f)
 	, IsAlphaOn_(true)
-	, Hp_(10)
+	, MaxHp_(20)
 	, IsBlackScreenOn_(false)
 	, IsLightBalckScreenOn_(false)
 	, BlackScreenAlpha_(0)
@@ -241,15 +244,15 @@ void PlayerLink::Start()
 	RoomSize_[0] = { 2048, 4063 + 4128 };
 	RoomSize_[1] = { 4095, 3088 + 4128 };
 
-	{
-		//SetPosition({ 3072.0f, 3800.0f });d
-		//SetPosition({4607, 3792});
-		GetLevel()->SetCameraPos({ 4607, 3792 });
-		RoomSize_[0] = { 4096, 4035 };
-		RoomSize_[1] = { 5117, 2048 };
-		CameraState_ = CameraState::Room11;
-		PrevCameraState_ = CameraState::Room10;
-	}
+	//{
+	//	//SetPosition({ 3072.0f, 3800.0f });d
+	//	//SetPosition({4607, 3792});
+	//	GetLevel()->SetCameraPos({ 4607, 3792 });
+	//	RoomSize_[0] = { 4096, 4035 };
+	//	RoomSize_[1] = { 5117, 2048 };
+	//	CameraState_ = CameraState::Room11;
+	//	PrevCameraState_ = CameraState::Room10;
+	//}
 
 
 	LigthBlackScreen0_Main_ = CreateRenderer();
@@ -313,13 +316,45 @@ void PlayerLink::Update()
 	//애니메이셔 프레임 받기
 	CurrentAnimationFrame_ = PlayerRenderer_->GetCurrentAnimationFrame();
 	BlinkUpdate();
-	
-
+	ItemCollectUpdate();
 }
 //렌더러가 다 돌고 액터들의 랜더함수를 호출한다
 void PlayerLink::Render()
 {
 
+}
+
+void PlayerLink::ItemCollectUpdate()
+{
+	std::vector<GameEngineCollision*> ColList;
+	if (true == PlayerCollision_->CollisionResult("GreenRupee", ColList))
+	{
+		PlayerRupee_ += 1;
+		ColList[0]->GetActor()->Death();
+	}
+
+	if (true == PlayerCollision_->CollisionResult("BlueRupee", ColList))
+	{
+		PlayerRupee_ += 5;
+		ColList[0]->GetActor()->Death();
+	}
+
+	if (true == PlayerCollision_->CollisionResult("RedRupee", ColList))
+	{
+		PlayerRupee_ += 20;
+		ColList[0]->GetActor()->Death();
+	}
+
+	if (true == PlayerCollision_->CollisionResult("RecoveryHeart", ColList))
+	{
+		int CurHp = Hp_;
+		CurHp += 1;
+		if (MaxHp_ > CurHp)
+		{
+			Hp_ = CurHp;
+		}
+		ColList[0]->GetActor()->Death();
+	}
 }
 
 bool PlayerLink::IsMoveKeyFree()
@@ -580,11 +615,6 @@ bool PlayerLink::IsPlayerMoveState()
 		return true;
 	}
 	return false;
-}
-
-void PlayerLink::PlayerSetIdle()
-{
-
 }
 
 void PlayerLink::PlayerAutoMove()

@@ -206,4 +206,19 @@ void Zelda::TotalImageCut()
 	ImageCutter("ItemGreenRupee.bmp", 3, 1);
 	ImageCutter("ItemBlueRupee.bmp", 3, 1);
 	ImageCutter("ItemRedRupee.bmp", 3, 1);
+
+	//UI
+	ImageCutter("UIFullHeart.bmp", 1, 1);
+	ImageCutter("UIHalfHeart.bmp", 1, 1);
+	ImageCutter("UIEmptyHeart.bmp", 1, 1);
+	ImageCutter("UI0.bmp", 1, 1);
+	ImageCutter("UI1.bmp", 1, 1);
+	ImageCutter("UI2.bmp", 1, 1);
+	ImageCutter("UI3.bmp", 1, 1);
+	ImageCutter("UI4.bmp", 1, 1);
+	ImageCutter("UI5.bmp", 1, 1);
+	ImageCutter("UI6.bmp", 1, 1);
+	ImageCutter("UI7.bmp", 1, 1);
+	ImageCutter("UI8.bmp", 1, 1);
+	ImageCutter("UI9.bmp", 1, 1);
 }
