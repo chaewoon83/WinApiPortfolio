@@ -30,6 +30,10 @@ public:
 		BlueStalfosState _PopoCurState, GameEngineRenderer* _Renderer, GameEngineRenderer* _Renderer2);
 	static void MoveDirBoolCheck(bool& _MoveRight, bool& _MoveLeft, bool& _MoveUp, bool& _MoveDown, float4 _MoveDir);
 	static void Relocation(CameraState _PlayerRoom, int _MonsterRoom, bool& _IsRelocated, float4 _Pos, GameEngineActor* _Monster);
+
+	static void ItemGenPot(int _ItemNum, GameEngineActor* _Actor);
+	static void ItemGenMonster(int _ItemNum, GameEngineActor* _Actor);
+	static void ItemRandomGenMonster(GameEngineActor* _Actor);
 protected:
 
 private:

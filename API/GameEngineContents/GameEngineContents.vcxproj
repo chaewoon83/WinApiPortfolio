@@ -207,10 +207,6 @@
       <SubType>
       </SubType>
     </ClInclude>
-    <ClInclude Include="EnemyPopo.h">
-      <SubType>
-      </SubType>
-    </ClInclude>
     <ClInclude Include="EnemyStalfos.h">
       <SubType>
       </SubType>
@@ -233,6 +229,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="ItemFairy.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="ItemGlobalFunction.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -268,19 +268,19 @@
     <ClInclude Include="Map1FRoom10Pot1.h" />
     <ClInclude Include="Map1FRoom10Pot2.h" />
     <ClInclude Include="Map1FRoom10Pot3.h" />
-    <ClInclude Include="Map1FRoom1EnemyPopo0.h" />
-    <ClInclude Include="Map1FRoom1EnemyPopo1.h" />
-    <ClInclude Include="Map1FRoom1EnemyPopo2.h" />
     <ClInclude Include="Map1FRoom1Pot0.h">
       <SubType>
       </SubType>
     </ClInclude>
     <ClInclude Include="Map1FRoom1Pot1.h" />
     <ClInclude Include="Map1FRoom1Pot2.h" />
+    <ClInclude Include="Map1FRoom2EnemyPopo0.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom5EnemyPopo0.h" />
+    <ClInclude Include="Map1FRoom6Pot0.h" />
     <ClInclude Include="Map1FRoom7EnemyBlueStalfos0.h" />
-    <ClInclude Include="Map1FRoom7EnemyBlueStalfos1.h" />
-    <ClInclude Include="Map1FRoom7EnemyBlueStalfos2.h" />
-    <ClInclude Include="Map1FRoom7EnemyBlueStalfos3.h" />
     <ClInclude Include="Map1FRoom7Pot0.h" />
     <ClInclude Include="Map1FRoom7Pot1.h" />
     <ClInclude Include="Map1FRoom7Pot2.h" />
@@ -288,9 +288,6 @@
     <ClInclude Include="Map1FRoom7Pot4.h" />
     <ClInclude Include="Map1FRoom8TreasureBox.h" />
     <ClInclude Include="Map1FRoom9EnemyBlueStalfos0.h" />
-    <ClInclude Include="Map1FRoom9EnemyBlueStalfos1.h" />
-    <ClInclude Include="Map1FRoom9EnemyBlueStalfos2.h" />
-    <ClInclude Include="Map1FRoom9EnemyBlueStalfos3.h" />
     <ClInclude Include="Map1F_2.h" />
     <ClInclude Include="MapLevel.h">
       <SubType>
@@ -438,10 +435,6 @@
       <SubType>
       </SubType>
     </ClCompile>
-    <ClCompile Include="EnemyPopo.cpp">
-      <SubType>
-      </SubType>
-    </ClCompile>
     <ClCompile Include="EnemyStalfos.cpp">
       <SubType>
       </SubType>
@@ -463,6 +456,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="ItemFairy.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="ItemGlobalFunction.cpp">
       <SubType>
       </SubType>
     </ClCompile>
@@ -498,19 +495,19 @@
     <ClCompile Include="Map1FRoom10Pot1.cpp" />
     <ClCompile Include="Map1FRoom10Pot2.cpp" />
     <ClCompile Include="Map1FRoom10Pot3.cpp" />
-    <ClCompile Include="Map1FRoom1EnemyPopo0.cpp" />
-    <ClCompile Include="Map1FRoom1EnemyPopo1.cpp" />
-    <ClCompile Include="Map1FRoom1EnemyPopo2.cpp" />
     <ClCompile Include="Map1FRoom1Pot0.cpp">
       <SubType>
       </SubType>
     </ClCompile>
     <ClCompile Include="Map1FRoom1Pot1.cpp" />
     <ClCompile Include="Map1FRoom1Pot2.cpp" />
+    <ClCompile Include="Map1FRoom2EnemyPopo0.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom5EnemyPopo0.cpp" />
+    <ClCompile Include="Map1FRoom6Pot0.cpp" />
     <ClCompile Include="Map1FRoom7EnemyBlueStalfos0.cpp" />
-    <ClCompile Include="Map1FRoom7EnemyBlueStalfos1.cpp" />
-    <ClCompile Include="Map1FRoom7EnemyBlueStalfos2.cpp" />
-    <ClCompile Include="Map1FRoom7EnemyBlueStalfos3.cpp" />
     <ClCompile Include="Map1FRoom7Pot0.cpp" />
     <ClCompile Include="Map1FRoom7Pot1.cpp" />
     <ClCompile Include="Map1FRoom7Pot2.cpp" />
@@ -518,9 +515,6 @@
     <ClCompile Include="Map1FRoom7Pot4.cpp" />
     <ClCompile Include="Map1FRoom8TreasureBox.cpp" />
     <ClCompile Include="Map1FRoom9EnemyBlueStalfos0.cpp" />
-    <ClCompile Include="Map1FRoom9EnemyBlueStalfos1.cpp" />
-    <ClCompile Include="Map1FRoom9EnemyBlueStalfos2.cpp" />
-    <ClCompile Include="Map1FRoom9EnemyBlueStalfos3.cpp" />
     <ClCompile Include="Map1F_2.cpp" />
     <ClCompile Include="MapLevel.cpp">
       <SubType>

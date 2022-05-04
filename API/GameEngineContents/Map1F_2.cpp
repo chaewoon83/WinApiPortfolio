@@ -26,6 +26,7 @@ GameEngineRenderer* Map1F_2::Room10RightDoor0_ = nullptr;
 GameEngineRenderer* Map1F_2::Room10LeftDoor0_ = nullptr;
 GameEngineRenderer* Map1F_2::Room7RightDoor0_ = nullptr;
 GameEngineRenderer* Map1F_2::Room7TopDoor0_ = nullptr;
+GameEngineRenderer* Map1F_2::Room5RightDoor0_ = nullptr;
 
 GameEngineCollision* Map1F_2::Room1TopDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room2TopDoor0Col_ = nullptr;
@@ -35,11 +36,13 @@ GameEngineCollision* Map1F_2::Room10LeftDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room7RightDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room7TopDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room8TreasureBoxCol_ = nullptr;
+GameEngineCollision* Map1F_2::Room5RightDoor0Col_ = nullptr;
 
 GameEngineCollision* Map1F_2::Room1SwitchCol_ = nullptr;
 GameEngineCollision* Map1F_2::Room2SwitchCol_ = nullptr;
 GameEngineCollision* Map1F_2::Room10SwitchCol_1_ = nullptr;
 GameEngineCollision* Map1F_2::Room10SwitchCol_2_ = nullptr;
+GameEngineCollision* Map1F_2::Room5SwitchCol_ = nullptr;
 
 GameEngineActor* Map1F_2::Room8TreasureBox_ = nullptr;
 GameEngineRenderer* Map1F_2::Room8ItemRenderer_ = nullptr;
@@ -70,6 +73,9 @@ Map1F_2::Map1F_2()
 	, Room8ItemRendererPivot_(float4{ 420 + 28 ,2324 + 30 })
 	, Room8ItemMoveTime_(1.0f)
 	, CurRoom8ItemMoveTime_(0.0f)
+	, IsRoom5TimeStop_(false)
+	, IsRoom5PlayerOnSwitch_(false)
+	, IsRoom5SwitchOn_(false)
 {
 }
 
@@ -101,6 +107,7 @@ void Map1F_2::Start()
 	Room2SwitchCol_ = CreateCollision("Switch", { 56, 40 }, { 3040, 2616 + 4128.0f });
 	Room10SwitchCol_1_ = CreateCollision("Switch", { 56, 40 }, { 2244 + 28, 3332 + 20});
 	Room10SwitchCol_2_ = CreateCollision("Switch", { 56, 40 }, { 3844 + 28, 2616 + 20 });
+	Room5SwitchCol_ = CreateCollision("Switch", { 56, 40 }, { 4868 + 28, 612 + 20 + 4128});
 	Room8TreasureBoxCol_ = CreateCollision("TreasureBox", { 16, 1 }, { 440 + 8, 2400 });
 
 	Room8TreasureBox_ = GetLevel()->CreateActor<Map1FRoom8TreasureBox>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
@@ -117,6 +124,7 @@ void Map1F_2::Update()
 	Room7SummonEnemies();
 	Room7DoorCheck();
 	Room8CheckItemBox();
+	Room5SwitchCheck();
 }
 void Map1F_2::Render()
 {
@@ -187,6 +195,14 @@ void Map1F_2::DoorAnimationCreate()
 	Room7TopDoor0_->CreateAnimationTimeKey("Top_Door_Close_Animation.bmp", "Close_Top", -1, 0, 2, 0.07f, false);
 	Room7TopDoor0_->ChangeAnimationReset("Open_Top");
 	Room7TopDoor0Col_ = CreateCollision("Block", { 192,96 }, float4{ 444 + 64, 3200 + 48 });
+
+	Room5RightDoor0_ = CreateRenderer();
+	Room5RightDoor0_->SetPivot(float4{ 4960 + 48, 448 + 64 + 4128 });
+	Room5RightDoor0_->CreateAnimationTimeKey("Left_Door_Idle_Animation.bmp", "Idle_Right", -1, 0, 2, 0.07f, false);
+	Room5RightDoor0_->CreateAnimationTimeKey("Left_Door_Open_Animation.bmp", "Open_Right", -1, 0, 2, 0.07f, false);
+	Room5RightDoor0_->CreateAnimationTimeKey("Left_Door_Close_Animation.bmp", "Close_Right", -1, 0, 2, 0.07f, false);
+	Room5RightDoor0_->ChangeAnimationReset("Open_Right");
+	Room5RightDoor0Col_ = CreateCollision("Block", { 96, 192 }, float4{ 4960 + 48, 448 + 64 + 4128 });
 }
 
 void Map1F_2::Room1SwitchCheck()
@@ -436,6 +452,7 @@ void Map1F_2::Room7SummonEnemies()
 		if (0 == SummonIndex_ && true == SummonEffect_->IsEndAnimation())
 		{
 			BlueStalfos0 = GetLevel()->CreateActor<Map1FRoom7EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER));
+			BlueStalfos0->SetBlueStalfosPos({ 639, 3471 });
 			SummonEffect_->SetPivot({ 639, 3855 });
 			SummonIndex_ = 1;
 		}
@@ -443,7 +460,8 @@ void Map1F_2::Room7SummonEnemies()
 		else if (1 == SummonIndex_ && true == SummonEffect_->IsEndAnimation())
 		{
 			SummonEffect_->ChangeAnimationReset("Idle");
-			BlueStalfos1 = GetLevel()->CreateActor<Map1FRoom7EnemyBlueStalfos1>(static_cast<int>(PlayLevelOrder::MONSTER));
+			BlueStalfos1 = GetLevel()->CreateActor<Map1FRoom7EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER));
+			BlueStalfos1->SetBlueStalfosPos({ 639, 3855 });
 			SummonEffect_->SetPivot({ 447, 3663 });
 			SummonIndex_ = 2;
 		}
@@ -451,14 +469,16 @@ void Map1F_2::Room7SummonEnemies()
 		else if (2 == SummonIndex_ && true == SummonEffect_->IsEndAnimation())
 		{
 			SummonEffect_->ChangeAnimationReset("Idle");
-			BlueStalfos2 = GetLevel()->CreateActor<Map1FRoom7EnemyBlueStalfos2>(static_cast<int>(PlayLevelOrder::MONSTER));
+			BlueStalfos2 = GetLevel()->CreateActor<Map1FRoom7EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER));
+			BlueStalfos2->SetBlueStalfosPos({ 447, 3663 });
 			SummonEffect_->SetPivot({ 767, 3663 });
 			SummonIndex_ = 3;
 		}
 
 		else if (3 == SummonIndex_ && true == SummonEffect_->IsEndAnimation())
 		{
-			BlueStalfos3 = GetLevel()->CreateActor<Map1FRoom7EnemyBlueStalfos3>(static_cast<int>(PlayLevelOrder::MONSTER));
+			BlueStalfos3 = GetLevel()->CreateActor<Map1FRoom7EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER));
+			BlueStalfos3->SetBlueStalfosPos({ 767, 3663 });
 			SummonEffect_->Death();
 			IsRoom7Summoning_ = false;
 			IsRoom7InFight_ = true;
@@ -466,10 +486,10 @@ void Map1F_2::Room7SummonEnemies()
 	}
 	if (true == IsRoom7InFight_)
 	{
-		if (true == dynamic_cast<Map1FRoom7EnemyBlueStalfos0*>(BlueStalfos0)->GetIsDeath() /*&&
-			true == dynamic_cast<Map1FRoom7EnemyBlueStalfos1*>(BlueStalfos1)->GetIsDeath() &&
-			true == dynamic_cast<Map1FRoom7EnemyBlueStalfos2*>(BlueStalfos2)->GetIsDeath() &&
-			true == dynamic_cast<Map1FRoom7EnemyBlueStalfos3*>(BlueStalfos3)->GetIsDeath()*/)
+		if (true == BlueStalfos0->GetIsDeath() /*&&
+			true == BlueStalfos1->GetIsDeath() &&
+			true == BlueStalfos2->GetIsDeath() &&
+			true == BlueStalfos3->GetIsDeath()*/)
 		{
 			IsRoom7Clear_ = true;
 		}
@@ -531,6 +551,63 @@ void Map1F_2::Room8CheckItemBox()
 					Room8ItemRenderer_->SetPivot(Room8ItemRendererPivot_);
 				}
 			}
+		}
+	}
+}
+
+void Map1F_2::Room5SwitchCheck()
+{
+
+	std::vector<GameEngineCollision*> ColList;
+
+	if (true == Room5SwitchCol_->CollisionResult("PlayerLowerBodyHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
+	{
+		if (false == IsRoom5PlayerOnSwitch_)
+		{
+			if (false == IsRoom5SwitchOn_)
+			{
+				Room5RightDoor0_->ChangeAnimationReset("Open_Right");
+				Room5RightDoor0Col_->Off();
+				IsRoom5SwitchOn_ = true;
+				IsRoom5PlayerOnSwitch_ = true;
+				IsRoom5TimeStop_ = true;
+				GameEngineTime::GetInst()->SetTimeScale(0, 0.0f);
+				GameEngineTime::GetInst()->SetTimeScale(5, 0.0f);
+			}
+			else
+			{
+				Room5RightDoor0_->ChangeAnimationReset("Close_Right");
+				Room5RightDoor0Col_->On();
+				IsRoom5SwitchOn_ = false;
+				IsRoom5PlayerOnSwitch_ = true;
+				IsRoom5TimeStop_ = true;
+				GameEngineTime::GetInst()->SetTimeScale(0, 0.0f);
+				GameEngineTime::GetInst()->SetTimeScale(5, 0.0f);
+			}
+		}
+
+	}
+	else if (false == Room5SwitchCol_->CollisionResult("PlayerLowerBodyHitBox", ColList, CollisionType::Rect, CollisionType::Rect))
+	{
+		IsRoom5PlayerOnSwitch_ = false;
+	}
+
+	if (true == IsRoom5TimeStop_ && true == Room5RightDoor0_->IsEndAnimation())
+	{
+		IsRoom5TimeStop_ = false;
+		GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
+		GameEngineTime::GetInst()->SetTimeScale(5, 1.0f);
+	}
+
+
+	if (CameraState::Room5 == PlayerLink::GetPlayerCurRoomState())
+	{
+		if (CameraState::Room5 != CurRoomState_)
+		{
+			IsRoom5SwitchOn_ = false;
+			CurRoomState_ = PlayerLink::GetPlayerCurRoomState();
+			Room5RightDoor0_->ChangeAnimationReset("Close_Right");
+			Room5RightDoor0Col_->On();
 		}
 	}
 

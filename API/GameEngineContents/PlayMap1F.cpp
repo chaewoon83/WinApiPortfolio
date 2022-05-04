@@ -18,7 +18,6 @@
 #include "EXMap.h"
 #include "Background.h"
 #include "TitleLevel.h"
-#include "EnemyPopo.h"
 
 #include "Map1FBridgeBackGround.h"
 
@@ -36,15 +35,13 @@
 #include "Map1FRoom7Pot3.h"
 #include "Map1FRoom7Pot4.h"
 
-#include "Map1FRoom1EnemyPopo0.h"
-#include "Map1FRoom1EnemyPopo1.h"
-#include "Map1FRoom1EnemyPopo2.h"
+#include "Map1FRoom6Pot0.h"
+
+#include "Map1FRoom2EnemyPopo0.h"
+#include "Map1FRoom5EnemyPopo0.h"
 
 #include "EnemyBlueStalfos.h"
 #include "Map1FRoom9EnemyBlueStalfos0.h"
-#include "Map1FRoom9EnemyBlueStalfos1.h"
-#include "Map1FRoom9EnemyBlueStalfos2.h"
-#include "Map1FRoom9EnemyBlueStalfos3.h"
 #include "Map1FRoom10EnemyBlueStalfos0.h"
 
 #include "EnemyAntiFairy.h"
@@ -77,22 +74,33 @@ void PlayMap1F::Loading()
 
 	//CreateActor<Room1TopDoor0>(static_cast<int>(PlayLevelOrder::BACKGROUND));
 
-	CreateActor<EnemyPopo>(static_cast<int>(PlayLevelOrder::MONSTER));
+	CreateActor<Map1FRoom2EnemyPopo0>(static_cast<int>(PlayLevelOrder::MONSTER))->SetPopoPos({ 3104, 2503 + 4128 });
+	CreateActor<Map1FRoom2EnemyPopo0>(static_cast<int>(PlayLevelOrder::MONSTER))->SetPopoPos({ 3040, 2439 + 4128 });
+	CreateActor<Map1FRoom2EnemyPopo0>(static_cast<int>(PlayLevelOrder::MONSTER))->SetPopoPos({ 3104, 2375 + 4128 });
+	Map1FRoom5EnemyPopo0* Room5Popo0 = CreateActor<Map1FRoom5EnemyPopo0>(static_cast<int>(PlayLevelOrder::MONSTER));
+	Room5Popo0->SetPopoPos({4895, 587 + 4128});
+	Room5Popo0->SetPopoTimeScale(5);
+	Map1FRoom5EnemyPopo0* Room5Popo1 = CreateActor<Map1FRoom5EnemyPopo0>(static_cast<int>(PlayLevelOrder::MONSTER));
+	Room5Popo1->SetPopoPos({ 4639, 779 + 4128 });
+	Room5Popo1->SetPopoTimeScale(5);
 
-	CreateActor<Map1FRoom1EnemyPopo0>(static_cast<int>(PlayLevelOrder::MONSTER));
-	CreateActor<Map1FRoom1EnemyPopo1>(static_cast<int>(PlayLevelOrder::MONSTER));
-	CreateActor<Map1FRoom1EnemyPopo2>(static_cast<int>(PlayLevelOrder::MONSTER));
 
 	//CreateActor<EnemyBlueStalfos>(static_cast<int>(PlayLevelOrder::MONSTER));
-	CreateActor<Map1FRoom9EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER));
-	CreateActor<Map1FRoom9EnemyBlueStalfos1>(static_cast<int>(PlayLevelOrder::MONSTER));
-	CreateActor<Map1FRoom9EnemyBlueStalfos2>(static_cast<int>(PlayLevelOrder::MONSTER));
-	CreateActor<Map1FRoom9EnemyBlueStalfos3>(static_cast<int>(PlayLevelOrder::MONSTER));
+	CreateActor<Map1FRoom9EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER))->SetBlueStalfosPos({ 1439, 2880 });
+	CreateActor<Map1FRoom9EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER))->SetBlueStalfosPos({ 1695, 2880 });
+	CreateActor<Map1FRoom9EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER))->SetBlueStalfosPos({ 1439, 3236 });
+	CreateActor<Map1FRoom9EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER))->SetBlueStalfosPos({ 1695, 3236 });
 	Map1FRoom10EnemyBlueStalfos0 * Room10Stalfos0 = CreateActor<Map1FRoom10EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::B1FMONSTER));
 	Room10Stalfos0->SetBlueStalfosPos({ 2719, 3181 });
 	Map1FRoom10EnemyBlueStalfos0* Room10Stalfos1 = CreateActor<Map1FRoom10EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::B1FMONSTER));
 	Room10Stalfos1->SetBlueStalfosPos({ 3423, 3181 });
-	//CreateActor<EnemyAntiFairy>(static_cast<int>(PlayLevelOrder::MONSTER));
+
+	EnemyAntiFairy* Room5AnitiFairy0 = CreateActor<EnemyAntiFairy>(static_cast<int>(PlayLevelOrder::MONSTER));
+	Room5AnitiFairy0->SetAntiFairyPos({4319, 388 + 4128});
+	Room5AnitiFairy0->SetAntiFairyTimeScale(5);
+	EnemyAntiFairy* Room5AnitiFairy1 = CreateActor<EnemyAntiFairy>(static_cast<int>(PlayLevelOrder::MONSTER));
+	Room5AnitiFairy1->SetAntiFairyPos({ 4319, 587 + 4128 });
+	Room5AnitiFairy1->SetAntiFairyTimeScale(5);
 
 	CreateActor<Map1FBridgeBackGround>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 
@@ -112,6 +120,8 @@ void PlayMap1F::Loading()
 	CreateActor<Map1FRoom7Pot2>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 	CreateActor<Map1FRoom7Pot3>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 	CreateActor<Map1FRoom7Pot4>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+
+	CreateActor<Map1FRoom6Pot0>(static_cast<int>(PlayLevelOrder::BELOWPLAYER))->SetPotPos({5320 + 24, 356 + 24 + 4128 });
 
 
 	CreateActor<Map1FRoof>(static_cast<int>(PlayLevelOrder::BACKGROUNDROOF));

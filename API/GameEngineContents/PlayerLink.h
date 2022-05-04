@@ -234,12 +234,20 @@ private:
 	void Room5_Trans_Start();
 	void Room5_Trans_Update();
 
+	void Room6Start();
+	void Room6Update();
 
+	void Room6_Trans_Start();
+	void Room6_Trans_Update();
 
 	bool IsBlackScreenOn_;
 	bool IsLightBalckScreenOn_;
 	int BlackScreenAlpha_;
 	float BlackScreenTime_;
+
+	GameEngineRenderer* LigthBlackScreen0_Main_;
+	GameEngineRenderer* LigthBlackScreen1_Main_; 
+
 	void ScreenTurnBlack(GameEngineRenderer* _Renderer, bool& _IsIamgeOn);
 	void ScreenTurnBright(GameEngineRenderer* _Renderer, bool& _IsIamgeOn);
 	/////////////////////////////////////////////////////////////////////Staris State

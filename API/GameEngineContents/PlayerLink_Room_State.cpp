@@ -784,9 +784,18 @@ void PlayerLink::Room11Start()
 	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(11, 1.0f);
+	LigthBlackScreen0_Main_->Off();
+	LigthBlackScreen1_Main_->Off();
 }
 void PlayerLink::Room11Update()
 {
+	if (CameraState::Room5 == PrevCameraState_ &&
+		true == IsBlackScreenOn_)
+	{
+		GameEngineTime::GetInst()->SetTimeScale(0, 0.0f);
+		ScreenTurnBright(BlackScreen::Renderer_, IsBlackScreenOn_);
+		return;
+	}
 	/// ///////////////////////////////////////// Room Transition
 	if (true == IsCameraAutoMove_)
 	{
@@ -906,12 +915,23 @@ void PlayerLink::Room11_Trans_Start()
 	GameEngineTime::GetInst()->SetTimeScale(13, 0.0f);
 	IsCameraAutoMove_ = true;
 	IsCharacterAutoMove_ = true;
+	BlackScreen::Renderer_->SetAlpha(0);
+	BlackScreen::Renderer_->On();
+	IsBlackScreenOn_ = false;
+
 	RoomSize_[0] = { 4096, 4035 };
 	RoomSize_[1] = { 5117, 2048 };
 }
 
 void PlayerLink::Room11_Trans_Update()
 {
+	if (CameraState::Room5 == PrevCameraState_ &&
+		false == IsBlackScreenOn_)
+	{
+		GameEngineTime::GetInst()->SetTimeScale(0, 0.0f);
+		ScreenTurnBlack(BlackScreen::Renderer_, IsBlackScreenOn_);
+		return;
+	}
 	/// ///////////////////////////////////////// Room Transition
 	if (true == IsCameraAutoMove_)
 	{
@@ -933,20 +953,61 @@ void PlayerLink::Room11_Trans_Update()
 void PlayerLink::Room5Start()
 {
 
-	GameEngineTime::GetInst()->SetTimeScale(-1, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(5, 1.0f);
 	BlackScreenAlpha_ = 255;
 	BlackScreen::Renderer_->SetAlpha(BlackScreenAlpha_);
 	BlackScreen::Renderer_->On();
-	IsLightBalckScreenOn_ = false;
+	LigthBlackScreen0_Main_->ChangeAnimation("Down");
+	LigthBlackScreen1_Main_->ChangeAnimation("Down");
+	LigthBlackScreen0_Main_->On();
+	LigthBlackScreen1_Main_->On();
+	//LigthBlackScreen2_Main_->On();
+	IsBlackScreenOn_ = true;
 }
 void PlayerLink::Room5Update()
 {
-	if (false == IsLightBalckScreenOn_)
+	if (true == IsBlackScreenOn_)
 	{
-		ScreenTurnBright(BlackScreen::Renderer_, IsLightBalckScreenOn_);
+		ScreenTurnBright(BlackScreen::Renderer_, IsBlackScreenOn_);
 		return;
+	}
+
+	if (PlayerState::MoveRight == PlayerCurState_ ||
+		PlayerState::IdleRight == PlayerCurState_ ||
+		PlayerState::CarryMoveRight == PlayerCurState_ ||
+		PlayerState::CarryIdleRight == PlayerCurState_)
+	{
+		LigthBlackScreen0_Main_->ChangeAnimation("Right");
+		LigthBlackScreen1_Main_->ChangeAnimation("Right");
+	}
+
+	if (PlayerState::MoveLeft == PlayerCurState_ ||
+		PlayerState::IdleLeft == PlayerCurState_ ||
+		PlayerState::CarryMoveLeft == PlayerCurState_ ||
+		PlayerState::CarryIdleLeft == PlayerCurState_)
+	{
+		LigthBlackScreen0_Main_->ChangeAnimation("Left");
+		LigthBlackScreen1_Main_->ChangeAnimation("Left");
+	}
+
+	if (PlayerState::MoveUp == PlayerCurState_ ||
+		PlayerState::IdleUp == PlayerCurState_ ||
+		PlayerState::CarryMoveUp == PlayerCurState_ ||
+		PlayerState::CarryIdleUp == PlayerCurState_)
+	{
+		LigthBlackScreen0_Main_->ChangeAnimation("Up");
+		LigthBlackScreen1_Main_->ChangeAnimation("Up");
+	}
+
+	if (PlayerState::MoveDown == PlayerCurState_ ||
+		PlayerState::IdleDown == PlayerCurState_ ||
+		PlayerState::CarryMoveDown == PlayerCurState_ ||
+		PlayerState::CarryIdleDown == PlayerCurState_)
+	{
+		LigthBlackScreen0_Main_->ChangeAnimation("Down");
+		LigthBlackScreen1_Main_->ChangeAnimation("Down");
 	}
 
 	/// ///////////////////////////////////////// Room Transition
@@ -958,6 +1019,11 @@ void PlayerLink::Room5Update()
 	if (false == IsCameraAutoMove_)
 	{
 		CameraUpdate();
+	}
+
+	if (PlayerState::MoveRight == PlayerCurState_ ||
+		PlayerState::IdleRight == PlayerCurState_)
+	{
 	}
 
 	if (true == IsCharacterAutoMove_)
@@ -987,43 +1053,23 @@ void PlayerLink::Room5Update()
 	int Yellow = RGB(255, 255, 0);
 	int Blue = RGB(0, 0, 255);
 
-	//if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveRight == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_
-	//	&& PlayerStairsState::Top == CurStairs_)
-	//{
-	//	if (2700.0f > GetPosition().y)
-	//	{
-	//		PrevCameraState_ = CameraState::Room5;
-	//		AutoMoveDir_ = float4::RIGHT;
-	//		CameraStateChange(CameraState::Room13_Trans);
-	//		return;
-	//	}
-	//	else
-	//	{
-	//		PrevCameraState_ = CameraState::Room5;
-	//		AutoMoveDir_ = float4::RIGHT;
-	//		CameraStateChange(CameraState::Room12_Trans);
-	//		return;
-	//	}
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_
+		&& PlayerStairsState::Top == CurStairs_)
+	{
+		PrevCameraState_ = CameraState::Room5;
+		AutoMoveDir_ = float4::UP;
+		CameraStateChange(CameraState::Room11_Trans);
+		return;
+	}
 
-	//}
-
-	//if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_
-	//	&& PlayerStairsState::Top == CurStairs_)
-	//{
-	//	PrevCameraState_ = CameraState::Room5;
-	//	AutoMoveDir_ = float4::DOWN;
-	//	CameraStateChange(CameraState::Room5_Trans);
-	//	return;
-	//}
-
-	//if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveLeft == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_
-	//	/* && PlayerStairsState::Bot == CurStairs_*/)
-	//{
-	//	PrevCameraState_ = CameraState::Room5;
-	//	AutoMoveDir_ = float4::LEFT;
-	//	CameraStateChange(CameraState::Room10_Trans);
-	//	return;
-	//}
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveRight == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_
+		&& PlayerStairsState::Top == CurStairs_)
+	{
+		PrevCameraState_ = CameraState::Room5;
+		AutoMoveDir_ = float4::RIGHT;
+		CameraStateChange(CameraState::Room6_Trans);
+		return;
+	}
 
 }
 
@@ -1038,22 +1084,12 @@ void PlayerLink::Room5_Trans_Start()
 	GameEngineTime::GetInst()->SetTimeScale(11, 0.0f);
 	IsCameraAutoMove_ = true;
 	IsCharacterAutoMove_ = true;
-	if (false == IsBlackScreenOn_)
-	{
-		BlackScreenAlpha_ = 0;
-		BlackScreen::Renderer_->On();
-		BlackScreen::Renderer_->SetAlpha(BlackScreenAlpha_);
 
-	}
+	BlackScreenAlpha_ = 0;
+	BlackScreen::Renderer_->On();
+	BlackScreen::Renderer_->SetAlpha(BlackScreenAlpha_);
 
-	if (true == IsBlackScreenOn_)
-	{
-		BlackScreenAlpha_ = 255;
-		BlackScreen::Renderer_->Off();
-		BlackScreen::Renderer_->SetAlpha(BlackScreenAlpha_);
-	}
-
-	RoomSize_[0] = { 4096, 991 + 4128};
+	RoomSize_[0] = { 4094, 931 + 4128};
 	RoomSize_[1] = { 5117,  0 + 4128 };
 }
 
@@ -1081,6 +1117,123 @@ void PlayerLink::Room5_Trans_Update()
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////// Room11
+void PlayerLink::Room6Start()
+{
+
+	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(6, 1.0f);
+	LigthBlackScreen0_Main_->Off();
+	LigthBlackScreen1_Main_->Off();
+}
+void PlayerLink::Room6Update()
+{
+	if (CameraState::Room5 == PrevCameraState_ &&
+		true == IsBlackScreenOn_)
+	{
+		GameEngineTime::GetInst()->SetTimeScale(0, 0.0f);
+		ScreenTurnBright(BlackScreen::Renderer_, IsBlackScreenOn_);
+		return;
+	}
+	/// ///////////////////////////////////////// Room Transition
+	if (true == IsCameraAutoMove_)
+	{
+		CameraAutoMove();
+	}
+
+	if (false == IsCameraAutoMove_)
+	{
+		CameraUpdate();
+	}
+
+	if (true == IsCharacterAutoMove_)
+	{
+		if (true == IsOnStairs_)
+		{
+			GameEngineTime::GetInst()->SetTimeScale(6, 0.0f);
+			PlayerAutoMove(150.0f);
+			return;
+		}
+
+		if (false == IsOnStairs_)
+		{
+			GameEngineTime::GetInst()->SetTimeScale(6, 0.0f);
+			PlayerAutoMove();
+			return;
+		}
+	}
+	else
+	{
+		GameEngineTime::GetInst()->SetTimeScale(6, 1.0f);
+	}
+
+
+	/// ///////////////////////////////////////// Room Check
+	int Red = RGB(255, 0, 0);
+	int Yellow = RGB(255, 255, 0);
+	int Blue = RGB(0, 0, 255);
+
+
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveLeft == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_
+		&& PlayerStairsState::Top == CurStairs_)
+	{
+		PrevCameraState_ = CameraState::Room6;
+		AutoMoveDir_ = float4::LEFT;
+		CameraStateChange(CameraState::Room5_Trans);
+		return;
+	}
+
+}
+
+
+void PlayerLink::Room6_Trans_Start()
+{
+	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
+
+	GameEngineTime::GetInst()->SetTimeScale(6, 0.0f);
+
+	IsCameraAutoMove_ = true;
+	IsCharacterAutoMove_ = true;
+	BlackScreen::Renderer_->SetAlpha(0);
+	BlackScreen::Renderer_->On();
+	IsBlackScreenOn_ = false;
+
+	RoomSize_[0] = { 5118, 931 + 4128 };
+	RoomSize_[1] = { 6143,  0 + 4128 };
+}
+
+void PlayerLink::Room6_Trans_Update()
+{
+	if (CameraState::Room5 == PrevCameraState_ &&
+		false == IsBlackScreenOn_)
+	{
+		GameEngineTime::GetInst()->SetTimeScale(0, 0.0f);
+		ScreenTurnBlack(BlackScreen::Renderer_, IsBlackScreenOn_);
+		return;
+	}
+	/// ///////////////////////////////////////// Room Transition
+	if (true == IsCameraAutoMove_)
+	{
+		CameraAutoMove();
+	}
+
+	if (true == IsCharacterAutoMove_)
+	{
+		PlayerAutoMove();
+	}
+
+	if (false == IsCameraAutoMove_ && false == IsCharacterAutoMove_)
+	{
+		CameraStateChange(CameraState::Room6);
+	}
+}
+
+
+	/////////////////////////////////////////////// Utility Functions
+
+
 void PlayerLink::ScreenTurnBlack(GameEngineRenderer* _Renderer, bool& _IsIamgeOn)
 {
 	BlackScreenTime_ += GameEngineTime::GetDeltaTime() * 255.0f;
@@ -1104,7 +1257,7 @@ void PlayerLink::ScreenTurnBright(GameEngineRenderer* _Renderer, bool& _IsIamgeO
 	{
 		GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 		BlackScreenTime_ = 0.0f;
-		_IsIamgeOn = true;
+		_IsIamgeOn = false;
 		_Renderer->Off();
 		return;
 	}
@@ -1170,6 +1323,12 @@ void PlayerLink::CameraStateChange(CameraState _State)
 			break;
 		case CameraState::Room5_Trans:
 			Room5_Trans_Start();
+			break;
+		case CameraState::Room6:
+			Room6Start();
+			break;
+		case CameraState::Room6_Trans:
+			Room6_Trans_Start();
 			break;
 		case CameraState::Max:
 			break;
@@ -1240,6 +1399,13 @@ void PlayerLink::CameraStateUpdate()
 	case CameraState::Room5_Trans:
 		Room5_Trans_Update();
 		break;
+	case CameraState::Room6:
+		Room6Update();
+		break;
+	case CameraState::Room6_Trans:
+		Room6_Trans_Update();
+		break;
+
 	case CameraState::Max:
 		break;
 	default:

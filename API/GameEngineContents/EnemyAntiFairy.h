@@ -17,6 +17,16 @@ public:
 	EnemyAntiFairy& operator=(const EnemyAntiFairy& _Other) = delete;
 	EnemyAntiFairy& operator=(EnemyAntiFairy&& _Other) noexcept = delete;
 
+	void SetAntiFairyPos(float4 _Pos)
+	{
+		Pos_ = _Pos;
+		SetPosition(Pos_);
+	}
+
+	void SetAntiFairyTimeScale(int _TimeScale)
+	{
+		TimeScale_ = _TimeScale;
+	}
 protected:
 	void Start() override;
 	void Update() override;

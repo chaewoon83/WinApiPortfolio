@@ -59,15 +59,16 @@ bool EnemyAntiFairy::MoveDirCheck()
 	bool MoveUp = false;
 	bool MoveDown = false;
 	EnemyGlobalFunction::MoveDirBoolCheck(MoveRight, MoveLeft, MoveUp, MoveDown, MoveDir_);
-	float4 Map1f_2_Scale = float4{ 0, -4128 };
+
 	//SetMove(MoveDir * GameEngineTime::GetDeltaTime(0) * Speed_);
 	{
 		int Black = RGB(0, 0, 0);
 		float4 MyPos = GetPosition();
-		//if (false == PlayerLink::GetIsMap1F_2())
-		//{
-		//	MyPos += Map1f_2_Scale;
-		//}
+		float4 Map1f_2_Scale = float4{ 0, -4128 };
+		if (false == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetIsMap1F_2())
+		{
+			MyPos += Map1f_2_Scale;
+		}
 		float4 NextPos = MyPos + (MoveDir_ * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
 		float4 NextRealPos = MyPos + (MoveDir_ * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
 		float4 CheckPosTopRight = NextPos + float4{ 36.0f, -36.0f };
@@ -162,7 +163,7 @@ bool EnemyAntiFairy::MoveDirCheck()
 bool EnemyAntiFairy::PixelCollisionCheckX(float4 _Min, float4 _Max)
 {
 	int Black = RGB(0, 0, 0);
-	for (int j = _Min.ix() + 5 ; j < _Max.ix() - 5 ; j++)
+	for (int j = _Min.ix() + 10 ; j < _Max.ix() - 10 ; j++)
 	{
 		if (Black == PlayerLink::MapCarryColImage_->GetImagePixel(float4{ static_cast<float>(j), _Min.y}))
 		{
@@ -175,7 +176,7 @@ bool EnemyAntiFairy::PixelCollisionCheckX(float4 _Min, float4 _Max)
 bool EnemyAntiFairy::PixelCollisionCheckY(float4 _Min, float4 _Max)
 {
 	int Black = RGB(0, 0, 0);
-	for (int j = _Min.iy() + 5; j < _Max.iy() - 5 ; j++)
+	for (int j = _Min.iy() + 10; j < _Max.iy() - 10 ; j++)
 	{
 		if (Black == PlayerLink::MapCarryColImage_->GetImagePixel(float4{ _Max.x, static_cast<float>(j) }))
 		{

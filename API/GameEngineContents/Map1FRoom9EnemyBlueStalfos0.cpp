@@ -459,25 +459,7 @@ void Map1FRoom9EnemyBlueStalfos0::DeathUpdate()
 {
 	if (true == IsDeath_ && true == BlueStalfosHeadRenderer_->IsEndAnimation())
 	{
-		GameEngineRandom Random;
-		//Max 10
-		int RandomInt = Random.RandomInt(1, 10);
-		//if (2 >= RandomInt)
-		//{
-		//	ItemGreenRupee* Ptr = GetLevel()->CreateActor<ItemGreenRupee>((int)PlayLevelOrder::PLAYER);
-		//	Ptr->SetPosition(GetPosition());
-		//}
-
-		//if (2 <= RandomInt && 3 >= RandomInt)
-		//{
-		//	ItemGreenRupee* Ptr = GetLevel()->CreateActor<ItemGreenRupee>((int)PlayLevelOrder::PLAYER);
-		//	Ptr->SetPosition(GetPosition());
-		//}
-
-		{
-			ItemBlueRupee* Ptr = GetLevel()->CreateActor<ItemBlueRupee>((int)PlayLevelOrder::PLAYER);
-			Ptr->SetPosition(GetPosition());
-		}
+		EnemyGlobalFunction::ItemRandomGenMonster(this);
 
 		Death();
 	}

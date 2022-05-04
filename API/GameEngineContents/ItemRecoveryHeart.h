@@ -1,5 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
+class GameEngineCollision;
+class GmaeEngineRenderer;
 // Ό³Έν :
 class ItemRecoveryHeart : public GameEngineActor
 {
@@ -19,6 +21,16 @@ protected:
 	void Update() override;
 	void Render() override;
 private:
-
+	GameEngineRenderer* ItemRenderer_;
+	GameEngineRenderer* ShadowRenderer_;
+	GameEngineCollision* ItemCollision_;
+	float LiveTime_;
+	float CurLiveTime_;
+	bool IsBlink_;
+	bool IsAlphaOn_;
+	float CurBlinkTime_;
+	float CurBlinkFreq_;
+	float BlinkTime_;
+	float BlinkFreq_;
 };
 

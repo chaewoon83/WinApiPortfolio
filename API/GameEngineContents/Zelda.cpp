@@ -103,6 +103,7 @@ void Zelda::TotalImageGetFromFolder()
 	GetImageFromFolder("UI");
 	GetImageFromFolder("Map");
 	GetImageFromFolder("Enemy");
+	GetImageFromFolder("Item");
 }
 
 void Zelda::TotalImageCut()
@@ -190,4 +191,19 @@ void Zelda::TotalImageCut()
 	ImageCutter("EnemyBlueStalfosJumpLeftBody.bmp", 1, 1);
 	ImageCutter("EnemyBlueStalfosJumpUpBody.bmp", 1, 1);
 	ImageCutter("EnemyBlueStalfosJumpDownBody.bmp", 1, 1);
+
+	//Light
+	ImageCutter("MapLightScreen0Right.bmp", 1, 1);
+	ImageCutter("MapLightScreen0Left.bmp", 1, 1);
+	ImageCutter("MapLightScreen0Up.bmp", 1, 1);
+	ImageCutter("MapLightScreen0Down.bmp", 1, 1);
+	ImageCutter("MapLightScreen1Right.bmp", 1, 1);
+	ImageCutter("MapLightScreen1Left.bmp", 1, 1);
+	ImageCutter("MapLightScreen1Up.bmp", 1, 1);
+	ImageCutter("MapLightScreen1Down.bmp", 1, 1);
+
+	//Item
+	ImageCutter("ItemGreenRupee.bmp", 3, 1);
+	ImageCutter("ItemBlueRupee.bmp", 3, 1);
+	ImageCutter("ItemRedRupee.bmp", 3, 1);
 }

@@ -11,6 +11,11 @@
 #include "GlobalRandom.h"
 #include "ItemGreenRupee.h"
 #include "ItemBlueRupee.h"
+#include "ItemRedRupee.h"
+#include "ItemRecoveryHeart.h"
+#include "ItemKey.h"
+#include "ItemBigKey.h"
+
 
 EnemyGlobalFunction::EnemyGlobalFunction() 
 {
@@ -162,6 +167,96 @@ void EnemyGlobalFunction::Relocation(CameraState _PlayerRoom, int _MonsterRoom, 
 		_IsRelocated = false;
 	}
 }
+
+void EnemyGlobalFunction::ItemGenPot(int _ItemNum, GameEngineActor* _Actor)
+{
+	if (1 == _ItemNum)
+	{
+		ItemGreenRupee* Ptr = _Actor->GetLevel()->CreateActor<ItemGreenRupee>((int)PlayLevelOrder::PLAYER);
+		Ptr->SetGreenRupeePosition(_Actor->GetPosition());
+	}
+
+	if (2 == _ItemNum)
+	{
+		ItemBlueRupee* Ptr = _Actor->GetLevel()->CreateActor<ItemBlueRupee>((int)PlayLevelOrder::PLAYER);
+		Ptr->SetBlueRupeePosition(_Actor->GetPosition());
+	}
+
+	if (3 == _ItemNum)
+	{
+		ItemRedRupee* Ptr = _Actor->GetLevel()->CreateActor<ItemRedRupee>((int)PlayLevelOrder::PLAYER);
+		Ptr->SetRedRupeePosition(_Actor->GetPosition());
+	}
+
+	if (4 == _ItemNum)
+	{
+		ItemRecoveryHeart* Ptr = _Actor->GetLevel()->CreateActor<ItemRecoveryHeart>((int)PlayLevelOrder::PLAYER);
+		Ptr->SetPosition(_Actor->GetPosition());
+	}
+
+	if (5 == _ItemNum)
+	{
+		ItemRecoveryHeart* Ptr = _Actor->GetLevel()->CreateActor<ItemRecoveryHeart>((int)PlayLevelOrder::PLAYER);
+		Ptr->SetPosition(_Actor->GetPosition());
+	}
+
+}
+
+void EnemyGlobalFunction::ItemGenMonster(int _ItemNum, GameEngineActor* _Actor)
+{
+	if (1 == _ItemNum)
+	{
+		ItemGreenRupee* Ptr = _Actor->GetLevel()->CreateActor<ItemGreenRupee>((int)PlayLevelOrder::PLAYER);
+		Ptr->SetRespawnPivot(50.0f);
+		Ptr->SetGreenRupeePosition(_Actor->GetPosition());
+	}
+
+	if (2 == _ItemNum)
+	{
+		ItemBlueRupee* Ptr = _Actor->GetLevel()->CreateActor<ItemBlueRupee>((int)PlayLevelOrder::PLAYER);
+		Ptr->SetRespawnPivot(50.0f);
+		Ptr->SetBlueRupeePosition(_Actor->GetPosition());
+	}
+
+	if (3 == _ItemNum)
+	{
+		ItemRedRupee* Ptr = _Actor->GetLevel()->CreateActor<ItemRedRupee>((int)PlayLevelOrder::PLAYER);
+		Ptr->SetRespawnPivot(50.0f);
+		Ptr->SetRedRupeePosition(_Actor->GetPosition());
+	}
+
+	if (4 == _ItemNum)
+	{
+		ItemRecoveryHeart* Ptr = _Actor->GetLevel()->CreateActor<ItemRecoveryHeart>((int)PlayLevelOrder::PLAYER);
+		Ptr->SetPosition(_Actor->GetPosition());
+	}
+
+}
+
+
+void EnemyGlobalFunction::ItemRandomGenMonster(GameEngineActor* _Actor)
+{
+	GameEngineRandom Random;
+	//Max 10
+	int RandomInt = Random.RandomInt(1, 10);
+	if (1<= RandomInt && 6 >= RandomInt)
+	{
+		//GreenRupee
+		ItemGenMonster(1, _Actor);
+	}
+
+	if (7 <= RandomInt && 9 >= RandomInt)
+	{
+		//BlueRupee
+		ItemGenMonster(2, _Actor);
+	}
+	if (9 <= RandomInt && 10 >= RandomInt)
+	{
+		//RedRupee
+		ItemGenMonster(3, _Actor);
+	}
+}
+
 
 void EnemyGlobalFunction::KnockBackMoveFunction(int _TimeScale, float _Speed, float4 _MoveDir, GameEngineCollision* _Collision, GameEngineActor* _Actor, GameEngineImage* _Image,
 	float _x /*= 32.0f*/, float _y_1 /*= 32.0f*/, float _y_2 /*= 32.0f*/)

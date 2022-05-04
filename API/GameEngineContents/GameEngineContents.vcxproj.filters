@@ -14,19 +14,7 @@
     <ClInclude Include="TitleBackGround.h">
       <Filter>Title</Filter>
     </ClInclude>
-    <ClInclude Include="ItemBlueRupee.h">
-      <Filter>Play\Item</Filter>
-    </ClInclude>
     <ClInclude Include="ItemBomb.h">
-      <Filter>Play\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemGreenRupee.h">
-      <Filter>Play\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemRecoveryHeart.h">
-      <Filter>Play\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="ItemRedRupee.h">
       <Filter>Play\Item</Filter>
     </ClInclude>
     <ClInclude Include="ItemFairy.h">
@@ -120,18 +108,6 @@
     <ClInclude Include="EnemyStalfos.h">
       <Filter>Play\Enemy\Yet</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyPopo.h">
-      <Filter>Play\Enemy\Popo</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom1EnemyPopo1.h">
-      <Filter>Play\Enemy\Popo</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom1EnemyPopo2.h">
-      <Filter>Play\Enemy\Popo</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom1EnemyPopo0.h">
-      <Filter>Play\Enemy\Popo</Filter>
-    </ClInclude>
     <ClInclude Include="GlobalRandom.h" />
     <ClInclude Include="EnemyBall.h">
       <Filter>Play\Enemy\Ball</Filter>
@@ -202,25 +178,7 @@
     <ClInclude Include="Map1FRoom7EnemyBlueStalfos0.h">
       <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
     </ClInclude>
-    <ClInclude Include="Map1FRoom7EnemyBlueStalfos1.h">
-      <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom7EnemyBlueStalfos2.h">
-      <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom7EnemyBlueStalfos3.h">
-      <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
-    </ClInclude>
     <ClInclude Include="Map1FRoom9EnemyBlueStalfos0.h">
-      <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom9EnemyBlueStalfos1.h">
-      <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom9EnemyBlueStalfos2.h">
-      <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
-    </ClInclude>
-    <ClInclude Include="Map1FRoom9EnemyBlueStalfos3.h">
       <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
     </ClInclude>
     <ClInclude Include="Map1FRoom10EnemyBlueStalfos0.h">
@@ -231,6 +189,30 @@
     </ClInclude>
     <ClInclude Include="BlackScreen.h">
       <Filter>Play\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom5EnemyPopo0.h">
+      <Filter>Play\Enemy\Popo\Room5</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemGlobalFunction.h">
+      <Filter>Play\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom6Pot0.h">
+      <Filter>Play\Map\Objects\Pot\Room6</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemBlueRupee.h">
+      <Filter>Play\Item\Rupee</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemGreenRupee.h">
+      <Filter>Play\Item\Rupee</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemRecoveryHeart.h">
+      <Filter>Play\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemRedRupee.h">
+      <Filter>Play\Item\Rupee</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom2EnemyPopo0.h">
+      <Filter>Play\Enemy\Popo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -247,19 +229,10 @@
     <ClCompile Include="TitleBackGround.cpp">
       <Filter>Title</Filter>
     </ClCompile>
-    <ClCompile Include="ItemBlueRupee.cpp">
-      <Filter>Play\Item</Filter>
-    </ClCompile>
     <ClCompile Include="ItemBomb.cpp">
       <Filter>Play\Item</Filter>
     </ClCompile>
-    <ClCompile Include="ItemGreenRupee.cpp">
-      <Filter>Play\Item</Filter>
-    </ClCompile>
     <ClCompile Include="ItemRecoveryHeart.cpp">
-      <Filter>Play\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="ItemRedRupee.cpp">
       <Filter>Play\Item</Filter>
     </ClCompile>
     <ClCompile Include="ItemFairy.cpp">
@@ -355,18 +328,6 @@
     <ClCompile Include="PlayerLink_State.cpp">
       <Filter>Play\Player</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyPopo.cpp">
-      <Filter>Play\Enemy\Popo</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom1EnemyPopo1.cpp">
-      <Filter>Play\Enemy\Popo</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom1EnemyPopo2.cpp">
-      <Filter>Play\Enemy\Popo</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom1EnemyPopo0.cpp">
-      <Filter>Play\Enemy\Popo</Filter>
-    </ClCompile>
     <ClCompile Include="GlobalRandom.cpp" />
     <ClCompile Include="EnemyBall.cpp">
       <Filter>Play\Enemy\Ball</Filter>
@@ -440,25 +401,7 @@
     <ClCompile Include="Map1FRoom7EnemyBlueStalfos0.cpp">
       <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
     </ClCompile>
-    <ClCompile Include="Map1FRoom7EnemyBlueStalfos1.cpp">
-      <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom7EnemyBlueStalfos2.cpp">
-      <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom7EnemyBlueStalfos3.cpp">
-      <Filter>Play\Enemy\BlueStalfos\Room7</Filter>
-    </ClCompile>
     <ClCompile Include="Map1FRoom9EnemyBlueStalfos0.cpp">
-      <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom9EnemyBlueStalfos1.cpp">
-      <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom9EnemyBlueStalfos2.cpp">
-      <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
-    </ClCompile>
-    <ClCompile Include="Map1FRoom9EnemyBlueStalfos3.cpp">
       <Filter>Play\Enemy\BlueStalfos\Room9</Filter>
     </ClCompile>
     <ClCompile Include="Map1FRoom10EnemyBlueStalfos0.cpp">
@@ -469,6 +412,27 @@
     </ClCompile>
     <ClCompile Include="BlackScreen.cpp">
       <Filter>Play\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom5EnemyPopo0.cpp">
+      <Filter>Play\Enemy\Popo\Room5</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemGlobalFunction.cpp">
+      <Filter>Play\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom6Pot0.cpp">
+      <Filter>Play\Map\Objects\Pot\Room6</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemBlueRupee.cpp">
+      <Filter>Play\Item\Rupee</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemGreenRupee.cpp">
+      <Filter>Play\Item\Rupee</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemRedRupee.cpp">
+      <Filter>Play\Item\Rupee</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom2EnemyPopo0.cpp">
+      <Filter>Play\Enemy\Popo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -552,6 +516,15 @@
     </Filter>
     <Filter Include="Play\Enemy\BlueStalfos\Room10">
       <UniqueIdentifier>{f5449de4-4497-4f8b-a271-243fd3e9d67a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Enemy\Popo\Room5">
+      <UniqueIdentifier>{01e9b5f9-ba43-4ae6-b26d-500e4fcf4ed0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Map\Objects\Pot\Room6">
+      <UniqueIdentifier>{b669a867-0b9a-4642-a3d0-c6d6bc3dac29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Item\Rupee">
+      <UniqueIdentifier>{4bdd4a78-267f-44c1-9696-faba6d5f9204}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

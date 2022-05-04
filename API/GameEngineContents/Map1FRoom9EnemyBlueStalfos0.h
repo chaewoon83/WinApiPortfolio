@@ -16,6 +16,12 @@ public:
 	Map1FRoom9EnemyBlueStalfos0& operator=(const Map1FRoom9EnemyBlueStalfos0& _Other) = delete;
 	Map1FRoom9EnemyBlueStalfos0& operator=(Map1FRoom9EnemyBlueStalfos0&& _Other) noexcept = delete;
 
+	void SetBlueStalfosPos(float4 _Pos)
+	{
+		BlueStalfosPos_ = _Pos;
+		SetPosition(BlueStalfosPos_);
+	}
+
 protected:
 	void Start() override;
 	void Update() override;

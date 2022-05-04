@@ -92,6 +92,9 @@ PlayerLink::PlayerLink()
 	, IsLightBalckScreenOn_(false)
 	, BlackScreenAlpha_(0)
 	, BlackScreenTime_(0.0f)
+	, LigthBlackScreen0_Main_(nullptr)
+	, LigthBlackScreen1_Main_(nullptr)
+
 {
 }
 
@@ -166,7 +169,6 @@ void PlayerLink::Start()
 	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Up.bmp", "Carry_Move_Up", 0, 4, 0.1f, true);
 	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Down.bmp", "Carry_Move_Down", 0, 4, 0.1f, true);
 
-	int a = PlayerRenderer_->GetOrder();
 	PlayerRenderer_->ChangeAnimation("Idle_Down");
 
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다
@@ -240,7 +242,7 @@ void PlayerLink::Start()
 	RoomSize_[1] = { 4095, 3088 + 4128 };
 
 	{
-		//SetPosition({ 3072.0f, 3800.0f });
+		//SetPosition({ 3072.0f, 3800.0f });d
 		//SetPosition({4607, 3792});
 		GetLevel()->SetCameraPos({ 4607, 3792 });
 		RoomSize_[0] = { 4096, 4035 };
@@ -249,6 +251,25 @@ void PlayerLink::Start()
 		PrevCameraState_ = CameraState::Room10;
 	}
 
+
+	LigthBlackScreen0_Main_ = CreateRenderer();
+	LigthBlackScreen0_Main_->SetOrder(static_cast<int>(PlayLevelOrder::BLACKBACKGROUND));
+	LigthBlackScreen0_Main_->CreateAnimation("MapLightScreen0Right.bmp", "Right", 0, 0, 1.0f, false);
+	LigthBlackScreen0_Main_->CreateAnimation("MapLightScreen0Left.bmp", "Left", 0, 0, 1.0f, false);
+	LigthBlackScreen0_Main_->CreateAnimation("MapLightScreen0Up.bmp", "Up", 0, 0, 1.0f, false);
+	LigthBlackScreen0_Main_->CreateAnimation("MapLightScreen0Down.bmp", "Down", 0, 0, 1.0f, false);
+	LigthBlackScreen0_Main_->ChangeAnimation("Down");
+	LigthBlackScreen0_Main_->SetAlpha(100);
+	LigthBlackScreen0_Main_->Off();
+
+	LigthBlackScreen1_Main_ = CreateRenderer();
+	LigthBlackScreen1_Main_->SetOrder(static_cast<int>(PlayLevelOrder::BLACKBACKGROUND));
+	LigthBlackScreen1_Main_->CreateAnimation("MapLightScreen1Right.bmp", "Right", 0, 0, 1.0f, false);
+	LigthBlackScreen1_Main_->CreateAnimation("MapLightScreen1Left.bmp", "Left", 0, 0, 1.0f, false);
+	LigthBlackScreen1_Main_->CreateAnimation("MapLightScreen1Up.bmp", "Up", 0, 0, 1.0f, false);
+	LigthBlackScreen1_Main_->CreateAnimation("MapLightScreen1Down.bmp", "Down", 0, 0, 1.0f, false);
+	LigthBlackScreen1_Main_->ChangeAnimation("Down");
+	LigthBlackScreen1_Main_->Off();
 
 }
  

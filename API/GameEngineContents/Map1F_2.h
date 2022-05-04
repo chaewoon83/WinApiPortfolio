@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 #include "GameEngineContentsEnum.h"
+class Map1FRoom7EnemyBlueStalfos0;
 // Ό³Έν :
 class Map1F_2 : public GameEngineActor
 {
@@ -23,6 +24,7 @@ public:
 	static GameEngineRenderer* Room10LeftDoor0_;
 	static GameEngineRenderer* Room7RightDoor0_;
 	static GameEngineRenderer* Room7TopDoor0_;
+	static GameEngineRenderer* Room5RightDoor0_;
 
 	static GameEngineCollision* Room1TopDoor0Col_;
 	static GameEngineCollision* Room2TopDoor0Col_;
@@ -32,6 +34,7 @@ public:
 	static GameEngineCollision* Room7RightDoor0Col_;
 	static GameEngineCollision* Room7TopDoor0Col_;
 	static GameEngineCollision* Room8TreasureBoxCol_;
+	static GameEngineCollision* Room5RightDoor0Col_;
 
 	static GameEngineActor* Room8TreasureBox_;
 	static GameEngineRenderer* Room8ItemRenderer_;
@@ -90,10 +93,10 @@ private:
 	bool IsRoom7DoorOpened_;
 	int SummonIndex_;
 	GameEngineRenderer* SummonEffect_;
-	GameEngineActor* BlueStalfos0;
-	GameEngineActor* BlueStalfos1;
-	GameEngineActor* BlueStalfos2;
-	GameEngineActor* BlueStalfos3;
+	Map1FRoom7EnemyBlueStalfos0* BlueStalfos0;
+	Map1FRoom7EnemyBlueStalfos0* BlueStalfos1;
+	Map1FRoom7EnemyBlueStalfos0* BlueStalfos2;
+	Map1FRoom7EnemyBlueStalfos0* BlueStalfos3;
 	void Room7SummonEnemies();
 	void Room7DoorCheck();
 
@@ -103,6 +106,13 @@ private:
 	float Room8ItemMoveTime_;
 	float CurRoom8ItemMoveTime_;
 	void Room8CheckItemBox();
+
+	//////////////////Room5
+	static GameEngineCollision* Room5SwitchCol_;
+	void Room5SwitchCheck();
+	bool IsRoom5TimeStop_;
+	bool IsRoom5PlayerOnSwitch_;
+	bool IsRoom5SwitchOn_;
 
 };
 
