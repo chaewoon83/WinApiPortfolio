@@ -193,6 +193,12 @@
     <ClInclude Include="ItemKey.h">
       <Filter>Play\Item</Filter>
     </ClInclude>
+    <ClInclude Include="Map1FRoom4Pot0.h">
+      <Filter>Play\Map\Objects\Pot\Room4</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom4TreasureBox.h">
+      <Filter>Play\Map\Objects\TreasureBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -392,6 +398,12 @@
     <ClCompile Include="ItemBigKey.cpp">
       <Filter>Play\Item</Filter>
     </ClCompile>
+    <ClCompile Include="Map1FRoom4Pot0.cpp">
+      <Filter>Play\Map\Objects\Pot\Room4</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom4TreasureBox.cpp">
+      <Filter>Play\Map\Objects\TreasureBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -435,9 +447,6 @@
     </Filter>
     <Filter Include="Play\Map\Objects\Pot">
       <UniqueIdentifier>{5f48e22a-393e-4a1d-b107-374f7a86179a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Play\Map\Objects\Door">
-      <UniqueIdentifier>{a17a1f0b-13ec-47cd-8c40-db6a9b4e9069}</UniqueIdentifier>
     </Filter>
     <Filter Include="Debug">
       <UniqueIdentifier>{8ca7e6b4-9ee1-4ba7-b0ba-d1ab707b4b4a}</UniqueIdentifier>

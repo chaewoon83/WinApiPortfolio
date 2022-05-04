@@ -17,6 +17,7 @@
 
 void PlayerLink::Room1Start()
 {
+	CameraState_ = CameraState::Room1;
 	Map1F_2::Room1TopDoor0_->On();
 	Map1F_2::Room1TopDoor0_->ChangeAnimationReset("Close_Top");
 	GameEngineTime::GetInst()->SetTimeScale(1, 1.0f);
@@ -82,6 +83,7 @@ void PlayerLink::Room1_Trans_Update()
 
 void PlayerLink::Room2Start()
 {
+	CameraState_ = CameraState::Room2;
 	Map1F_2::Room2TopDoor0_->On();
 	Map1F_2::Room2BotDoor0_->On();
 	Map1F_2::Room2TopDoor0_->ChangeAnimationReset("Close_Top");
@@ -161,6 +163,7 @@ void PlayerLink::Room2_Trans_Update()
 
 void PlayerLink::Room4Start()
 {
+	CameraState_ = CameraState::Room4;
 	GameEngineTime::GetInst()->SetTimeScale(2, 0.0f);
 	GameEngineTime::GetInst()->SetTimeScale(4, 0.0f);
 	GameEngineTime::GetInst()->SetTimeScale(5, 0.0f);
@@ -304,6 +307,7 @@ void PlayerLink::Room4_Trans_Update()
 
 void PlayerLink::Room10Start()
 {
+	CameraState_ = CameraState::Room10;
 	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(10, 1.0f);
@@ -433,6 +437,7 @@ void PlayerLink::Room10_Trans_Update()
 
 void PlayerLink::Room9Start()
 {
+	CameraState_ = CameraState::Room9;
 	GameEngineTime::GetInst()->SetTimeScale(10, 0.0f);
 	GameEngineTime::GetInst()->SetTimeScale(8, 0.0f);
 	GameEngineTime::GetInst()->SetTimeScale(2, 0.0f);
@@ -554,7 +559,7 @@ void PlayerLink::Room9_Trans_Update()
 ////////////////////////////////////////////////////// Room7
 void PlayerLink::Room7Start()
 {
-
+	CameraState_ = CameraState::Room7;
 	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(7, 1.0f);
@@ -652,7 +657,7 @@ void PlayerLink::Room7_Trans_Update()
 ////////////////////////////////////////////////////// Room8
 void PlayerLink::Room8Start()
 {
-
+	CameraState_ = CameraState::Room8;
 	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(8, 1.0f);
@@ -780,7 +785,7 @@ void PlayerLink::Room8_Trans_Update()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////// Room11
 void PlayerLink::Room11Start()
 {
-
+	CameraState_ = CameraState::Room11;
 	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(11, 1.0f);
@@ -952,7 +957,7 @@ void PlayerLink::Room11_Trans_Update()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////// Room5
 void PlayerLink::Room5Start()
 {
-
+	CameraState_ = CameraState::Room5;
 	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(5, 1.0f);
@@ -1120,7 +1125,7 @@ void PlayerLink::Room5_Trans_Update()
 //////////////////////////////////////////////////////////////////////////////////////////////////////////// Room11
 void PlayerLink::Room6Start()
 {
-
+	CameraState_ = CameraState::Room6;
 	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(6, 1.0f);

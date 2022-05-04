@@ -73,6 +73,7 @@ void Map1FRoom1Pot0::CarriedStart()
 
 void Map1FRoom1Pot0::InAirStart()
 {
+	Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::ABOVEBACKGROUNDROOF));
 	if (false == PotHitBox_->IsUpdate())
 	{
 		PotHitBox_->On();

@@ -1,4 +1,4 @@
-#include "Map1FRoom6Pot0.h"
+#include "Map1FRoom4Pot0.h"
 #include <windows.h>
 #include <GameEngineBase/GameEngineWindow.h>
 #include <GameEngine/GameEngineCollision.h>
@@ -13,7 +13,7 @@
 // ¿Þ¿À ´Þ¸±‹š (0,-6)
 
 
-Map1FRoom6Pot0::Map1FRoom6Pot0() 
+Map1FRoom4Pot0::Map1FRoom4Pot0() 
 	:Renderer_(nullptr),
 	 BlockCol_(nullptr),
 	 PickUpCol_(nullptr),
@@ -32,11 +32,11 @@ Map1FRoom6Pot0::Map1FRoom6Pot0()
 
 }
 
-Map1FRoom6Pot0::~Map1FRoom6Pot0() 
+Map1FRoom4Pot0::~Map1FRoom4Pot0() 
 {
 }
 
-void Map1FRoom6Pot0::Start()
+void Map1FRoom4Pot0::Start()
 {
 	Renderer_ = CreateRenderer();
 	//SetPosition(PotPos_);
@@ -51,29 +51,28 @@ void Map1FRoom6Pot0::Start()
 
 }
  
-void Map1FRoom6Pot0::Update()
+void Map1FRoom4Pot0::Update()
 {
 	Reset();
 	PotStateUpdate();
 }
-void Map1FRoom6Pot0::Render()
+void Map1FRoom4Pot0::Render()
 {
 
 }
 
-void Map1FRoom6Pot0::IdleStart()
+void Map1FRoom4Pot0::IdleStart()
 {
 
 }
 
-void Map1FRoom6Pot0::CarriedStart()
+void Map1FRoom4Pot0::CarriedStart()
 {
 	Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::ABOVEPLAYER));
 }
 
-void Map1FRoom6Pot0::InAirStart()
+void Map1FRoom4Pot0::InAirStart()
 {
-	Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::ABOVEBACKGROUNDROOF));
 	if (false == PotHitBox_->IsUpdate())
 	{
 		PotHitBox_->On();
@@ -81,7 +80,7 @@ void Map1FRoom6Pot0::InAirStart()
 	CurYSpeed_ = YSpeed_;
 }
 
-void Map1FRoom6Pot0::DeathAnimationStart()
+void Map1FRoom4Pot0::DeathAnimationStart()
 {
 	if (true == PotHitBox_->IsUpdate())
 	{
@@ -90,15 +89,16 @@ void Map1FRoom6Pot0::DeathAnimationStart()
 
 	CurAirTime_ = 0.0f;
 	Renderer_->ChangeAnimationReset("Pot_Destroyed");
+	Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::ABOVEBACKGROUNDROOF));
 }
 
-void Map1FRoom6Pot0::DeathStart()
+void Map1FRoom4Pot0::DeathStart()
 {
 	IsInRoom_ = false;
 	Renderer_->Off();
 }
 
-void Map1FRoom6Pot0::IdleUpdate()
+void Map1FRoom4Pot0::IdleUpdate()
 {
 	if (PlayerLink::CarryActor_ == this)
 	{
@@ -110,7 +110,7 @@ void Map1FRoom6Pot0::IdleUpdate()
 	}
 }
 
-void Map1FRoom6Pot0::CarriedUpdate()
+void Map1FRoom4Pot0::CarriedUpdate()
 {
 	{
 		if (PlayerState::CarryMoveLeft == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerCurState() &&
@@ -164,7 +164,7 @@ void Map1FRoom6Pot0::CarriedUpdate()
 	}
 }
 
-void Map1FRoom6Pot0::InAirUpdate()
+void Map1FRoom4Pot0::InAirUpdate()
 {
 	CurAirTime_ += GameEngineTime::GetDeltaTime(0);
 	if (AirTime_ < CurAirTime_)
@@ -183,7 +183,7 @@ void Map1FRoom6Pot0::InAirUpdate()
 	}
 }
 
-void Map1FRoom6Pot0::DeathAnimationUpdate()
+void Map1FRoom4Pot0::DeathAnimationUpdate()
 {
 	if (true == Renderer_->IsEndAnimation())
 	{
@@ -193,12 +193,12 @@ void Map1FRoom6Pot0::DeathAnimationUpdate()
 	}
 }
 
-void Map1FRoom6Pot0::DeathUpdate()
+void Map1FRoom4Pot0::DeathUpdate()
 {
 
 }
 
-void Map1FRoom6Pot0::PotStateChange(PotState _State)
+void Map1FRoom4Pot0::PotStateChange(PotState _State)
 {
 	if (CurPotState_ != _State)
 	{
@@ -229,7 +229,7 @@ void Map1FRoom6Pot0::PotStateChange(PotState _State)
 
 }
 
-void Map1FRoom6Pot0::PotStateUpdate()
+void Map1FRoom4Pot0::PotStateUpdate()
 {
 	switch (CurPotState_)
 	{
@@ -256,7 +256,7 @@ void Map1FRoom6Pot0::PotStateUpdate()
 }
 
 
-bool Map1FRoom6Pot0::CheckPickUpEnd()
+bool Map1FRoom4Pot0::CheckPickUpEnd()
 {
 	if (PlayerState::CarryStartRight == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerCurState() ||
 		PlayerState::CarryStartLeft == dynamic_cast<PlayerLink*>(PlayerLink::MainPlayer_)->GetPlayerCurState() ||
@@ -271,9 +271,13 @@ bool Map1FRoom6Pot0::CheckPickUpEnd()
 	}
 }
 
-void Map1FRoom6Pot0::Reset()
+void Map1FRoom4Pot0::Reset()
 {
-	if (CameraState::Room10 == PlayerLink::GetPlayerCurRoomState())
+	if (CameraState::Room1 == PlayerLink::GetPlayerCurRoomState() ||
+		CameraState::Room6 == PlayerLink::GetPlayerCurRoomState() ||
+		CameraState::Room9 == PlayerLink::GetPlayerCurRoomState() ||
+		CameraState::Room11 == PlayerLink::GetPlayerCurRoomState()||
+		CameraState::Room14 == PlayerLink::GetPlayerCurRoomState())
 	{
 		if (false == IsInRoom_ && PotState::Death == CurPotState_)
 		{

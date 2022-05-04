@@ -33,10 +33,13 @@ public:
 	static GameEngineCollision* Room10LeftDoor0Col_;
 	static GameEngineCollision* Room7RightDoor0Col_;
 	static GameEngineCollision* Room7TopDoor0Col_;
+	static GameEngineCollision* Room4TreasureBoxCol_;
 	static GameEngineCollision* Room8TreasureBoxCol_;
 	static GameEngineCollision* Room5RightDoor0Col_;
 
+	static GameEngineActor* Room4TreasureBox_;
 	static GameEngineActor* Room8TreasureBox_;
+	static GameEngineRenderer* Room4ItemRenderer_;
 	static GameEngineRenderer* Room8ItemRenderer_;
 
 
@@ -69,6 +72,11 @@ private:
 	bool IsRoom2SwitchOn_;
 
 	//////////////////Room4
+	void Room4CheckTreasureBox();
+	bool IsRoom4CreateItemRenderer_;
+	float4 Room4ItemRendererPivot_;
+	float Room4ItemMoveTime_;
+	float CurRoom4ItemMoveTime_;
 	void Room4BallGen();
 	int Room4BallNumbers_;
 	float Room4BallCreateFreq_;
@@ -101,11 +109,11 @@ private:
 	void Room7DoorCheck();
 
 	//////////////////Room8
-	bool IsCreateItemRenderer_;
+	bool IsRoom8CreateItemRenderer_;
 	float4 Room8ItemRendererPivot_;
 	float Room8ItemMoveTime_;
 	float CurRoom8ItemMoveTime_;
-	void Room8CheckItemBox();
+	void Room8CheckTreasureBox();
 
 	//////////////////Room5
 	static GameEngineCollision* Room5SwitchCol_;

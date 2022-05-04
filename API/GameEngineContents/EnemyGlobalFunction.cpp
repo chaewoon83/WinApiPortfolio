@@ -177,35 +177,35 @@ void EnemyGlobalFunction::ItemGenPot(int _ItemNum, GameEngineActor* _Actor)
 	if (1 == _ItemNum)
 	{
 		ItemGreenRupee* Ptr = _Actor->GetLevel()->CreateActor<ItemGreenRupee>((int)PlayLevelOrder::BELOWPLAYER);
-		Ptr->SetGreenRupeePosition(_Actor->GetPosition());
+		Ptr->SetGreenRupeePosition(_Actor->GetPosition() - float4{0, 20});
 		return;
 	}
 
 	if (2 == _ItemNum)
 	{
 		ItemBlueRupee* Ptr = _Actor->GetLevel()->CreateActor<ItemBlueRupee>((int)PlayLevelOrder::BELOWPLAYER);
-		Ptr->SetBlueRupeePosition(_Actor->GetPosition());
+		Ptr->SetBlueRupeePosition(_Actor->GetPosition() - float4{ 0, 20 });
 		return;
 	}
 
 	if (3 == _ItemNum)
 	{
 		ItemRedRupee* Ptr = _Actor->GetLevel()->CreateActor<ItemRedRupee>((int)PlayLevelOrder::BELOWPLAYER);
-		Ptr->SetRedRupeePosition(_Actor->GetPosition());
+		Ptr->SetRedRupeePosition(_Actor->GetPosition() - float4{ 0, 20 });
 		return;
 	}
 
 	if (4 == _ItemNum)
 	{
 		ItemRecoveryHeart* Ptr = _Actor->GetLevel()->CreateActor<ItemRecoveryHeart>((int)PlayLevelOrder::BELOWPLAYER);
-		Ptr->SetPosition(_Actor->GetPosition());
+		Ptr->SetPosition(_Actor->GetPosition() - float4{ 0, 20 });
 		return;
 	}
 
 	if (5 == _ItemNum)
 	{
 		ItemRecoveryHeart* Ptr = _Actor->GetLevel()->CreateActor<ItemRecoveryHeart>((int)PlayLevelOrder::BELOWPLAYER);
-		Ptr->SetPosition(_Actor->GetPosition());
+		Ptr->SetPosition(_Actor->GetPosition() - float4{ 0, 20 });
 		return;
 	}
 

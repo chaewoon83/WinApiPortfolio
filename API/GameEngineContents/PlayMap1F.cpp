@@ -22,6 +22,7 @@
 #include "Map1FBridgeBackGround.h"
 
 #include "Map1FRoom1Pot0.h"
+#include "Map1FRoom4Pot0.h"
 #include "Map1FRoom10Pot0.h"
 #include "Map1FRoom10Pot0B1F.h"
 #include "Map1FRoom7Pot0.h"
@@ -95,7 +96,20 @@ void PlayMap1F::Loading()
 
 	CreateActor<Map1FBridgeBackGround>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 
-	Map1FRoom1Pot0* Room1Pot= nullptr;
+	Map1FRoom4Pot0* Room4Pot0 = CreateActor<Map1FRoom4Pot0>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	Room4Pot0->SetPotPos({ 3529.0f + 24.0f, 1124.0f + 24.0f + 4128.0f });
+	Room4Pot0->SetItemIndex(1);
+	Map1FRoom4Pot0* Room4Pot1 = CreateActor<Map1FRoom4Pot0>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	Room4Pot1->SetPotPos({ 3592.0f + 24.0f, 1124.0f + 24.0f + 4128.0f });
+	Room4Pot1->SetItemIndex(2);
+	Map1FRoom4Pot0* Room4Pot2 = CreateActor<Map1FRoom4Pot0>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	Room4Pot2->SetPotPos({ 3720.0f + 24.0f, 1124.0f + 24.0f + 4128.0f });
+	Room4Pot2->SetItemIndex(2);
+	Map1FRoom4Pot0* Room4Pot3 = CreateActor<Map1FRoom4Pot0>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	Room4Pot3->SetPotPos({ 3784.0f + 24.0f, 1124.0f + 24.0f + 4128.0f });
+	Room4Pot3->SetItemIndex(1);
+
+
 	Map1FRoom1Pot0* Room1Pot0 = CreateActor<Map1FRoom1Pot0>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 	Room1Pot0->SetPotPos({ 2561.0f, 3451.0f + 4128.0f });
 	Room1Pot0->SetItemIndex(1);

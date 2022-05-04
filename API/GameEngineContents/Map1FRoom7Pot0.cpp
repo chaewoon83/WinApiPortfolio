@@ -5,6 +5,7 @@
 #include <GameEngineBase/GameEngineInput.h>
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngine/GameEngineRenderer.h>
+#include "EnemyGlobalFunction.h"
 #include "PlayerLink.h"
 
 //2536, 3428
@@ -81,6 +82,7 @@ void Map1FRoom7Pot0::InAirStart()
 
 void Map1FRoom7Pot0::DeathAnimationStart()
 {
+	Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::ABOVEBACKGROUNDROOF));
 	if (true == PotHitBox_->IsUpdate())
 	{
 		PotHitBox_->Off();
@@ -102,6 +104,7 @@ void Map1FRoom7Pot0::IdleUpdate()
 	{
 		BlockCol_->Off();
 		PickUpCol_->Off();
+		EnemyGlobalFunction::ItemGenPot(ItemIndex_, this);
 		PotStateChange(PotState::Carried);
 		return;
 	}

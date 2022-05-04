@@ -12,6 +12,7 @@
 #include "EnemyBall.h"
 #include "EnemyGargantuanBall.h"
 
+#include "Map1FRoom4TreasureBox.h"
 #include "Map1FRoom8TreasureBox.h"
 
 #include "Map1FRoom7EnemyBlueStalfos0.h"
@@ -32,8 +33,10 @@ GameEngineCollision* Map1F_2::Room10RightDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room10LeftDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room7RightDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room7TopDoor0Col_ = nullptr;
-GameEngineCollision* Map1F_2::Room8TreasureBoxCol_ = nullptr;
 GameEngineCollision* Map1F_2::Room5RightDoor0Col_ = nullptr;
+
+GameEngineCollision* Map1F_2::Room4TreasureBoxCol_ = nullptr;
+GameEngineCollision* Map1F_2::Room8TreasureBoxCol_ = nullptr;
 
 GameEngineCollision* Map1F_2::Room1SwitchCol_ = nullptr;
 GameEngineCollision* Map1F_2::Room2SwitchCol_ = nullptr;
@@ -41,7 +44,10 @@ GameEngineCollision* Map1F_2::Room10SwitchCol_1_ = nullptr;
 GameEngineCollision* Map1F_2::Room10SwitchCol_2_ = nullptr;
 GameEngineCollision* Map1F_2::Room5SwitchCol_ = nullptr;
 
+GameEngineActor* Map1F_2::Room4TreasureBox_ = nullptr;
 GameEngineActor* Map1F_2::Room8TreasureBox_ = nullptr;
+
+GameEngineRenderer* Map1F_2::Room4ItemRenderer_ = nullptr;
 GameEngineRenderer* Map1F_2::Room8ItemRenderer_ = nullptr;
 
 
@@ -52,6 +58,10 @@ Map1F_2::Map1F_2()
 	, IsRoom2PlayerOnSwitch_(false)
 	, IsRoom2TimeStop_(false)
 	, IsRoom2SwitchOn_(false)
+	, IsRoom4CreateItemRenderer_(false)
+	, Room4ItemRendererPivot_(float4{ 3650 + 30 ,1116 + 30 + 4128 })
+	, Room4ItemMoveTime_(1.0f)
+	, CurRoom4ItemMoveTime_(0.0f)
 	, Room4BallNumbers_(0)
 	, Room4BallCreateFreq_(1.0f)
 	, Room4CurBallCreateFreq_(0.0f)
@@ -66,7 +76,7 @@ Map1F_2::Map1F_2()
 	, IsRoom7DoorOpened_(false)
 	, SummonIndex_(0)
 	, SummonEffect_(nullptr)
-	, IsCreateItemRenderer_(false)
+	, IsRoom8CreateItemRenderer_(false)
 	, Room8ItemRendererPivot_(float4{ 420 + 28 ,2324 + 30 })
 	, Room8ItemMoveTime_(1.0f)
 	, CurRoom8ItemMoveTime_(0.0f)
@@ -105,8 +115,11 @@ void Map1F_2::Start()
 	Room10SwitchCol_1_ = CreateCollision("Switch", { 56, 40 }, { 2244 + 28, 3332 + 20});
 	Room10SwitchCol_2_ = CreateCollision("Switch", { 56, 40 }, { 3844 + 28, 2616 + 20 });
 	Room5SwitchCol_ = CreateCollision("Switch", { 56, 40 }, { 4868 + 28, 612 + 20 + 4128});
+
+	Room4TreasureBoxCol_ = CreateCollision("TreasureBox", { 16, 1 }, { 3672 + 8, 1184 + 4128 });
 	Room8TreasureBoxCol_ = CreateCollision("TreasureBox", { 16, 1 }, { 440 + 8, 2400 });
 
+	Room4TreasureBox_ = GetLevel()->CreateActor<Map1FRoom4TreasureBox>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 	Room8TreasureBox_ = GetLevel()->CreateActor<Map1FRoom8TreasureBox>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 
 }
@@ -115,12 +128,13 @@ void Map1F_2::Update()
 {
 	Room1SwitchCheck();
 	Room2SwitchCheck();
+	Room4CheckTreasureBox();
 	Room4BallGen();
 	Room10SwitchCheck();
 	Room9CheckStatus();
 	Room7SummonEnemies();
 	Room7DoorCheck();
-	Room8CheckItemBox();
+	Room8CheckTreasureBox();
 	Room5SwitchCheck();
 }
 void Map1F_2::Render()
@@ -310,6 +324,37 @@ void Map1F_2::Room2SwitchCheck()
 			//Room2BotDoor0_->ChangeAnimationReset("Close_Bot");
 			Room2TopDoor0Col_->On();
 			Room2BotDoor0Col_->On();
+		}
+	}
+}
+
+void Map1F_2::Room4CheckTreasureBox()
+{
+
+	if (CameraState::Room4 == PlayerLink::GetPlayerCurRoomState())
+	{
+		if (CameraState::Room4 != CurRoomState_)
+		{
+			CurRoomState_ = PlayerLink::GetPlayerCurRoomState();
+		}
+
+		if (true == PlayerLink::GetIsInItemCutScene())
+		{
+			if (false == IsRoom4CreateItemRenderer_)
+			{
+				IsRoom4CreateItemRenderer_ = true;
+				Room4ItemRenderer_ = CreateRenderer("Item50Rupee.bmp");
+				Room4ItemRenderer_->SetPivot(Room4ItemRendererPivot_);
+			}
+			if (true == IsRoom4CreateItemRenderer_)
+			{
+				if (Room4ItemMoveTime_ > CurRoom4ItemMoveTime_)
+				{
+					CurRoom4ItemMoveTime_ += GameEngineTime::GetDeltaTime();
+					Room4ItemRendererPivot_ = { Room4ItemRendererPivot_.x ,Room4ItemRendererPivot_.y - 50.0f * GameEngineTime::GetDeltaTime() };
+					Room4ItemRenderer_->SetPivot(Room4ItemRendererPivot_);
+				}
+			}
 		}
 	}
 }
@@ -521,7 +566,7 @@ void Map1F_2::Room7DoorCheck()
 	}
 }
 
-void Map1F_2::Room8CheckItemBox()
+void Map1F_2::Room8CheckTreasureBox()
 {
 
 	if (CameraState::Room8 == PlayerLink::GetPlayerCurRoomState())
@@ -533,13 +578,13 @@ void Map1F_2::Room8CheckItemBox()
 
 		if (true == PlayerLink::GetIsInItemCutScene())
 		{
-			if (false == IsCreateItemRenderer_)
+			if (false == IsRoom8CreateItemRenderer_)
 			{
-				IsCreateItemRenderer_ = true;
+				IsRoom8CreateItemRenderer_ = true;
 				Room8ItemRenderer_ = CreateRenderer("ItemCompass.bmp");
 				Room8ItemRenderer_->SetPivot(Room8ItemRendererPivot_);
 			}
-			if (true == IsCreateItemRenderer_)
+			if (true == IsRoom8CreateItemRenderer_)
 			{
 				if (Room8ItemMoveTime_ > CurRoom8ItemMoveTime_)
 				{
