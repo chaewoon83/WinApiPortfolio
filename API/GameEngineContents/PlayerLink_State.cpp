@@ -24,7 +24,7 @@ void PlayerLink::IdleUpdate()
 
 	if (true == GameEngineInput::GetInst()->IsPress("Special"))
 	{
-		PlayerRenderer_->ChangeAnimation("Charge_Wield_Down");
+		PlayerRenderer_->ChangeAnimation("Charge_Up");
 	}
 
 	if (true == GameEngineInput::GetInst()->IsPress("MoveUp") && false == IsBlackScreenOn_)

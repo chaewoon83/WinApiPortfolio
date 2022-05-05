@@ -184,10 +184,15 @@ void PlayerLink::Start()
 	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Up.bmp", "Carry_Move_Up", 0, 4, 0.1f, true);
 	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Down.bmp", "Carry_Move_Down", 0, 4, 0.1f, true);
 
-	PlayerRenderer_->CreateAnimation("Charge_Attack_Right.bmp", "Charge_Wield_Right", 0, 11, 0.06f, true);
-	PlayerRenderer_->CreateAnimation("Charge_Attack_Left.bmp", "Charge_Wield_Left", 0, 11, 0.06f, true);
-	PlayerRenderer_->CreateAnimation("Charge_Attack_Up.bmp", "Charge_Wield_Up", 0, 11, 0.06f, true);
-	PlayerRenderer_->CreateAnimation("Charge_Attack_Down.bmp", "Charge_Wield_Down", 0, 11, 0.06f, true);
+	PlayerRenderer_->CreateAnimation("Link_Charge_Attack_Right.bmp", "Charge_Wield_Right", 0, 11, 0.06f, true);
+	PlayerRenderer_->CreateAnimation("Link_Charge_Attack_Left.bmp", "Charge_Wield_Left", 0, 11, 0.06f, true);
+	PlayerRenderer_->CreateAnimation("Link_Charge_Attack_Up.bmp", "Charge_Wield_Up", 0, 11, 0.06f, true);
+	PlayerRenderer_->CreateAnimation("Link_Charge_Attack_Down.bmp", "Charge_Wield_Down", 0, 11, 0.06f, true);
+
+	PlayerRenderer_->CreateAnimation("Link_Charge_Right.bmp", "Charge_Right", 0, 0, 0.06f, false);
+	PlayerRenderer_->CreateAnimation("Link_Charge_Left.bmp", "Charge_Left", 0, 0, 0.06f, false);
+	PlayerRenderer_->CreateAnimation("Link_Charge_Up.bmp", "Charge_Up", 0, 0, 0.06f, false);
+	PlayerRenderer_->CreateAnimation("Link_Charge_Down.bmp", "Charge_Down", 0, 0, 0.06f, false);
 
 	PlayerRenderer_->ChangeAnimation("Idle_Down");
 
@@ -869,6 +874,30 @@ void PlayerLink::PlayerChangeState(PlayerState _State)
 		case PlayerState::WieldDown_1:
 			WieldDownStart();
 			break;
+		case PlayerState::ChargingRight:
+			ChargingRightStart();
+			break;
+		case PlayerState::ChargingLeft:
+			ChargingLeftStart();
+			break;
+		case PlayerState::ChargingUp:
+			ChargingUpStart();
+			break;
+		case PlayerState::ChargingDown:
+			ChargingDownStart();
+			break;
+		case PlayerState::ChargeWieldRight:
+			ChargeWieldRightStart();
+			break;
+		case PlayerState::ChargeWieldLeft:
+			ChargeWieldLeftStart();
+			break;
+		case PlayerState::ChargeWieldUp:
+			ChargeWieldUpStart();
+			break;
+		case PlayerState::ChargeWieldDown:
+			ChargeWieldDownStart();
+			break;
 		case PlayerState::DamagedRight:
 			DamagedRightStart();
 			break;
@@ -952,6 +981,18 @@ void PlayerLink::PlayerStateUpdate()
 	case PlayerState::WieldUp_1:
 	case PlayerState::WieldDown_1:
 		WieldUpdate();
+		break;
+	case PlayerState::ChargingRight:
+	case PlayerState::ChargingLeft:
+	case PlayerState::ChargingUp:
+	case PlayerState::ChargingDown:
+		ChargingUpdate();
+		break;
+	case PlayerState::ChargeWieldRight:
+	case PlayerState::ChargeWieldLeft:
+	case PlayerState::ChargeWieldUp:
+	case PlayerState::ChargeWieldDown:
+		ChargeWieldUpdate();
 		break;
 	case PlayerState::DamagedRight:
 	case PlayerState::DamagedLeft:

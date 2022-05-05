@@ -142,10 +142,16 @@ void Zelda::TotalImageCut()
 	ImageCutter("Link_Carry_Move_Up.bmp", 5, 1);
 	ImageCutter("Link_Carry_Move_Down.bmp", 5, 1);
 
-	ImageCutter("Charge_Attack_Right.bmp", 12, 1);
-	ImageCutter("Charge_Attack_Left.bmp", 12, 1);
-	ImageCutter("Charge_Attack_Up.bmp", 12, 1);
-	ImageCutter("Charge_Attack_Down.bmp", 12, 1);
+	ImageCutter("Link_Charge_Attack_Right.bmp", 12, 1);
+	ImageCutter("Link_Charge_Attack_Left.bmp", 12, 1);
+	ImageCutter("Link_Charge_Attack_Up.bmp", 12, 1);
+	ImageCutter("Link_Charge_Attack_Down.bmp", 12, 1);
+
+	ImageCutter("Link_Charge_Right.bmp", 1, 1);
+	ImageCutter("Link_Charge_Left.bmp", 1, 1);
+	ImageCutter("Link_Charge_Up.bmp", 1, 1);
+	ImageCutter("Link_Charge_Down.bmp", 1, 1);
+
 
 	//Map Object
 	ImageCutter("Right_Door_Open_Animation.bmp", 3, 1);

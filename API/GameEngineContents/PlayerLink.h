@@ -134,13 +134,28 @@ private:
 private:
 	void IdleUpdate();
 
-	void WieldUpdate();
 	void MoveUpdate();
-	void DamagedUpdate();
+
+	void WieldUpdate();
 	void WieldRightUpdate();
 	void WieldLeftUpdate();
 	void WieldUpUpdate();
 	void WieldDownUpdate();
+
+	void ChargingUpdate();
+	void ChargingRight();
+	void ChargingLeft();
+	void ChargingUp();
+	void ChargingDown();
+
+	void ChargeWieldUpdate();
+	void ChargeWieldRight();
+	void ChargeWieldLeft();
+	void ChargeWieldUp();
+	void ChargeWieldDown();
+
+	void DamagedUpdate();
+
 	void CarryStartUpdate();
 	void CarryIdleUpdate();
 	void CarryMoveUpdate();
@@ -149,26 +164,42 @@ private:
 	void IdleLeftStart();
 	void IdleUpStart();
 	void IdleDownStart();
+
 	void MoveRightStart();
 	void MoveLeftStart();
 	void MoveUpStart();
 	void MoveDownStart();
+
 	void WieldRightStart();
 	void WieldLeftStart();
 	void WieldUpStart();
 	void WieldDownStart();
+
+	void ChargingRightStart();
+	void ChargingLeftStart();
+	void ChargingUpStart();
+	void ChargingDownStart();
+
+	void ChargeWieldRightStart();
+	void ChargeWieldLeftStart();
+	void ChargeWieldUpStart();
+	void ChargeWieldDownStart();
+
 	void DamagedRightStart();
 	void DamagedLeftStart();
 	void DamagedUpStart();
 	void DamagedDownStart();
+
 	void CarryStartRightStart();
 	void CarryStartLeftStart();
 	void CarryStartUpStart();
 	void CarryStartDownStart();
+
 	void CarryIdleRightStart();
 	void CarryIdleLeftStart();
 	void CarryIdleUpStart();
 	void CarryIdleDownStart();
+
 	void CarryMoveRightStart();
 	void CarryMoveLeftStart();
 	void CarryMoveUpStart();
