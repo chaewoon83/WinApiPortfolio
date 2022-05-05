@@ -184,6 +184,11 @@ void PlayerLink::Start()
 	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Up.bmp", "Carry_Move_Up", 0, 4, 0.1f, true);
 	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Down.bmp", "Carry_Move_Down", 0, 4, 0.1f, true);
 
+	PlayerRenderer_->CreateAnimation("Charge_Attack_Right.bmp", "Charge_Wield_Right", 0, 11, 0.06f, true);
+	PlayerRenderer_->CreateAnimation("Charge_Attack_Left.bmp", "Charge_Wield_Left", 0, 11, 0.06f, true);
+	PlayerRenderer_->CreateAnimation("Charge_Attack_Up.bmp", "Charge_Wield_Up", 0, 11, 0.06f, true);
+	PlayerRenderer_->CreateAnimation("Charge_Attack_Down.bmp", "Charge_Wield_Down", 0, 11, 0.06f, true);
+
 	PlayerRenderer_->ChangeAnimation("Idle_Down");
 
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다
@@ -198,6 +203,8 @@ void PlayerLink::Start()
 		GameEngineInput::GetInst()->CreateKey("MoveDown", 'S');
 		GameEngineInput::GetInst()->CreateKey("Attack", 'K');
 		GameEngineInput::GetInst()->CreateKey("InterAct", 'L');
+		GameEngineInput::GetInst()->CreateKey("Special", 'J');
+
 		GameEngineInput::GetInst()->CreateKey("Debug", '9');
 	}
 	MapColImage_1_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_1_1F_ColMap.bmp");
