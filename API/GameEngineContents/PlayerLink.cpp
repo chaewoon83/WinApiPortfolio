@@ -11,6 +11,7 @@
 #include <GameEngine/GameEngineLevel.h>
 #include <GameEngine/GameEngineCollision.h>
 
+#include "Room3Block0.h"
 #include "Map1F.h"
 #include "Boomerang.h"
 
@@ -77,6 +78,9 @@ PlayerLink::PlayerLink()
 	, IsCameraAutoMove_(false)
 	, IsCharacterAutoMove_(false)
 	, AutoMoveDir_(float4::ZERO)
+	, PushTime_(0.5f)
+	, CurPushTime_(0.0f)
+	, PushLength_(0.0f)
 	, PlayerCollision_(nullptr)
 	, SwordCollision_(nullptr)
 	, AnimationTimer_(0.0f)
@@ -100,6 +104,7 @@ PlayerLink::PlayerLink()
 	, BlackScreenTime_(0.0f)
 	, LigthBlackScreen0_Main_(nullptr)
 	, LigthBlackScreen1_Main_(nullptr)
+	, IsObjectMovingSoundPlayerOn_(false)
 
 {
 }
@@ -122,6 +127,10 @@ void PlayerLink::Start()
 	PlayerBotLeftCollision_ = CreateCollision("PlayerBotLeftHitBox", { 20, 20 }, { -22, 34 });
 	PlayerMiddleHorCollision_ = CreateCollision("PlayerBotLeftHitBox", { 64, 24 }, { 0, 12 });
 	PlayerMiddleVerCollision_ = CreateCollision("PlayerBotLeftHitBox", { 24, 64 }, { 0, 12 });
+	PlayerRightCollision_ = CreateCollision("PlayerRightHitBox", { 1, 60 }, { 65, 0 });
+	PlayerLeftCollision_ = CreateCollision("PlayerRightHitBox", { 1, 60 }, { -65, 0 });
+	PlayerTopCollision_ = CreateCollision("PlayerTopHitBox", { 60, 1 }, { 0, -65 });
+	PlayerBotCollision_ = CreateCollision("PlayerBotHitBox", { 60, 1 }, { 0, 65 });
 
 	SwordCollision_ = CreateCollision("Sword", { 0, 0 });
 	SwordCollision_->Off();
@@ -332,11 +341,38 @@ void PlayerLink::Update()
 	BlinkUpdate();
 	ItemCollectUpdate();
 	HPCheck();
+	PushRoom3Block();
 }
 //렌더러가 다 돌고 액터들의 랜더함수를 호출한다
 void PlayerLink::Render()
 {
 
+}
+
+void PlayerLink::PushRoom3Block()
+{
+	std::vector<GameEngineCollision*> ColList;
+	if (true == PlayerTopCollision_->CollisionResult("Room3Block", ColList) && PlayerState::MoveUp == PlayerCurState_)
+	{
+		CurPushTime_ += GameEngineTime::GetDeltaTime(0);
+		if (PushTime_ < CurPushTime_ && 66.0f > PushLength_)
+		{
+
+			PushLength_ += 20.0f * GameEngineTime::GetDeltaTime(0);;
+			Room3Block0::GetRoom3Block0()->SetMove({ 0, -20.0f * GameEngineTime::GetDeltaTime(0) });
+			if (false == IsObjectMovingSoundPlayerOn_)
+			{
+				ObjectMovingSoundPlayer_ = GameEngineSound::SoundPlayControl("objectmoving.mp3", -1);
+				IsObjectMovingSoundPlayerOn_ = true;
+			}
+		}
+	}
+	else
+	{
+		IsObjectMovingSoundPlayerOn_ = false;
+		ObjectMovingSoundPlayer_.Stop();
+		CurPushTime_ = 0.0f;
+	}
 }
 
 void PlayerLink::HPCheck()
@@ -475,7 +511,12 @@ bool PlayerLink::IsDownMoveKey()
 void PlayerLink::SpeedCheck(float4 _Pos)
 {
 	int Purple = RGB(255, 0, 255);
-	if (Purple == MapColImage_->GetImagePixel(_Pos))
+	float4 MyPos = _Pos;
+	if (false == IsMap1F_2)
+	{
+		MyPos -= float4{ 0, 4128 };
+	}
+	if (Purple == MapColImage_->GetImagePixel(MyPos))
 	{
 		CurSpeed_ = OriginalSpeed_ * 0.5f;
 	}

@@ -26,6 +26,7 @@ private:
 	GameEngineSoundPlayer BGMSoundPlayer_;
 	PlayerLink* Player_;
 	void ResetTimeScale();
+	void CreatePot();
 };
 
 

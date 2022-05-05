@@ -267,6 +267,10 @@
     <ClInclude Include="Map1FRoom10EnemyBlueStalfos0.h" />
     <ClInclude Include="Map1FRoom10Pot0.h" />
     <ClInclude Include="Map1FRoom10Pot0B1F.h" />
+    <ClInclude Include="Map1FRoom10TreasureBox.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
     <ClInclude Include="Map1FRoom1Pot0.h">
       <SubType>
       </SubType>
@@ -276,6 +280,12 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="Map1FRoom3EmptyTreasureBox.h" />
+    <ClInclude Include="Map1FRoom3EnemyBlueStalfos0.h" />
+    <ClInclude Include="Map1FRoom3EnemyPopo0.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom3Pot0.h" />
     <ClInclude Include="Map1FRoom3TreasureBox.h" />
     <ClInclude Include="Map1FRoom4Pot0.h" />
     <ClInclude Include="Map1FRoom4TreasureBox.h" />
@@ -304,6 +314,10 @@
       </SubType>
     </ClInclude>
     <ClInclude Include="PlayMapB1F.h">
+      <SubType>
+      </SubType>
+    </ClInclude>
+    <ClInclude Include="Room3Block0.h">
       <SubType>
       </SubType>
     </ClInclude>
@@ -492,6 +506,10 @@
     <ClCompile Include="Map1FRoom10EnemyBlueStalfos0.cpp" />
     <ClCompile Include="Map1FRoom10Pot0.cpp" />
     <ClCompile Include="Map1FRoom10Pot0B1F.cpp" />
+    <ClCompile Include="Map1FRoom10TreasureBox.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
     <ClCompile Include="Map1FRoom1Pot0.cpp">
       <SubType>
       </SubType>
@@ -501,6 +519,12 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="Map1FRoom3EmptyTreasureBox.cpp" />
+    <ClCompile Include="Map1FRoom3EnemyBlueStalfos0.cpp" />
+    <ClCompile Include="Map1FRoom3EnemyPopo0.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom3Pot0.cpp" />
     <ClCompile Include="Map1FRoom3TreasureBox.cpp" />
     <ClCompile Include="Map1FRoom4Pot0.cpp" />
     <ClCompile Include="Map1FRoom4TreasureBox.cpp" />
@@ -531,6 +555,10 @@
       </SubType>
     </ClCompile>
     <ClCompile Include="PlayMapB1F.cpp">
+      <SubType>
+      </SubType>
+    </ClCompile>
+    <ClCompile Include="Room3Block0.cpp">
       <SubType>
       </SubType>
     </ClCompile>

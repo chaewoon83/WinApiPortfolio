@@ -46,13 +46,17 @@ public:
 	static GameEngineCollision* Room4TreasureBoxCol_;
 	static GameEngineCollision* Room8TreasureBoxCol_;
 	static GameEngineCollision* Room3TreasureBoxCol_;
+	static GameEngineCollision* Room10TreasureBoxCol_;
 
 	static GameEngineActor* Room4TreasureBox_;
 	static GameEngineActor* Room8TreasureBox_;
 	static GameEngineActor* Room3TreasureBox_;
+	static GameEngineActor* Room3EmptyTreasureBox_;
+	static GameEngineActor* Room10TreasureBox_;
 	static GameEngineRenderer* Room4ItemRenderer_;
 	static GameEngineRenderer* Room8ItemRenderer_;
 	static GameEngineRenderer* Room3ItemRenderer_;
+	static GameEngineRenderer* Room10ItemRenderer_;
 
 
 	//3012,2596 56,40 => 3040,2576
@@ -102,6 +106,13 @@ private:
 	bool IsRoom10PlayerOnSwitch_;
 	bool IsRoom10SwitchOn_;
 
+	bool IsRoom10CreateItemRenderer_;
+	float4 Room10ItemRendererPivot_;
+	float Room10ItemMoveTime_;
+	float CurRoom10ItemMoveTime_;
+	void Room10CheckTreasureBox();
+
+
 	//////////////////Room9
 	void Room9CheckStatus();
 
@@ -139,12 +150,13 @@ private:
 	static GameEngineCollision* Room3SwitchCol_;
 	void Room3SwitchCheck();
 	bool IsRoom3SwitchOn_;
-
 	bool IsRoom3CreateItemRenderer_;
+	bool IsRoom3KeyDoorOpened_;
 	float4 Room3ItemRendererPivot_;
 	float Room3ItemMoveTime_;
 	float CurRoom3ItemMoveTime_;
 	void Room3CheckTreasureBox();
+	void Room3CheckKeyDoor();
 
 
 };

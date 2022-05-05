@@ -70,6 +70,10 @@ private:
 	GameEngineCollision* PlayerBotLeftCollision_;
 	GameEngineCollision* PlayerMiddleHorCollision_;
 	GameEngineCollision* PlayerMiddleVerCollision_;
+	GameEngineCollision* PlayerRightCollision_;
+	GameEngineCollision* PlayerLeftCollision_;
+	GameEngineCollision* PlayerTopCollision_;
+	GameEngineCollision* PlayerBotCollision_;
 	GameEngineCollision* SwordCollision_;
 	GameEngineCollision* SwitchCollision_;
 
@@ -111,6 +115,11 @@ private:
 
 	bool IsCharacterAutoMove_;
 	float4 AutoMoveDir_;
+
+	void PushRoom3Block();
+	float PushTime_;
+	float CurPushTime_;
+	float PushLength_;
 
 	void PlayerAutoMove();
 	void PlayerAutoMove(float _Speed);
@@ -298,6 +307,8 @@ private:
 	GameEngineSoundPlayer SwordSoundPlayer_;
 	GameEngineSoundPlayer BGMSoundPlayer_;
 	GameEngineSoundPlayer HpLowSoundPlayer_;
+	GameEngineSoundPlayer ObjectMovingSoundPlayer_;
+	bool IsObjectMovingSoundPlayerOn_;
 	/////////////////////////////////////////////////////////////////////Getter
 public:
 	inline static PlayerState GetPlayerCurState()

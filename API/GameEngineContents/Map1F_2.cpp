@@ -16,6 +16,8 @@
 #include "Map1FRoom4TreasureBox.h"
 #include "Map1FRoom8TreasureBox.h"
 #include "Map1FRoom3TreasureBox.h"
+#include "Map1FRoom3EmptyTreasureBox.h"
+#include "Map1FRoom10TreasureBox.h"
 
 #include "Map1FRoom7EnemyBlueStalfos0.h"
 
@@ -44,10 +46,6 @@ GameEngineCollision* Map1F_2::Room5LeftKeyDoor0Col2_ = nullptr;
 GameEngineCollision* Map1F_2::Room3TopBigKeyDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room3TopBigKeyDoor0Col2_ = nullptr;
 
-GameEngineCollision* Map1F_2::Room4TreasureBoxCol_ = nullptr;
-GameEngineCollision* Map1F_2::Room8TreasureBoxCol_ = nullptr;
-GameEngineCollision* Map1F_2::Room3TreasureBoxCol_ = nullptr;
-
 GameEngineCollision* Map1F_2::Room1SwitchCol_ = nullptr;
 GameEngineCollision* Map1F_2::Room2SwitchCol_ = nullptr;
 GameEngineCollision* Map1F_2::Room10SwitchCol_1_ = nullptr;
@@ -55,13 +53,21 @@ GameEngineCollision* Map1F_2::Room10SwitchCol_2_ = nullptr;
 GameEngineCollision* Map1F_2::Room5SwitchCol_ = nullptr;
 GameEngineCollision* Map1F_2::Room3SwitchCol_ = nullptr;
 
+GameEngineCollision* Map1F_2::Room4TreasureBoxCol_ = nullptr;
+GameEngineCollision* Map1F_2::Room8TreasureBoxCol_ = nullptr;
+GameEngineCollision* Map1F_2::Room3TreasureBoxCol_ = nullptr;
+GameEngineCollision* Map1F_2::Room10TreasureBoxCol_ = nullptr;
+
 GameEngineActor* Map1F_2::Room4TreasureBox_ = nullptr;
 GameEngineActor* Map1F_2::Room8TreasureBox_ = nullptr;
 GameEngineActor* Map1F_2::Room3TreasureBox_ = nullptr;
+GameEngineActor* Map1F_2::Room3EmptyTreasureBox_ = nullptr;
+GameEngineActor* Map1F_2::Room10TreasureBox_ = nullptr;
 
 GameEngineRenderer* Map1F_2::Room4ItemRenderer_ = nullptr;
 GameEngineRenderer* Map1F_2::Room8ItemRenderer_ = nullptr;
 GameEngineRenderer* Map1F_2::Room3ItemRenderer_ = nullptr;
+GameEngineRenderer* Map1F_2::Room10ItemRenderer_ = nullptr;
 
 
 Map1F_2::Map1F_2()
@@ -81,6 +87,10 @@ Map1F_2::Map1F_2()
 	, IsRoom10PlayerOnSwitch_(false)
 	, IsRoom10TimeStop_(false)
 	, IsRoom10SwitchOn_(false)
+	, IsRoom10CreateItemRenderer_(false)
+	, Room10ItemRendererPivot_(float4{3058 + 14, 2888 + 32})
+	, Room10ItemMoveTime_(1.0f)
+	, CurRoom10ItemMoveTime_(0.0f)
 	, CurRoomState_(CameraState::Room1)
 	, IsRoom7First_(false)
 	, IsRoom7Summoning_(false)
@@ -99,7 +109,8 @@ Map1F_2::Map1F_2()
 	, IsRoom5KeyDoorOpened_(false)
 	, IsRoom3SwitchOn_(false)
 	, IsRoom3CreateItemRenderer_(false)
-	, Room3ItemRendererPivot_(float4{ 1540 + 28 , 468 + 32 })
+	, IsRoom3KeyDoorOpened_(false)
+	, Room3ItemRendererPivot_(float4{ 1540 + 28 , 468 + 32 + 4128})
 	, Room3ItemMoveTime_(1.0f)
 	, CurRoom3ItemMoveTime_(0.0f)
 
@@ -139,10 +150,12 @@ void Map1F_2::Start()
 
 	Room4TreasureBoxCol_ = CreateCollision("TreasureBox", { 16, 1 }, { 3672 + 8, 1184 + 4128 });
 	Room8TreasureBoxCol_ = CreateCollision("TreasureBox", { 16, 1 }, { 440 + 8, 2400 });
-	Room8TreasureBoxCol_ = CreateCollision("TreasureBox", { 16, 2 }, { 1560 + 8, 544 + 4128});
+	Room3TreasureBoxCol_ = CreateCollision("TreasureBox", { 16, 2 }, { 1560 + 8, 544 + 4128});
+	Room10TreasureBoxCol_ = CreateCollision("TreasureBox", { 72, 1 }, { 3036 + 36, 2978});
 
 	Room4TreasureBox_ = GetLevel()->CreateActor<Map1FRoom4TreasureBox>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 	Room8TreasureBox_ = GetLevel()->CreateActor<Map1FRoom8TreasureBox>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+	Room10TreasureBox_ = GetLevel()->CreateActor<Map1FRoom10TreasureBox>(static_cast<int>(PlayLevelOrder::B1FBELOWPLAYER));
 
 
 }
@@ -154,12 +167,15 @@ void Map1F_2::Update()
 	Room4CheckTreasureBox();
 	Room4BallGen();
 	Room10SwitchCheck();
+	Room10CheckTreasureBox();
 	Room9CheckStatus();
 	Room7SummonEnemies();
 	Room7DoorCheck();
 	Room8CheckTreasureBox();
 	Room5SwitchCheck();
 	Room3SwitchCheck();
+	Room3CheckTreasureBox();
+	Room3CheckKeyDoor();
 }
 void Map1F_2::Render()
 {
@@ -516,6 +532,36 @@ void Map1F_2::Room10SwitchCheck()
 
 }
 
+void Map1F_2::Room10CheckTreasureBox()
+{
+	if (CameraState::Room10 == PlayerLink::GetPlayerCurRoomState())
+	{
+		if (CameraState::Room10 != CurRoomState_)
+		{
+			CurRoomState_ = PlayerLink::GetPlayerCurRoomState();
+		}
+
+		if (true == PlayerLink::GetIsInItemCutScene())
+		{
+			if (false == IsRoom10CreateItemRenderer_)
+			{
+				IsRoom10CreateItemRenderer_ = true;
+				Room10ItemRenderer_ = CreateRenderer("ItemBow.bmp");
+				Room10ItemRenderer_->SetPivot(Room10ItemRendererPivot_);
+			}
+			if (true == IsRoom10CreateItemRenderer_)
+			{
+				if (Room10ItemMoveTime_ > CurRoom10ItemMoveTime_)
+				{
+					CurRoom10ItemMoveTime_ += GameEngineTime::GetDeltaTime();
+					Room10ItemRendererPivot_ = { Room10ItemRendererPivot_.x ,Room10ItemRendererPivot_.y - 50.0f * GameEngineTime::GetDeltaTime() };
+					Room10ItemRenderer_->SetPivot(Room10ItemRendererPivot_);
+				}
+			}
+		}
+	}
+}
+
 void Map1F_2::Room9CheckStatus()
 {
 	if (CameraState::Room9 == PlayerLink::GetPlayerCurRoomState())
@@ -740,14 +786,78 @@ void Map1F_2::Room5SwitchCheck()
 
 void Map1F_2::Room3SwitchCheck()
 {
-	if (false == IsRoom3SwitchOn_)
+	if (CameraState::Room3 == PlayerLink::GetPlayerCurRoomState())
 	{
-		if (true == Room3SwitchCol_->CollisionCheck("PlayerLowerBodyHitBox", CollisionType::Rect, CollisionType::Rect))
+		if (CameraState::Room3 != CurRoomState_)
 		{
-			GameEngineSound::SoundPlayOneShot("chestappears.mp3");
-			IsRoom3SwitchOn_ = true;
-			Room3TreasureBox_ = GetLevel()->CreateActor<Map1FRoom3TreasureBox>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
-			Room5SwitchCol_->Off();
+			CurRoomState_ = PlayerLink::GetPlayerCurRoomState();
+		}
+
+		if (false == IsRoom3SwitchOn_)
+		{
+			if (true == Room3SwitchCol_->CollisionCheck("PlayerLowerBodyHitBox", CollisionType::Rect, CollisionType::Rect))
+			{
+				GameEngineSound::SoundPlayOneShot("chestappears.mp3");
+				IsRoom3SwitchOn_ = true;
+				Room3EmptyTreasureBox_ = GetLevel()->CreateActor<Map1FRoom3EmptyTreasureBox>(static_cast<int>(PlayLevelOrder::BACKGROUND));
+				Room3TreasureBox_ = GetLevel()->CreateActor<Map1FRoom3TreasureBox>(static_cast<int>(PlayLevelOrder::BACKGROUND));
+				Room5SwitchCol_->Off();
+			}
+		}
+	}
+
+}
+
+void Map1F_2::Room3CheckTreasureBox()
+{
+	if (CameraState::Room3 == PlayerLink::GetPlayerCurRoomState())
+	{
+		if (CameraState::Room3 != CurRoomState_)
+		{
+			CurRoomState_ = PlayerLink::GetPlayerCurRoomState();
+		}
+
+		if (true == PlayerLink::GetIsInItemCutScene())
+		{
+			if (false == IsRoom3CreateItemRenderer_)
+			{
+				IsRoom3CreateItemRenderer_ = true;
+				Room3ItemRenderer_ = CreateRenderer("ItemBigKey.bmp");
+				Room3ItemRenderer_->SetPivot(Room3ItemRendererPivot_);
+			}
+			if (true == IsRoom3CreateItemRenderer_)
+			{
+				if (Room3ItemMoveTime_ > CurRoom3ItemMoveTime_)
+				{
+					CurRoom3ItemMoveTime_ += GameEngineTime::GetDeltaTime();
+					Room3ItemRendererPivot_ = { Room3ItemRendererPivot_.x ,Room3ItemRendererPivot_.y - 50.0f * GameEngineTime::GetDeltaTime() };
+					Room3ItemRenderer_->SetPivot(Room3ItemRendererPivot_);
+				}
+			}
+		}
+	}
+}
+
+void Map1F_2::Room3CheckKeyDoor()
+{
+	if (CameraState::Room3 == PlayerLink::GetPlayerCurRoomState())
+	{
+		if (CameraState::Room3 != CurRoomState_)
+		{
+			CurRoomState_ = PlayerLink::GetPlayerCurRoomState();
+		}
+
+		if (false == IsRoom3KeyDoorOpened_)
+		{
+			if (true == Room3TopBigKeyDoor0Col2_->CollisionCheck("PlayerHitBox") && true == PlayerLink::GetPlayerIsHaveBigKey() 
+				&& true == GameEngineInput::GetInst()->IsDown("Interact"))
+			{
+				GameEngineSound::SoundPlayOneShot("chestopen.mp3");
+				GameEngineSound::SoundPlayOneShot("dooropen.mp3");
+				Room3TopBigKeyDoor0_->Death();
+				Room3TopBigKeyDoor0Col_->Death();
+				IsRoom3KeyDoorOpened_ = true;
+			}
 		}
 	}
 }

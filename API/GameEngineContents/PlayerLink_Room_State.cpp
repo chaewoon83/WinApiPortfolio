@@ -500,7 +500,7 @@ void PlayerLink::Room9Update()
 	}
 	else
 	{
-		GameEngineTime::GetInst()->SetTimeScale(3, 1.0f);
+		GameEngineTime::GetInst()->SetTimeScale(9, 1.0f);
 	}
 
 
@@ -539,6 +539,46 @@ void PlayerLink::Room9Update()
 		AutoMoveDir_ = float4::RIGHT;
 		CameraStateChange(CameraState::Room10_Trans);
 		return;
+	}
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_
+		&& PlayerStairsState::Top == CurStairs_)
+	{
+		PrevCameraState_ = CameraState::Room9;
+		AutoMoveDir_ = float4::DOWN;
+		CameraStateChange(CameraState::Room3_Trans);
+		return;
+	}
+
+	if (PosOrColorCheck(Blue, MapColImage_) && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
+	{
+
+		if (PlayerStairsState::Top == CurStairs_)
+		{
+			GameEngineSound::SoundPlayControl("stairsdown.mp3");
+			MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_B1F_ColMap.bmp");
+			MapPasImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_B1F_PasMap.bmp");
+			MapCarryColImage_ = MapCarryColImage_2_B1F_;
+			CurStairs_ = PlayerStairsState::Bot;
+			IsCharacterAutoMove_ = true;
+			IsOnStairs_ = true;
+			BridgeActor_->On();
+			PlayerRenderer_->SetOrder(static_cast<int>(PlayLevelOrder::B1FPLAYER));
+			return;
+		}
+
+		if (PlayerStairsState::Bot == CurStairs_)
+		{
+			GameEngineSound::SoundPlayControl("stairsup.mp3");
+			MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_1F_ColMap.bmp");
+			MapPasImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_1F_PasMap.bmp");
+			MapCarryColImage_ = MapCarryColImage_2_;
+			CurStairs_ = PlayerStairsState::Top;
+			IsCharacterAutoMove_ = true;
+			IsOnStairs_ = true;
+			BridgeActor_->Off();
+			PlayerRenderer_->SetOrder(static_cast<int>(PlayLevelOrder::PLAYER));
+			return;
+		}
 	}
 }
 
@@ -1277,7 +1317,7 @@ void PlayerLink::Room3Start()
 	CameraState_ = CameraState::Room3;
 	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
-	GameEngineTime::GetInst()->SetTimeScale(6, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(3, 1.0f);
 }
 void PlayerLink::Room3Update()
 {
@@ -1292,25 +1332,25 @@ void PlayerLink::Room3Update()
 		CameraUpdate();
 	}
 
-	if (true == IsCharacterAutoMove_)
+	if (true == IsCharacterAutoMove_ || true == IsInItemCutScene_)
 	{
 		if (true == IsOnStairs_)
 		{
-			GameEngineTime::GetInst()->SetTimeScale(6, 0.0f);
+			GameEngineTime::GetInst()->SetTimeScale(3, 0.0f);
 			PlayerAutoMove(100.0f);
 			return;
 		}
 
 		if (false == IsOnStairs_)
 		{
-			GameEngineTime::GetInst()->SetTimeScale(6, 0.0f);
+			GameEngineTime::GetInst()->SetTimeScale(3, 0.0f);
 			PlayerAutoMove();
 			return;
 		}
 	}
 	else
 	{
-		GameEngineTime::GetInst()->SetTimeScale(6, 1.0f);
+		GameEngineTime::GetInst()->SetTimeScale(3, 1.0f);
 	}
 
 
@@ -1346,7 +1386,8 @@ void PlayerLink::Room3_Trans_Start()
 	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
 	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 
-	GameEngineTime::GetInst()->SetTimeScale(6, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(4, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(9, 0.0f);
 
 	IsCameraAutoMove_ = true;
 	IsCharacterAutoMove_ = true;
@@ -1370,7 +1411,7 @@ void PlayerLink::Room3_Trans_Update()
 
 	if (false == IsCameraAutoMove_ && false == IsCharacterAutoMove_)
 	{
-		CameraStateChange(CameraState::Room6);
+		CameraStateChange(CameraState::Room3);
 	}
 }
 
