@@ -611,6 +611,50 @@ void PlayerLink::WieldDownUpdate()
 
 }
 
+void PlayerLink::ChargingUpdate()
+{
+
+}
+
+void PlayerLink::ChargingRight()
+{
+
+}
+void PlayerLink::ChargingLeft()
+{
+
+}
+void PlayerLink::ChargingUp()
+{
+
+}
+void PlayerLink::ChargingDown()
+{
+
+}
+
+void PlayerLink::ChargeWieldUpdate()
+{
+
+}
+
+void PlayerLink::ChargeWieldRight()
+{
+
+}
+void PlayerLink::ChargeWieldLeft()
+{
+
+}
+void PlayerLink::ChargeWieldUp()
+{
+
+}
+void PlayerLink::ChargeWieldDown()
+{
+
+}
+
 void PlayerLink::DamagedUpdate()
 {
 	CurKnockbackTime_ += GameEngineTime::GetDeltaTime(0);
@@ -1552,6 +1596,49 @@ void PlayerLink::WieldDownStart()
 	PlayerPrevState_ = PlayerState::WieldDown;
 	PlayerRenderer_->ChangeAnimationReset("Wield_Down");
 }
+
+void PlayerLink::ChargingRightStart()
+{
+	PlayerRenderer_->ChangeAnimation("Charge_Right");
+}
+
+void PlayerLink::ChargingLeftStart()
+{
+	PlayerRenderer_->ChangeAnimation("Charge_Left");
+}
+
+void PlayerLink::ChargingUpStart()
+{
+	PlayerRenderer_->ChangeAnimation("Charge_Up");
+}
+
+void PlayerLink::ChargingDownStart()
+{
+	PlayerRenderer_->ChangeAnimation("Charge_Down");
+}
+
+void PlayerLink::ChargeWieldRightStart()
+{
+	PlayerRenderer_->ChangeAnimation("Charge_Wield_Right");
+}
+
+void PlayerLink::ChargeWieldLeftStart()
+{
+	PlayerRenderer_->ChangeAnimation("Charge_Wield_Left");
+}
+
+void PlayerLink::ChargeWieldUpStart()
+{
+	PlayerRenderer_->ChangeAnimation("Charge_Wield_Up");
+}
+
+void PlayerLink::ChargeWieldDownStart()
+{
+	PlayerRenderer_->ChangeAnimation("Charge_Wield_Down");
+}
+
+
+
 
 void PlayerLink::DamagedRightStart()
 {
