@@ -147,3 +147,15 @@ enum class BlueStalfosState
 	Death,
 	Max,
 };
+
+enum class ItemIndex
+{
+	Empty,
+	GreenRupee,
+	BlueRupee,
+	RedRupee,
+	RecoveryHeart,
+	Key,
+	BigKey,
+	Max,
+};

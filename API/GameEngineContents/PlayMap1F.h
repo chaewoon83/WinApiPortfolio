@@ -1,6 +1,6 @@
 #pragma once
 #include <GameEngine/GameEngineLevel.h>
-
+class PlayerLink;
 class Map1FBridge;
 // Ό³Έν :
 class PlayMap1F : public GameEngineLevel
@@ -19,8 +19,12 @@ public:
 protected:
 	void Loading() override;
 	void Update() override;
+	void LevelChangeStart(GameEngineLevel* _NextLevel) override;
+	void LevelChangeEnd(GameEngineLevel* _PrevLevel) override;
 
 private:
+	GameEngineSoundPlayer BGMSoundPlayer_;
+	PlayerLink* Player_;
 	void ResetTimeScale();
 };
 

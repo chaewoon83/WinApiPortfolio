@@ -175,6 +175,16 @@ void GameEngineSoundPlayer::Stop()
 	ControlHandle_->stop();
 }
 
+void GameEngineSoundPlayer::Play()
+{
+	if (nullptr == ControlHandle_)
+	{
+		return;
+	}
+
+	ControlHandle_->stop();
+}
+
 void GameEngineSoundPlayer::PlaySpeed(float _Speed)
 {
 	if (nullptr == ControlHandle_)

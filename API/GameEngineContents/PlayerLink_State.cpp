@@ -87,6 +87,11 @@ void PlayerLink::IdleUpdate()
 
 void PlayerLink::WieldUpdate()
 {
+	DamagedCheck();
+	if (true == IsKnockback_)
+	{
+		return;
+	}
 	if (true == GameEngineInput::GetInst()->IsDown("Attack"))
 	{
 		if (PlayerState::WieldRight == PlayerCurState_)
@@ -169,9 +174,6 @@ void PlayerLink::WieldUpdate()
 		WieldDownUpdate();
 	}
 
-	DamagedCheck();
-
-
 	//////End Of Animation
 	if (PlayerRenderer_->IsEndAnimation())
 	{
@@ -242,6 +244,7 @@ void PlayerLink::CarryIdleUpdate()
 	/// ///////////////Throw
 	if (true == GameEngineInput::GetInst()->IsDown("Interact"))
 	{
+		GameEngineSound::SoundPlayOneShot("throw.mp3");
 		IsCarry_ = false;
 		PlayerPrevState_ = PlayerCurState_;
 		if (PlayerState::CarryIdleRight == PlayerCurState_ && true == GameEngineInput::GetInst()->IsPress("MoveRight"))
@@ -335,6 +338,7 @@ void PlayerLink::CarryMoveUpdate()
 		//////////////////Throw
 		if (true == GameEngineInput::GetInst()->IsDown("Interact"))
 		{
+			GameEngineSound::SoundPlayOneShot("throw.mp3");
 			IsCarry_ = false;
 			PlayerPrevState_ = PlayerCurState_;
 			if (PlayerState::CarryMoveRight == PlayerCurState_ && true == GameEngineInput::GetInst()->IsPress("MoveRight"))
@@ -1485,6 +1489,8 @@ void PlayerLink::MoveDownStart()
 
 void PlayerLink::WieldRightStart()
 {
+	SwordSoundPlayer_.Stop();
+	SwordSoundPlayer_ = GameEngineSound::SoundPlayControl("fightersword.mp3");
 	AnimationTimer_ = 0.0f;
 	SwordCollision_->Off();
 	PlayerPrevState_ = PlayerState::WieldRight;
@@ -1493,6 +1499,8 @@ void PlayerLink::WieldRightStart()
 
 void PlayerLink::WieldLeftStart()
 {
+	SwordSoundPlayer_.Stop();
+		SwordSoundPlayer_ = GameEngineSound::SoundPlayControl("fightersword.mp3");;
 	AnimationTimer_ = 0.0f;
 	SwordCollision_->Off();
 	PlayerPrevState_ = PlayerState::WieldLeft;
@@ -1501,6 +1509,8 @@ void PlayerLink::WieldLeftStart()
 
 void PlayerLink::WieldUpStart()
 {
+	SwordSoundPlayer_.Stop();
+	SwordSoundPlayer_ = GameEngineSound::SoundPlayControl("fightersword.mp3");
 	AnimationTimer_ = 0.0f;
 	SwordCollision_->Off();
 	PlayerPrevState_ = PlayerState::WieldUp;
@@ -1509,6 +1519,8 @@ void PlayerLink::WieldUpStart()
 
 void PlayerLink::WieldDownStart()
 {
+	SwordSoundPlayer_.Stop();
+	SwordSoundPlayer_ = GameEngineSound::SoundPlayControl("fightersword.mp3");
 	AnimationTimer_ = 0.0f;
 	SwordCollision_->Off();
 	PlayerPrevState_ = PlayerState::WieldDown;
@@ -1549,21 +1561,25 @@ void PlayerLink::DamagedDownStart()
 
 void PlayerLink::CarryStartRightStart()
 {
+	GameEngineSound::SoundPlayOneShot("lift.mp3");
 	PlayerRenderer_->ChangeAnimationReset("Carry_Start_Right");
 }
 
 void PlayerLink::CarryStartLeftStart()
 {
+	GameEngineSound::SoundPlayOneShot("lift.mp3");
 	PlayerRenderer_->ChangeAnimationReset("Carry_Start_Left");
 }
 
 void PlayerLink::CarryStartUpStart()
 {
+	GameEngineSound::SoundPlayOneShot("lift.mp3");
 	PlayerRenderer_->ChangeAnimationReset("Carry_Start_Up");
 }
 
 void PlayerLink::CarryStartDownStart()
 {
+	GameEngineSound::SoundPlayOneShot("lift.mp3");
 	PlayerRenderer_->ChangeAnimationReset("Carry_Start_Down");
 }
 
@@ -1754,21 +1770,29 @@ void PlayerLink::TreasureBoxCheck()
 	if (true == PlayerHigherBodyCollision_->CollisionResult("TreasureBox", ColList, CollisionType::Rect, CollisionType::Rect) &&
 		true == GameEngineInput::GetInst()->IsDown("Interact") && false == IsInItemCutScene_ && CameraState::Room8 == CameraState_)
 	{
+		BGMSoundPlayer_.Stop();
+		GameEngineSound::SoundPlayOneShot("itemget.mp3");
 		IsInItemCutScene_ = true;
 		Map1F_2::Room8TreasureBox_->Death();
 		Map1F_2::Room8TreasureBoxCol_->Death();
 		GameEngineTime::GetInst()->SetTimeScale(0, 0.0f);
-		GameEngineTime::GetInst()->SetTimeScale(static_cast<int>((static_cast<int>(CameraState_) + 2)) / 2, 0.0f);
+		int IntValue = (static_cast<int>(CameraState_) + 2) / 2;
+		GameEngineTime::GetInst()->SetTimeScale(IntValue, 0.0f);
+		return;
 	}
 
 	if (true == PlayerHigherBodyCollision_->CollisionResult("TreasureBox", ColList, CollisionType::Rect, CollisionType::Rect) &&
 		true == GameEngineInput::GetInst()->IsDown("Interact") && false == IsInItemCutScene_ && CameraState::Room4 == CameraState_)
 	{
+		BGMSoundPlayer_.Stop();
+		GameEngineSound::SoundPlayOneShot("itemget.mp3");
 		IsInItemCutScene_ = true;
 		Map1F_2::Room4TreasureBox_->Death();
 		Map1F_2::Room4TreasureBoxCol_->Death();
 		GameEngineTime::GetInst()->SetTimeScale(0, 0.0f);
-		GameEngineTime::GetInst()->SetTimeScale(static_cast<int>((static_cast<int>(CameraState_) + 2)) / 2, 0.0f);
+		int IntValue = (static_cast<int>(CameraState_) + 2) / 2;
+		GameEngineTime::GetInst()->SetTimeScale(IntValue, 0.0f);
+		return;
 	}
 	if (true == IsInItemCutScene_)
 	{
@@ -1779,16 +1803,20 @@ void PlayerLink::TreasureBoxCheck()
 			{
 				IsInItemCutScene_ = false;
 				GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
-				GameEngineTime::GetInst()->SetTimeScale(static_cast<int>((static_cast<int>(CameraState_) + 2)) / 2, 1.0f);
+				int IntValue = (static_cast<int>(CameraState_) + 2) / 2;
+				GameEngineTime::GetInst()->SetTimeScale(IntValue, 1.0f);
 				if (CameraState::Room8 == CameraState_)
 				{
+					BGMSoundPlayer_ = GameEngineSound::SoundPlayControl("dungeon.mp3", -1);
 					Map1F_2::Room8ItemRenderer_->Death();
+					return;
 				}
-
 				if (CameraState::Room4 == CameraState_)
 				{
+					BGMSoundPlayer_ = GameEngineSound::SoundPlayControl("dungeon.mp3", -1);
 					PlayerRupee_ += 50;
 					Map1F_2::Room4ItemRenderer_->Death();
+					return;
 				}
 			}
 		}

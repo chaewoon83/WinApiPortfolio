@@ -45,9 +45,7 @@ GameEngineActor* PlayerLink::MainPlayer_ = nullptr;
 GameEngineActor* PlayerLink::CarryActor_ = nullptr;
 PlayerState PlayerLink::PlayerCurState_ = PlayerState::IdleDown;
 PlayerState PlayerLink::PlayerPrevState_ = PlayerState::Max;
-//디버그용
-//CameraState PlayerLink::CameraState_ = CameraState::Room10;
-//CameraState PlayerLink::PrevCameraState_ = CameraState::Room9;
+
 CameraState PlayerLink::CameraState_ = CameraState::Room1;
 CameraState PlayerLink::PrevCameraState_ = CameraState::Max;
 PlayerStairsState PlayerLink::CurStairs_ = PlayerStairsState::Top;
@@ -95,6 +93,7 @@ PlayerLink::PlayerLink()
 	, CurBlinkFreq_(0.0f)
 	, IsAlphaOn_(true)
 	, MaxHp_(20)
+	, IsHpLowSoundActive_(false)
 	, IsBlackScreenOn_(false)
 	, IsLightBalckScreenOn_(false)
 	, BlackScreenAlpha_(0)
@@ -113,20 +112,20 @@ void PlayerLink::Start()
 {
 
 	//충돌
-	PlayerCollision_ = CreateCollision("PlayerHitBox", {64, 64});
-	PlayerLowerBodyCollision_ = CreateCollision("PlayerLowerBodyHitBox", {64, 20} , {0, 22});
+	PlayerCollision_ = CreateCollision("PlayerHitBox", { 64, 64 });
+	PlayerLowerBodyCollision_ = CreateCollision("PlayerLowerBodyHitBox", { 64, 20 }, { 0, 22 });
 	PlayerHigherBodyCollision_ = CreateCollision("PlayerHigherBodyHitBox", { 64, 20 }, { 0, -22 });
-	PlayerMoveCollision_ = CreateCollision("PlayerHitBox2", {64, 64}, {0, 12});
-	PlayerTopRightCollision_ = CreateCollision("PlayerTopRightHitBox", {20, 20 }, { 22, -10 });
+	PlayerMoveCollision_ = CreateCollision("PlayerHitBox2", { 64, 64 }, { 0, 12 });
+	PlayerTopRightCollision_ = CreateCollision("PlayerTopRightHitBox", { 20, 20 }, { 22, -10 });
 	PlayerTopLeftCollision_ = CreateCollision("PlayerTopLeftHitBox", { 20, 20 }, { -22, -10 });
 	PlayerBotRightCollision_ = CreateCollision("PlayerBotRightHitBox", { 20, 20 }, { 22, 34 });
 	PlayerBotLeftCollision_ = CreateCollision("PlayerBotLeftHitBox", { 20, 20 }, { -22, 34 });
-	PlayerMiddleHorCollision_ = CreateCollision("PlayerBotLeftHitBox", { 64, 24 }, {0, 12});
-	PlayerMiddleVerCollision_ = CreateCollision("PlayerBotLeftHitBox", { 24, 64 }, {0, 12});
+	PlayerMiddleHorCollision_ = CreateCollision("PlayerBotLeftHitBox", { 64, 24 }, { 0, 12 });
+	PlayerMiddleVerCollision_ = CreateCollision("PlayerBotLeftHitBox", { 24, 64 }, { 0, 12 });
 
 	SwordCollision_ = CreateCollision("Sword", { 0, 0 });
 	SwordCollision_->Off();
-	
+
 	//PlayerCollision_->Off();
 	//PlayerMoveCollision_->Off();
 
@@ -245,18 +244,27 @@ void PlayerLink::Start()
 	}
 	MapPasImage_ = MapPasImage_1;
 
-	RoomSize_[0] = { 2048, 4063 + 4128 };
-	RoomSize_[1] = { 4095, 3088 + 4128 };
+	//RoomSize_[0] = { 2048, 4063 + 4128 };
+	//RoomSize_[1] = { 4095, 3088 + 4128 };
 
+	//Room11Start
 	//{
-	//	//SetPosition({ 3072.0f, 3800.0f });d
-	//	//SetPosition({4607, 3792});
+	//	SetPosition({ 3072.0f, 3800.0f });
+	//	SetPosition({4607, 3792});
 	//	GetLevel()->SetCameraPos({ 4607, 3792 });
 	//	RoomSize_[0] = { 4096, 4035 };
 	//	RoomSize_[1] = { 5117, 2048 };
 	//	CameraState_ = CameraState::Room11;
 	//	PrevCameraState_ = CameraState::Room10;
 	//}
+
+	{
+		GetLevel()->SetCameraPos({ 2687, 778 + 4128 });
+		RoomSize_[0] = { 2048, 1955 + 4128 };
+		RoomSize_[1] = { 4095, 0 + 4128 };
+	 	CameraState_ = CameraState::Room4;
+		PrevCameraState_ = CameraState::Room5;
+	}
 
 
 	LigthBlackScreen0_Main_ = CreateRenderer();
@@ -286,6 +294,8 @@ void PlayerLink::Update()
 	{
 		GetLevel()->IsDebugModeSwitch();
 	}
+
+	float4 A = GetPosition();
 
 	if (4128 > GetPosition().iy() && false == IsMap1F_2)
 	{
@@ -321,10 +331,27 @@ void PlayerLink::Update()
 	CurrentAnimationFrame_ = PlayerRenderer_->GetCurrentAnimationFrame();
 	BlinkUpdate();
 	ItemCollectUpdate();
+	HPCheck();
 }
 //렌더러가 다 돌고 액터들의 랜더함수를 호출한다
 void PlayerLink::Render()
 {
+
+}
+
+void PlayerLink::HPCheck()
+{
+	if (6 >= Hp_ && false == IsHpLowSoundActive_)
+	{
+		IsHpLowSoundActive_ = true;
+		HpLowSoundPlayer_ = GameEngineSound::SoundPlayControl("lowhp.mp3", -1);
+	}
+
+	if (7 <= Hp_ && true == IsHpLowSoundActive_)
+	{
+		IsHpLowSoundActive_ = false;
+		HpLowSoundPlayer_.Stop();
+	}
 
 }
 
@@ -333,27 +360,38 @@ void PlayerLink::ItemCollectUpdate()
 	std::vector<GameEngineCollision*> ColList;
 	if (true == PlayerCollision_->CollisionResult("GreenRupee", ColList))
 	{
+		GameEngineSound::SoundPlayOneShot("rupee.mp3");
+		GameEngineSound::SoundPlayOneShot("wallet1.mp3");
 		PlayerRupee_ += 1;
 		ColList[0]->GetActor()->Death();
 	}
 
 	if (true == PlayerCollision_->CollisionResult("BlueRupee", ColList))
 	{
+		GameEngineSound::SoundPlayOneShot("rupee.mp3");
+		GameEngineSound::SoundPlayOneShot("wallet2.mp3");
 		PlayerRupee_ += 5;
 		ColList[0]->GetActor()->Death();
 	}
 
 	if (true == PlayerCollision_->CollisionResult("RedRupee", ColList))
 	{
+		GameEngineSound::SoundPlayOneShot("rupee.mp3");
+		GameEngineSound::SoundPlayOneShot("wallet2.mp3");
 		PlayerRupee_ += 20;
 		ColList[0]->GetActor()->Death();
 	}
 
 	if (true == PlayerCollision_->CollisionResult("RecoveryHeart", ColList))
 	{
+		GameEngineSound::SoundPlayOneShot("heart.mp3");
 		int CurHp = Hp_;
-		CurHp += 1;
-		if (MaxHp_ > CurHp)
+		CurHp += 2;
+		if (MaxHp_ < CurHp)
+		{
+			Hp_ = MaxHp_;
+		}
+		else
 		{
 			Hp_ = CurHp;
 		}
@@ -368,12 +406,14 @@ void PlayerLink::ItemCollectUpdate()
 
 	if (true == PlayerCollision_->CollisionResult("Key", ColList))
 	{
+		GameEngineSound::SoundPlayOneShot("key.mp3");
 		PlayerKey_ += 1;
 		ColList[0]->GetActor()->Death();
 	}
 
 	if (true == PlayerCollision_->CollisionResult("BigKey", ColList))
 	{
+		GameEngineSound::SoundPlayOneShot("key.mp3");
 		IsHaveBigKey_ = true;
 		ColList[0]->GetActor()->Death();
 	}
@@ -685,6 +725,7 @@ void PlayerLink::CheckDirection()
 
 void PlayerLink::GetDamaged()
 {
+	GameEngineSound::SoundPlayOneShot("linkhurt.mp3");
 	Hp_ -= 1;
 }
 

@@ -25,6 +25,9 @@ public:
 	static GameEngineRenderer* Room7RightDoor0_;
 	static GameEngineRenderer* Room7TopDoor0_;
 	static GameEngineRenderer* Room5RightDoor0_;
+	static GameEngineRenderer* Room5LeftKeyDoor0_;
+	static GameEngineRenderer* Room4RightKeyDoor0_;
+	static GameEngineRenderer* Room3TopBigKeyDoor0_;
 
 	static GameEngineCollision* Room1TopDoor0Col_;
 	static GameEngineCollision* Room2TopDoor0Col_;
@@ -33,14 +36,23 @@ public:
 	static GameEngineCollision* Room10LeftDoor0Col_;
 	static GameEngineCollision* Room7RightDoor0Col_;
 	static GameEngineCollision* Room7TopDoor0Col_;
+	static GameEngineCollision* Room5RightDoor0Col_;
+
+	static GameEngineCollision* Room5LeftKeyDoor0Col_;
+	static GameEngineCollision* Room5LeftKeyDoor0Col2_;
+	static GameEngineCollision* Room3TopBigKeyDoor0Col_;
+	static GameEngineCollision* Room3TopBigKeyDoor0Col2_;
+
 	static GameEngineCollision* Room4TreasureBoxCol_;
 	static GameEngineCollision* Room8TreasureBoxCol_;
-	static GameEngineCollision* Room5RightDoor0Col_;
+	static GameEngineCollision* Room3TreasureBoxCol_;
 
 	static GameEngineActor* Room4TreasureBox_;
 	static GameEngineActor* Room8TreasureBox_;
+	static GameEngineActor* Room3TreasureBox_;
 	static GameEngineRenderer* Room4ItemRenderer_;
 	static GameEngineRenderer* Room8ItemRenderer_;
+	static GameEngineRenderer* Room3ItemRenderer_;
 
 
 	//3012,2596 56,40 => 3040,2576
@@ -121,6 +133,19 @@ private:
 	bool IsRoom5TimeStop_;
 	bool IsRoom5PlayerOnSwitch_;
 	bool IsRoom5SwitchOn_;
+	bool IsRoom5KeyDoorOpened_;
+
+	//////////////////Room5
+	static GameEngineCollision* Room3SwitchCol_;
+	void Room3SwitchCheck();
+	bool IsRoom3SwitchOn_;
+
+	bool IsRoom3CreateItemRenderer_;
+	float4 Room3ItemRendererPivot_;
+	float Room3ItemMoveTime_;
+	float CurRoom3ItemMoveTime_;
+	void Room3CheckTreasureBox();
+
 
 };
 

@@ -170,42 +170,42 @@ void EnemyGlobalFunction::Relocation(CameraState _PlayerRoom, int _MonsterRoom, 
 
 void EnemyGlobalFunction::ItemGenPot(int _ItemNum, GameEngineActor* _Actor)
 {
-	if (0 == _ItemNum)
+	if (static_cast<int>(ItemIndex::Empty) == _ItemNum)
 	{
 		return;
 	}
-	if (1 == _ItemNum)
+	if (static_cast<int>(ItemIndex::GreenRupee) == _ItemNum)
 	{
 		ItemGreenRupee* Ptr = _Actor->GetLevel()->CreateActor<ItemGreenRupee>((int)PlayLevelOrder::BELOWPLAYER);
 		Ptr->SetGreenRupeePosition(_Actor->GetPosition() - float4{0, 20});
 		return;
 	}
 
-	if (2 == _ItemNum)
+	if (static_cast<int>(ItemIndex::BlueRupee) == _ItemNum)
 	{
 		ItemBlueRupee* Ptr = _Actor->GetLevel()->CreateActor<ItemBlueRupee>((int)PlayLevelOrder::BELOWPLAYER);
 		Ptr->SetBlueRupeePosition(_Actor->GetPosition() - float4{ 0, 20 });
 		return;
 	}
 
-	if (3 == _ItemNum)
+	if (static_cast<int>(ItemIndex::RedRupee) == _ItemNum)
 	{
 		ItemRedRupee* Ptr = _Actor->GetLevel()->CreateActor<ItemRedRupee>((int)PlayLevelOrder::BELOWPLAYER);
 		Ptr->SetRedRupeePosition(_Actor->GetPosition() - float4{ 0, 20 });
 		return;
 	}
 
-	if (4 == _ItemNum)
+	if (static_cast<int>(ItemIndex::RecoveryHeart) == _ItemNum)
 	{
 		ItemRecoveryHeart* Ptr = _Actor->GetLevel()->CreateActor<ItemRecoveryHeart>((int)PlayLevelOrder::BELOWPLAYER);
-		Ptr->SetPosition(_Actor->GetPosition() - float4{ 0, 20 });
+		Ptr->SetPosition(_Actor->GetPosition());
 		return;
 	}
 
-	if (5 == _ItemNum)
+	if (static_cast<int>(ItemIndex::Key) == _ItemNum)
 	{
-		ItemRecoveryHeart* Ptr = _Actor->GetLevel()->CreateActor<ItemRecoveryHeart>((int)PlayLevelOrder::BELOWPLAYER);
-		Ptr->SetPosition(_Actor->GetPosition() - float4{ 0, 20 });
+		ItemKey* Ptr = _Actor->GetLevel()->CreateActor<ItemKey>((int)PlayLevelOrder::BELOWPLAYER);
+		Ptr->SetItemKeyPosition(_Actor->GetPosition() - float4{ 0, 20 });
 		return;
 	}
 
@@ -213,12 +213,12 @@ void EnemyGlobalFunction::ItemGenPot(int _ItemNum, GameEngineActor* _Actor)
 
 void EnemyGlobalFunction::ItemGenMonster(int _ItemNum, GameEngineActor* _Actor)
 {
-	if (0 == _ItemNum)
+	if (static_cast<int>(ItemIndex::Empty) == _ItemNum)
 	{
 		return;
 	}
 
-	if (1 == _ItemNum)
+	if (static_cast<int>(ItemIndex::GreenRupee) == _ItemNum)
 	{
 		ItemGreenRupee* Ptr = _Actor->GetLevel()->CreateActor<ItemGreenRupee>((int)PlayLevelOrder::BELOWPLAYER);
 		Ptr->SetRespawnPivot(50.0f);
@@ -226,7 +226,7 @@ void EnemyGlobalFunction::ItemGenMonster(int _ItemNum, GameEngineActor* _Actor)
 		return;
 	}
 
-	if (2 == _ItemNum)
+	if (static_cast<int>(ItemIndex::BlueRupee) == _ItemNum)
 	{
 		ItemBlueRupee* Ptr = _Actor->GetLevel()->CreateActor<ItemBlueRupee>((int)PlayLevelOrder::BELOWPLAYER);
 		Ptr->SetRespawnPivot(50.0f);
@@ -234,7 +234,7 @@ void EnemyGlobalFunction::ItemGenMonster(int _ItemNum, GameEngineActor* _Actor)
 		return;
 	}
 
-	if (3 == _ItemNum)
+	if (static_cast<int>(ItemIndex::RedRupee) == _ItemNum)
 	{
 		ItemRedRupee* Ptr = _Actor->GetLevel()->CreateActor<ItemRedRupee>((int)PlayLevelOrder::BELOWPLAYER);
 		Ptr->SetRespawnPivot(50.0f);
@@ -242,14 +242,14 @@ void EnemyGlobalFunction::ItemGenMonster(int _ItemNum, GameEngineActor* _Actor)
 		return;
 	}
 
-	if (4 == _ItemNum)
+	if (static_cast<int>(ItemIndex::RecoveryHeart) == _ItemNum)
 	{
 		ItemRecoveryHeart* Ptr = _Actor->GetLevel()->CreateActor<ItemRecoveryHeart>((int)PlayLevelOrder::BELOWPLAYER);
 		Ptr->SetPosition(_Actor->GetPosition());
 		return;
 	}
 
-	if (5 == _ItemNum)
+	if (static_cast<int>(ItemIndex::Key) == _ItemNum)
 	{
 		ItemRecoveryHeart* Ptr = _Actor->GetLevel()->CreateActor<ItemRecoveryHeart>((int)PlayLevelOrder::BELOWPLAYER);
 		Ptr->SetPosition(_Actor->GetPosition());
@@ -263,28 +263,29 @@ void EnemyGlobalFunction::ItemRandomGenMonster(GameEngineActor* _Actor)
 {
 	GameEngineRandom Random;
 	//Max 10
-	int RandomInt = Random.RandomInt(1, 20);
-	if (1<= RandomInt && 5 >= RandomInt)
+	int RandomInt = GlobalRandom::RandomIntGenerate(1, 20);
+	if (4<= RandomInt && 15 >= RandomInt)
 	{
+		//GreenRupee
+		ItemGenMonster(static_cast<int>(ItemIndex::GreenRupee), _Actor);
 		return;
 	}
 
-	if (5 <= RandomInt && 15 >= RandomInt)
-	{
-		//GreenRupee
-		ItemGenMonster(1, _Actor);
-		return;
-	}
 	if (16 <= RandomInt && 18 >= RandomInt)
 	{
 		//BlueRupee
-		ItemGenMonster(2, _Actor);
+		ItemGenMonster(static_cast<int>(ItemIndex::BlueRupee), _Actor);
 		return;
+
 	}
-	if (18 <= RandomInt && 20 >= RandomInt)
+	if (19 <= RandomInt && 20 >= RandomInt)
 	{
 		//RedRupee
-		ItemGenMonster(3, _Actor);
+		ItemGenMonster(static_cast<int>(ItemIndex::RedRupee), _Actor);
+		return;
+	}
+	if (1 <= RandomInt && 3 >= RandomInt)
+	{
 		return;
 	}
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <GameEngine/GameEngineActor.h>
 #include "GameEngineContentsEnum.h"
+#include <GameEngineBase/GameEngineSound.h>
 // Ό³Έν :
 class GameEngineImage;
 class GmaeEngineCollision;
@@ -239,6 +240,12 @@ private:
 	void Room6_Trans_Start();
 	void Room6_Trans_Update();
 
+	void Room3Start();
+	void Room3Update();
+
+	void Room3_Trans_Start();
+	void Room3_Trans_Update();
+
 	bool IsBlackScreenOn_;
 	bool IsLightBalckScreenOn_;
 	int BlackScreenAlpha_;
@@ -283,7 +290,14 @@ private:
 	static int PlayerKey_;
 	static bool IsHaveBigKey_;
 
+	void HPCheck();
+	bool IsHpLowSoundActive_;
 	void ItemCollectUpdate();
+	////////////////////////////////////////////////////////////////////// Sound
+	
+	GameEngineSoundPlayer SwordSoundPlayer_;
+	GameEngineSoundPlayer BGMSoundPlayer_;
+	GameEngineSoundPlayer HpLowSoundPlayer_;
 	/////////////////////////////////////////////////////////////////////Getter
 public:
 	inline static PlayerState GetPlayerCurState()
@@ -357,9 +371,20 @@ public:
 	{
 		return PlayerKey_;
 	}
+
+	inline static int UseKey()
+	{
+		return PlayerKey_ -= 1;
+	}
 	inline static bool GetPlayerIsHaveBigKey()
 	{
 		return IsHaveBigKey_;
+	}
+
+	/////////////////////////////////////////////////////////////////////Setter
+	void SetBGMSoundPlayer(GameEngineSoundPlayer _SoundPlayer)
+	{
+		BGMSoundPlayer_ = _SoundPlayer;
 	}
 };
 

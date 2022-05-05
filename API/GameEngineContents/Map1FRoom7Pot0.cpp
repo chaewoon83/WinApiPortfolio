@@ -82,6 +82,7 @@ void Map1FRoom7Pot0::InAirStart()
 
 void Map1FRoom7Pot0::DeathAnimationStart()
 {
+	GameEngineSound::SoundPlayOneShot("break.mp3");
 	Renderer_->SetOrder(static_cast<int>(PlayLevelOrder::ABOVEBACKGROUNDROOF));
 	if (true == PotHitBox_->IsUpdate())
 	{

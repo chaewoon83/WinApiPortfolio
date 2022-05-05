@@ -83,6 +83,7 @@ void Map1FRoom6Pot0::InAirStart()
 
 void Map1FRoom6Pot0::DeathAnimationStart()
 {
+	GameEngineSound::SoundPlayOneShot("break.mp3");
 	if (true == PotHitBox_->IsUpdate())
 	{
 		PotHitBox_->Off();
@@ -104,6 +105,7 @@ void Map1FRoom6Pot0::IdleUpdate()
 	{
 		BlockCol_->Off();
 		PickUpCol_->Off();
+		ItemIndex_;
 		EnemyGlobalFunction::ItemGenPot(ItemIndex_, this);
 		PotStateChange(PotState::Carried);
 		return;

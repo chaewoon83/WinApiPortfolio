@@ -17,7 +17,7 @@ public:
 	ItemKey& operator=(const ItemKey& _Other) = delete;
 	ItemKey& operator=(ItemKey&& _Other) noexcept = delete;
 
-	void SetRedRupeePosition(float4 _Pos)
+	void SetItemKeyPosition(float4 _Pos)
 	{
 		OriginalPos_ = _Pos;
 		SetPosition(OriginalPos_);

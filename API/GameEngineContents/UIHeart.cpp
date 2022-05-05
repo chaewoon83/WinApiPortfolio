@@ -43,6 +43,7 @@ void UIHeart::Start()
  
 void UIHeart::Update()
 {
+	int HP = PlayerLink::GetPlayerHp();
 	int Hearts = PlayerLink::GetPlayerHp() / 2;
 	int Hearts2 = PlayerLink::GetPlayerHp() % 2;
 	if (20 == PlayerLink::GetPlayerHp())

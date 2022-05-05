@@ -199,6 +199,15 @@
     <ClInclude Include="Map1FRoom4TreasureBox.h">
       <Filter>Play\Map\Objects\TreasureBox</Filter>
     </ClInclude>
+    <ClInclude Include="Map1FRoom6EnemyBlueStalfos0.h">
+      <Filter>Play\Enemy\BlueStalfos\Room6</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom3TreasureBox.h">
+      <Filter>Play\Map\Objects\TreasureBox</Filter>
+    </ClInclude>
+    <ClInclude Include="Map1FRoom3EmptyTreasureBox.h">
+      <Filter>Play\Map\Objects\TreasureBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -404,6 +413,15 @@
     <ClCompile Include="Map1FRoom4TreasureBox.cpp">
       <Filter>Play\Map\Objects\TreasureBox</Filter>
     </ClCompile>
+    <ClCompile Include="Map1FRoom6EnemyBlueStalfos0.cpp">
+      <Filter>Play\Enemy\BlueStalfos\Room6</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom3TreasureBox.cpp">
+      <Filter>Play\Map\Objects\TreasureBox</Filter>
+    </ClCompile>
+    <ClCompile Include="Map1FRoom3EmptyTreasureBox.cpp">
+      <Filter>Play\Map\Objects\TreasureBox</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -495,6 +513,9 @@
     </Filter>
     <Filter Include="Play\Map\Objects\Pot\Room4">
       <UniqueIdentifier>{7a480eae-8b29-4ffe-a0a3-d6dbcb922c2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Enemy\BlueStalfos\Room6">
+      <UniqueIdentifier>{8eb134cd-7184-4061-93b2-febb71412a3a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

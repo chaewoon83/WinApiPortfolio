@@ -236,10 +236,12 @@ void Map1FRoom9EnemyBlueStalfos0::JumpDownStart()
 
 void Map1FRoom9EnemyBlueStalfos0::KnockbackedStart()
 {
+	GameEngineSound::SoundPlayOneShot("enemyhit.mp3");
 }
 
 void Map1FRoom9EnemyBlueStalfos0::DeathStart()
 {
+	GameEngineSound::SoundPlayOneShot("enemydies.mp3");
 	BlueStalfosMoveCol_->Death();
 	BlueStalfosHeadRenderer_->SetAlpha(255);
 	BlueStalfosBodyRenderer_->SetAlpha(255);
@@ -760,7 +762,7 @@ bool Map1FRoom9EnemyBlueStalfos0::MoveFunction()
 		float4 MyPosTop = MyPos + float4{ 0.0f, -14.0f };
 		float4 MyPosBot = MyPos + float4{ 0.0f, 64.0f };
 		float4 NextPos = MyPos + (MoveDir_ * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
-		float4 NextRealPos = MyPos + (MoveDir_ * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
+		float4 NextRealPos = GetPosition() +(MoveDir_ * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
 		float4 CheckPosTopRight = NextPos + float4{ 32.0f, -14.0f };
 		float4 CheckPosTopLeft = NextPos + float4{ -32.0f, -14.0f };
 		float4 CheckPosBotRight = NextPos + float4{ 32.0f, 64.0f };

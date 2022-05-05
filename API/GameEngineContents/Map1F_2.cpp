@@ -6,6 +6,7 @@
 #include <GameEngine/GameEngineCollision.h>
 #include <GameEngineBase/GameEngineTime.h>
 #include <GameEngineBase/GameEngineInput.h>
+#include <GameEngineBase/GameEngineSound.h>
 #include "PlayerLink.h"
 #include "GlobalRandom.h"
 
@@ -14,6 +15,7 @@
 
 #include "Map1FRoom4TreasureBox.h"
 #include "Map1FRoom8TreasureBox.h"
+#include "Map1FRoom3TreasureBox.h"
 
 #include "Map1FRoom7EnemyBlueStalfos0.h"
 
@@ -25,6 +27,9 @@ GameEngineRenderer* Map1F_2::Room10LeftDoor0_ = nullptr;
 GameEngineRenderer* Map1F_2::Room7RightDoor0_ = nullptr;
 GameEngineRenderer* Map1F_2::Room7TopDoor0_ = nullptr;
 GameEngineRenderer* Map1F_2::Room5RightDoor0_ = nullptr;
+GameEngineRenderer* Map1F_2::Room5LeftKeyDoor0_ = nullptr;
+GameEngineRenderer* Map1F_2::Room4RightKeyDoor0_ = nullptr;
+GameEngineRenderer* Map1F_2::Room3TopBigKeyDoor0_ = nullptr;
 
 GameEngineCollision* Map1F_2::Room1TopDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room2TopDoor0Col_ = nullptr;
@@ -34,21 +39,29 @@ GameEngineCollision* Map1F_2::Room10LeftDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room7RightDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room7TopDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room5RightDoor0Col_ = nullptr;
+GameEngineCollision* Map1F_2::Room5LeftKeyDoor0Col_ = nullptr;
+GameEngineCollision* Map1F_2::Room5LeftKeyDoor0Col2_ = nullptr;
+GameEngineCollision* Map1F_2::Room3TopBigKeyDoor0Col_ = nullptr;
+GameEngineCollision* Map1F_2::Room3TopBigKeyDoor0Col2_ = nullptr;
 
 GameEngineCollision* Map1F_2::Room4TreasureBoxCol_ = nullptr;
 GameEngineCollision* Map1F_2::Room8TreasureBoxCol_ = nullptr;
+GameEngineCollision* Map1F_2::Room3TreasureBoxCol_ = nullptr;
 
 GameEngineCollision* Map1F_2::Room1SwitchCol_ = nullptr;
 GameEngineCollision* Map1F_2::Room2SwitchCol_ = nullptr;
 GameEngineCollision* Map1F_2::Room10SwitchCol_1_ = nullptr;
 GameEngineCollision* Map1F_2::Room10SwitchCol_2_ = nullptr;
 GameEngineCollision* Map1F_2::Room5SwitchCol_ = nullptr;
+GameEngineCollision* Map1F_2::Room3SwitchCol_ = nullptr;
 
 GameEngineActor* Map1F_2::Room4TreasureBox_ = nullptr;
 GameEngineActor* Map1F_2::Room8TreasureBox_ = nullptr;
+GameEngineActor* Map1F_2::Room3TreasureBox_ = nullptr;
 
 GameEngineRenderer* Map1F_2::Room4ItemRenderer_ = nullptr;
 GameEngineRenderer* Map1F_2::Room8ItemRenderer_ = nullptr;
+GameEngineRenderer* Map1F_2::Room3ItemRenderer_ = nullptr;
 
 
 Map1F_2::Map1F_2()
@@ -83,6 +96,13 @@ Map1F_2::Map1F_2()
 	, IsRoom5TimeStop_(false)
 	, IsRoom5PlayerOnSwitch_(false)
 	, IsRoom5SwitchOn_(false)
+	, IsRoom5KeyDoorOpened_(false)
+	, IsRoom3SwitchOn_(false)
+	, IsRoom3CreateItemRenderer_(false)
+	, Room3ItemRendererPivot_(float4{ 1540 + 28 , 468 + 32 })
+	, Room3ItemMoveTime_(1.0f)
+	, CurRoom3ItemMoveTime_(0.0f)
+
 {
 }
 
@@ -115,12 +135,15 @@ void Map1F_2::Start()
 	Room10SwitchCol_1_ = CreateCollision("Switch", { 56, 40 }, { 2244 + 28, 3332 + 20});
 	Room10SwitchCol_2_ = CreateCollision("Switch", { 56, 40 }, { 3844 + 28, 2616 + 20 });
 	Room5SwitchCol_ = CreateCollision("Switch", { 56, 40 }, { 4868 + 28, 612 + 20 + 4128});
+	Room3SwitchCol_ = CreateCollision("Switch", { 40, 40 }, { 1548 + 20, 808 + 20 + 4128});
 
 	Room4TreasureBoxCol_ = CreateCollision("TreasureBox", { 16, 1 }, { 3672 + 8, 1184 + 4128 });
 	Room8TreasureBoxCol_ = CreateCollision("TreasureBox", { 16, 1 }, { 440 + 8, 2400 });
+	Room8TreasureBoxCol_ = CreateCollision("TreasureBox", { 16, 2 }, { 1560 + 8, 544 + 4128});
 
 	Room4TreasureBox_ = GetLevel()->CreateActor<Map1FRoom4TreasureBox>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 	Room8TreasureBox_ = GetLevel()->CreateActor<Map1FRoom8TreasureBox>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+
 
 }
 
@@ -136,6 +159,7 @@ void Map1F_2::Update()
 	Room7DoorCheck();
 	Room8CheckTreasureBox();
 	Room5SwitchCheck();
+	Room3SwitchCheck();
 }
 void Map1F_2::Render()
 {
@@ -214,6 +238,20 @@ void Map1F_2::DoorAnimationCreate()
 	Room5RightDoor0_->CreateAnimationTimeKey("Left_Door_Close_Animation.bmp", "Close_Right", -1, 0, 2, 0.07f, false);
 	Room5RightDoor0_->ChangeAnimationReset("Open_Right");
 	Room5RightDoor0Col_ = CreateCollision("Block", { 96, 192 }, float4{ 4960 + 48, 448 + 64 + 4128 });
+
+	Room5LeftKeyDoor0_ = CreateRenderer("Left_Locked_Door_Idle.bmp");
+	Room5LeftKeyDoor0_->SetPivot(float4{ 4192 + 32, 448 + 64 + 4128 });
+	Room4RightKeyDoor0_ = CreateRenderer("Right_Locked_Door_Idle.bmp");
+	Room4RightKeyDoor0_->SetPivot(float4{ 3396 + 32, 448 + 64 + 4128 });
+	Room5LeftKeyDoor0Col_ = CreateCollision("Block", { 64, 128 }, float4{ 4192 + 32, 448 + 64 + 4128 });
+	Room5LeftKeyDoor0Col2_ = CreateCollision("LockedDoor", { 4, 64 }, float4{ 4256, 480 + 32 + 4128 });
+
+	Room3TopBigKeyDoor0_ = CreateRenderer("Top_BigLocked_Door_Idle.bmp");
+	Room3TopBigKeyDoor0_->SetPivot(float4{ 1472 + 64, 96 + 48 + 4128 });
+	Room3TopBigKeyDoor0Col_ = CreateCollision("Block", { 128, 96 }, float4{ 1472 + 64, 96 + 48 + 4128 });
+	Room3TopBigKeyDoor0Col2_ = CreateCollision("LockedDoor", { 62, 2 }, float4{ 1504 + 32, 193 + 4128 });
+
+
 }
 
 void Map1F_2::Room1SwitchCheck()
@@ -225,6 +263,8 @@ void Map1F_2::Room1SwitchCheck()
 	{
 		if (false == IsRoom1SwitchOn_)
 		{
+			GameEngineSound::SoundPlayOneShot("button.mp3");
+			GameEngineSound::SoundPlayOneShot("dooropen.mp3");
 			Room1TopDoor0_->ChangeAnimationReset("Open_Top");
 			Room1TopDoor0Col_->Off();
 			IsRoom1SwitchOn_ = true;
@@ -235,7 +275,9 @@ void Map1F_2::Room1SwitchCheck()
 		}
 		else
 		{
+			GameEngineSound::SoundPlayOneShot("button.mp3");
 			Room1TopDoor0Col_->On();
+			GameEngineSound::SoundPlayOneShot("doorclose.mp3");
 			Room1TopDoor0_->ChangeAnimationReset("Close_Top");
 			IsRoom1SwitchOn_ = false;
 			IsRoom1PlayerOnSwitch_ = true;
@@ -262,8 +304,9 @@ void Map1F_2::Room1SwitchCheck()
 		if (CameraState::Room1 != CurRoomState_)
 		{
 			IsRoom1SwitchOn_ = false;
+			GameEngineSound::SoundPlayOneShot("doorclose.mp3");
 			CurRoomState_ = PlayerLink::GetPlayerCurRoomState();
-			//Room1TopDoor0_->ChangeAnimationReset("Close_Top");
+			Room1TopDoor0_->ChangeAnimationReset("Close_Top");
 			Room1TopDoor0Col_->On();
 		}
 	}
@@ -278,6 +321,8 @@ void Map1F_2::Room2SwitchCheck()
 	{
 		if (false == IsRoom2SwitchOn_)
 		{
+			GameEngineSound::SoundPlayOneShot("button.mp3");
+			GameEngineSound::SoundPlayOneShot("dooropen.mp3");
 			Room2TopDoor0_->ChangeAnimationReset("Open_Top");
 			Room2TopDoor0Col_->Off();
 			Room2BotDoor0_->ChangeAnimationReset("Open_Bot");
@@ -290,6 +335,8 @@ void Map1F_2::Room2SwitchCheck()
 		}
 		else
 		{
+			GameEngineSound::SoundPlayOneShot("button.mp3");
+			GameEngineSound::SoundPlayOneShot("doorclose.mp3");
 			Room2TopDoor0Col_->On();
 			Room2TopDoor0_->ChangeAnimationReset("Close_Top");
 			Room2BotDoor0Col_->On();
@@ -320,8 +367,9 @@ void Map1F_2::Room2SwitchCheck()
 		{
 			IsRoom2SwitchOn_ = false;
 			CurRoomState_ = PlayerLink::GetPlayerCurRoomState();
-			//Room2TopDoor0_->ChangeAnimationReset("Close_Top");
-			//Room2BotDoor0_->ChangeAnimationReset("Close_Bot");
+			GameEngineSound::SoundPlayOneShot("doorclose.mp3");
+			Room2TopDoor0_->ChangeAnimationReset("Close_Top");
+			Room2BotDoor0_->ChangeAnimationReset("Close_Bot");
 			Room2TopDoor0Col_->On();
 			Room2BotDoor0Col_->On();
 		}
@@ -370,11 +418,13 @@ void Map1F_2::Room4BallGen()
 			Room4CurBallCreateFreq_ = 0;
 			if (6 <= Room4BallNumbers_)
 			{
+				GameEngineSound::SoundPlayOneShot("cannonballs.mp3");
 				Room4BallNumbers_ = 0;
 				GetLevel()->CreateActor<EnemyGargantuanBall>()->SetPosition(float4{ 3104 + 64, 320 - 32 + 4128 });
 			}
 			else
 			{
+				GameEngineSound::SoundPlayOneShot("cannonballs.mp3");
 				Room4BallNumbers_ += 1;
 				int RandomInt = GlobalRandom::RandomIntGenerate(0, 1);
 				if (0 == RandomInt)
@@ -407,6 +457,8 @@ void Map1F_2::Room10SwitchCheck()
 		{
 			if (false == IsRoom10SwitchOn_)
 			{
+				GameEngineSound::SoundPlayOneShot("button.mp3");
+				GameEngineSound::SoundPlayOneShot("dooropen.mp3");
 				Room10RightDoor0_->ChangeAnimationReset("Open_Right");
 				Room10RightDoor0Col_->Off();
 				Room10LeftDoor0_->ChangeAnimationReset("Open_Left");
@@ -419,6 +471,8 @@ void Map1F_2::Room10SwitchCheck()
 			}
 			else
 			{
+				GameEngineSound::SoundPlayOneShot("button.mp3");
+				GameEngineSound::SoundPlayOneShot("doorclose.mp3");
 				Room10RightDoor0Col_->On();
 				Room10RightDoor0_->ChangeAnimationReset("Close_Right");
 				Room10LeftDoor0Col_->On();
@@ -450,10 +504,11 @@ void Map1F_2::Room10SwitchCheck()
 	{
 		if (CameraState::Room10 != CurRoomState_)
 		{
+			GameEngineSound::SoundPlayOneShot("doorclose.mp3");
 			IsRoom10SwitchOn_ = false;
 			CurRoomState_ = PlayerLink::GetPlayerCurRoomState();
-			//Room10TopDoor0_->ChangeAnimationReset("Close_Top");
-			//Room2BotDoor0_->ChangeAnimationReset("Close_Bot");
+			Room10RightDoor0_->ChangeAnimationReset("Close_Right");
+			Room10LeftDoor0_->ChangeAnimationReset("Close_Left");
 			Room10RightDoor0Col_->On();
 			Room10LeftDoor0Col_->On();
 		}
@@ -493,6 +548,7 @@ void Map1F_2::Room7SummonEnemies()
 	{
 		if (0 == SummonIndex_ && true == SummonEffect_->IsEndAnimation())
 		{
+			GameEngineSound::SoundPlayOneShot("flap.mp3");
 			BlueStalfos0 = GetLevel()->CreateActor<Map1FRoom7EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER));
 			BlueStalfos0->SetBlueStalfosPos({ 639, 3471 });
 			SummonEffect_->SetPivot({ 639, 3855 });
@@ -501,6 +557,7 @@ void Map1F_2::Room7SummonEnemies()
 
 		else if (1 == SummonIndex_ && true == SummonEffect_->IsEndAnimation())
 		{
+			GameEngineSound::SoundPlayOneShot("flap.mp3");
 			SummonEffect_->ChangeAnimationReset("Idle");
 			BlueStalfos1 = GetLevel()->CreateActor<Map1FRoom7EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER));
 			BlueStalfos1->SetBlueStalfosPos({ 639, 3855 });
@@ -510,6 +567,7 @@ void Map1F_2::Room7SummonEnemies()
 
 		else if (2 == SummonIndex_ && true == SummonEffect_->IsEndAnimation())
 		{
+			GameEngineSound::SoundPlayOneShot("flap.mp3");
 			SummonEffect_->ChangeAnimationReset("Idle");
 			BlueStalfos2 = GetLevel()->CreateActor<Map1FRoom7EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER));
 			BlueStalfos2->SetBlueStalfosPos({ 447, 3663 });
@@ -519,6 +577,7 @@ void Map1F_2::Room7SummonEnemies()
 
 		else if (3 == SummonIndex_ && true == SummonEffect_->IsEndAnimation())
 		{
+			GameEngineSound::SoundPlayOneShot("flap.mp3");
 			BlueStalfos3 = GetLevel()->CreateActor<Map1FRoom7EnemyBlueStalfos0>(static_cast<int>(PlayLevelOrder::MONSTER));
 			BlueStalfos3->SetBlueStalfosPos({ 767, 3663 });
 			SummonEffect_->Death();
@@ -544,6 +603,8 @@ void Map1F_2::Room7DoorCheck()
 	{
 		if (CameraState::Room7 == CurRoomState_ && false == IsRoom7DoorOpened_)
 		{
+			GameEngineSound::SoundPlayOneShot("dooropen.mp3");
+			GameEngineSound::SoundPlayOneShot("secret.mp3");
 			IsRoom7DoorOpened_ = true;
 			Room7RightDoor0_->ChangeAnimationReset("Open_Right");
 			Room7RightDoor0Col_->Off();
@@ -556,6 +617,7 @@ void Map1F_2::Room7DoorCheck()
 	{
 		if (CameraState::Room7 != CurRoomState_)
 		{
+			GameEngineSound::SoundPlayOneShot("doorclose.mp3");
 			IsRoom7DoorOpened_ = false;
 			CurRoomState_ = PlayerLink::GetPlayerCurRoomState();
 			Room7RightDoor0_->ChangeAnimationReset("Close_Right");
@@ -608,6 +670,8 @@ void Map1F_2::Room5SwitchCheck()
 		{
 			if (false == IsRoom5SwitchOn_)
 			{
+				GameEngineSound::SoundPlayOneShot("button.mp3");
+				GameEngineSound::SoundPlayOneShot("dooropen.mp3");
 				Room5RightDoor0_->ChangeAnimationReset("Open_Right");
 				Room5RightDoor0Col_->Off();
 				IsRoom5SwitchOn_ = true;
@@ -618,6 +682,8 @@ void Map1F_2::Room5SwitchCheck()
 			}
 			else
 			{
+				GameEngineSound::SoundPlayOneShot("button.mp3");
+				GameEngineSound::SoundPlayOneShot("doorclose.mp3");
 				Room5RightDoor0_->ChangeAnimationReset("Close_Right");
 				Room5RightDoor0Col_->On();
 				IsRoom5SwitchOn_ = false;
@@ -641,11 +707,28 @@ void Map1F_2::Room5SwitchCheck()
 		GameEngineTime::GetInst()->SetTimeScale(5, 1.0f);
 	}
 
+	if (false == IsRoom5KeyDoorOpened_)
+	{
+		if (true == Room5LeftKeyDoor0Col2_->CollisionResult("PlayerHitBox", ColList) && 1 <= PlayerLink::GetPlayerKey())
+		{
+			GameEngineSound::SoundPlayOneShot("chestopen.mp3");
+			GameEngineSound::SoundPlayOneShot("dooropen.mp3");
+			Room5LeftKeyDoor0_->Death();
+			Room5LeftKeyDoor0Col_->Death();
+			Room5LeftKeyDoor0Col2_->Death();
+			Room4RightKeyDoor0_->Death();
+			IsRoom5KeyDoorOpened_ = true;
+			PlayerLink::UseKey();
+		}
+	}
+
+
 
 	if (CameraState::Room5 == PlayerLink::GetPlayerCurRoomState())
 	{
 		if (CameraState::Room5 != CurRoomState_)
 		{
+			GameEngineSound::SoundPlayOneShot("doorclose.mp3");
 			IsRoom5SwitchOn_ = false;
 			CurRoomState_ = PlayerLink::GetPlayerCurRoomState();
 			Room5RightDoor0_->ChangeAnimationReset("Close_Right");
@@ -653,4 +736,18 @@ void Map1F_2::Room5SwitchCheck()
 		}
 	}
 
+}
+
+void Map1F_2::Room3SwitchCheck()
+{
+	if (false == IsRoom3SwitchOn_)
+	{
+		if (true == Room3SwitchCol_->CollisionCheck("PlayerLowerBodyHitBox", CollisionType::Rect, CollisionType::Rect))
+		{
+			GameEngineSound::SoundPlayOneShot("chestappears.mp3");
+			IsRoom3SwitchOn_ = true;
+			Room3TreasureBox_ = GetLevel()->CreateActor<Map1FRoom3TreasureBox>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
+			Room5SwitchCol_->Off();
+		}
+	}
 }

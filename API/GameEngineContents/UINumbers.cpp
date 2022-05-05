@@ -73,6 +73,8 @@ void UINumbers::Start()
 void UINumbers::Update()
 {
 	UpdateRupeeNumber();
+	UpdateArrowNumber();
+	UpdateKeyNumber();
 }
 void UINumbers::Render()
 {

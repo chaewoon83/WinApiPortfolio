@@ -38,5 +38,6 @@ private:
 	void UpdateRupeeNumber();
 	void UpdateArrowNumber();
 	void UpdateKeyNumber();
+
 };
 

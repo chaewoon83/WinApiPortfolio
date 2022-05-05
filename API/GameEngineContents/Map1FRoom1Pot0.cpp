@@ -83,6 +83,7 @@ void Map1FRoom1Pot0::InAirStart()
 
 void Map1FRoom1Pot0::DeathAnimationStart()
 {
+	GameEngineSound::SoundPlayOneShot("break.mp3");
 	if (true == PotHitBox_->IsUpdate())
 	{
 		PotHitBox_->Off();

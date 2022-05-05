@@ -26,16 +26,20 @@ ItemRecoveryHeart::ItemRecoveryHeart()
 
 ItemRecoveryHeart::~ItemRecoveryHeart() 
 {
-	ItemRenderer_ = CreateRenderer("ItemRecoveryHeart.bmp");
-	ItemRenderer_->ChangeAnimation("Idle");
-	ShadowRenderer_ = CreateRenderer("ItemShadow.bmp");
-	ShadowRenderer_->SetPivot({ 0, 30 });
-	ItemCollision_ = CreateCollision("RecoveryHeart", { 32,28 });
+
 }
 
 void ItemRecoveryHeart::Start()
 {
+	//ShadowRenderer_ = CreateRenderer("ItemShadow.bmp");
+	ItemRenderer_ = CreateRenderer("ItemRecoveryHeart.bmp");
+	//ShadowRenderer_->SetPivot({ 0, 5 });
+	ItemCollision_ = CreateCollision("RecoveryHeart", { 32,28 });
 
+}
+ 
+void ItemRecoveryHeart::Update()
+{
 	if (3.0f < CurLiveTime_)
 	{
 		IsBlink_ = true;
@@ -47,11 +51,6 @@ void ItemRecoveryHeart::Start()
 	{
 		Death();
 	}
-}
- 
-void ItemRecoveryHeart::Update()
-{
-
 }
 void ItemRecoveryHeart::Render()
 {

@@ -83,6 +83,7 @@ void Map1FRoom10Pot0B1F::InAirStart()
 
 void Map1FRoom10Pot0B1F::DeathAnimationStart()
 {
+	GameEngineSound::SoundPlayOneShot("break.mp3");
 	if (true == PotHitBox_->IsUpdate())
 	{
 		PotHitBox_->Off();
@@ -273,7 +274,11 @@ bool Map1FRoom10Pot0B1F::CheckPickUpEnd()
 
 void Map1FRoom10Pot0B1F::Reset()
 {
-	if (CameraState::Room10 == PlayerLink::GetPlayerCurRoomState())
+	if (CameraState::Room4 == PlayerLink::GetPlayerCurRoomState() ||
+		CameraState::Room7 == PlayerLink::GetPlayerCurRoomState() ||
+		CameraState::Room8 == PlayerLink::GetPlayerCurRoomState() ||
+		CameraState::Room12 == PlayerLink::GetPlayerCurRoomState() ||
+		CameraState::Room13 == PlayerLink::GetPlayerCurRoomState())
 	{
 		if (false == IsInRoom_ && PotState::Death == CurPotState_)
 		{

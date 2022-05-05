@@ -104,6 +104,7 @@ void Map1FRoom5EnemyPopo0::GetDamaged()
 		std::vector<GameEngineCollision*> ColList;
 		if (true == PopoCol_->CollisionResult("Sword", ColList, CollisionType::Rect, CollisionType::Rect))
 		{
+			GameEngineSound::SoundPlayOneShot("smallenemyhit.mp3");
 			Hp_ -= 1;
 			IsInvincible_ = true;
 			IsBlink_ = true;
@@ -154,6 +155,7 @@ void Map1FRoom5EnemyPopo0::KnockbackedStart()
 
 void Map1FRoom5EnemyPopo0::DeathStart()
 {
+	GameEngineSound::SoundPlayOneShot("enemydies.mp3");
 	PopoMoveCol_->Death();
 	PopoRenderer_->SetAlpha(255);
 	PopoRenderer_->ChangeAnimation("DeathEffect");
