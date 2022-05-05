@@ -187,6 +187,33 @@ void PlayerLink::WieldUpdate()
 		{
 			SwordCollision_->Off();
 		}
+		if (true == GameEngineInput::GetInst()->IsPress("Attack"))
+		{
+			if (PlayerState::WieldRight == PlayerCurState_)
+			{
+				PlayerPrevState_ = PlayerCurState_;
+				PlayerChangeState(PlayerState::ChargingRight);
+				return;
+			}
+			if (PlayerState::WieldLeft == PlayerCurState_)
+			{
+				PlayerPrevState_ = PlayerCurState_;
+				PlayerChangeState(PlayerState::ChargingLeft);
+				return;
+			}
+			if (PlayerState::WieldUp == PlayerCurState_)
+			{
+				PlayerPrevState_ = PlayerCurState_;
+				PlayerChangeState(PlayerState::ChargingUp);
+				return;
+			}
+			if (PlayerState::WieldDown == PlayerCurState_)
+			{
+				PlayerPrevState_ = PlayerCurState_;
+				PlayerChangeState(PlayerState::ChargingDown);
+				return;
+			}
+		}
 		PlayerPrevStateCheck();
 	}
 }
@@ -613,7 +640,169 @@ void PlayerLink::WieldDownUpdate()
 
 void PlayerLink::ChargingUpdate()
 {
+	DamagedCheck();
+	if (true == IsKnockback_)
+	{
+		return;
+	}
+	CurChargeTime_ += GameEngineTime::GetDeltaTime(0);
 
+	if (false == GameEngineInput::GetInst()->IsPress("Attack") && ChargeTime_ < CurChargeTime_)
+	{
+		if (PlayerState::ChargingLeft == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+			{
+				PlayerChangeState(PlayerState::MoveRight);
+				return;
+			}
+			else
+			{
+
+				if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+				{
+					PlayerChangeState(PlayerState::MoveUp);
+					return;
+				}
+				if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+				{
+					PlayerChangeState(PlayerState::MoveDown);
+					return;
+				}
+				if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+				{
+					PlayerChangeState(PlayerState::MoveLeft);
+					return;
+				}
+
+				PlayerChangeState(PlayerState::IdleRight);
+				return;
+			}
+		}
+
+		if (PlayerState::ChargingLeft == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+			{
+				PlayerChangeState(PlayerState::MoveLeft);
+				return;
+			}
+			else
+			{
+
+				if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+				{
+					PlayerChangeState(PlayerState::MoveUp);
+					return;
+				}
+				if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+				{
+					PlayerChangeState(PlayerState::MoveDown);
+					return;
+				}
+				if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+				{
+					PlayerChangeState(PlayerState::MoveRight);
+					return;
+				}
+
+				PlayerChangeState(PlayerState::IdleLeft);
+				return;
+			}
+		}
+		if (PlayerState::ChargingUp == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+			{
+				PlayerChangeState(PlayerState::MoveUp);
+				return;
+			}
+			else
+			{
+				if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+				{
+					PlayerChangeState(PlayerState::MoveRight);
+					return;
+				}
+
+				if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+				{
+					PlayerChangeState(PlayerState::MoveLeft);
+					return;
+				}
+
+				if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+				{
+					PlayerChangeState(PlayerState::MoveDown);
+					return;
+				}
+				PlayerChangeState(PlayerState::IdleUp);
+				return;
+			}
+
+		}
+
+		if (PlayerState::ChargingDown == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+			{
+				PlayerChangeState(PlayerState::MoveDown);
+				return;
+			}
+			else
+			{
+				if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+				{
+					PlayerChangeState(PlayerState::MoveRight);
+					return;
+				}
+
+				if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+				{
+					PlayerChangeState(PlayerState::MoveLeft);
+					return;
+				}
+
+				if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+				{
+					PlayerChangeState(PlayerState::MoveUp);
+					return;
+				}
+				PlayerChangeState(PlayerState::IdleDown);
+				return;
+			}
+		}
+
+	}
+
+	if (false == GameEngineInput::GetInst()->IsPress("Attack") && ChargeTime_ > CurChargeTime_)
+	{
+		if (PlayerState::ChargingRight == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::ChargeWieldRight);
+			return;
+		}
+
+		if (PlayerState::ChargingLeft == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::ChargeWieldLeft);
+			return;
+		}
+		if (PlayerState::ChargingUp == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::ChargeWieldUp);
+			return;
+		}
+		if (PlayerState::ChargingDown == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::ChargeWieldDown);
+			return;
+		}
+	}
 }
 
 void PlayerLink::ChargingRight()
