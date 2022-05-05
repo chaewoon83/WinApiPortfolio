@@ -1,14 +1,12 @@
 #include "GameEngineSound.h"
 #include "GameEnginePath.h"
-#include "GameEngineBase/GameEngineDebug.h"
-#include "GameEngineBase/GameEngineString.h"
+#include "GameEngineDebug.h"
+#include "GameEngineString.h"
 
 
-//fmod.hpp 에는 선언만있다
-//dll 에는 구현이 있고 lib파일을 dll 파일을 로드하겠다는 코드가 쓰여있다
-#pragma comment (lib, "fmod_vc.lib")
+#pragma comment(lib, "fmod_vc.lib")
 
-FMOD::System* SoundSystem_;
+FMOD::System* SoundSystem_ = nullptr;
 
 class SoundSystemCreater
 {
@@ -22,52 +20,71 @@ public:
 			MsgBoxAssert("사운드 시스템 생성에 실패했습니다.");
 			return;
 		}
-		
+
+		// 우리 컴퓨터 사운드 카드에 대한 정보를 얻어오고
 		if (FMOD_OK != SoundSystem_->init(32, FMOD_DEFAULT, nullptr))
 		{
-			MsgBoxAssert("사운드 시스템 설정에 실패했습니다.");
+			MsgBoxAssert("사운드 시스템 설정이 실패했습니다.");
 			return;
 		}
+
 	}
 };
 
 SoundSystemCreater CreateInst = SoundSystemCreater();
-GameEngineSound::GameEngineSound() 
+
+GameEngineSound::GameEngineSound()
 {
-	
+	// FMOD::System_Create();
 }
 
-GameEngineSound::~GameEngineSound() 
+GameEngineSound::~GameEngineSound()
 {
 }
 
+bool GameEngineSound::Load(const std::string& _Path)
+{
+	if (FMOD_OK != SoundSystem_->createSound(_Path.c_str(), FMOD_LOOP_NORMAL, nullptr, &Sound))
+	{
+		MsgBoxAssertString("사운드 로드에 실패했습니다.\n 경로 : " + _Path);
+		return false;
+	}
 
+	return true;
+}
 
-///////////////////////////////////기능 매니지먼트
+/// /////////////////////////////////////////////////////////////// 기능 매니지먼트
 
-GameEngineSoundPlayer GameEngineSound::SoundPlayControl(const std::string& _Name)
+GameEngineSoundPlayer GameEngineSound::SoundPlayControl(const std::string& _Name, unsigned int LoopCount)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_Name);
+
 	GameEngineSound* FindSound = FindRes(UpperName);
+
 	if (nullptr == FindSound)
 	{
-		MsgBoxAssertString("존재하지 않는 사운드를 재생하려고 했습니다. \n 이름 : " + UpperName);
+		MsgBoxAssertString("존재하지 않는 사운드를 재생하려고 했습니다.\n 이름 : " + UpperName);
+		return GameEngineSoundPlayer();
 	}
 
 	FMOD::Channel* PlayControl = nullptr;
-	SoundSystem_->playSound(FindSound->Sound, nullptr, false, &PlayControl);
 
-	
+	SoundSystem_->playSound(FindSound->Sound, nullptr, false, &PlayControl);
+	PlayControl->setLoopCount(LoopCount);
+
 	return GameEngineSoundPlayer(FindSound, PlayControl);
 }
 
 void GameEngineSound::SoundPlayOneShot(const std::string& _Name, int LoopCount /*= 1*/)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_Name);
+
 	GameEngineSound* FindSound = FindRes(UpperName);
+
 	if (nullptr == FindSound)
 	{
-		MsgBoxAssertString("존재하지 않는 사운드를 재생하려고 했습니다. \n 이름 : " + UpperName);
+		MsgBoxAssertString("존재하지 않는 사운드를 재생하려고 했습니다.\n 이름 : " + UpperName);
+		return;
 	}
 
 	FMOD::Channel* PlayControl = nullptr;
@@ -75,6 +92,7 @@ void GameEngineSound::SoundPlayOneShot(const std::string& _Name, int LoopCount /
 	SoundSystem_->playSound(FindSound->Sound, nullptr, false, &PlayControl);
 
 	PlayControl->setLoopCount(LoopCount);
+
 
 
 }
@@ -88,43 +106,33 @@ void GameEngineSound::Update()
 	SoundSystem_->update();
 }
 
-/// /////////////////////////////////////////////매니지먼트
+/// /////////////////////////////////////////////////////////////// 매니지먼트
 
 std::map<std::string, GameEngineSound*> GameEngineSound::AllRes;
-
-bool GameEngineSound::Load(const std::string& _Path)
-{
-	if (FMOD_OK != SoundSystem_->createSound(_Path.c_str(), FMOD_DEFAULT, nullptr, &Sound))
-	{
-		MsgBoxAssertString("사운드 로드에 실패했습니다. \n 경로 : " + _Path);
-		return false;
-	}
-	return true;
-}
-
 
 
 GameEngineSound* GameEngineSound::FindRes(const std::string& _Name)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_Name);
+
 	std::map<std::string, GameEngineSound*>::iterator FindIter = AllRes.find(UpperName);
+
 	if (FindIter == AllRes.end())
 	{
 		return nullptr;
 	}
+
 	return FindIter->second;
 }
-
 GameEngineSound* GameEngineSound::LoadRes(const std::string& _Path)
 {
-
 	GameEnginePath NewPath = GameEnginePath(_Path);
-	return GameEngineSound::LoadRes(_Path, NewPath.GetFileName());
+	return LoadRes(_Path, NewPath.GetFileName());	//경로와 파일이름(ex.idle.bmp)을 Map의 key,value로 넣기위해 각각 넘겨준다.
 }
- 
 GameEngineSound* GameEngineSound::LoadRes(const std::string& _Path, const std::string& _Name)
 {
 	std::string UpperName = GameEngineString::ToUpperReturn(_Name);
+
 	GameEngineSound* NewRes = new GameEngineSound();
 
 	if (false == NewRes->Load(_Path))
@@ -133,6 +141,7 @@ GameEngineSound* GameEngineSound::LoadRes(const std::string& _Path, const std::s
 		NewRes = nullptr;
 		return nullptr;
 	}
+
 	AllRes.insert(std::make_pair(UpperName, NewRes));
 	return nullptr;
 }
@@ -154,40 +163,57 @@ void GameEngineSound::AllResourcesDestroy()
 	}
 }
 
-
-/////////////////////////////////////사운드 플레이어
+////////////////////////////////////////////////////////// 사운드 플레이어
 
 void GameEngineSoundPlayer::Stop()
 {
 	if (nullptr == ControlHandle_)
 	{
-		MsgBoxAssert("사운드 컨트롤 채널에 치명적인 문제가 있습니다.");
 		return;
 	}
+
 	ControlHandle_->stop();
 }
 
+void GameEngineSoundPlayer::PlaySpeed(float _Speed)
+{
+	if (nullptr == ControlHandle_)
+	{
+		MsgBoxAssert("사운드 컨트롤 채널에 치명적인 문제가 있습니다.\n");
+		return;
+	}
+
+	ControlHandle_->setPitch(_Speed);
+}
+
+void GameEngineSoundPlayer::Volume(float _Value)
+{
+	ControlHandle_->setVolume(_Value);
+}
+
+
 
 GameEngineSoundPlayer::GameEngineSoundPlayer()
-	:Sound_(nullptr),
-	 ControlHandle_(nullptr)
+	: Sound_(nullptr)
+	, ControlHandle_(nullptr)
 {
 
 }
 
 GameEngineSoundPlayer::GameEngineSoundPlayer(const GameEngineSoundPlayer& _Other)
-	:Sound_(_Other.Sound_),
-	 ControlHandle_(_Other.ControlHandle_)
+	: Sound_(_Other.Sound_)
+	, ControlHandle_(_Other.ControlHandle_)
 {
 
 }
 
 GameEngineSoundPlayer::GameEngineSoundPlayer(GameEngineSound* _Sound, FMOD::Channel* _ControlHandle)
-	:Sound_(_Sound),
-	 ControlHandle_(_ControlHandle)
+	: Sound_(_Sound)
+	, ControlHandle_(_ControlHandle)
 {
 
 }
+
 GameEngineSoundPlayer::~GameEngineSoundPlayer()
 {
 
