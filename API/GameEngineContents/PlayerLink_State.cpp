@@ -22,11 +22,6 @@ void PlayerLink::IdleUpdate()
 		return;
 	}
 
-	if (true == GameEngineInput::GetInst()->IsPress("Special"))
-	{
-		PlayerRenderer_->ChangeAnimation("Charge_Up");
-	}
-
 	if (true == GameEngineInput::GetInst()->IsPress("MoveUp") && false == IsBlackScreenOn_)
 	{
 		PlayerChangeState(PlayerState::MoveUp);
@@ -192,25 +187,25 @@ void PlayerLink::WieldUpdate()
 			if (PlayerState::WieldRight == PlayerCurState_)
 			{
 				PlayerPrevState_ = PlayerCurState_;
-				PlayerChangeState(PlayerState::ChargingRight);
+				PlayerChangeState(PlayerState::ChargingIdleRight);
 				return;
 			}
 			if (PlayerState::WieldLeft == PlayerCurState_)
 			{
 				PlayerPrevState_ = PlayerCurState_;
-				PlayerChangeState(PlayerState::ChargingLeft);
+				PlayerChangeState(PlayerState::ChargingIdleLeft);
 				return;
 			}
 			if (PlayerState::WieldUp == PlayerCurState_)
 			{
 				PlayerPrevState_ = PlayerCurState_;
-				PlayerChangeState(PlayerState::ChargingUp);
+				PlayerChangeState(PlayerState::ChargingIdleUp);
 				return;
 			}
 			if (PlayerState::WieldDown == PlayerCurState_)
 			{
 				PlayerPrevState_ = PlayerCurState_;
-				PlayerChangeState(PlayerState::ChargingDown);
+				PlayerChangeState(PlayerState::ChargingIdleDown);
 				return;
 			}
 		}
@@ -647,9 +642,61 @@ void PlayerLink::ChargingUpdate()
 	}
 	CurChargeTime_ += GameEngineTime::GetDeltaTime(0);
 
-	if (false == GameEngineInput::GetInst()->IsPress("Attack") && ChargeTime_ < CurChargeTime_)
+	/////// Create Sword Collision
+	if (PlayerState::ChargingIdleRight == PlayerCurState_ &&
+		false == IsSwordCollisionOn_)
 	{
-		if (PlayerState::ChargingLeft == PlayerCurState_)
+		ChargingRight();
+	}
+	if (PlayerState::ChargingIdleLeft == PlayerCurState_ &&
+		false == IsSwordCollisionOn_)
+	{
+		ChargingLeft();
+	}
+	if (PlayerState::ChargingIdleUp == PlayerCurState_ &&
+		false == IsSwordCollisionOn_)
+	{
+		ChargingUp();
+	}
+	if (PlayerState::ChargingIdleDown == PlayerCurState_ &&
+		false == IsSwordCollisionOn_)
+	{
+		ChargingDown();
+	}
+
+	////////////////////////When Move While Charge
+	if (false == IsMoveKeyFree() && PlayerState::ChargingIdleRight == PlayerCurState_)
+	{
+		PlayerChangeState(PlayerState::ChargingMoveRight);
+		return;
+	}
+
+	if (false == IsMoveKeyFree() && PlayerState::ChargingIdleLeft == PlayerCurState_)
+	{
+		PlayerChangeState(PlayerState::ChargingMoveLeft);
+		return;
+	}
+
+	if (false == IsMoveKeyFree() && PlayerState::ChargingIdleUp == PlayerCurState_)
+	{
+		PlayerChangeState(PlayerState::ChargingMoveUp);
+		return;
+	}
+
+	if (false == IsMoveKeyFree() && PlayerState::ChargingIdleDown == PlayerCurState_)
+	{
+		PlayerChangeState(PlayerState::ChargingMoveDown);
+		return;
+	}
+
+
+	////////////////////////When Charge Off Idle
+	if ((false == GameEngineInput::GetInst()->IsPress("Attack") && ChargeTime_ > CurChargeTime_ ) || false == IsInChargingState_)
+	{
+		IsSwordCollisionOn_ = false;
+		SwordCollision_->Off();
+		IsInChargingState_ = false;
+		if (PlayerState::ChargingIdleRight == PlayerCurState_)
 		{
 			PlayerPrevState_ = PlayerCurState_;
 			if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
@@ -659,7 +706,6 @@ void PlayerLink::ChargingUpdate()
 			}
 			else
 			{
-
 				if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
 				{
 					PlayerChangeState(PlayerState::MoveUp);
@@ -681,7 +727,7 @@ void PlayerLink::ChargingUpdate()
 			}
 		}
 
-		if (PlayerState::ChargingLeft == PlayerCurState_)
+		if (PlayerState::ChargingIdleLeft == PlayerCurState_)
 		{
 			PlayerPrevState_ = PlayerCurState_;
 			if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
@@ -691,7 +737,6 @@ void PlayerLink::ChargingUpdate()
 			}
 			else
 			{
-
 				if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
 				{
 					PlayerChangeState(PlayerState::MoveUp);
@@ -712,7 +757,7 @@ void PlayerLink::ChargingUpdate()
 				return;
 			}
 		}
-		if (PlayerState::ChargingUp == PlayerCurState_)
+		if (PlayerState::ChargingIdleUp == PlayerCurState_)
 		{
 			PlayerPrevState_ = PlayerCurState_;
 			if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
@@ -745,7 +790,7 @@ void PlayerLink::ChargingUpdate()
 
 		}
 
-		if (PlayerState::ChargingDown == PlayerCurState_)
+		if (PlayerState::ChargingIdleDown == PlayerCurState_)
 		{
 			PlayerPrevState_ = PlayerCurState_;
 			if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
@@ -779,25 +824,30 @@ void PlayerLink::ChargingUpdate()
 
 	}
 
-	if (false == GameEngineInput::GetInst()->IsPress("Attack") && ChargeTime_ > CurChargeTime_)
+
+	////////////////////////When Charge Off Wield
+	if (false == GameEngineInput::GetInst()->IsPress("Attack") && ChargeTime_ < CurChargeTime_)
 	{
-		if (PlayerState::ChargingRight == PlayerCurState_)
+		IsSwordCollisionOn_ = false;
+		SwordCollision_->Off();
+		IsInChargingState_ = false;
+		if (PlayerState::ChargingIdleRight == PlayerCurState_)
 		{
 			PlayerChangeState(PlayerState::ChargeWieldRight);
 			return;
 		}
 
-		if (PlayerState::ChargingLeft == PlayerCurState_)
+		if (PlayerState::ChargingIdleLeft == PlayerCurState_)
 		{
 			PlayerChangeState(PlayerState::ChargeWieldLeft);
 			return;
 		}
-		if (PlayerState::ChargingUp == PlayerCurState_)
+		if (PlayerState::ChargingIdleUp == PlayerCurState_)
 		{
 			PlayerChangeState(PlayerState::ChargeWieldUp);
 			return;
 		}
-		if (PlayerState::ChargingDown == PlayerCurState_)
+		if (PlayerState::ChargingIdleDown == PlayerCurState_)
 		{
 			PlayerChangeState(PlayerState::ChargeWieldDown);
 			return;
@@ -805,44 +855,388 @@ void PlayerLink::ChargingUpdate()
 	}
 }
 
+void PlayerLink::ChargingMoveUpdate()
+{
+	MoveFunction();
+	DamagedCheck();
+	if (true == IsKnockback_)
+	{
+		return;
+	}
+	CurChargeTime_ += GameEngineTime::GetDeltaTime(0);
+
+	////////////////////////When Move While Charge
+	// ÀÌ´Ï¼È¶óÀÌÂ¡ ÇÑ´Ù IsInChargingState_ = true; ·Î ¹Ù²ãÁÜ ¿©±â¼­
+	if (true == IsMoveKeyFree() && PlayerState::ChargingMoveRight == PlayerCurState_)
+	{
+		PlayerChangeState(PlayerState::ChargingIdleRight);
+		return;
+	}
+
+	if (true == IsMoveKeyFree() && PlayerState::ChargingMoveLeft == PlayerCurState_)
+	{
+		PlayerChangeState(PlayerState::ChargingIdleLeft);
+		return;
+	}
+
+	if (true == IsMoveKeyFree() && PlayerState::ChargingMoveUp == PlayerCurState_)
+	{
+		PlayerChangeState(PlayerState::ChargingIdleUp);
+		return;
+	}
+
+	if (true == IsMoveKeyFree() && PlayerState::ChargingMoveDown == PlayerCurState_)
+	{
+		PlayerChangeState(PlayerState::ChargingIdleDown);
+		return;
+	}
+
+
+
+
+	////////////////////////When Charge Off Idle
+	if ((false == GameEngineInput::GetInst()->IsPress("Attack") && ChargeTime_ > CurChargeTime_) || false ==  IsInChargingState_)
+	{
+		IsSwordCollisionOn_ = false;
+		SwordCollision_->Off();
+		IsInChargingState_ = false;
+		if (PlayerState::ChargingMoveRight == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+			{
+				PlayerChangeState(PlayerState::MoveRight);
+				return;
+			}
+			else
+			{
+				if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+				{
+					PlayerChangeState(PlayerState::MoveUp);
+					return;
+				}
+				if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+				{
+					PlayerChangeState(PlayerState::MoveDown);
+					return;
+				}
+				if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+				{
+					PlayerChangeState(PlayerState::MoveLeft);
+					return;
+				}
+
+				PlayerChangeState(PlayerState::IdleRight);
+				return;
+			}
+		}
+
+		if (PlayerState::ChargingMoveLeft == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+			{
+				PlayerChangeState(PlayerState::MoveLeft);
+				return;
+			}
+			else
+			{
+				if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+				{
+					PlayerChangeState(PlayerState::MoveUp);
+					return;
+				}
+				if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+				{
+					PlayerChangeState(PlayerState::MoveDown);
+					return;
+				}
+				if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+				{
+					PlayerChangeState(PlayerState::MoveRight);
+					return;
+				}
+
+				PlayerChangeState(PlayerState::IdleLeft);
+				return;
+			}
+		}
+		if (PlayerState::ChargingMoveUp == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+			{
+				PlayerChangeState(PlayerState::MoveUp);
+				return;
+			}
+			else
+			{
+				if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+				{
+					PlayerChangeState(PlayerState::MoveRight);
+					return;
+				}
+
+				if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+				{
+					PlayerChangeState(PlayerState::MoveLeft);
+					return;
+				}
+
+				if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+				{
+					PlayerChangeState(PlayerState::MoveDown);
+					return;
+				}
+				PlayerChangeState(PlayerState::IdleUp);
+				return;
+			}
+
+		}
+
+		if (PlayerState::ChargingMoveDown == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+			{
+				PlayerChangeState(PlayerState::MoveDown);
+				return;
+			}
+			else
+			{
+				if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+				{
+					PlayerChangeState(PlayerState::MoveRight);
+					return;
+				}
+
+				if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+				{
+					PlayerChangeState(PlayerState::MoveLeft);
+					return;
+				}
+
+				if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+				{
+					PlayerChangeState(PlayerState::MoveUp);
+					return;
+				}
+				PlayerChangeState(PlayerState::IdleDown);
+				return;
+			}
+		}
+
+	}
+
+
+	////////////////////////When Charge Off Wield
+	if (false == GameEngineInput::GetInst()->IsPress("Attack") && ChargeTime_ < CurChargeTime_)
+	{
+		IsSwordCollisionOn_ = false;
+		SwordCollision_->Off();
+		IsInChargingState_ = false;
+		if (PlayerState::ChargingIdleRight == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::ChargeWieldRight);
+			return;
+		}
+
+		if (PlayerState::ChargingIdleLeft == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::ChargeWieldLeft);
+			return;
+		}
+		if (PlayerState::ChargingIdleUp == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::ChargeWieldUp);
+			return;
+		}
+		if (PlayerState::ChargingIdleDown == PlayerCurState_)
+		{
+			PlayerChangeState(PlayerState::ChargeWieldDown);
+			return;
+		}
+	}
+}
 void PlayerLink::ChargingRight()
 {
-
+	IsInChargingState_ = true;
+	IsSwordCollisionOn_ = true;
+	SwordCollision_->On();
+	SwordCollision_->SetScale({ 64, 24 });
+	SwordCollision_->SetPivot({ 32, 12 });
 }
 void PlayerLink::ChargingLeft()
 {
-
+	IsInChargingState_ = true;
+	IsSwordCollisionOn_ = true;
+	SwordCollision_->On();
+	SwordCollision_->SetScale({ 64, 24 });
+	SwordCollision_->SetPivot({ -32, 12 });
 }
 void PlayerLink::ChargingUp()
 {
-
+	IsInChargingState_ = true;
+	IsSwordCollisionOn_ = true;
+	SwordCollision_->On();
+	SwordCollision_->SetScale({ 22, 60 });
+	SwordCollision_->SetPivot({ -11, -30 });
 }
 void PlayerLink::ChargingDown()
 {
-
+	IsInChargingState_ = true;
+	IsSwordCollisionOn_ = true;
+	SwordCollision_->On();
+	SwordCollision_->SetScale({ 36, 74 });
+	SwordCollision_->SetPivot({ 18, 37 });
 }
 
 void PlayerLink::ChargeWieldUpdate()
 {
+	{
+		if (0 == PlayerRenderer_->GetAnimationIndex())
+		{
+			SwordCollision_->On();
+			SwordCollision_->SetPivot({0, 0});
+			SwordCollision_->SetScale({160, 160});
 
+		}
+	}
+	////////////////////////When Charge Off Idle
+	if (true == PlayerRenderer_->IsEndAnimation())
+	{
+		IsSwordCollisionOn_ = false;
+		SwordCollision_->Off();
+		IsInChargingState_ = false;
+		if (PlayerState::ChargeWieldRight == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+			{
+				PlayerChangeState(PlayerState::MoveRight);
+				return;
+			}
+			else
+			{
+				if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+				{
+					PlayerChangeState(PlayerState::MoveUp);
+					return;
+				}
+				if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+				{
+					PlayerChangeState(PlayerState::MoveDown);
+					return;
+				}
+				if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+				{
+					PlayerChangeState(PlayerState::MoveLeft);
+					return;
+				}
+
+				PlayerChangeState(PlayerState::IdleRight);
+				return;
+			}
+		}
+
+		if (PlayerState::ChargeWieldLeft == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+			{
+				PlayerChangeState(PlayerState::MoveLeft);
+				return;
+			}
+			else
+			{
+				if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+				{
+					PlayerChangeState(PlayerState::MoveUp);
+					return;
+				}
+				if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+				{
+					PlayerChangeState(PlayerState::MoveDown);
+					return;
+				}
+				if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+				{
+					PlayerChangeState(PlayerState::MoveRight);
+					return;
+				}
+
+				PlayerChangeState(PlayerState::IdleLeft);
+				return;
+			}
+		}
+		if (PlayerState::ChargeWieldUp == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+			{
+				PlayerChangeState(PlayerState::MoveUp);
+				return;
+			}
+			else
+			{
+				if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+				{
+					PlayerChangeState(PlayerState::MoveRight);
+					return;
+				}
+
+				if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+				{
+					PlayerChangeState(PlayerState::MoveLeft);
+					return;
+				}
+
+				if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+				{
+					PlayerChangeState(PlayerState::MoveDown);
+					return;
+				}
+				PlayerChangeState(PlayerState::IdleUp);
+				return;
+			}
+
+		}
+
+		if (PlayerState::ChargeWieldDown == PlayerCurState_)
+		{
+			PlayerPrevState_ = PlayerCurState_;
+			if (true == GameEngineInput::GetInst()->IsPress("MoveDown"))
+			{
+				PlayerChangeState(PlayerState::MoveDown);
+				return;
+			}
+			else
+			{
+				if (true == GameEngineInput::GetInst()->IsPress("MoveRight"))
+				{
+					PlayerChangeState(PlayerState::MoveRight);
+					return;
+				}
+
+				if (true == GameEngineInput::GetInst()->IsPress("MoveLeft"))
+				{
+					PlayerChangeState(PlayerState::MoveLeft);
+					return;
+				}
+
+				if (true == GameEngineInput::GetInst()->IsPress("MoveUp"))
+				{
+					PlayerChangeState(PlayerState::MoveUp);
+					return;
+				}
+				PlayerChangeState(PlayerState::IdleDown);
+				return;
+			}
+		}
+
+	}
 }
 
-void PlayerLink::ChargeWieldRight()
-{
-
-}
-void PlayerLink::ChargeWieldLeft()
-{
-
-}
-void PlayerLink::ChargeWieldUp()
-{
-
-}
-void PlayerLink::ChargeWieldDown()
-{
-
-}
 
 void PlayerLink::DamagedUpdate()
 {
@@ -1786,44 +2180,64 @@ void PlayerLink::WieldDownStart()
 	PlayerRenderer_->ChangeAnimationReset("Wield_Down");
 }
 
-void PlayerLink::ChargingRightStart()
+void PlayerLink::ChargingIdleRightStart()
 {
-	PlayerRenderer_->ChangeAnimation("Charge_Right");
+	PlayerRenderer_->ChangeAnimationReset("Charge_Idle_Right");
 }
 
-void PlayerLink::ChargingLeftStart()
+void PlayerLink::ChargingIdleLeftStart()
 {
-	PlayerRenderer_->ChangeAnimation("Charge_Left");
+	PlayerRenderer_->ChangeAnimationReset("Charge_Idle_Left");
 }
 
-void PlayerLink::ChargingUpStart()
+void PlayerLink::ChargingIdleUpStart()
 {
-	PlayerRenderer_->ChangeAnimation("Charge_Up");
+	PlayerRenderer_->ChangeAnimationReset("Charge_Idle_Up");
 }
 
-void PlayerLink::ChargingDownStart()
+void PlayerLink::ChargingIdleDownStart()
 {
-	PlayerRenderer_->ChangeAnimation("Charge_Down");
+	PlayerRenderer_->ChangeAnimationReset("Charge_Idle_Down");
+}
+
+void PlayerLink::ChargingMoveRightStart()
+{
+	PlayerRenderer_->ChangeAnimationReset("Charge_Move_Right");
+}
+
+void PlayerLink::ChargingMoveLeftStart()
+{
+	PlayerRenderer_->ChangeAnimationReset("Charge_Move_Left");
+}
+
+void PlayerLink::ChargingMoveUpStart()
+{
+	PlayerRenderer_->ChangeAnimationReset("Charge_Move_Up");
+}
+
+void PlayerLink::ChargingMoveDownStart()
+{
+	PlayerRenderer_->ChangeAnimationReset("Charge_Move_Down");
 }
 
 void PlayerLink::ChargeWieldRightStart()
 {
-	PlayerRenderer_->ChangeAnimation("Charge_Wield_Right");
+	PlayerRenderer_->ChangeAnimationReset("Charge_Wield_Right");
 }
 
 void PlayerLink::ChargeWieldLeftStart()
 {
-	PlayerRenderer_->ChangeAnimation("Charge_Wield_Left");
+	PlayerRenderer_->ChangeAnimationReset("Charge_Wield_Left");
 }
 
 void PlayerLink::ChargeWieldUpStart()
 {
-	PlayerRenderer_->ChangeAnimation("Charge_Wield_Up");
+	PlayerRenderer_->ChangeAnimationReset("Charge_Wield_Up");
 }
 
 void PlayerLink::ChargeWieldDownStart()
 {
-	PlayerRenderer_->ChangeAnimation("Charge_Wield_Down");
+	PlayerRenderer_->ChangeAnimationReset("Charge_Wield_Down");
 }
 
 
@@ -1945,7 +2359,9 @@ void PlayerLink::DamagedCheck()
 			PlayerState::MoveRight == PlayerCurState_ ||
 			PlayerState::WieldRight == PlayerCurState_ ||
 			PlayerState::CarryIdleRight == PlayerPrevState_ ||
-			PlayerState::CarryMoveRight == PlayerPrevState_)
+			PlayerState::CarryMoveRight == PlayerPrevState_ ||
+			PlayerState::ChargingIdleRight == PlayerPrevState_ ||
+			PlayerState::ChargingMoveRight == PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedRight);
 			return;
@@ -1954,7 +2370,9 @@ void PlayerLink::DamagedCheck()
 			PlayerState::MoveLeft == PlayerCurState_ ||
 			PlayerState::WieldLeft == PlayerCurState_ ||
 			PlayerState::CarryIdleLeft == PlayerPrevState_ ||
-			PlayerState::CarryMoveLeft == PlayerPrevState_)
+			PlayerState::CarryMoveLeft == PlayerPrevState_ ||
+			PlayerState::ChargingIdleLeft == PlayerPrevState_ ||
+			PlayerState::ChargingMoveLeft == PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedLeft);
 			return;
@@ -1963,7 +2381,9 @@ void PlayerLink::DamagedCheck()
 			PlayerState::MoveUp == PlayerCurState_ ||
 			PlayerState::WieldUp == PlayerCurState_ ||
 			PlayerState::CarryIdleUp == PlayerPrevState_ ||
-			PlayerState::CarryMoveUp == PlayerPrevState_)
+			PlayerState::CarryMoveUp == PlayerPrevState_ ||
+			PlayerState::ChargingIdleUp == PlayerPrevState_ ||
+			PlayerState::ChargingMoveUp== PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedUp);
 			return;
@@ -1972,7 +2392,9 @@ void PlayerLink::DamagedCheck()
 			PlayerState::MoveDown == PlayerCurState_ ||
 			PlayerState::WieldDown == PlayerCurState_ ||
 			PlayerState::CarryIdleDown == PlayerPrevState_ ||
-			PlayerState::CarryMoveDown == PlayerPrevState_)
+			PlayerState::CarryMoveDown == PlayerPrevState_ ||
+			PlayerState::ChargingIdleDown == PlayerPrevState_ ||
+			PlayerState::ChargingMoveDown == PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedDown);
 			return;
@@ -2222,7 +2644,9 @@ void PlayerLink::PlayerPrevStateCheck()
 		PlayerState::MoveUp == PlayerPrevState_ ||
 		PlayerState::WieldUp == PlayerPrevState_ ||
 		PlayerState::CarryIdleUp == PlayerPrevState_ ||
-		PlayerState::CarryMoveUp == PlayerPrevState_)
+		PlayerState::CarryMoveUp == PlayerPrevState_ ||
+		PlayerState::ChargingIdleUp == PlayerPrevState_||
+		PlayerState::ChargingMoveUp == PlayerPrevState_)
 	{
 		PlayerChangeState(PlayerState::IdleUp);
 		return;
@@ -2231,7 +2655,9 @@ void PlayerLink::PlayerPrevStateCheck()
 		PlayerState::MoveDown == PlayerPrevState_ ||
 		PlayerState::WieldDown == PlayerPrevState_ ||
 		PlayerState::CarryIdleDown == PlayerPrevState_ ||
-		PlayerState::CarryMoveDown == PlayerPrevState_)
+		PlayerState::CarryMoveDown == PlayerPrevState_ ||
+		PlayerState::ChargingIdleDown == PlayerPrevState_ ||
+		PlayerState::ChargingMoveDown == PlayerPrevState_)
 	{
 		PlayerChangeState(PlayerState::IdleDown);
 		return;
@@ -2240,7 +2666,9 @@ void PlayerLink::PlayerPrevStateCheck()
 		PlayerState::MoveRight == PlayerPrevState_ ||
 		PlayerState::WieldRight == PlayerPrevState_ ||
 		PlayerState::CarryIdleRight == PlayerPrevState_ ||
-		PlayerState::CarryMoveRight == PlayerPrevState_)
+		PlayerState::CarryMoveRight == PlayerPrevState_ ||
+		PlayerState::ChargingIdleRight == PlayerPrevState_ ||
+		PlayerState::ChargingMoveRight == PlayerPrevState_)
 	{
 		PlayerChangeState(PlayerState::IdleRight);
 		return;
@@ -2249,7 +2677,9 @@ void PlayerLink::PlayerPrevStateCheck()
 		PlayerState::MoveLeft == PlayerPrevState_ ||
 		PlayerState::WieldLeft == PlayerPrevState_ ||
 		PlayerState::CarryIdleLeft == PlayerPrevState_ ||
-		PlayerState::CarryMoveLeft == PlayerPrevState_)
+		PlayerState::CarryMoveLeft == PlayerPrevState_ ||
+		PlayerState::ChargingIdleLeft == PlayerPrevState_ ||
+		PlayerState::ChargingMoveLeft == PlayerPrevState_)
 	{
 		PlayerChangeState(PlayerState::IdleLeft);
 		return;

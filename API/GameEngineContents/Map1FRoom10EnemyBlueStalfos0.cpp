@@ -634,6 +634,7 @@ void Map1FRoom10EnemyBlueStalfos0::GetDamaged()
 			HitActor_ = ColList[0]->GetActor();
 			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 			KnockbackDir_.Normal2D();
+			dynamic_cast<PlayerLink*>(ColList[0]->GetActor())->SetIsInChargingStateOff();
 			BlueStalfosChangeState(BlueStalfosState::Knockbacked);
 		}
 

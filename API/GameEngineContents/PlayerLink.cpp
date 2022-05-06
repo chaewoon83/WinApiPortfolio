@@ -53,6 +53,7 @@ PlayerStairsState PlayerLink::CurStairs_ = PlayerStairsState::Top;
 bool PlayerLink::IsOnStairs_ = false;
 bool PlayerLink::IsCarry_ = false;
 bool PlayerLink::IsInItemCutScene_ = false;
+bool PlayerLink::IsInChargingState_ = false;
 
 float PlayerLink::ItemMoveTime_ = 1.0f;
 float PlayerLink::CurItemMoveTime_ = 0.0f;
@@ -99,6 +100,8 @@ PlayerLink::PlayerLink()
 	, BlinkFreq_(0.01f)
 	, CurBlinkFreq_(0.0f)
 	, IsAlphaOn_(true)
+	, IsSwordCollisionOn_(false)
+
 	, MaxHp_(20)
 	, IsHpLowSoundActive_(false)
 	, IsBlackScreenOn_(false)
@@ -152,52 +155,61 @@ void PlayerLink::Start()
 	//true 면 루프 false 면 루프아님
 	//PlayerRenderer->SetPivot({ 0, -11 });
 
-	PlayerRenderer_->CreateAnimation("Link_Idle_Right.bmp", "Idle_Right", 0, 1, 0.05f, false);
-	PlayerRenderer_->CreateAnimation("Link_Idle_Left.bmp", "Idle_Left", 0, 1, 0.05f, false);
-	PlayerRenderer_->CreateAnimation("Link_Idle_Up.bmp", "Idle_Up", 0, 1, 0.05f, false);
-	PlayerRenderer_->CreateAnimation("Link_Idle_Down.bmp", "Idle_Down", 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Idle_Right.bmp", "Idle_Right", 0, 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Idle_Left.bmp", "Idle_Left", 0, 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Idle_Up.bmp", "Idle_Up", 0, 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Idle_Down.bmp", "Idle_Down", 0, 0, 1, 0.05f, false);
 
-	PlayerRenderer_->CreateAnimation("Link_Walk_Right.bmp", "Walk_Right", 0, 5, 0.05f, true);
-	PlayerRenderer_->CreateAnimation("Link_Walk_Left.bmp", "Walk_Left", 0, 5, 0.05f, true);
-	PlayerRenderer_->CreateAnimation("Link_Walk_Up.bmp", "Walk_Up", 0, 7, 0.05f, true);
-	PlayerRenderer_->CreateAnimation("Link_Walk_Down.bmp", "Walk_Down", 0, 7, 0.05f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Walk_Right.bmp", "Walk_Right", 0, 0, 5, 0.05f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Walk_Left.bmp", "Walk_Left", 0, 0, 5, 0.05f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Walk_Up.bmp", "Walk_Up", 0, 0, 7, 0.05f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Walk_Down.bmp", "Walk_Down", 0, 0, 7, 0.05f, true);
 
-	PlayerRenderer_->CreateAnimation("Link_Wield_Right.bmp", "Wield_Right", 0, 4, AttackAnimationInterval_, true);
-	PlayerRenderer_->CreateAnimation("Link_Wield_Left.bmp", "Wield_Left", 0, 4, AttackAnimationInterval_, true);
-	PlayerRenderer_->CreateAnimation("Link_Wield_Up.bmp", "Wield_Up", 0, 4, AttackAnimationInterval_, true);
-	PlayerRenderer_->CreateAnimation("Link_Wield_Down.bmp", "Wield_Down", 0, 5, AttackAnimationInterval_, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Wield_Right.bmp", "Wield_Right", 0, 0, 4, AttackAnimationInterval_, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Wield_Left.bmp", "Wield_Left", 0, 0, 4, AttackAnimationInterval_, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Wield_Up.bmp", "Wield_Up", 0, 0, 4, AttackAnimationInterval_, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Wield_Down.bmp", "Wield_Down", 0, 0, 5, AttackAnimationInterval_, true);
 
-	PlayerRenderer_->CreateAnimation("Link_Damaged_Right.bmp", "Damaged_Right", 0, 1, 0.05f, false);
-	PlayerRenderer_->CreateAnimation("Link_Damaged_Left.bmp", "Damaged_Left", 0, 1, 0.05f, false);
-	PlayerRenderer_->CreateAnimation("Link_Damaged_Up.bmp", "Damaged_Up", 0, 1, 0.05f, false);
-	PlayerRenderer_->CreateAnimation("Link_Damaged_Down.bmp", "Damaged_Down", 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Damaged_Right.bmp", "Damaged_Right", 0, 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Damaged_Left.bmp", "Damaged_Left", 0, 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Damaged_Up.bmp", "Damaged_Up", 0, 0, 1, 0.05f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Damaged_Down.bmp", "Damaged_Down", 0, 0, 1, 0.05f, false);
 
-	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Right.bmp", "Carry_Start_Right", 0, 2, 0.2f, false);
-	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Left.bmp", "Carry_Start_Left", 0, 2, 0.2f, false);
-	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Up.bmp", "Carry_Start_Up", 0, 2, 0.2f, false);
-	PlayerRenderer_->CreateAnimation("Link_Carry_Start_Down.bmp", "Carry_Start_Down", 0, 2, 0.2f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Carry_Start_Right.bmp", "Carry_Start_Right", 0, 0, 2, 0.2f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Carry_Start_Left.bmp", "Carry_Start_Left", 0, 0, 2, 0.2f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Carry_Start_Up.bmp", "Carry_Start_Up", 0, 0, 2, 0.2f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Carry_Start_Down.bmp", "Carry_Start_Down", 0, 0, 2, 0.2f, false);
 
-	PlayerRenderer_->CreateAnimation("Link_Carry_Idle_Right.bmp", "Carry_Idle_Right", 0, 1, 0.25f, true);
-	PlayerRenderer_->CreateAnimation("Link_Carry_Idle_Left.bmp", "Carry_Idle_Left", 0, 1, 0.25f, true);
-	PlayerRenderer_->CreateAnimation("Link_Carry_Idle_Up.bmp", "Carry_Idle_Up", 0, 1, 0.25f, true);
-	PlayerRenderer_->CreateAnimation("Link_Carry_Idle_Down.bmp", "Carry_Idle_Down", 0, 1, 0.25f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Carry_Idle_Right.bmp", "Carry_Idle_Right", 0, 0, 1, 0.25f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Carry_Idle_Left.bmp", "Carry_Idle_Left", 0, 0, 1, 0.25f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Carry_Idle_Up.bmp", "Carry_Idle_Up", 0, 0, 1, 0.25f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Carry_Idle_Down.bmp", "Carry_Idle_Down", 0, 0, 1, 0.25f, true);
 
-	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Right.bmp", "Carry_Move_Right", 0, 1, 0.1f, true);
-	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Left.bmp", "Carry_Move_Left", 0, 1, 0.1f, true);
-	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Up.bmp", "Carry_Move_Up", 0, 4, 0.1f, true);
-	PlayerRenderer_->CreateAnimation("Link_Carry_Move_Down.bmp", "Carry_Move_Down", 0, 4, 0.1f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Carry_Move_Right.bmp", "Carry_Move_Right", 0, 0, 1, 0.1f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Carry_Move_Left.bmp", "Carry_Move_Left", 0, 0, 1, 0.1f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Carry_Move_Up.bmp", "Carry_Move_Up", 0, 0, 4, 0.1f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Carry_Move_Down.bmp", "Carry_Move_Down", 0, 0, 4, 0.1f, true);
 
-	PlayerRenderer_->CreateAnimation("Link_Charge_Attack_Right.bmp", "Charge_Wield_Right", 0, 11, 0.06f, true);
-	PlayerRenderer_->CreateAnimation("Link_Charge_Attack_Left.bmp", "Charge_Wield_Left", 0, 11, 0.06f, true);
-	PlayerRenderer_->CreateAnimation("Link_Charge_Attack_Up.bmp", "Charge_Wield_Up", 0, 11, 0.06f, true);
-	PlayerRenderer_->CreateAnimation("Link_Charge_Attack_Down.bmp", "Charge_Wield_Down", 0, 11, 0.06f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Charge_Attack_Right.bmp", "Charge_Wield_Right", 0, 0, 11, 0.06f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Charge_Attack_Left.bmp", "Charge_Wield_Left", 0, 0, 11, 0.06f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Charge_Attack_Up.bmp", "Charge_Wield_Up", 0, 0, 11, 0.06f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Charge_Attack_Down.bmp", "Charge_Wield_Down", 0, 0, 11, 0.06f, false);
 
-	PlayerRenderer_->CreateAnimation("Link_Charge_Right.bmp", "Charge_Right", 0, 0, 0.06f, false);
-	PlayerRenderer_->CreateAnimation("Link_Charge_Left.bmp", "Charge_Left", 0, 0, 0.06f, false);
-	PlayerRenderer_->CreateAnimation("Link_Charge_Up.bmp", "Charge_Up", 0, 0, 0.06f, false);
-	PlayerRenderer_->CreateAnimation("Link_Charge_Down.bmp", "Charge_Down", 0, 0, 0.06f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Charge_Move_Right.bmp", "Charge_Move_Right", 0, 0, 1, 0.1f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Charge_Move_Left.bmp", "Charge_Move_Left", 0, 0, 1, 0.1f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Charge_Move_Up.bmp", "Charge_Move_Up", 0, 0, 2, 0.1f, true);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Charge_Move_Down.bmp", "Charge_Move_Down", 0, 0, 2, 0.1f, true);
+
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Charge_Right.bmp", "Charge_Idle_Right", 0, 0, 0, 0.1f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Charge_Left.bmp", "Charge_Idle_Left", 0, 0, 0, 0.1f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Charge_Up.bmp", "Charge_Idle_Up", 0, 0, 0, 0.06f, false);
+	PlayerRenderer_->CreateAnimationTimeKey("Link_Charge_Down.bmp", "Charge_Idle_Down", 0, 0, 0, 0.1f, false);
 
 	PlayerRenderer_->ChangeAnimation("Idle_Down");
+
+	ChargeEndEffect_ = CreateRenderer();
+	ChargeEndEffect_->CreateAnimationTimeKey("Link_Charge_End_Effect.bmp", "Idle", 0, 0, 0, 0.1f, false);
+	ChargeEndEffect_->ChangeAnimation("Idle");
 
 	//아래부터 넣은 렌더러들이 맨 위부터 나온다
 	//CreateRenderer("LinkStandStill.bmp");
@@ -877,17 +889,29 @@ void PlayerLink::PlayerChangeState(PlayerState _State)
 		case PlayerState::WieldDown_1:
 			WieldDownStart();
 			break;
-		case PlayerState::ChargingRight:
-			ChargingRightStart();
+		case PlayerState::ChargingIdleRight:
+			ChargingIdleRightStart();
 			break;
-		case PlayerState::ChargingLeft:
-			ChargingLeftStart();
+		case PlayerState::ChargingIdleLeft:
+			ChargingIdleLeftStart();
 			break;
-		case PlayerState::ChargingUp:
-			ChargingUpStart();
+		case PlayerState::ChargingIdleUp:
+			ChargingIdleUpStart();
 			break;
-		case PlayerState::ChargingDown:
-			ChargingDownStart();
+		case PlayerState::ChargingIdleDown:
+			ChargingIdleDownStart();
+			break;
+		case PlayerState::ChargingMoveRight:
+			ChargingMoveRightStart();
+			break;
+		case PlayerState::ChargingMoveLeft:
+			ChargingMoveLeftStart();
+			break;
+		case PlayerState::ChargingMoveUp:
+			ChargingMoveUpStart();
+			break;
+		case PlayerState::ChargingMoveDown:
+			ChargingMoveDownStart();
 			break;
 		case PlayerState::ChargeWieldRight:
 			ChargeWieldRightStart();
@@ -985,11 +1009,17 @@ void PlayerLink::PlayerStateUpdate()
 	case PlayerState::WieldDown_1:
 		WieldUpdate();
 		break;
-	case PlayerState::ChargingRight:
-	case PlayerState::ChargingLeft:
-	case PlayerState::ChargingUp:
-	case PlayerState::ChargingDown:
+	case PlayerState::ChargingIdleRight:
+	case PlayerState::ChargingIdleLeft:
+	case PlayerState::ChargingIdleUp:
+	case PlayerState::ChargingIdleDown:
 		ChargingUpdate();
+		break;
+	case PlayerState::ChargingMoveRight:
+	case PlayerState::ChargingMoveLeft:
+	case PlayerState::ChargingMoveUp:
+	case PlayerState::ChargingMoveDown:
+		ChargingMoveUpdate();
 		break;
 	case PlayerState::ChargeWieldRight:
 	case PlayerState::ChargeWieldLeft:

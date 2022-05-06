@@ -52,6 +52,7 @@ public:
 private:
 	GameEngineActor* HitActor_;
 	GameEngineRenderer* PlayerRenderer_;
+	GameEngineRenderer* ChargeEndEffect_;
 
 	void SpeedCheck(float4 _Pos);
 	float CurSpeed_;
@@ -143,6 +144,7 @@ private:
 	void WieldDownUpdate();
 
 	void ChargingUpdate();
+	void ChargingMoveUpdate();
 	void ChargingRight();
 	void ChargingLeft();
 	void ChargingUp();
@@ -175,10 +177,15 @@ private:
 	void WieldUpStart();
 	void WieldDownStart();
 
-	void ChargingRightStart();
-	void ChargingLeftStart();
-	void ChargingUpStart();
-	void ChargingDownStart();
+	void ChargingIdleRightStart();
+	void ChargingIdleLeftStart();
+	void ChargingIdleUpStart();
+	void ChargingIdleDownStart();
+
+	void ChargingMoveRightStart();
+	void ChargingMoveLeftStart();
+	void ChargingMoveUpStart();
+	void ChargingMoveDownStart();
 
 	void ChargeWieldRightStart();
 	void ChargeWieldLeftStart();
@@ -313,6 +320,8 @@ private:
 	float BlinkFreq_;
 	float CurBlinkFreq_;
 	bool IsAlphaOn_;
+	bool IsSwordCollisionOn_;
+	static bool IsInChargingState_;
 	float4 KnockbackDir_;
 
 	static float ItemMoveTime_;
@@ -431,6 +440,11 @@ public:
 	void SetBGMSoundPlayer(GameEngineSoundPlayer _SoundPlayer)
 	{
 		BGMSoundPlayer_ = _SoundPlayer;
+	}
+
+	static void SetIsInChargingStateOff()
+	{
+		IsInChargingState_ = false;
 	}
 };
 

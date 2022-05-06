@@ -639,6 +639,7 @@ void Map1FRoom3EnemyBlueStalfos0::GetDamagedBySword()
 			HitActor_ = ColList[0]->GetActor();
 			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 			KnockbackDir_.Normal2D();
+			dynamic_cast<PlayerLink*>(ColList[0]->GetActor())->SetIsInChargingStateOff();
 			BlueStalfosChangeState(BlueStalfosState::Knockbacked);
 		}
 		if (0 >= Hp_)

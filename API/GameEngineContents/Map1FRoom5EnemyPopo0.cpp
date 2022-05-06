@@ -113,6 +113,7 @@ void Map1FRoom5EnemyPopo0::GetDamaged()
 			HitActor_ = ColList[0]->GetActor();
 			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 			KnockbackDir_.Normal2D();
+			dynamic_cast<PlayerLink*>(ColList[0]->GetActor())->SetIsInChargingStateOff();
 			PopoChangeState(PopoState::Knockbacked);
 		}
 
