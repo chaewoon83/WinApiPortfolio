@@ -157,7 +157,7 @@ void Zelda::TotalImageCut()
 	ImageCutter("Link_Charge_Move_Up.bmp", 3, 1);
 	ImageCutter("Link_Charge_Move_Down.bmp", 3, 1);
 
-	ImageCutter("Link_Charge_End_Effect.bmp", 2, 1);
+	ImageCutter("Link_Charge_End_Effect.bmp", 3, 1);
 
 
 	//Map Object
@@ -209,6 +209,10 @@ void Zelda::TotalImageCut()
 	ImageCutter("EnemyBlueStalfosJumpLeftBody.bmp", 1, 1);
 	ImageCutter("EnemyBlueStalfosJumpUpBody.bmp", 1, 1);
 	ImageCutter("EnemyBlueStalfosJumpDownBody.bmp", 1, 1);
+
+	ImageCutter("BossRedIdle.bmp", 1, 1);
+	ImageCutter("BossHit.bmp", 5, 1);
+	ImageCutter("BossDeathEffect.bmp", 10, 1);
 
 	//Light
 	ImageCutter("MapLightScreen0Right.bmp", 1, 1);

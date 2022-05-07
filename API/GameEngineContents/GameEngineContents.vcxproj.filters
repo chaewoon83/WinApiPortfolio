@@ -93,9 +93,6 @@
     <ClInclude Include="Map1FBridge.h">
       <Filter>Play\Map</Filter>
     </ClInclude>
-    <ClInclude Include="BossArmomsKnight.h">
-      <Filter>Play\Enemy\Yet</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyBubbleGroup.h">
       <Filter>Play\Enemy\Yet</Filter>
     </ClInclude>
@@ -223,6 +220,9 @@
     <ClInclude Include="Map1FRoom10TreasureBox.h">
       <Filter>Play\Map\Objects\TreasureBox</Filter>
     </ClInclude>
+    <ClInclude Include="BossArmomsKnight.h">
+      <Filter>Play\Enemy\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Zelda.cpp" />
@@ -318,9 +318,6 @@
     </ClCompile>
     <ClCompile Include="Map1FBridge.cpp">
       <Filter>Play\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="BossArmomsKnight.cpp">
-      <Filter>Play\Enemy\Yet</Filter>
     </ClCompile>
     <ClCompile Include="EnemyBubbleGroup.cpp">
       <Filter>Play\Enemy\Yet</Filter>
@@ -452,6 +449,9 @@
     <ClCompile Include="Map1FRoom10TreasureBox.cpp">
       <Filter>Play\Map\Objects\TreasureBox</Filter>
     </ClCompile>
+    <ClCompile Include="BossArmomsKnight.cpp">
+      <Filter>Play\Enemy\Boss</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Level">
@@ -561,6 +561,9 @@
     </Filter>
     <Filter Include="Play\Map\Objects\Block">
       <UniqueIdentifier>{e851bb97-772a-4fd4-922a-7299ed0b78a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Play\Enemy\Boss">
+      <UniqueIdentifier>{981e4f78-5a27-41fa-acbd-bd9bc1b667dd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

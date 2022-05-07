@@ -65,7 +65,7 @@ void Map1FRoom3EnemyPopo0::Start()
 	PopoRenderer_ = CreateRenderer();
 	PopoRenderer_->CreateAnimationTimeKey("EnemyPopo.bmp", "Idle", TimeScale_, 0, 2, 0.15f, true);
 	//죽는 애니메이션은 플레이어와 함께한다
-	PopoRenderer_->CreateAnimationTimeKey("EnemyDeathEffect.bmp", "DeathEffect", 0, 0, 6, 0.15f, false);
+	PopoRenderer_->CreateAnimationTimeKey("EnemyDeathEffect.bmp", "DeathEffect", TimeScale_, 0, 6, 0.15f, false);
 	PopoRenderer_->ChangeAnimation("Idle");
 
 	//DeathEffectRenderer_ = CreateRenderer();

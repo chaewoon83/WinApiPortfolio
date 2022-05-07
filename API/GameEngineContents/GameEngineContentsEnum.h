@@ -9,6 +9,7 @@ enum class PlayLevelOrder
 	B1FPLAYER,
 	B1FABOVEPLAYER,
 	B1FBACKGROUNDROOF,
+	BELOWMONSTER,
 	MONSTER,
 	BELOWPLAYER,
 	PLAYER,
@@ -155,6 +156,17 @@ enum class BlueStalfosState
 	JumpLeft,
 	JumpUp,
 	JumpDown,
+	Knockbacked,
+	Death,
+	Max,
+};
+
+enum class BossState
+{
+	Idle,
+	FollowPlayer,
+	Jump,
+	Dive,
 	Knockbacked,
 	Death,
 	Max,

@@ -90,6 +90,11 @@ void PlayerLink::WieldUpdate()
 	DamagedCheck();
 	if (true == IsKnockback_)
 	{
+		AnimationTimer_ = 0.0f;
+		if (nullptr != SwordCollision_)
+		{
+			SwordCollision_->Off();
+		}
 		return;
 	}
 	if (true == GameEngineInput::GetInst()->IsDown("Attack"))
@@ -638,6 +643,12 @@ void PlayerLink::ChargingUpdate()
 	DamagedCheck();
 	if (true == IsKnockback_)
 	{
+		ChargeEndEffect_->Off();
+		IsChargeEndEffectOn_ = false;
+		IsSwordCollisionOn_ = false;
+		SwordCollision_->Off();
+		IsInChargingState_ = false;
+		CurChargeTime_ = 0.0f;
 		return;
 	}
 	CurChargeTime_ += GameEngineTime::GetDeltaTime(0);
@@ -693,9 +704,12 @@ void PlayerLink::ChargingUpdate()
 	////////////////////////When Charge Off Idle
 	if ((false == GameEngineInput::GetInst()->IsPress("Attack") && ChargeTime_ > CurChargeTime_ ) || false == IsInChargingState_)
 	{
+		ChargeEndEffect_->Off();
+		IsChargeEndEffectOn_ = false;
 		IsSwordCollisionOn_ = false;
 		SwordCollision_->Off();
 		IsInChargingState_ = false;
+		CurChargeTime_ = 0.0f;
 		if (PlayerState::ChargingIdleRight == PlayerCurState_)
 		{
 			PlayerPrevState_ = PlayerCurState_;
@@ -824,13 +838,43 @@ void PlayerLink::ChargingUpdate()
 
 	}
 
+	if (false == IsChargeEndEffectOn_ && ChargeTime_ < CurChargeTime_)
+	{
+		GameEngineSound::SoundPlayOneShot("spinattackcharge.mp3");
+		IsChargeEndEffectOn_ = true;
+		if (PlayerState::ChargingIdleRight == PlayerCurState_)
+		{
+			ChargeEndEffect_->SetPivot({ 64, 14 });
+			ChargeEndEffect_->On();
+		}
 
+		if (PlayerState::ChargingIdleLeft == PlayerCurState_)
+		{
+			ChargeEndEffect_->SetPivot({ -64, 14 });
+			ChargeEndEffect_->On();
+		}
+
+		if (PlayerState::ChargingIdleUp == PlayerCurState_)
+		{
+			ChargeEndEffect_->SetPivot({ -8, -64 });
+			ChargeEndEffect_->On();
+		}
+
+		if (PlayerState::ChargingIdleDown == PlayerCurState_)
+		{
+			ChargeEndEffect_->SetPivot({ 8, 76 });
+			ChargeEndEffect_->On();
+		}
+	}
 	////////////////////////When Charge Off Wield
 	if (false == GameEngineInput::GetInst()->IsPress("Attack") && ChargeTime_ < CurChargeTime_)
 	{
+		ChargeEndEffect_->Off();
+		IsChargeEndEffectOn_ = false;
 		IsSwordCollisionOn_ = false;
 		SwordCollision_->Off();
 		IsInChargingState_ = false;
+		CurChargeTime_ = 0.0f;
 		if (PlayerState::ChargingIdleRight == PlayerCurState_)
 		{
 			PlayerChangeState(PlayerState::ChargeWieldRight);
@@ -861,6 +905,12 @@ void PlayerLink::ChargingMoveUpdate()
 	DamagedCheck();
 	if (true == IsKnockback_)
 	{
+		ChargeEndEffect_->Off();
+		IsChargeEndEffectOn_ = false;
+		IsSwordCollisionOn_ = false;
+		SwordCollision_->Off();
+		IsInChargingState_ = false;
+		CurChargeTime_ = 0.0f;
 		return;
 	}
 	CurChargeTime_ += GameEngineTime::GetDeltaTime(0);
@@ -891,15 +941,46 @@ void PlayerLink::ChargingMoveUpdate()
 		return;
 	}
 
+	if (false == IsChargeEndEffectOn_ && ChargeTime_ < CurChargeTime_)
+	{
+		GameEngineSound::SoundPlayOneShot("spinattackcharge.mp3");
+		IsChargeEndEffectOn_ = true;
+		if (PlayerState::ChargingMoveRight == PlayerCurState_)
+		{
+			ChargeEndEffect_->SetPivot({ 64, 14 });
+			ChargeEndEffect_->On();
+		}
+
+		if (PlayerState::ChargingMoveLeft == PlayerCurState_)
+		{
+			ChargeEndEffect_->SetPivot({ -64, 14 });
+			ChargeEndEffect_->On();
+		}
+
+		if (PlayerState::ChargingMoveUp == PlayerCurState_)
+		{
+			ChargeEndEffect_->SetPivot({ -8, -64 });
+			ChargeEndEffect_->On();
+		}
+
+		if (PlayerState::ChargingMoveDown == PlayerCurState_)
+		{
+			ChargeEndEffect_->SetPivot({ 8, 76 });
+			ChargeEndEffect_->On();
+		}
+	}
 
 
 
 	////////////////////////When Charge Off Idle
 	if ((false == GameEngineInput::GetInst()->IsPress("Attack") && ChargeTime_ > CurChargeTime_) || false ==  IsInChargingState_)
 	{
+		ChargeEndEffect_->Off();
+		IsChargeEndEffectOn_ = false;
 		IsSwordCollisionOn_ = false;
 		SwordCollision_->Off();
 		IsInChargingState_ = false;
+		CurChargeTime_ = 0.0f;
 		if (PlayerState::ChargingMoveRight == PlayerCurState_)
 		{
 			PlayerPrevState_ = PlayerCurState_;
@@ -1032,26 +1113,29 @@ void PlayerLink::ChargingMoveUpdate()
 	////////////////////////When Charge Off Wield
 	if (false == GameEngineInput::GetInst()->IsPress("Attack") && ChargeTime_ < CurChargeTime_)
 	{
+		ChargeEndEffect_->Off();
+		IsChargeEndEffectOn_ = false;
 		IsSwordCollisionOn_ = false;
 		SwordCollision_->Off();
 		IsInChargingState_ = false;
-		if (PlayerState::ChargingIdleRight == PlayerCurState_)
+		CurChargeTime_ = 0.0f;
+		if (PlayerState::ChargingMoveRight == PlayerCurState_)
 		{
 			PlayerChangeState(PlayerState::ChargeWieldRight);
 			return;
 		}
 
-		if (PlayerState::ChargingIdleLeft == PlayerCurState_)
+		if (PlayerState::ChargingMoveLeft == PlayerCurState_)
 		{
 			PlayerChangeState(PlayerState::ChargeWieldLeft);
 			return;
 		}
-		if (PlayerState::ChargingIdleUp == PlayerCurState_)
+		if (PlayerState::ChargingMoveUp == PlayerCurState_)
 		{
 			PlayerChangeState(PlayerState::ChargeWieldUp);
 			return;
 		}
-		if (PlayerState::ChargingIdleDown == PlayerCurState_)
+		if (PlayerState::ChargingMoveDown == PlayerCurState_)
 		{
 			PlayerChangeState(PlayerState::ChargeWieldDown);
 			return;
@@ -1093,12 +1177,17 @@ void PlayerLink::ChargingDown()
 
 void PlayerLink::ChargeWieldUpdate()
 {
+	DamagedCheck();
+	if (true == IsKnockback_)
+	{
+		return;
+	}
 	{
 		if (0 == PlayerRenderer_->GetAnimationIndex())
 		{
 			SwordCollision_->On();
 			SwordCollision_->SetPivot({0, 0});
-			SwordCollision_->SetScale({160, 160});
+			SwordCollision_->SetScale({180, 180});
 
 		}
 	}
@@ -2222,21 +2311,25 @@ void PlayerLink::ChargingMoveDownStart()
 
 void PlayerLink::ChargeWieldRightStart()
 {
+	GameEngineSound::SoundPlayOneShot("spinattack.mp3");
 	PlayerRenderer_->ChangeAnimationReset("Charge_Wield_Right");
 }
 
 void PlayerLink::ChargeWieldLeftStart()
 {
+	GameEngineSound::SoundPlayOneShot("spinattack.mp3");
 	PlayerRenderer_->ChangeAnimationReset("Charge_Wield_Left");
 }
 
 void PlayerLink::ChargeWieldUpStart()
 {
+	GameEngineSound::SoundPlayOneShot("spinattack.mp3");
 	PlayerRenderer_->ChangeAnimationReset("Charge_Wield_Up");
 }
 
 void PlayerLink::ChargeWieldDownStart()
 {
+	GameEngineSound::SoundPlayOneShot("spinattack.mp3");
 	PlayerRenderer_->ChangeAnimationReset("Charge_Wield_Down");
 }
 
@@ -2534,7 +2627,8 @@ void PlayerLink::TreasureBoxCheck()
 	}
 
 	if (true == PlayerHigherBodyCollision_->CollisionResult("TreasureBox", ColList, CollisionType::Rect, CollisionType::Rect) &&
-		true == GameEngineInput::GetInst()->IsDown("Interact") && false == IsInItemCutScene_ && CameraState::Room10 == CameraState_)
+		true == GameEngineInput::GetInst()->IsDown("Interact") && false == IsInItemCutScene_ && CameraState::Room10 == CameraState_
+		&& true == IsHaveBigKey_)
 	{
 		BGMSoundPlayer_.Stop();
 		GameEngineSound::SoundPlayOneShot("itemget.mp3");
@@ -2552,6 +2646,7 @@ void PlayerLink::TreasureBoxCheck()
 		CurItemMoveTime_ += GameEngineTime::GetDeltaTime();
 		if (ItemMoveTime_ < CurItemMoveTime_)
 		{
+			CurItemMoveTime_ = 0.0f;
 			if (true == GameEngineInput::GetInst()->IsDown("Interact") && true == IsInItemCutScene_)
 			{
 				IsInItemCutScene_ = false;

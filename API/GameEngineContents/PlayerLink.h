@@ -293,6 +293,12 @@ private:
 	void Room3_Trans_Start();
 	void Room3_Trans_Update();
 
+	void Room14Start();
+	void Room14Update();
+
+	void Room14_Trans_Start();
+	void Room14_Trans_Update();
+
 	bool IsBlackScreenOn_;
 	bool IsLightBalckScreenOn_;
 	int BlackScreenAlpha_;
@@ -321,8 +327,10 @@ private:
 	float CurBlinkFreq_;
 	bool IsAlphaOn_;
 	bool IsSwordCollisionOn_;
+	bool IsChargeEndEffectOn_;
 	static bool IsInChargingState_;
 	float4 KnockbackDir_;
+	bool IsBossDeath_;
 
 	static float ItemMoveTime_;
 	static float CurItemMoveTime_;
@@ -352,6 +360,7 @@ private:
 	GameEngineSoundPlayer BGMSoundPlayer_;
 	GameEngineSoundPlayer HpLowSoundPlayer_;
 	GameEngineSoundPlayer ObjectMovingSoundPlayer_;
+	GameEngineSoundPlayer BossBGMPlayer_;
 	bool IsObjectMovingSoundPlayerOn_;
 	/////////////////////////////////////////////////////////////////////Getter
 public:

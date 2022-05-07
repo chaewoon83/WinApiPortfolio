@@ -29,9 +29,12 @@ GameEngineRenderer* Map1F_2::Room10LeftDoor0_ = nullptr;
 GameEngineRenderer* Map1F_2::Room7RightDoor0_ = nullptr;
 GameEngineRenderer* Map1F_2::Room7TopDoor0_ = nullptr;
 GameEngineRenderer* Map1F_2::Room5RightDoor0_ = nullptr;
+GameEngineRenderer* Map1F_2::Room14BotDoor0_ = nullptr;
+
 GameEngineRenderer* Map1F_2::Room5LeftKeyDoor0_ = nullptr;
 GameEngineRenderer* Map1F_2::Room4RightKeyDoor0_ = nullptr;
 GameEngineRenderer* Map1F_2::Room3TopBigKeyDoor0_ = nullptr;
+GameEngineRenderer* Map1F_2::Room10TopBigKeyDoor0_ = nullptr;
 
 GameEngineCollision* Map1F_2::Room1TopDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room2TopDoor0Col_ = nullptr;
@@ -41,10 +44,13 @@ GameEngineCollision* Map1F_2::Room10LeftDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room7RightDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room7TopDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room5RightDoor0Col_ = nullptr;
+GameEngineCollision* Map1F_2::Room14BotDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room5LeftKeyDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room5LeftKeyDoor0Col2_ = nullptr;
 GameEngineCollision* Map1F_2::Room3TopBigKeyDoor0Col_ = nullptr;
 GameEngineCollision* Map1F_2::Room3TopBigKeyDoor0Col2_ = nullptr;
+GameEngineCollision* Map1F_2::Room10TopBigKeyDoor0Col_ = nullptr;
+GameEngineCollision* Map1F_2::Room10TopBigKeyDoor0Col2_ = nullptr;
 
 GameEngineCollision* Map1F_2::Room1SwitchCol_ = nullptr;
 GameEngineCollision* Map1F_2::Room2SwitchCol_ = nullptr;
@@ -91,6 +97,7 @@ Map1F_2::Map1F_2()
 	, Room10ItemRendererPivot_(float4{3058 + 14, 2888 + 32})
 	, Room10ItemMoveTime_(1.0f)
 	, CurRoom10ItemMoveTime_(0.0f)
+	, IsRoom10KeyDoorOpened_(false)
 	, CurRoomState_(CameraState::Room1)
 	, IsRoom7First_(false)
 	, IsRoom7Summoning_(false)
@@ -168,6 +175,7 @@ void Map1F_2::Update()
 	Room4BallGen();
 	Room10SwitchCheck();
 	Room10CheckTreasureBox();
+	Room10CheckKeyDoor();
 	Room9CheckStatus();
 	Room7SummonEnemies();
 	Room7DoorCheck();
@@ -176,6 +184,7 @@ void Map1F_2::Update()
 	Room3SwitchCheck();
 	Room3CheckTreasureBox();
 	Room3CheckKeyDoor();
+	Room14DoorCheck();
 }
 void Map1F_2::Render()
 {
@@ -258,16 +267,27 @@ void Map1F_2::DoorAnimationCreate()
 	Room5LeftKeyDoor0_ = CreateRenderer("Left_Locked_Door_Idle.bmp");
 	Room5LeftKeyDoor0_->SetPivot(float4{ 4192 + 32, 448 + 64 + 4128 });
 	Room4RightKeyDoor0_ = CreateRenderer("Right_Locked_Door_Idle.bmp");
-	Room4RightKeyDoor0_->SetPivot(float4{ 3396 + 32, 448 + 64 + 4128 });
+	Room4RightKeyDoor0_->SetPivot(float4{ 3936 + 32, 448 + 64 + 4128 });
 	Room5LeftKeyDoor0Col_ = CreateCollision("Block", { 64, 128 }, float4{ 4192 + 32, 448 + 64 + 4128 });
 	Room5LeftKeyDoor0Col2_ = CreateCollision("LockedDoor", { 4, 64 }, float4{ 4256, 480 + 32 + 4128 });
 
 	Room3TopBigKeyDoor0_ = CreateRenderer("Top_BigLocked_Door_Idle.bmp");
 	Room3TopBigKeyDoor0_->SetPivot(float4{ 1472 + 64, 96 + 48 + 4128 });
 	Room3TopBigKeyDoor0Col_ = CreateCollision("Block", { 128, 96 }, float4{ 1472 + 64, 96 + 48 + 4128 });
-	Room3TopBigKeyDoor0Col2_ = CreateCollision("LockedDoor", { 62, 2 }, float4{ 1504 + 32, 193 + 4128 });
+	Room3TopBigKeyDoor0Col2_ = CreateCollision("LockedDoor", { 64, 2 }, float4{ 1504 + 32, 193 + 4128 });
 
+	Room10TopBigKeyDoor0_ = CreateRenderer("Top_BigLocked_Door_Idle.bmp");
+	Room10TopBigKeyDoor0_->SetPivot(float4{ 3008 + 64, 2176 + 48});
+	Room10TopBigKeyDoor0Col_ = CreateCollision("Block", { 128, 96 }, float4{ 3008 + 64, 2176 + 48 });
+	Room10TopBigKeyDoor0Col2_ = CreateCollision("LockedDoor", { 64, 2 }, float4{ 3040 + 32, 2272 });
 
+	Room14BotDoor0_ = CreateRenderer();
+	Room14BotDoor0_->SetPivot(float4{ 3008 + 64, 1888 + 48 });
+	Room14BotDoor0_->CreateAnimationTimeKey("Bot_Door_Idle_Animation.bmp", "Idle_Bot", -1, 0, 2, 0.07f, false);
+	Room14BotDoor0_->CreateAnimationTimeKey("Bot_Door_Open_Animation.bmp", "Open_Bot", -1, 0, 2, 0.07f, false);
+	Room14BotDoor0_->CreateAnimationTimeKey("Bot_Door_Close_Animation.bmp", "Close_Bot", -1, 0, 2, 0.07f, false);
+	Room14BotDoor0_->ChangeAnimationReset("Open_Bot");
+	Room14BotDoor0Col_ = CreateCollision("Block", { 128,96 }, float4 { 3008 + 64, 1888 + 48 });
 }
 
 void Map1F_2::Room1SwitchCheck()
@@ -858,6 +878,46 @@ void Map1F_2::Room3CheckKeyDoor()
 				Room3TopBigKeyDoor0Col_->Death();
 				IsRoom3KeyDoorOpened_ = true;
 			}
+		}
+	}
+}
+
+
+void Map1F_2::Room10CheckKeyDoor()
+{
+	if (CameraState::Room10 == PlayerLink::GetPlayerCurRoomState())
+	{
+		if (CameraState::Room10 != CurRoomState_)
+		{
+			CurRoomState_ = PlayerLink::GetPlayerCurRoomState();
+		}
+
+		if (false == IsRoom10KeyDoorOpened_)
+		{
+			if (true == Room10TopBigKeyDoor0Col2_->CollisionCheck("PlayerHitBox") && true == PlayerLink::GetPlayerIsHaveBigKey()
+				&& true == GameEngineInput::GetInst()->IsDown("Interact"))
+			{
+				GameEngineSound::SoundPlayOneShot("chestopen.mp3");
+				GameEngineSound::SoundPlayOneShot("dooropen.mp3");
+				Room10TopBigKeyDoor0_->Death();
+				Room10TopBigKeyDoor0Col_->Death();
+				IsRoom10KeyDoorOpened_ = true;
+			}
+		}
+	}
+}
+
+void Map1F_2::Room14DoorCheck()
+{
+
+	if (CameraState::Room14 == PlayerLink::GetPlayerCurRoomState())
+	{
+		if (CameraState::Room14 != CurRoomState_)
+		{
+			GameEngineSound::SoundPlayOneShot("doorclose.mp3");
+			CurRoomState_ = PlayerLink::GetPlayerCurRoomState();
+			Room14BotDoor0_->ChangeAnimationReset("Close_Bot");
+			Room14BotDoor0Col_->On();
 		}
 	}
 }

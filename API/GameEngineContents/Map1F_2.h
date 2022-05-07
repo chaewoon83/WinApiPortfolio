@@ -25,9 +25,7 @@ public:
 	static GameEngineRenderer* Room7RightDoor0_;
 	static GameEngineRenderer* Room7TopDoor0_;
 	static GameEngineRenderer* Room5RightDoor0_;
-	static GameEngineRenderer* Room5LeftKeyDoor0_;
-	static GameEngineRenderer* Room4RightKeyDoor0_;
-	static GameEngineRenderer* Room3TopBigKeyDoor0_;
+	static GameEngineRenderer* Room14BotDoor0_;
 
 	static GameEngineCollision* Room1TopDoor0Col_;
 	static GameEngineCollision* Room2TopDoor0Col_;
@@ -37,11 +35,19 @@ public:
 	static GameEngineCollision* Room7RightDoor0Col_;
 	static GameEngineCollision* Room7TopDoor0Col_;
 	static GameEngineCollision* Room5RightDoor0Col_;
+	static GameEngineCollision* Room14BotDoor0Col_;
+
+	static GameEngineRenderer* Room5LeftKeyDoor0_;
+	static GameEngineRenderer* Room4RightKeyDoor0_;
+	static GameEngineRenderer* Room3TopBigKeyDoor0_;
+	static GameEngineRenderer* Room10TopBigKeyDoor0_;
 
 	static GameEngineCollision* Room5LeftKeyDoor0Col_;
 	static GameEngineCollision* Room5LeftKeyDoor0Col2_;
 	static GameEngineCollision* Room3TopBigKeyDoor0Col_;
 	static GameEngineCollision* Room3TopBigKeyDoor0Col2_;
+	static GameEngineCollision* Room10TopBigKeyDoor0Col_;
+	static GameEngineCollision* Room10TopBigKeyDoor0Col2_;
 
 	static GameEngineCollision* Room4TreasureBoxCol_;
 	static GameEngineCollision* Room8TreasureBoxCol_;
@@ -112,6 +118,9 @@ private:
 	float CurRoom10ItemMoveTime_;
 	void Room10CheckTreasureBox();
 
+	void Room10CheckKeyDoor();
+	bool IsRoom10KeyDoorOpened_;
+
 
 	//////////////////Room9
 	void Room9CheckStatus();
@@ -157,6 +166,10 @@ private:
 	float CurRoom3ItemMoveTime_;
 	void Room3CheckTreasureBox();
 	void Room3CheckKeyDoor();
+
+	//////////////////Room14
+
+	void Room14DoorCheck();
 
 
 };

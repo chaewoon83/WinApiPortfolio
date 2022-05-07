@@ -13,6 +13,7 @@
 #include "GameEngineContentsEnum.h"
 #include "Map1FBridge.h"
 #include "BlackScreen.h"
+#include "BossArmomsKnight.h"
 
 /// ///////////////////////////////////// Room State
 
@@ -287,6 +288,7 @@ void PlayerLink::Room4Update()
 void PlayerLink::Room4_Trans_Start()
 {
 	GameEngineTime::GetInst()->SetTimeScale(2, 0.0f);
+	GameEngineTime::GetInst()->SetTimeScale(3, 0.0f);
 	IsCameraAutoMove_ = true;
 	IsCharacterAutoMove_ = true;
 	RoomSize_[0] = { 2048, 1955 + 4128 };
@@ -393,17 +395,17 @@ void PlayerLink::Room10Update()
 		return;
 	}
 
-	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveRight == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_
-		&& PlayerStairsState::Bot == CurStairs_)
+	if (PosOrColorCheck(Red, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_
+		&& PlayerStairsState::Top == CurStairs_)
 	{
 		PrevCameraState_ = CameraState::Room10;
-		AutoMoveDir_ = float4::RIGHT;
-		CameraStateChange(CameraState::Room11_Trans);
+		AutoMoveDir_ = float4::UP;
+		CameraStateChange(CameraState::Room14_Trans);
 		return;
 	}
 
 
-	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveDown == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_ && PlayerStairsState::Top == CurStairs_)
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_ && PlayerStairsState::Top == CurStairs_)
 	{
 		PrevCameraState_ = CameraState::Room10;
 		AutoMoveDir_ = float4::DOWN;
@@ -411,12 +413,60 @@ void PlayerLink::Room10Update()
 		return;
 	}
 
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_ && PlayerStairsState::Bot == CurStairs_)
+	{
+		PrevCameraState_ = CameraState::Room10;
+		AutoMoveDir_ = float4::UP;
+		CameraStateChange(CameraState::Room9_Trans);
+		return;
+	}
+
+	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveRight == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_ && PlayerStairsState::Bot == CurStairs_)
+	{
+		PrevCameraState_ = CameraState::Room10;
+		AutoMoveDir_ = float4::RIGHT;
+		CameraStateChange(CameraState::Room11_Trans);
+		return;
+	}
+
 	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveLeft == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_ && PlayerStairsState::Bot == CurStairs_)
 	{
 		PrevCameraState_ = CameraState::Room10;
 		AutoMoveDir_ = float4::LEFT;
-		CameraStateChange(CameraState::Room9_Trans);
+		CameraStateChange(CameraState::Room14_Trans);
 		return;
+	}
+
+	if (PosOrColorCheck(Blue, MapColImage_) && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_)
+	{
+
+		if (PlayerStairsState::Top == CurStairs_)
+		{
+			GameEngineSound::SoundPlayControl("stairsdown.mp3");
+			MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_B1F_ColMap.bmp");
+			MapPasImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_B1F_PasMap.bmp");
+			MapCarryColImage_ = MapCarryColImage_2_B1F_;
+			CurStairs_ = PlayerStairsState::Bot;
+			IsCharacterAutoMove_ = true;
+			IsOnStairs_ = true;
+			BridgeActor_->On();
+			PlayerRenderer_->SetOrder(static_cast<int>(PlayLevelOrder::B1FPLAYER));
+			return;
+		}
+
+		if (PlayerStairsState::Bot == CurStairs_)
+		{
+			GameEngineSound::SoundPlayControl("stairsup.mp3");
+			MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_1F_ColMap.bmp");
+			MapPasImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_1F_PasMap.bmp");
+			MapCarryColImage_ = MapCarryColImage_2_;
+			CurStairs_ = PlayerStairsState::Top;
+			IsCharacterAutoMove_ = true;
+			IsOnStairs_ = true;
+			BridgeActor_->Off();
+			PlayerRenderer_->SetOrder(static_cast<int>(PlayLevelOrder::PLAYER));
+			return;
+		}
 	}
 }
 
@@ -1374,7 +1424,7 @@ void PlayerLink::Room3Update()
 	{
 		PrevCameraState_ = CameraState::Room3;
 		AutoMoveDir_ = float4::RIGHT;
-		CameraStateChange(CameraState::Room10_Trans);
+		CameraStateChange(CameraState::Room4_Trans);
 		return;
 	}
 
@@ -1415,6 +1465,101 @@ void PlayerLink::Room3_Trans_Update()
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////////////////////////////////////// Room14 (BossRoom)
+void PlayerLink::Room14Start()
+{
+	BGMSoundPlayer_.Stop();
+	BossBGMPlayer_ = GameEngineSound::SoundPlayControl("boss_bgm.mp3", -1);
+	CameraState_ = CameraState::Room14;
+	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(14, 1.0f);
+}
+void PlayerLink::Room14Update()
+{
+	/// ///////////////////////////////////////// Room Transition
+	if (true == IsCameraAutoMove_)
+	{
+		CameraAutoMove();
+	}
+
+	if (false == IsCameraAutoMove_)
+	{
+		CameraUpdate();
+	}
+
+	if (true == IsCharacterAutoMove_ || true == IsInItemCutScene_)
+	{
+		if (true == IsOnStairs_)
+		{
+			GameEngineTime::GetInst()->SetTimeScale(14, 0.0f);
+			PlayerAutoMove(100.0f);
+			return;
+		}
+
+		if (false == IsOnStairs_)
+		{
+			GameEngineTime::GetInst()->SetTimeScale(14, 0.0f);
+			PlayerAutoMove();
+			return;
+		}
+	}
+	else
+	{
+		GameEngineTime::GetInst()->SetTimeScale(14, 1.0f);
+	}
+
+
+	/// ///////////////////////////////////////// Room Check
+	int Red = RGB(255, 0, 0);
+	int Yellow = RGB(255, 255, 0);
+	int Blue = RGB(0, 0, 255);
+
+	if (true == BossArmomsKnight::GetIsDeath() && false == IsBossDeath_)
+	{
+		IsBossDeath_ = true;
+		BossBGMPlayer_.Stop();
+		GameEngineSound::SoundPlayOneShot("boss_clear_fanfare.mp3");
+		PlayerRenderer_->SetAlpha(255);
+		GameEngineTime::GetInst()->SetTimeScale(0, 0.0f);
+	}
+
+
+}
+
+
+void PlayerLink::Room14_Trans_Start()
+{
+	GameEngineTime::GetInst()->SetTimeScale(-1, 1.0f);
+	GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
+
+	GameEngineTime::GetInst()->SetTimeScale(10, 0.0f);
+
+	IsCameraAutoMove_ = true;
+	IsCharacterAutoMove_ = true;
+
+	RoomSize_[0] = { 2560, 1985 };
+	RoomSize_[1] = { 3583, 1024 };
+}
+
+void PlayerLink::Room14_Trans_Update()
+{
+	/// ///////////////////////////////////////// Room Transition
+	if (true == IsCameraAutoMove_)
+	{
+		CameraAutoMove();
+	}
+
+	if (true == IsCharacterAutoMove_)
+	{
+		PlayerAutoMove();
+	}
+
+	if (false == IsCameraAutoMove_ && false == IsCharacterAutoMove_)
+	{
+		CameraStateChange(CameraState::Room14);
+	}
+}
 
 	/////////////////////////////////////////////// Utility Functions
 
@@ -1521,6 +1666,12 @@ void PlayerLink::CameraStateChange(CameraState _State)
 		case CameraState::Room3_Trans:
 			Room3_Trans_Start();
 			break;
+		case CameraState::Room14:
+			Room14Start();
+			break;
+		case CameraState::Room14_Trans:
+			Room14_Trans_Start();
+			break;
 		case CameraState::Max:
 			break;
 		default:
@@ -1601,6 +1752,12 @@ void PlayerLink::CameraStateUpdate()
 		break;
 	case CameraState::Room3_Trans:
 		Room3_Trans_Update();
+		break;
+	case CameraState::Room14:
+		Room14Update();
+		break;
+	case CameraState::Room14_Trans:
+		Room14_Trans_Update();
 		break;
 	case CameraState::Max:
 		break;
