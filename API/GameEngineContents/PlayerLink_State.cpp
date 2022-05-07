@@ -2646,9 +2646,10 @@ void PlayerLink::TreasureBoxCheck()
 		CurItemMoveTime_ += GameEngineTime::GetDeltaTime();
 		if (ItemMoveTime_ < CurItemMoveTime_)
 		{
-			CurItemMoveTime_ = 0.0f;
+
 			if (true == GameEngineInput::GetInst()->IsDown("Interact") && true == IsInItemCutScene_)
 			{
+				CurItemMoveTime_ = 0.0f;
 				IsInItemCutScene_ = false;
 				GameEngineTime::GetInst()->SetTimeScale(0, 1.0f);
 				int IntValue = (static_cast<int>(CameraState_) + 2) / 2;
@@ -2741,7 +2742,8 @@ void PlayerLink::PlayerPrevStateCheck()
 		PlayerState::CarryIdleUp == PlayerPrevState_ ||
 		PlayerState::CarryMoveUp == PlayerPrevState_ ||
 		PlayerState::ChargingIdleUp == PlayerPrevState_||
-		PlayerState::ChargingMoveUp == PlayerPrevState_)
+		PlayerState::ChargingMoveUp == PlayerPrevState_ ||
+		PlayerState::ChargeWieldUp == PlayerPrevState_)
 	{
 		PlayerChangeState(PlayerState::IdleUp);
 		return;
@@ -2752,7 +2754,8 @@ void PlayerLink::PlayerPrevStateCheck()
 		PlayerState::CarryIdleDown == PlayerPrevState_ ||
 		PlayerState::CarryMoveDown == PlayerPrevState_ ||
 		PlayerState::ChargingIdleDown == PlayerPrevState_ ||
-		PlayerState::ChargingMoveDown == PlayerPrevState_)
+		PlayerState::ChargingMoveDown == PlayerPrevState_ ||
+		PlayerState::ChargeWieldDown == PlayerPrevState_)
 	{
 		PlayerChangeState(PlayerState::IdleDown);
 		return;
@@ -2763,7 +2766,8 @@ void PlayerLink::PlayerPrevStateCheck()
 		PlayerState::CarryIdleRight == PlayerPrevState_ ||
 		PlayerState::CarryMoveRight == PlayerPrevState_ ||
 		PlayerState::ChargingIdleRight == PlayerPrevState_ ||
-		PlayerState::ChargingMoveRight == PlayerPrevState_)
+		PlayerState::ChargingMoveRight == PlayerPrevState_ ||
+		PlayerState::ChargeWieldRight == PlayerPrevState_)
 	{
 		PlayerChangeState(PlayerState::IdleRight);
 		return;
@@ -2774,7 +2778,8 @@ void PlayerLink::PlayerPrevStateCheck()
 		PlayerState::CarryIdleLeft == PlayerPrevState_ ||
 		PlayerState::CarryMoveLeft == PlayerPrevState_ ||
 		PlayerState::ChargingIdleLeft == PlayerPrevState_ ||
-		PlayerState::ChargingMoveLeft == PlayerPrevState_)
+		PlayerState::ChargingMoveLeft == PlayerPrevState_ ||
+		PlayerState::ChargeWieldLeft == PlayerPrevState_)
 	{
 		PlayerChangeState(PlayerState::IdleLeft);
 		return;
