@@ -261,7 +261,6 @@ void EnemyGlobalFunction::ItemGenMonster(int _ItemNum, GameEngineActor* _Actor)
 
 void EnemyGlobalFunction::ItemRandomGenMonster(GameEngineActor* _Actor)
 {
-	GameEngineRandom Random;
 	//Max 10
 	int RandomInt = GlobalRandom::RandomIntGenerate(1, 20);
 	if (4<= RandomInt && 15 >= RandomInt)

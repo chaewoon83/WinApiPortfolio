@@ -69,6 +69,7 @@ void BossArmomsKnight::Start()
  
 void BossArmomsKnight::Update()
 {
+
 	CheckBossPhase();
 	BossUpdate();
 }
@@ -84,6 +85,12 @@ void BossArmomsKnight::IdleStart()
 
 void BossArmomsKnight::IdleUpdate()
 {
+	GetDamagedBySword();
+	if (true == IsInvincible_)
+	{
+		CurDiveTime_ = 0.0f;
+		return;
+	}
 	CurIdleWaitTime_ += GameEngineTime::GetDeltaTime(TimeScale_);
 
 	if (1 == BossPhase_ && IdleWaitTime_ < CurIdleWaitTime_)
@@ -170,7 +177,7 @@ void BossArmomsKnight::DiveUpdate()
 		{
 			BossCol2_->On();
 		}
-		if (DiveTime_ * 0.7f < CurDiveTime_)
+		if (DiveTime_ * 0.8f < CurDiveTime_)
 		{
 			BossCol_->On();
 		}
@@ -207,6 +214,7 @@ void BossArmomsKnight::KnockbackedUpdate()
 
 	if (true == BossRenderer_->IsEndAnimation())
 	{
+		IsKnockback_ = true;
 		IsInvincible_ = false;
 		BossChangeState(BossState::Idle);
 	}

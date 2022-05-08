@@ -306,19 +306,19 @@ void PlayerLink::Start()
 	//}
 
 	//boss room front
-	//{
-	//	GetLevel()->SetCameraPos({ 3071, 2689 });
-	//	RoomSize_[0] = { 2048, 4035 };
-	//	RoomSize_[1] = { 4095, 2050 };
-	// 	CameraState_ = CameraState::Room10;
-	//	PrevCameraState_ = CameraState::Room9;
-	//	MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_B1F_ColMap.bmp");
-	//	MapPasImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_B1F_PasMap.bmp");
-	//	MapCarryColImage_ = MapCarryColImage_2_B1F_;
-	//	CurStairs_ = PlayerStairsState::Bot;
-	//	PlayerRenderer_->SetOrder(static_cast<int>(PlayLevelOrder::B1FPLAYER));
-	//	IsHaveBigKey_ = true;
-	//}
+	{
+		GetLevel()->SetCameraPos({ 3071, 2689 });
+		RoomSize_[0] = { 2048, 4035 };
+		RoomSize_[1] = { 4095, 2050 };
+	 	CameraState_ = CameraState::Room10;
+		PrevCameraState_ = CameraState::Room9;
+		MapColImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_B1F_ColMap.bmp");
+		MapPasImage_ = GameEngineImageManager::GetInst()->Find("EastPalace1F_2_B1F_PasMap.bmp");
+		MapCarryColImage_ = MapCarryColImage_2_B1F_;
+		CurStairs_ = PlayerStairsState::Bot;
+		PlayerRenderer_->SetOrder(static_cast<int>(PlayLevelOrder::B1FPLAYER));
+		IsHaveBigKey_ = true;
+	}
 
 
 	LigthBlackScreen0_Main_ = CreateRenderer();
