@@ -413,13 +413,6 @@ void PlayerLink::Room10Update()
 		return;
 	}
 
-	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveUp == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_ && PlayerStairsState::Bot == CurStairs_)
-	{
-		PrevCameraState_ = CameraState::Room10;
-		AutoMoveDir_ = float4::UP;
-		CameraStateChange(CameraState::Room9_Trans);
-		return;
-	}
 
 	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveRight == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_ && PlayerStairsState::Bot == CurStairs_)
 	{
@@ -433,7 +426,7 @@ void PlayerLink::Room10Update()
 	{
 		PrevCameraState_ = CameraState::Room10;
 		AutoMoveDir_ = float4::LEFT;
-		CameraStateChange(CameraState::Room14_Trans);
+		CameraStateChange(CameraState::Room9_Trans);
 		return;
 	}
 

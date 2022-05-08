@@ -243,4 +243,10 @@ void Zelda::TotalImageCut()
 	ImageCutter("UI7.bmp", 1, 1);
 	ImageCutter("UI8.bmp", 1, 1);
 	ImageCutter("UI9.bmp", 1, 1);
+
+	//ColMap
+	ImageCutter("EastPalace1F_1_1F_ColMap.bmp", 1, 1);
+	ImageCutter("EastPalace1F_2_1F_ColMap.bmp", 1, 1);
+	ImageCutter("EastPalace1F_1_B1F_ColMap.bmp", 1, 1);
+	ImageCutter("EastPalace1F_2_B1F_ColMap.bmp", 1, 1);
 }

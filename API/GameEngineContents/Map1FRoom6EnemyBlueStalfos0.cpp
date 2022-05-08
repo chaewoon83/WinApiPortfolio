@@ -681,7 +681,7 @@ void Map1FRoom6EnemyBlueStalfos0::GetDamagedByPot()
 			HitActor_ = ColList[0]->GetActor();
 			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 			KnockbackDir_.Normal2D();
-			ColList[0]->Death();
+			ColList[0]->Off();
 			if (0 >= Hp_)
 			{
 				IsInvincible_ = true;

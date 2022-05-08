@@ -680,7 +680,7 @@ void Map1FRoom7EnemyBlueStalfos0::GetDamagedByPot()
 			HitActor_ = ColList[0]->GetActor();
 			KnockbackDir_ = GetPosition() - HitActor_->GetPosition();
 			KnockbackDir_.Normal2D();
-			ColList[0]->Death();
+			ColList[0]->Off();
 			if (0 >= Hp_)
 			{
 				IsInvincible_ = true;
@@ -831,38 +831,38 @@ bool Map1FRoom7EnemyBlueStalfos0::MoveFunction()
 			}
 			else
 			{
-				if (true == MoveRight)
-				{
-					if (false == BlueStalfosCol_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
-					{
-						SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
-					}
-				}
+				//if (true == MoveRight)
+				//{
+				//	if (false == BlueStalfosCol_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
+				//	{
+				//		SetMove(float4::RIGHT * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
+				//	}
+				//}
 
-				if (true == MoveLeft)
-				{
-					if (false == BlueStalfosCol_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
-					{
-						SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
-					}
-				}
-				if (true == MoveUp)
-				{
-					if (false == BlueStalfosCol_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
-					{
-						SetMove(float4::UP * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
-					}
+				//if (true == MoveLeft)
+				//{
+				//	if (false == BlueStalfosCol_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
+				//	{
+				//		SetMove(float4::LEFT * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
+				//	}
+				//}
+				//if (true == MoveUp)
+				//{
+				//	if (false == BlueStalfosCol_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
+				//	{
+				//		SetMove(float4::UP * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
+				//	}
 
-				}
-				if (true == MoveDown)
-				{
-					if (false == BlueStalfosCol_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
-					{
-						SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
-					}
+				//}
+				//if (true == MoveDown)
+				//{
+				//	if (false == BlueStalfosCol_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
+				//	{
+				//		SetMove(float4::DOWN * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
+				//	}
 
-				}
-				return true;
+				//}
+				return false;
 			}
 		}
 

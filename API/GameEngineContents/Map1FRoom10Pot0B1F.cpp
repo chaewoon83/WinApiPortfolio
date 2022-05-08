@@ -177,7 +177,7 @@ void Map1FRoom10Pot0B1F::InAirUpdate()
 	SetMove(((MoveDir_ * Speed_) + float4{ 0, CurYSpeed_ }) * GameEngineTime::GetDeltaTime(0));
 
 	std::vector<GameEngineCollision*> ColList;
-	if (true == PotHitBox_->IsDeath())
+	if (false == PotHitBox_->IsUpdate())
 	{
 		PotStateChange(PotState::DeathAnimation);
 		return;

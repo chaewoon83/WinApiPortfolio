@@ -84,7 +84,7 @@ void Map1FRoom10Pot0::InAirStart()
 void Map1FRoom10Pot0::DeathAnimationStart()
 {
 	GameEngineSound::SoundPlayOneShot("break.mp3");
-	if (true == PotHitBox_->IsUpdate())
+	if (false == PotHitBox_->IsUpdate())
 	{
 		PotHitBox_->Off();
 	}
@@ -177,7 +177,7 @@ void Map1FRoom10Pot0::InAirUpdate()
 	SetMove(((MoveDir_ * Speed_) + float4{ 0, CurYSpeed_ }) * GameEngineTime::GetDeltaTime(0));
 
 	std::vector<GameEngineCollision*> ColList;
-	if (true == PotHitBox_->IsDeath())
+	if (false == PotHitBox_->IsUpdate())
 	{
 		PotStateChange(PotState::DeathAnimation);
 		return;

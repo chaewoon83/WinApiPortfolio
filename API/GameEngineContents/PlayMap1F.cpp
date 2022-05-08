@@ -70,7 +70,7 @@ void PlayMap1F::Loading()
 	
 		//플레이어가 레벨을 시작할때마다 시작 지점이 다르기 때문에 Level에서 위치를 정해줘야한다
 		// Room10부터 시작
-		Player_->SetPosition({ 3071, 2689 });
+		//Player_->SetPosition({ 3071, 2689 });
 		// Room4_2부터 시작
 		//Player_->SetPosition({ 2687, 778 + 4128 });
 		// Room11부터 시작
@@ -80,7 +80,7 @@ void PlayMap1F::Loading()
 		// Room10부터 시작
 		//Player_->SetPosition({ 3072.0f, 3800.0f });
 		// 정상 시작
-		//Player_->SetPosition({3072.0f, 3800.0f + 4128.0f});
+		Player_->SetPosition({3072.0f, 3800.0f + 4128.0f});
 	
 
 	CreateActor<Map1F>(static_cast<int>(PlayLevelOrder::BACKGROUND));
@@ -153,7 +153,7 @@ void PlayMap1F::Loading()
 	CreateActor<UIHeart>(static_cast<int>(PlayLevelOrder::UI));
 	CreateActor<UINumbers>(static_cast<int>(PlayLevelOrder::UI));
 
-	CreateActor<Colmap>(static_cast<int>(PlayLevelOrder::BACKGROUND));
+	CreateActor<Colmap>(static_cast<int>(PlayLevelOrder::DEBUG));
 
 	BridgeActor->Off();
 

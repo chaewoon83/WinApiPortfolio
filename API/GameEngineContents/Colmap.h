@@ -25,5 +25,6 @@ private:
 	GameEngineRenderer* Map1F_2_Renderer_;
 
 	bool IsDeugModeOn_;
+	bool IsIn1F_;
 };
 
