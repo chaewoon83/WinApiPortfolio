@@ -275,7 +275,8 @@ bool Map1FRoom6Pot0::CheckPickUpEnd()
 
 void Map1FRoom6Pot0::Reset()
 {
-	if (CameraState::Room10 == PlayerLink::GetPlayerCurRoomState())
+	if (CameraState::Room4 == PlayerLink::GetPlayerCurRoomState() ||
+		CameraState::Room11 == PlayerLink::GetPlayerCurRoomState())
 	{
 		if (false == IsInRoom_ && PotState::Death == CurPotState_)
 		{
