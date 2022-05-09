@@ -2454,7 +2454,8 @@ void PlayerLink::DamagedCheck()
 			PlayerState::CarryIdleRight == PlayerPrevState_ ||
 			PlayerState::CarryMoveRight == PlayerPrevState_ ||
 			PlayerState::ChargingIdleRight == PlayerPrevState_ ||
-			PlayerState::ChargingMoveRight == PlayerPrevState_)
+			PlayerState::ChargingMoveRight == PlayerPrevState_ || 
+			PlayerState::ChargeWieldRight == PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedRight);
 			return;
@@ -2465,7 +2466,8 @@ void PlayerLink::DamagedCheck()
 			PlayerState::CarryIdleLeft == PlayerPrevState_ ||
 			PlayerState::CarryMoveLeft == PlayerPrevState_ ||
 			PlayerState::ChargingIdleLeft == PlayerPrevState_ ||
-			PlayerState::ChargingMoveLeft == PlayerPrevState_)
+			PlayerState::ChargingMoveLeft == PlayerPrevState_ ||
+			PlayerState::ChargeWieldLeft == PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedLeft);
 			return;
@@ -2476,7 +2478,8 @@ void PlayerLink::DamagedCheck()
 			PlayerState::CarryIdleUp == PlayerPrevState_ ||
 			PlayerState::CarryMoveUp == PlayerPrevState_ ||
 			PlayerState::ChargingIdleUp == PlayerPrevState_ ||
-			PlayerState::ChargingMoveUp== PlayerPrevState_)
+			PlayerState::ChargingMoveUp== PlayerPrevState_ ||
+			PlayerState::ChargeWieldUp == PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedUp);
 			return;
@@ -2487,7 +2490,8 @@ void PlayerLink::DamagedCheck()
 			PlayerState::CarryIdleDown == PlayerPrevState_ ||
 			PlayerState::CarryMoveDown == PlayerPrevState_ ||
 			PlayerState::ChargingIdleDown == PlayerPrevState_ ||
-			PlayerState::ChargingMoveDown == PlayerPrevState_)
+			PlayerState::ChargingMoveDown == PlayerPrevState_ ||
+			PlayerState::ChargeWieldDown == PlayerPrevState_)
 		{
 			PlayerChangeState(PlayerState::DamagedDown);
 			return;

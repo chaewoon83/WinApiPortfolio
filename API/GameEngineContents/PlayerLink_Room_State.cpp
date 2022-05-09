@@ -976,7 +976,7 @@ void PlayerLink::Room11Update()
 	}
 
 	if (PosOrColorCheck(Yellow, MapColImage_) && PlayerState::MoveLeft == PlayerCurState_ && false == IsCharacterAutoMove_ && false == IsCameraAutoMove_ 
-		/* && PlayerStairsState::Bot == CurStairs_*/)
+		&& PlayerStairsState::Bot == CurStairs_)
 	{
 		PrevCameraState_ = CameraState::Room11;
 		AutoMoveDir_ = float4::LEFT;

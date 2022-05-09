@@ -238,8 +238,12 @@ void PlayMap1F::CreatePot()
 	Room10Pot3->SetPotPos({ 3848.0f + 24.0f, 3268.0f + 24.0f });
 	Room10Pot3->SetItemIndex(static_cast<int>(ItemIndex::RecoveryHeart));
 
-	CreateActor<Map1FRoom10Pot0B1F>(static_cast<int>(PlayLevelOrder::B1FBELOWPLAYER))->SetPotPos({ 2312 + 24, 2788 + 24 });
-	CreateActor<Map1FRoom10Pot0B1F>(static_cast<int>(PlayLevelOrder::B1FBELOWPLAYER))->SetPotPos({ 2312 + 24, 2852 + 24 });
+	Map1FRoom10Pot0B1F* Room10B1F0 = CreateActor<Map1FRoom10Pot0B1F>(static_cast<int>(PlayLevelOrder::B1FBELOWPLAYER));
+	Room10B1F0->SetPotPos({ 2312 + 24, 2788 + 24 });
+	Room10B1F0->SetItemIndex(static_cast<int>(ItemIndex::RecoveryHeart));
+	Map1FRoom10Pot0B1F* Room10B1F1 = CreateActor<Map1FRoom10Pot0B1F>(static_cast<int>(PlayLevelOrder::B1FBELOWPLAYER));
+	Room10B1F1->SetPotPos({ 2312 + 24, 2852 + 24 });
+
 	CreateActor<Map1FRoom10Pot0B1F>(static_cast<int>(PlayLevelOrder::B1FBELOWPLAYER))->SetPotPos({ 3784 + 24, 2788 + 24 });
 	CreateActor<Map1FRoom10Pot0B1F>(static_cast<int>(PlayLevelOrder::B1FBELOWPLAYER))->SetPotPos({ 3784 + 24, 2852 + 24 });
 
@@ -249,7 +253,7 @@ void PlayMap1F::CreatePot()
 	CreateActor<Map1FRoom7Pot0>(static_cast<int>(PlayLevelOrder::BELOWPLAYER))->SetPotPos({ 807.0f + 24.0f, 3300.0f + 24.0f });
 	Map1FRoom7Pot0* Room7Pot2 = CreateActor<Map1FRoom7Pot0>(static_cast<int>(PlayLevelOrder::BELOWPLAYER));
 	Room7Pot2->SetPotPos({ 488.0f + 24.0f, 3589.0f + 24.0f });
-	Room7Pot2->SetItemIndex(static_cast<int>(ItemIndex::RecoveryHeart));
+	Room7Pot2->SetItemIndex(static_cast<int>(ItemIndex::GreenRupee));
 	CreateActor<Map1FRoom7Pot0>(static_cast<int>(PlayLevelOrder::BELOWPLAYER))->SetPotPos({ 168.0f + 24.0f, 3876.0f + 24.0f });
 	CreateActor<Map1FRoom7Pot0>(static_cast<int>(PlayLevelOrder::BELOWPLAYER))->SetPotPos({ 808.0f + 24.0f, 3876.0f + 24.0f });
 
