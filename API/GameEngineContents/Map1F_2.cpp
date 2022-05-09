@@ -653,10 +653,10 @@ void Map1F_2::Room7SummonEnemies()
 	}
 	if (true == IsRoom7InFight_)
 	{
-		if (true == BlueStalfos0->GetIsDeath() /*&&
+		if (true == BlueStalfos0->GetIsDeath() &&
 			true == BlueStalfos1->GetIsDeath() &&
 			true == BlueStalfos2->GetIsDeath() &&
-			true == BlueStalfos3->GetIsDeath()*/)
+			true == BlueStalfos3->GetIsDeath())
 		{
 			IsRoom7Clear_ = true;
 		}
