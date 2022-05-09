@@ -791,6 +791,11 @@ bool Map1FRoom9EnemyBlueStalfos0::MoveFunction()
 			Black != ColorNextTop &&
 			Black != ColorNextBot)
 		{
+			if (false == BlueStalfosCol_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
+			{
+				SetMove(MoveDir_ * GameEngineTime::GetDeltaTime(TimeScale_) * Speed_);
+				return true;
+			}
 			//if (true == MoveRight)
 			//{
 			//	if (false == BlueStalfosCol_->NextPostCollisionCheck("Block", NextRealPos, CollisionType::Rect, CollisionType::Rect))
